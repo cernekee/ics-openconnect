@@ -62,7 +62,7 @@ public class VPNLaunchHelper {
 	
 
 	public static void startOpenVpn(VpnProfile startprofile, Context context) {
-		if(!writeMiniVPN(context)) {
+		if(false /*!writeMiniVPN(context)*/) {
 			OpenVPN.logMessage(0, "", "Error writing minivpn binary");
 			return;
 		}
