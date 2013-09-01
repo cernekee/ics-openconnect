@@ -93,9 +93,16 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			mOpenVPNService.addDNS(s);
 		}
 
-		for (String s : ip.splitIncludes) {
-			String ss[] = s.split("/");
-			mOpenVPNService.addRoute(ss[0], ss[1]);
+		if (ip.splitIncludes.isEmpty()) {
+			mOpenVPNService.addRoute("0.0.0.0", "0.0.0.0");
+		} else {
+			for (String s : ip.splitIncludes) {
+				String ss[] = s.split("/");
+				mOpenVPNService.addRoute(ss[0], ss[1]);
+			}
+			for (String s : ip.DNS) {
+				mOpenVPNService.addRoute(s, "255.255.255.255");
+			}
 		}
 
 		ParcelFileDescriptor pfd = mOpenVPNService.openTun();
