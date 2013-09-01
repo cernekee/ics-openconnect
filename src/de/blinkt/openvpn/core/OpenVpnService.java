@@ -365,7 +365,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
         }
 
 		mProcessThread = new Thread(processThread, "OpenVPNProcessThread");
-		mProcessThread.start();
+		//mProcessThread.start();
 
 		if(mDeviceStateReceiver!=null)
 			unregisterDeviceStateReceiver();
