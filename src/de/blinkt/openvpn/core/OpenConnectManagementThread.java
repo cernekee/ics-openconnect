@@ -54,6 +54,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		public void onProgress(int level, String msg) {
 			OpenVPN.logMessage(0, "", "PROGRESS: " + msg.trim());
 		}
+
+		public void onProtectSocket(int fd) {
+			if (mOpenVPNService.protect(fd) != true) {
+				OpenVPN.logMessage(0, "", "Error protecting fd " + fd);
+			}
+		}
 	}
 
 	private synchronized void initNative() {
