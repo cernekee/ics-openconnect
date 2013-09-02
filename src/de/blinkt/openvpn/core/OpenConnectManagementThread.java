@@ -8,7 +8,9 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,6 +90,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	private boolean isOK = false;
     	private boolean done = false;
     	private Object lock = new Object();
+    	private CheckBox savePassword = null;
 
     	public AuthFormHandler(Context context) {
     		mContext = context;
@@ -109,6 +112,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			}
 		}
 		
+		private void fixPadding(View v) {
+			v.setPadding(20, 20, 20, 20);
+		}
+		
 		private LinearLayout newTextBlank(LibOpenConnect.FormOpt opt, String defval) {
 			LinearLayout.LayoutParams fillWidth =
 					new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -116,6 +123,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			LinearLayout ll = new LinearLayout(mContext);
 			ll.setOrientation(LinearLayout.HORIZONTAL);
 			ll.setLayoutParams(fillWidth);
+			fixPadding(ll);
 
 			TextView tv = new TextView(mContext);
 			tv.setText(opt.label);
@@ -138,6 +146,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return ll;
 		}
 
+		private CheckBox newSavePasswordView() {
+			CheckBox cb = new CheckBox(mContext);
+			cb.setText(R.string.save_password);
+			cb.setChecked(true);
+			fixPadding(cb);
+			return cb;
+		}
+
 		public boolean executeForm(final LibOpenConnect.AuthForm form) {
 			final AuthFormHandler h = this;
 			
@@ -146,11 +162,18 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 					LinearLayout v = new LinearLayout(mContext);
 					v.setOrientation(LinearLayout.VERTICAL);
 
+					boolean hasPassword = false;
 					for (LibOpenConnect.FormOpt opt : form.opts) {
-						if (opt.type == LibOpenConnect.OC_FORM_OPT_TEXT ||
-								opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+						if (opt.type == LibOpenConnect.OC_FORM_OPT_TEXT) {
+							v.addView(newTextBlank(opt, null));
+						} else if (opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+							hasPassword = true;
 							v.addView(newTextBlank(opt, null));
 						}
+					}
+					if (hasPassword) {
+						savePassword = newSavePasswordView();
+						v.addView(savePassword);
 					}
 
 					new AlertDialog.Builder(mContext)
