@@ -32,7 +32,7 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
 
         SharedPreferences sp = mPrefs.getSharedPreferences();
         for (Map.Entry<String,?> entry : sp.getAll().entrySet()) {
-            updateStringPref(sp, entry.getKey());
+            updatePref(sp, entry.getKey());
         }
     }
 
@@ -50,9 +50,8 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    private void updateStringPref(SharedPreferences sp, String key) {
+    private void updatePref(SharedPreferences sp, String key) {
         String value;
-
         try {
             value = sp.getString(key, "");
         } catch (ClassCastException e) {
@@ -65,9 +64,17 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
             /* FIXME: show the user-friendly text on multiple choice entries */
             pref.setSummary(value);
         }
+
+        /* disable token_string item if the profile isn't using a software token */ 
+        if (key.equals("software_token")) {
+            pref = findPreference("token_string");
+            if (pref != null) {
+                pref.setEnabled(!value.equals("disabled"));
+            }
+        }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        updateStringPref(sharedPreferences, key);
+        updatePref(sharedPreferences, key);
     }
 }
