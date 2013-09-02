@@ -2,20 +2,29 @@ package de.blinkt.openvpn.fragments;
 
 import java.util.Map;
 
+import de.blinkt.openvpn.FileSelect;
 import de.blinkt.openvpn.R;
+import de.blinkt.openvpn.ShowTextPreference;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 public class OpenConnectPreferencesFragment extends PreferenceFragment
-		implements OnSharedPreferenceChangeListener {
+		implements OnSharedPreferenceChangeListener, OnPreferenceClickListener {
 
 	Context mContext;
 	PreferenceManager mPrefs;
+
+    String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,8 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
         for (Map.Entry<String,?> entry : sp.getAll().entrySet()) {
             updatePref(sp, entry.getKey());
         }
+
+        setClickListeners();
     }
 
     @Override
@@ -61,8 +72,17 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
 
         Preference pref = findPreference(key);
         if (pref != null) {
-            /* FIXME: show the user-friendly text on multiple choice entries */
-            pref.setSummary(value);
+		if (pref instanceof ListPreference) {
+			ListPreference lpref = (ListPreference)pref;
+			pref.setSummary(lpref.getEntry());
+		} else {
+			/* for ShowTextPreference entries, hide the raw base64 cert data */
+			if (value.startsWith("[[INLINE]]")) {
+				pref.setSummary("[STORED]");
+			} else {
+				pref.setSummary(value);
+			}
+		}
         }
 
         /* disable token_string item if the profile isn't using a software token */ 
@@ -74,7 +94,54 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
         }
     }
 
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        updatePref(sharedPreferences, key);
-    }
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		updatePref(sharedPreferences, key);
+	}
+
+	/* These functions start up a FileSelect activity to import data from the filesystem */
+
+	private void setClickListeners() {
+		for (String key : fileSelectKeys) {
+			Preference p = findPreference(key);
+			p.setOnPreferenceClickListener(this);
+		}
+	}
+
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		int idx;
+
+		String key = preference.getKey();
+		for (idx = 0; ; idx++) {
+			if (idx == fileSelectKeys.length) {
+				return false;
+			}
+			if (fileSelectKeys[idx].equals(key)) {
+				break;
+			}
+		}
+
+		Intent startFC = new Intent(getActivity(), FileSelect.class);
+		startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
+		startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
+
+		if (key.equals("custom_csd_wrapper")) {
+			startFC.putExtra(FileSelect.NO_INLINE_SELECTION, true);
+		}
+
+		startActivityForResult(startFC, idx);
+		return false;
+	}
+
+	@Override
+	public void onActivityResult(int idx, int resultCode, Intent data) {
+		super.onActivityResult(idx, resultCode, data);
+		if(resultCode == Activity.RESULT_OK) {
+			String key = fileSelectKeys[idx];
+			ShowTextPreference p = (ShowTextPreference)findPreference(key);
+			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));
+			updatePref(mPrefs.getSharedPreferences(), key);
+		}
+	}
+
 }

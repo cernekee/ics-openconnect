@@ -301,6 +301,9 @@
     <string name="software_token">Software token</string>
     <string name="token_string">Token string</string>
     <string name="clear_saved_passwords">Clear saved passwords</string>
+    <string name="clear_saved_passwords_confirm">Are you sure you want to erase all stored credentials?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <!-- <string name="advanced">Advanced</string> -->
     <string name="reported_os">Reported OS</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
