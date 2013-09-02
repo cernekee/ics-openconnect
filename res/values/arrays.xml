@@ -31,4 +31,28 @@
         <item>Fifty reconnection retries</item>
         <item>Unlimited reconnection retries</item>
     </string-array>
+    <string-array name="software_token_entries">
+        <item>Disabled</item>
+        <item>RSA SecurID</item>
+        <item>TOTP</item>
+    </string-array>
+    <string-array name="software_token_values">
+        <item>disabled</item>
+        <item>securid</item>
+        <item>totp</item>
+    </string-array>
+    <string-array name="reported_os_entries">
+        <item>Android</item>
+        <item>Linux (32-bit)</item>
+        <item>Linux (64-bit)</item>
+        <item>Windows</item>
+        <item>Mac</item>
+    </string-array>
+    <string-array name="reported_os_values">
+        <item>android</item>
+        <item>linux</item>
+        <item>linux-64</item>
+        <item>win</item>
+        <item>mac</item>
+    </string-array>
 </resources>

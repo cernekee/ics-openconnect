@@ -290,5 +290,23 @@
     <string name="appbehaviour">Application behaviour</string>
     <string name="vpnbehaviour">VPN behaviour</string>
     <string name="allow_vpn_changes">Allow changes to VPN Profiles</string>
+    <!-- OpenConnect preference strings -->
+    <string name="server">Server</string>
+    <string name="profile_name">Profile name</string>
+    <string name="server_address">Server address</string>
+    <string name="ca_certificate">CA certificate</string>
+    <string name="authentication">Authentication</string>
+    <string name="user_certificate">User certificate</string>
+    <string name="private_key">Private key</string>
+    <string name="software_token">Software token</string>
+    <string name="token_string">Token string</string>
+    <string name="clear_saved_passwords">Clear saved passwords</string>
+    <!-- <string name="advanced">Advanced</string> -->
+    <string name="reported_os">Reported OS</string>
+    <string name="custom_csd_wrapper">Custom CSD wrapper</string>
+    <string name="disable_username_caching">Disable username cache</string>
+    <string name="disable_username_caching_summary">Do not cache login names, user groups, or passwords</string>
+    <string name="disable_xml_post">Disable XML POST</string>
+    <string name="disable_xml_post_summary">Use the old authentication handshake; may fail on newer servers</string>
 
 </resources>

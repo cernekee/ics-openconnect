@@ -34,6 +34,8 @@
             android:name=".VPNPreferences"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".OpenConnectPreferencesActivity" />
+        <activity
             android:name=".LogWindow"
             android:allowTaskReparenting="true"
             android:label="@string/openvpn_log"

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/server"
+        android:key="pref_key_server">
+        <EditTextPreference
+            android:key="profile_name"
+            android:title="@string/profile_name"
+            android:defaultValue="" />
+        <EditTextPreference
+            android:key="server_address"
+            android:title="@string/server_address"
+            android:defaultValue="" />
+        <!-- TODO: ca_certificate -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/authentication"
+        android:key="pref_key_authentication">
+        <!-- TODO: user_certificate -->
+        <!-- TODO: private_key -->
+        <ListPreference
+            android:key="software_token"
+            android:title="@string/software_token"
+            android:dialogTitle="@string/software_token"
+            android:entries="@array/software_token_entries"
+            android:entryValues="@array/software_token_values"
+            android:defaultValue="disabled" />
+        <EditTextPreference
+            android:key="token_string"
+            android:title="@string/token_string"
+            android:defaultValue="" />
+        <!-- TODO: clear_saved_passwords -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/advanced"
+        android:key="pref_key_advanced">
+        <ListPreference
+            android:key="reported_os"
+            android:title="@string/reported_os"
+            android:dialogTitle="@string/reported_os"
+            android:entries="@array/reported_os_entries"
+            android:entryValues="@array/reported_os_values"
+            android:defaultValue="android" />
+        <!-- TODO: custom_csd_wrapper -->
+        <CheckBoxPreference
+            android:key="disable_username_caching"
+            android:title="@string/disable_username_caching"
+            android:summary="@string/disable_username_caching_summary"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="disable_xml_post"
+            android:title="@string/disable_xml_post"
+            android:summary="@string/disable_xml_post_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>
