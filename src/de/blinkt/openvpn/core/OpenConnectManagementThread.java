@@ -1,9 +1,17 @@
 package de.blinkt.openvpn.core;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 import org.jetbrains.annotations.NotNull;
@@ -72,6 +80,110 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		};
 		return (String)r.go();
     }
+    
+    private class AuthFormHandler
+    	implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+
+    	private Context mContext;
+    	private boolean isOK = false;
+    	private boolean done = false;
+    	private Object lock = new Object();
+
+    	public AuthFormHandler(Context context) {
+    		mContext = context;
+    	}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			// catches OK, Cancel, and Back button presses
+			synchronized (lock) {
+				done = true;
+				lock.notify();
+			}
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == DialogInterface.BUTTON_POSITIVE) {
+				isOK = true;
+			}
+		}
+		
+		private LinearLayout newTextBlank(LibOpenConnect.FormOpt opt, String defval) {
+			LinearLayout.LayoutParams fillWidth =
+					new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+			LinearLayout ll = new LinearLayout(mContext);
+			ll.setOrientation(LinearLayout.HORIZONTAL);
+			ll.setLayoutParams(fillWidth);
+
+			TextView tv = new TextView(mContext);
+			tv.setText(opt.label);
+			ll.addView(tv);
+
+			tv = new EditText(mContext);
+			tv.setLayoutParams(fillWidth);
+			if (defval != null) {
+				tv.setText(defval);
+			}
+			if (opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+				tv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+				tv.setTransformationMethod(PasswordTransformationMethod.getInstance());
+			} else {
+				tv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+			}
+
+			opt.userData = tv;
+			ll.addView(tv);
+			return ll;
+		}
+
+		public boolean executeForm(final LibOpenConnect.AuthForm form) {
+			final AuthFormHandler h = this;
+			
+			UiTask r = new UiTask() {
+				public Object fn() {
+					LinearLayout v = new LinearLayout(mContext);
+					v.setOrientation(LinearLayout.VERTICAL);
+
+					for (LibOpenConnect.FormOpt opt : form.opts) {
+						if (opt.type == LibOpenConnect.OC_FORM_OPT_TEXT ||
+								opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+							v.addView(newTextBlank(opt, null));
+						}
+					}
+
+					new AlertDialog.Builder(mContext)
+							.setView(v)
+							.setTitle("ocserv login")
+							.setPositiveButton("OK", h)
+							.setNegativeButton("Cancel", h)
+							.setOnDismissListener(h)
+							.show();
+					return true;
+				}
+			};
+			r.go();
+			synchronized (lock) {
+				while (!done) {
+					try {
+						lock.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+			
+			for (LibOpenConnect.FormOpt opt : form.opts) {
+				if (opt.type == LibOpenConnect.OC_FORM_OPT_TEXT ||
+						opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+					TextView tv = (TextView)opt.userData;
+					opt.setValue(tv.getText().toString());
+				}
+			}
+
+			return isOK;
+		}
+    }
 
 	private class AndroidOC extends LibOpenConnect {
 		public int onValidatePeerCert(String msg) {
@@ -86,16 +198,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		public int onProcessAuthForm(LibOpenConnect.AuthForm authForm) {
 			OpenVPN.logMessage(0, "", "CALLBACK: onProcessAuthForm");
-			for (FormOpt fo : authForm.opts) {
-				if (fo.type == OC_FORM_OPT_TEXT) {
-					OpenVPN.logMessage(0, "", "USER: " + mProfile.mUsername);
-					fo.setValue(mProfile.mUsername);
-				} else if (fo.type == OC_FORM_OPT_PASSWORD) {
-					OpenVPN.logMessage(0, "", "PASS: ****");
-					fo.setValue(mProfile.mPassword);
-				}
+			if (new AuthFormHandler(context).executeForm(authForm)) {
+				return AUTH_FORM_PARSED;
+			} else {
+				OpenVPN.logMessage(0, "", "AUTH: user aborted");
+				return AUTH_FORM_CANCELLED;
 			}
-			return AUTH_FORM_PARSED;
 		}
 
 		public void onProgress(int level, String msg) {
