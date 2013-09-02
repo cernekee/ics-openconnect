@@ -301,9 +301,12 @@ public class VPNProfileList extends ListFragment {
 
 
 	private void editVPN(VpnProfile profile) {
-		mEditProfile =profile;
+		mEditProfile = profile;
+
+		String pfx = getActivity().getPackageName();
 		Intent vprefintent = new Intent(getActivity(), OpenConnectPreferencesActivity.class)
-		.putExtra(getActivity().getPackageName() + ".profileUUID", profile.getUUID().toString());
+			.putExtra(pfx + ".profileUUID", profile.getUUID().toString())
+			.putExtra(pfx + ".profileName", profile.getName());
 
 		startActivityForResult(vprefintent,START_VPN_CONFIG);
 	}
