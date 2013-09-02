@@ -41,6 +41,16 @@
         <item>securid</item>
         <item>totp</item>
     </string-array>
+    <string-array name="batch_mode_entries">
+        <item>Disabled</item>
+        <item>Prompt for empty fields only</item>
+        <item>Never prompt for credentials</item>
+    </string-array>
+    <string-array name="batch_mode_values">
+        <item>disabled</item>
+        <item>empty_only</item>
+        <item>enabled</item>
+    </string-array>
     <string-array name="reported_os_entries">
         <item>Android</item>
         <item>Linux (32-bit)</item>

@@ -51,6 +51,13 @@
         android:title="@string/advanced"
         android:key="pref_key_advanced">
         <ListPreference
+            android:key="batch_mode"
+            android:title="@string/batch_mode"
+            android:dialogTitle="@string/batch_mode"
+            android:entries="@array/batch_mode_entries"
+            android:entryValues="@array/batch_mode_values"
+            android:defaultValue="disabled" />
+        <ListPreference
             android:key="reported_os"
             android:title="@string/reported_os"
             android:dialogTitle="@string/reported_os"

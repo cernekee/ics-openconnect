@@ -111,6 +111,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     	private Context mContext;
+    	LibOpenConnect.AuthForm mForm;
+
     	private boolean isOK = false;
     	private boolean done = false;
     	private Object lock = new Object();
@@ -118,6 +120,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	private CheckBox savePassword = null;
     	private boolean noSave = false;
     	private String formPfx;
+    	private int batchMode = BATCH_MODE_DISABLED;
+
+    	private static final int BATCH_MODE_DISABLED = 0;
+    	private static final int BATCH_MODE_EMPTY_ONLY = 1;
+    	private static final int BATCH_MODE_ENABLED = 2;
 
     	public AuthFormHandler(Context context) {
     		mContext = context;
@@ -126,10 +133,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		@Override
 		public void onDismiss(DialogInterface dialog) {
 			// catches OK, Cancel, and Back button presses
-			synchronized (lock) {
-				done = true;
-				lock.notify();
-			}
+			saveAndStore();
 		}
 
 		@Override
@@ -137,6 +141,18 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			if (which == DialogInterface.BUTTON_POSITIVE) {
 				isOK = true;
 			}
+		}
+
+		private void setStringPref(String key, String value) {
+			mPrefs.edit().putString(key, value).commit();
+		}
+
+		private String getStringPref(String key) {
+			return mPrefs.getString(key, "");
+		}
+
+		private boolean getBooleanPref(String key) {
+			return mPrefs.getBoolean(key, false);
 		}
 
 		private String digest(String s) {
@@ -228,8 +244,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return cb;
 		}
 
-		private void saveAndStore(LibOpenConnect.AuthForm form) {
-			for (LibOpenConnect.FormOpt opt : form.opts) {
+		private void saveAndStore() {
+			for (LibOpenConnect.FormOpt opt : mForm.opts) {
 				switch (opt.type) {
 				case LibOpenConnect.OC_FORM_OPT_TEXT: {
 					TextView tv = (TextView)opt.userData;
@@ -255,39 +271,63 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 					// XXX
 				}
 			}
+			synchronized (lock) {
+				done = true;
+				lock.notify();
+			}
 		}
 
 		public boolean executeForm(final LibOpenConnect.AuthForm form) {
 			final AuthFormHandler h = this;
 
+			mForm = form;
 			formPfx = getFormPrefix(form);
 			noSave = getBooleanPref("disable_username_caching");
+
+			String s = getStringPref("batch_mode");
+			if (s.equals("empty_only")) {
+				batchMode = BATCH_MODE_EMPTY_ONLY;
+			} else if (s.equals("enabled")) {
+				batchMode = BATCH_MODE_ENABLED;
+			}
 
 			UiTask r = new UiTask() {
 				public Object fn() {
 					LinearLayout v = new LinearLayout(mContext);
 					v.setOrientation(LinearLayout.VERTICAL);
 
-					boolean hasPassword = false;
+					boolean hasPassword = false, allFilled = true;
 					for (LibOpenConnect.FormOpt opt : form.opts) {
-						String defval = noSave ? "" : mPrefs.getString(formPfx + getOptDigest(opt), "");
-						if (opt.type == LibOpenConnect.OC_FORM_OPT_TEXT) {
-							v.addView(newTextBlank(opt, defval));
-						} else if (opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
+						switch (opt.type) {
+						case LibOpenConnect.OC_FORM_OPT_PASSWORD:
 							hasPassword = true;
+							/* falls through */
+						case LibOpenConnect.OC_FORM_OPT_TEXT:
+							String defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
+							if (defval.equals("")) {
+								allFilled = false;
+							}
 							v.addView(newTextBlank(opt, defval));
 						}
 					}
 					if (hasPassword && !noSave) {
-						boolean savePass = !mPrefs.getString(formPfx + "savePass", "").equals("false");
+						boolean savePass = !getStringPref(formPfx + "savePass").equals("false");
 						savePassword = newSavePasswordView(savePass);
 						v.addView(savePassword);
 					}
 
+					android.util.Log.i("OpenConnect", "batchMode " + batchMode + ", allFilled " + allFilled);
+					if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
+						batchMode == BATCH_MODE_ENABLED) {
+						saveAndStore();
+						isOK = true;
+						return false;
+					}
+
+					/* FIXME: this needs to be rerendered on e.g. screen rotation events */
 					new AlertDialog.Builder(mContext)
 							.setView(v)
-							.setTitle(mContext.getString(R.string.login_title,
-									mPrefs.getString("profile_name", "")))
+							.setTitle(mContext.getString(R.string.login_title, getStringPref("profile_name")))
 							.setPositiveButton(R.string.ok, h)
 							.setNegativeButton(R.string.cancel, h)
 							.setOnDismissListener(h)
@@ -304,8 +344,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 					}
 				}
 			}
-
-			saveAndStore(form);
 			return isOK;
 		}
     }

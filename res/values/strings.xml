@@ -307,6 +307,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <!-- <string name="advanced">Advanced</string> -->
+    <string name="batch_mode">Batch mode</string>
     <string name="reported_os">Reported OS</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
     <string name="disable_username_caching">Disable credential caching</string>
