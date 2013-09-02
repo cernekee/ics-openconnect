@@ -29,6 +29,7 @@ import android.widget.Toast;
 import de.blinkt.openvpn.ConfigConverter;
 import de.blinkt.openvpn.FileSelect;
 import de.blinkt.openvpn.LaunchVPN;
+import de.blinkt.openvpn.OpenConnectPreferencesActivity;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VPNPreferences;
 import de.blinkt.openvpn.VpnProfile;
@@ -301,7 +302,7 @@ public class VPNProfileList extends ListFragment {
 
 	private void editVPN(VpnProfile profile) {
 		mEditProfile =profile;
-		Intent vprefintent = new Intent(getActivity(),VPNPreferences.class)
+		Intent vprefintent = new Intent(getActivity(), OpenConnectPreferencesActivity.class)
 		.putExtra(getActivity().getPackageName() + ".profileUUID", profile.getUUID().toString());
 
 		startActivityForResult(vprefintent,START_VPN_CONFIG);
