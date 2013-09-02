@@ -8,6 +8,7 @@
     <string name="location">Location</string>
     <string name="cant_read_folder">Unable to read directory</string>
     <string name="select">Select</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="no_data">No Data</string>
     <string name="useLZO">LZO Compression</string>
@@ -251,6 +252,7 @@
     <string name="notifcation_title_notconnect">Not connected</string>
     <string name="start_vpn_title">Connecting to VPN %s</string>
     <string name="start_vpn_ticker">Connecting to VPN %s</string>
+    <string name="login_title">%s login</string>
     <string name="jelly_keystore_alphanumeric_bug">Some versions of Android 4.1 have problems if the name of the keystore certificate contains non alphanumeric characters (like spaces, underscores or dashes). Try to reimport the certificate without special characters</string>
     <string name="encryption_cipher">Encryption cipher</string>
     <string name="packet_auth">Packets authentication</string>
@@ -307,8 +309,8 @@
     <!-- <string name="advanced">Advanced</string> -->
     <string name="reported_os">Reported OS</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
-    <string name="disable_username_caching">Disable username cache</string>
-    <string name="disable_username_caching_summary">Do not cache login names, user groups, or passwords</string>
+    <string name="disable_username_caching">Disable credential caching</string>
+    <string name="disable_username_caching_summary">Never cache login names, user groups, or passwords</string>
     <string name="disable_xml_post">Disable XML POST</string>
     <string name="disable_xml_post_summary">Use the old authentication handshake; may fail on newer servers</string>
 
