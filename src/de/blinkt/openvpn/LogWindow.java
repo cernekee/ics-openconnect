@@ -13,6 +13,7 @@ import android.text.format.DateFormat;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
+import de.blinkt.openvpn.core.OpenConnectManagementThread;
 import de.blinkt.openvpn.core.OpenVPN;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPN.LogItem;
@@ -312,6 +313,7 @@ public class LogWindow extends ListActivity implements StateListener  {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		OpenConnectManagementThread.context = this;
 		OpenVPN.addStateListener(this);
         Intent intent = new Intent(this, OpenVpnService.class);
         intent.setAction(OpenVpnService.START_SERVICE);

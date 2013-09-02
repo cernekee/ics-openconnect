@@ -1,6 +1,8 @@
 package de.blinkt.openvpn.core;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 
 import org.infradead.libopenconnect.LibOpenConnect;
@@ -12,18 +14,63 @@ import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
 
+	public static Context context;
+	private Handler mHandler;
 	private VpnProfile mProfile;
 	private OpenVpnService mOpenVPNService;
+	private SharedPreferences mPrefs;
+
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
 
     public OpenConnectManagementThread(VpnProfile profile, OpenVpnService openVpnService) {
+		mHandler = new Handler();
 		mProfile = profile;
 		mOpenVPNService = openVpnService;
+		mPrefs = context.getSharedPreferences(mProfile.getUUID().toString(), Context.MODE_PRIVATE);
 	}
 
     public boolean openManagementInterface(@NotNull Context c) {
     	return true;
+    }
+
+	private abstract class UiTask implements Runnable {
+		abstract Object fn();
+
+		private Object result;
+		private boolean done = false;
+		private Object lock = new Object();
+
+		@Override
+		public void run() {
+			synchronized (lock) {
+				result = fn();
+				done = true;
+				lock.notifyAll();
+			}
+		}
+
+		public Object go() {
+			mHandler.post(this);
+			synchronized (lock) {
+				while (!done) {
+					try {
+						lock.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+			return result;
+		}
+	}
+
+    private String getStringPref(final String key) {
+		UiTask r = new UiTask() {
+			public Object fn() {
+				return mPrefs.getString(key, "");
+			}
+		};
+		return (String)r.go();
     }
 
 	private class AndroidOC extends LibOpenConnect {
@@ -77,7 +124,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOpenVPNService.updateState("USER_VPN_PASSWORD", "", R.string.state_user_vpn_password,
 				ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT);
 
-		if (mOC.parseURL(mProfile.mServerName) != 0 ||
+		if (mOC.parseURL(getStringPref("server_address")) != 0 ||
 			mOC.obtainCookie() != 0 ||
 			mOC.makeCSTPConnection() != 0) {
 

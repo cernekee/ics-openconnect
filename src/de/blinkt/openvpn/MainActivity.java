@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import de.blinkt.openvpn.core.OpenConnectManagementThread;
 import de.blinkt.openvpn.fragments.AboutFragment;
 import de.blinkt.openvpn.fragments.FaqFragment;
 import de.blinkt.openvpn.fragments.GeneralSettings;
@@ -41,6 +42,11 @@ public class MainActivity extends Activity {
 			bar.addTab(sendDump);
 		}
 		
+	}
+
+	protected void onResume() {
+		super.onResume();
+		OpenConnectManagementThread.context = this;
 	}
 
 	protected class TabListener<T extends Fragment> implements ActionBar.TabListener
