@@ -54,23 +54,39 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	return true;
     }
 
-	private abstract class UiTask implements Runnable {
-		abstract Object fn();
+	public abstract class UiTask implements Runnable {
+		abstract Object fn(Object arg);
 
+		private Object arg;
 		private Object result;
 		private boolean done = false;
+		private boolean completeOnReturn = true;
 		private Object lock = new Object();
 
 		@Override
 		public void run() {
 			synchronized (lock) {
-				result = fn();
+				Object localResult = fn(arg);
+				if (completeOnReturn) {
+					complete(localResult);
+				}
+			}
+		}
+
+		void holdoff() {
+			completeOnReturn = false;
+		}
+
+		void complete(Object result) {
+			synchronized (lock) {
 				done = true;
+				this.result = result;
 				lock.notifyAll();
 			}
 		}
 
-		public Object go() {
+		public Object go(Object arg) {
+			this.arg = arg;
 			mHandler.post(this);
 			synchronized (lock) {
 				while (!done) {
@@ -86,41 +102,39 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
     private String getStringPref(final String key) {
 		UiTask r = new UiTask() {
-			public Object fn() {
+			public Object fn(Object arg) {
 				return mPrefs.getString(key, "");
 			}
 		};
-		return (String)r.go();
+		return (String)r.go(null);
     }
 
     private void setStringPref(final String key, final String value) {
 		UiTask r = new UiTask() {
-			public Object fn() {
+			public Object fn(Object arg) {
 				mPrefs.edit().putString(key, value).commit();
 				return null;
 			}
 		};
-		r.go();
+		r.go(null);
     }
 
     private boolean getBooleanPref(final String key) {
 		UiTask r = new UiTask() {
-			public Object fn() {
+			public Object fn(Object arg) {
 				return mPrefs.getBoolean(key, false);
 			}
 		};
-		return (Boolean)r.go();
+		return (Boolean)r.go(null);
     }
 
-    private class AuthFormHandler
+    private class AuthFormHandler extends UiTask
     	implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     	private Context mContext;
     	LibOpenConnect.AuthForm mForm;
 
     	private boolean isOK = false;
-    	private boolean done = false;
-    	private Object lock = new Object();
 
     	private CheckBox savePassword = null;
     	private boolean noSave = false;
@@ -246,7 +260,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			ll.addView(tv);
 			return ll;
 		}
-		
+
 		private void spinnerSelect(LibOpenConnect.FormOpt opt, int index) {
 			LibOpenConnect.FormChoice fc = opt.choices.get((int)index);
 			String s = fc.name != null ? fc.name : "";
@@ -335,17 +349,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 					break;
 				}
 			}
-			synchronized (lock) {
-				done = true;
-				lock.notify();
-			}
+			complete((Boolean)isOK);
 		}
 
-		public boolean executeForm(final LibOpenConnect.AuthForm form) {
+		public Object fn(Object form) {
 			final AuthFormHandler h = this;
 
-			mForm = form;
-			formPfx = getFormPrefix(form);
+			mForm = (LibOpenConnect.AuthForm)form;
+			formPfx = getFormPrefix(mForm);
 			noSave = getBooleanPref("disable_username_caching");
 
 			String s = getStringPref("batch_mode");
@@ -355,70 +366,56 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				batchMode = BATCH_MODE_ENABLED;
 			}
 
-			UiTask r = new UiTask() {
-				public Object fn() {
-					LinearLayout v = new LinearLayout(mContext);
-					v.setOrientation(LinearLayout.VERTICAL);
+			LinearLayout v = new LinearLayout(mContext);
+			v.setOrientation(LinearLayout.VERTICAL);
 
-					boolean hasPassword = false, allFilled = true;
-					String defval;
+			boolean hasPassword = false, allFilled = true;
+			String defval;
 
-					for (LibOpenConnect.FormOpt opt : form.opts) {
-						switch (opt.type) {
-						case LibOpenConnect.OC_FORM_OPT_PASSWORD:
-							hasPassword = true;
-							/* falls through */
-						case LibOpenConnect.OC_FORM_OPT_TEXT:
-							defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
-							if (defval.equals("")) {
-								allFilled = false;
-							}
-							v.addView(newTextBlank(opt, defval));
-							break;
-						case LibOpenConnect.OC_FORM_OPT_SELECT:
-							if (opt.choices.size() == 0) {
-								break;
-							}
-							defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
-							v.addView(newDropdown(opt, defval));
-							break;
-						}
+			for (LibOpenConnect.FormOpt opt : mForm.opts) {
+				switch (opt.type) {
+				case LibOpenConnect.OC_FORM_OPT_PASSWORD:
+					hasPassword = true;
+					/* falls through */
+				case LibOpenConnect.OC_FORM_OPT_TEXT:
+					defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
+					if (defval.equals("")) {
+						allFilled = false;
 					}
-					if (hasPassword && !noSave) {
-						boolean savePass = !getStringPref(formPfx + "savePass").equals("false");
-						savePassword = newSavePasswordView(savePass);
-						v.addView(savePassword);
+					v.addView(newTextBlank(opt, defval));
+					break;
+				case LibOpenConnect.OC_FORM_OPT_SELECT:
+					if (opt.choices.size() == 0) {
+						break;
 					}
-
-					android.util.Log.i("OpenConnect", "batchMode " + batchMode + ", allFilled " + allFilled);
-					if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
-						batchMode == BATCH_MODE_ENABLED) {
-						saveAndStore();
-						isOK = true;
-						return false;
-					}
-
-					/* FIXME: this needs to be rerendered on e.g. screen rotation events */
-					new AlertDialog.Builder(mContext)
-							.setView(v)
-							.setTitle(mContext.getString(R.string.login_title, getStringPref("profile_name")))
-							.setPositiveButton(R.string.ok, h)
-							.setNegativeButton(R.string.cancel, h)
-							.setOnDismissListener(h)
-							.show();
-					return true;
-				}
-			};
-			r.go();
-			synchronized (lock) {
-				while (!done) {
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-					}
+					defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
+					v.addView(newDropdown(opt, defval));
+					break;
 				}
 			}
-			return isOK;
+			if (hasPassword && !noSave) {
+				boolean savePass = !getStringPref(formPfx + "savePass").equals("false");
+				savePassword = newSavePasswordView(savePass);
+				v.addView(savePassword);
+			}
+
+			holdoff();
+			if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
+				batchMode == BATCH_MODE_ENABLED) {
+				isOK = true;
+				saveAndStore();
+				return null;
+			}
+
+			/* FIXME: this needs to be rerendered on e.g. screen rotation events */
+			new AlertDialog.Builder(mContext)
+					.setView(v)
+					.setTitle(mContext.getString(R.string.login_title, getStringPref("profile_name")))
+					.setPositiveButton(R.string.ok, h)
+					.setNegativeButton(R.string.cancel, h)
+					.setOnDismissListener(h)
+					.show();
+			return null;
 		}
     }
 
@@ -435,7 +432,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		public int onProcessAuthForm(LibOpenConnect.AuthForm authForm) {
 			OpenVPN.logMessage(0, "", "CALLBACK: onProcessAuthForm");
-			if (new AuthFormHandler(context).executeForm(authForm)) {
+			if ((Boolean)new AuthFormHandler(context).go(authForm)) {
 				return AUTH_FORM_PARSED;
 			} else {
 				OpenVPN.logMessage(0, "", "AUTH: user aborted");
