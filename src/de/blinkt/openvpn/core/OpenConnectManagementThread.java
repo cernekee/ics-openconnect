@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -27,6 +26,7 @@ import org.infradead.libopenconnect.LibOpenConnect;
 import org.jetbrains.annotations.NotNull;
 
 import de.blinkt.openvpn.R;
+import de.blinkt.openvpn.UiTask;
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 
@@ -35,7 +35,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	public static final String TAG = "OpenConnect";
 
 	public static Context context;
-	private Handler mHandler;
 	private VpnProfile mProfile;
 	private OpenVpnService mOpenVPNService;
 	private SharedPreferences mPrefs;
@@ -44,7 +43,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private boolean mInitDone = false;
 
     public OpenConnectManagementThread(VpnProfile profile, OpenVpnService openVpnService) {
-		mHandler = new Handler();
 		mProfile = profile;
 		mOpenVPNService = openVpnService;
 		mPrefs = context.getSharedPreferences(mProfile.getUUID().toString(), Context.MODE_PRIVATE);
@@ -53,52 +51,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     public boolean openManagementInterface(@NotNull Context c) {
     	return true;
     }
-
-	public abstract class UiTask implements Runnable {
-		abstract Object fn(Object arg);
-
-		private Object arg;
-		private Object result;
-		private boolean done = false;
-		private boolean completeOnReturn = true;
-		private Object lock = new Object();
-
-		@Override
-		public void run() {
-			synchronized (lock) {
-				Object localResult = fn(arg);
-				if (completeOnReturn) {
-					complete(localResult);
-				}
-			}
-		}
-
-		void holdoff() {
-			completeOnReturn = false;
-		}
-
-		void complete(Object result) {
-			synchronized (lock) {
-				done = true;
-				this.result = result;
-				lock.notifyAll();
-			}
-		}
-
-		public Object go(Object arg) {
-			this.arg = arg;
-			mHandler.post(this);
-			synchronized (lock) {
-				while (!done) {
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-					}
-				}
-			}
-			return result;
-		}
-	}
 
     private String getStringPref(final String key) {
 		UiTask r = new UiTask() {
@@ -109,7 +61,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return (String)r.go(null);
     }
 
-    private void setStringPref(final String key, final String value) {
+    @SuppressWarnings("unused")
+	private void setStringPref(final String key, final String value) {
 		UiTask r = new UiTask() {
 			public Object fn(Object arg) {
 				mPrefs.edit().putString(key, value).commit();
@@ -119,7 +72,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		r.go(null);
     }
 
-    private boolean getBooleanPref(final String key) {
+    @SuppressWarnings("unused")
+	private boolean getBooleanPref(final String key) {
 		UiTask r = new UiTask() {
 			public Object fn(Object arg) {
 				return mPrefs.getBoolean(key, false);
