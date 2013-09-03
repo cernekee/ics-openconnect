@@ -1,6 +1,8 @@
 package de.blinkt.openvpn.core;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.ParcelFileDescriptor;
 
@@ -66,10 +68,71 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return (Boolean)r.go(null);
     }
 
+    private class CertWarningHandler extends UiTask
+		implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+
+    	public String hostname;
+    	public String certSHA1;
+    	public String reason;
+
+    	private boolean isOK = false;
+
+    	public CertWarningHandler(Context context, SharedPreferences prefs) {
+    		super(context, prefs);
+    	}
+
+		@Override
+		public Object fn(Object arg) {
+			String goodSHA1 = getStringPref("accepted_cert_sha1");
+			if (certSHA1.equals(goodSHA1)) {
+				return true;
+			}
+
+			holdoff();
+			new AlertDialog.Builder(mContext)
+				.setTitle(R.string.cert_warning_title)
+				.setMessage(mContext.getString(R.string.cert_warning_message,
+						hostname, reason, certSHA1))
+				.setPositiveButton(R.string.cert_warning_always_connect, this)
+				.setNeutralButton(R.string.cert_warning_just_once, this)
+				.setNegativeButton(R.string.no, this)
+				.setOnDismissListener(this)
+				.show();
+			return null;
+		}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			// catches Pos/Neg/Neutral and Back button presses
+			complete(isOK);
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == DialogInterface.BUTTON_POSITIVE) {
+				isOK = true;
+				setStringPref("accepted_cert_sha1", certSHA1);
+			} else if (which == DialogInterface.BUTTON_NEUTRAL) {
+				isOK = true;
+			}
+		}
+    }
+
 	private class AndroidOC extends LibOpenConnect {
-		public int onValidatePeerCert(String msg) {
+		public int onValidatePeerCert(String reason) {
 			OpenVPN.logMessage(0, "", "CALLBACK: onValidatePeerCert");
-			return 0;
+
+			CertWarningHandler h = new CertWarningHandler(mContext, mPrefs);
+			h.reason = reason;
+			h.hostname = getHostname();
+			h.certSHA1 = getCertSHA1();
+
+			if ((Boolean)h.go(null)) {
+				return 0;
+			} else {
+				OpenVPN.logMessage(0, "", "AUTH: user rejected bad certificate");
+				return -1;
+			}
 		}
 
 		public int onWriteNewConfig(byte[] buf) {
