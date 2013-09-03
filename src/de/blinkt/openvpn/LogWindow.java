@@ -313,7 +313,7 @@ public class LogWindow extends ListActivity implements StateListener  {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		OpenConnectManagementThread.context = this;
+		OpenConnectManagementThread.mContext = this;
 		OpenVPN.addStateListener(this);
         Intent intent = new Intent(this, OpenVpnService.class);
         intent.setAction(OpenVpnService.START_SERVICE);

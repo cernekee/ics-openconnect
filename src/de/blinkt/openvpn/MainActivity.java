@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 
 	protected void onResume() {
 		super.onResume();
-		OpenConnectManagementThread.context = this;
+		OpenConnectManagementThread.mContext = this;
 	}
 
 	protected class TabListener<T extends Fragment> implements ActionBar.TabListener
