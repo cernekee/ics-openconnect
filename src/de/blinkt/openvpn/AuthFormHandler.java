@@ -252,7 +252,7 @@ public class AuthFormHandler extends UiTask
 		LinearLayout v = new LinearLayout(mContext);
 		v.setOrientation(LinearLayout.VERTICAL);
 
-		boolean hasPassword = false, allFilled = true;
+		boolean hasPassword = false, allFilled = true, hasUserOptions = false;
 		String defval;
 
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
@@ -266,6 +266,7 @@ public class AuthFormHandler extends UiTask
 					allFilled = false;
 				}
 				v.addView(newTextBlank(opt, defval));
+				hasUserOptions = true;
 				break;
 			case LibOpenConnect.OC_FORM_OPT_SELECT:
 				if (opt.choices.size() == 0) {
@@ -273,6 +274,7 @@ public class AuthFormHandler extends UiTask
 				}
 				defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
 				v.addView(newDropdown(opt, defval));
+				hasUserOptions = true;
 				break;
 			}
 		}
@@ -284,7 +286,7 @@ public class AuthFormHandler extends UiTask
 
 		holdoff();
 		if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
-			batchMode == BATCH_MODE_ENABLED) {
+			batchMode == BATCH_MODE_ENABLED || !hasUserOptions) {
 			isOK = true;
 			saveAndStore();
 			return null;
