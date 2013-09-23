@@ -1,5 +1,7 @@
 package de.blinkt.openvpn.core;
 
+import java.io.File;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +10,8 @@ import android.os.ParcelFileDescriptor;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 import org.jetbrains.annotations.NotNull;
+
+import com.stericson.RootTools.RootTools;
 
 import de.blinkt.openvpn.AuthFormHandler;
 import de.blinkt.openvpn.R;
@@ -23,6 +27,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private VpnProfile mProfile;
 	private OpenVpnService mOpenVPNService;
 	private SharedPreferences mPrefs;
+	private String mFilesDir;
 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
@@ -171,11 +176,16 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	public void run() {
 		initNative();
 
+		RootTools.installBinary(mContext, R.raw.android_csd, "android_csd.sh", "0755");
+		RootTools.installBinary(mContext, R.raw.curl, "curl", "0755");
+
 		mOC = new AndroidOC();
 
 		mOpenVPNService.updateState("USER_VPN_PASSWORD", "", R.string.state_user_vpn_password,
 				ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT);
 
+		mFilesDir = mContext.getFilesDir().getPath();
+		mOC.setCSDWrapper(mFilesDir + File.separator + "android_csd.sh", mFilesDir);
 		if (mOC.parseURL(getStringPref("server_address")) != 0 ||
 			mOC.obtainCookie() != 0 ||
 			mOC.makeCSTPConnection() != 0) {
