@@ -144,7 +144,7 @@ class Installer {
 
             try {
                 CommandCapture command = new CommandCapture(0, false, "chmod " + mode + " " + filesPath + File.separator + destName);
-                Shell.startRootShell().add(command);
+                Shell.startShell().add(command);
                 commandWait(command);
 
             } catch (Exception e) {}
