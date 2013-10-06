@@ -163,7 +163,7 @@
     <string name="tls_authentication">TLS Authentication</string>
     <string name="generated_config">Generated Config</string>
     <string name="generalsettings">Settings</string>
-    <string name="owner_fix_summary">Tries to set the owner of /dev/tun to system. Some CM9 images need this to make the VPNService API work. Requires root.</string>
+    <string name="owner_fix_summary">Tries to set the owner of /dev/tun to the \'system\' UID (1000). Some CM9 images need this to make the VPNService API work. Requires root.</string>
     <string name="owner_fix">Fix ownership of /dev/tun</string>
     <string name="generated_config_summary">Shows the generated OpenVPN Configuration File</string>
     <string name="edit_profile_title">Editing \"%s\"</string>
@@ -287,10 +287,10 @@
     <string name="resumevpn">Resume VPN</string>
     <string name="state_userpause">VPN pause requested by user</string>
     <string name="state_screenoff">VPN paused - screen off</string>
-    <string name="device_specific">Device specifics Hacks</string>
+    <string name="device_specific">Device-specific Hacks</string>
     <string name="cannotparsecert">Cannot display certificate information</string>
-    <string name="appbehaviour">Application behaviour</string>
-    <string name="vpnbehaviour">VPN behaviour</string>
+    <string name="appbehaviour">Application behavior</string>
+    <string name="vpnbehaviour">VPN behavior</string>
     <string name="allow_vpn_changes">Allow changes to VPN Profiles</string>
     <!-- OpenConnect preference strings -->
     <string name="server">Server</string>
