@@ -23,8 +23,6 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.core.ConfigParser;
-import de.blinkt.openvpn.core.ConfigParser.ConfigParseError;
 import de.blinkt.openvpn.core.OpenVPN;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPN.StateListener;
@@ -151,6 +149,7 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 		public boolean addVPNProfile(String name, String config) throws RemoteException {
 			checkOpenVPNPermission();
 
+			/*
 			ConfigParser cp = new ConfigParser();
 			try {
 				cp.parseConfig(new StringReader(config));
@@ -165,6 +164,7 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 				e.printStackTrace();
 				return false;
 			}
+			*/
 
 			return true;
 		}

@@ -26,7 +26,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.blinkt.openvpn.ConfigConverter;
 import de.blinkt.openvpn.FileSelect;
 import de.blinkt.openvpn.LogWindow;
 import de.blinkt.openvpn.OpenConnectPreferencesActivity;
@@ -286,6 +285,7 @@ public class VPNProfileList extends ListFragment {
 			// Name could be modified, reset List adapter
 			setListAdapter();
 
+		/*
 		} else if(requestCode== SELECT_PROFILE) {
 			String filedata = data.getStringExtra(FileSelect.RESULT_DATA);
 			Intent startImport = new Intent(getActivity(),ConfigConverter.class);
@@ -296,6 +296,7 @@ public class VPNProfileList extends ListFragment {
 		} else if(requestCode == IMPORT_PROFILE) {
 			String profileUUID = data.getStringExtra(VpnProfile.EXTRA_PROFILEUUID);
 			mArrayadapter.add(ProfileManager.get(getActivity(), profileUUID));
+		*/
 		}
 
 	}
