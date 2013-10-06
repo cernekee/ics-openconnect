@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 
 		bar.addTab(vpnListTab);
 		bar.addTab(generalTab);
+		/*
 		bar.addTab(faqtab);
 		bar.addTab(abouttab);
 
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
 			sendDump.setTabListener(new TabListener<SendDumpFragment>("crashdump",SendDumpFragment.class));
 			bar.addTab(sendDump);
 		}
+		*/
 		
 	}
 

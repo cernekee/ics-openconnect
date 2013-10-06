@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/appbehaviour">
+<!--
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="showlogwindow"
                 android:summary="@string/show_log_summary"
                 android:title="@string/show_log_window"/>
+-->
 
         <CheckBoxPreference
                 android:defaultValue="false"
@@ -20,11 +22,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/vpnbehaviour">
+<!--
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="usesystemproxy"
                 android:summary="@string/use_system_proxy_summary"
                 android:title="@string/use_system_proxy"/>
+-->
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="netchangereconnect"
@@ -32,11 +36,13 @@
                 android:title="@string/netchange"/>
 
 
+<!--
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="screenoff"
                 android:summary="@string/screenoff_summary"
                 android:title="@string/screenoff_title"/>
+-->
 
     </PreferenceCategory>
 
