@@ -278,6 +278,7 @@ public class LogWindow extends ListActivity implements StateListener  {
             return true;
         } else if(item.getItemId()==R.id.send) {
 			ladapter.shareLog();
+		/*
 		} else if(item.getItemId()==R.id.edit_vpn) {
 			VpnProfile lastConnectedprofile = ProfileManager.getLastConnectedVpn();
 
@@ -288,6 +289,7 @@ public class LogWindow extends ListActivity implements StateListener  {
 			} else {
 				Toast.makeText(this, R.string.log_no_last_vpn, Toast.LENGTH_LONG).show();
 			}
+		*/
 		} else if(item.getItemId() == R.id.toggle_time) {
 			ladapter.nextTimeFormat();
 		} else if(item.getItemId() == android.R.id.home) {
@@ -306,14 +308,15 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 	}
 
+    private MenuItem cancelButton;
 
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.logmenu, menu);
+		cancelButton = menu.findItem(R.id.cancel);
 		return true;
 	}
-
 
 	@Override
 	protected void onResume() {
