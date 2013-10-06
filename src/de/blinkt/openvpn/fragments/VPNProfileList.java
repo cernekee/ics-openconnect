@@ -28,10 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.blinkt.openvpn.ConfigConverter;
 import de.blinkt.openvpn.FileSelect;
-import de.blinkt.openvpn.LaunchVPN;
+import de.blinkt.openvpn.LogWindow;
 import de.blinkt.openvpn.OpenConnectPreferencesActivity;
 import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VPNPreferences;
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.ProfileManager;
 
@@ -317,8 +316,10 @@ public class VPNProfileList extends ListFragment {
 
 		getPM().saveProfile(getActivity(), profile);
 
-		Intent intent = new Intent(getActivity(),LaunchVPN.class);
-		intent.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUID().toString());
+		//Intent intent = new Intent(getActivity(),LaunchVPN.class);
+		Intent intent = new Intent(getActivity(),LogWindow.class);
+		intent.putExtra(getActivity().getPackageName() + LogWindow.EXTRA_UUID,
+						profile.getUUID().toString());
 		intent.setAction(Intent.ACTION_MAIN);
 		startActivity(intent);
 	}

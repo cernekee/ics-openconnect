@@ -31,7 +31,6 @@ import de.blinkt.openvpn.core.OpenVPN.StateListener;
 import de.blinkt.openvpn.core.OpenVpnService;
 import de.blinkt.openvpn.core.OpenVpnService.LocalBinder;
 import de.blinkt.openvpn.core.ProfileManager;
-import de.blinkt.openvpn.core.VPNLaunchHelper;
 
 public class ExternalOpenVPNService extends Service implements StateListener {
 
@@ -115,16 +114,19 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 		public void startProfile(String profileUUID) throws RemoteException {
 			checkOpenVPNPermission();
 
+			/*
 			Intent shortVPNIntent = new Intent(Intent.ACTION_MAIN);
 			shortVPNIntent.setClass(getBaseContext(),de.blinkt.openvpn.LaunchVPN.class);
 			shortVPNIntent.putExtra(de.blinkt.openvpn.LaunchVPN.EXTRA_KEY,profileUUID);
 			shortVPNIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(shortVPNIntent);
+			*/
 		}
 
 		public void startVPN(String inlineconfig) throws RemoteException {
 			checkOpenVPNPermission();
 
+			/*
 			ConfigParser cp = new ConfigParser();
 			try {
 				cp.parseConfig(new StringReader(inlineconfig));
@@ -134,7 +136,7 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 
 
 				ProfileManager.setTemporaryProfile(vp);
-				VPNLaunchHelper.startOpenVpn(vp, getBaseContext());
+				//VPNLaunchHelper.startOpenVpn(vp, getBaseContext());
 
 
 			} catch (IOException e) {
@@ -142,6 +144,7 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 			} catch (ConfigParseError e) {
 				throw new RemoteException(e.getMessage());
 			}
+			*/
 		}
 
 		@Override

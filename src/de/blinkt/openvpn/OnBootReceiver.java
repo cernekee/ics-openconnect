@@ -24,10 +24,10 @@ public class OnBootReceiver extends BroadcastReceiver {
 
 	void lauchVPN(VpnProfile profile,Context context) {
 		Intent startVpnIntent = new Intent(Intent.ACTION_MAIN);
-		startVpnIntent.setClass(context, LaunchVPN.class);
-		startVpnIntent.putExtra(LaunchVPN.EXTRA_KEY,profile.getUUIDString());
+		startVpnIntent.setClass(context, LogWindow.class);
+		startVpnIntent.putExtra(LogWindow.EXTRA_UUID,profile.getUUIDString());
 		startVpnIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startVpnIntent.putExtra(LaunchVPN.EXTRA_HIDELOG, true);
+		//startVpnIntent.putExtra(LogWindow.EXTRA_HIDELOG, true);
 
 		context.startActivity(startVpnIntent);
 	}

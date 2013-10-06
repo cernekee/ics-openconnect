@@ -296,9 +296,9 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 		// Extract information from the intent.
 		String prefix = getPackageName();
-		String[] argv = intent.getStringArrayExtra(prefix + ".ARGV");
-		String nativelibdir = intent.getStringExtra(prefix + ".nativelib");
-		String profileUUID = intent.getStringExtra(prefix + ".profileUUID");
+		String[] argv = { }; //intent.getStringArrayExtra(prefix + ".ARGV");
+		String nativelibdir = ""; //intent.getStringExtra(prefix + ".nativelib");
+		String profileUUID = intent.getStringExtra(prefix + ".UUID");
 
 		mProfile = ProfileManager.get(this,profileUUID);
 

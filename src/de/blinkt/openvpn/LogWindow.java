@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.*;
 import android.database.DataSetObserver;
+import android.net.VpnService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -30,6 +31,10 @@ import java.util.Locale;
 import java.util.Vector;
 
 public class LogWindow extends ListActivity implements StateListener  {
+	public static final String EXTRA_UUID = ".UUID";
+
+	private String mUUID;
+
 	private static final String LOGTIMEFORMAT = "logtimeformat";
 	private static final int START_VPN_CONFIG = 0;
 	protected OpenVpnService mService;
@@ -336,34 +341,11 @@ public class LogWindow extends ListActivity implements StateListener  {
 
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == START_VPN_CONFIG && resultCode==RESULT_OK) {
-			String configuredVPN = data.getStringExtra(VpnProfile.EXTRA_PROFILEUUID);
-
-			final VpnProfile profile = ProfileManager.get(this,configuredVPN);
-			ProfileManager.getInstance(this).saveProfile(this, profile);
-			// Name could be modified, reset List adapter
-
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			dialog.setTitle(R.string.configuration_changed);
-			dialog.setMessage(R.string.restart_vpn_after_change);
-
-
-			dialog.setPositiveButton(R.string.restart,
-					new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					Intent intent = new Intent(getBaseContext(), LaunchVPN.class);
-					intent.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUIDString());
-					intent.setAction(Intent.ACTION_MAIN);
-					startActivity(intent);
-				}
-
-
-			});
-			dialog.setNegativeButton(R.string.ignore, null);
-			dialog.create().show();
-		}
 		super.onActivityResult(requestCode, resultCode, data);
+    	Intent intent = new Intent(getBaseContext(), OpenVpnService.class);
+    	String p = getPackageName();
+    	intent.putExtra(p + EXTRA_UUID, mUUID);
+    	startService(intent);
 	}
 
 	@Override
@@ -403,6 +385,15 @@ public class LogWindow extends ListActivity implements StateListener  {
 		mSpeedView = (TextView) findViewById(R.id.speed);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
+		Intent myIntent = getIntent();
+		mUUID = myIntent.getStringExtra(getPackageName() + EXTRA_UUID);
+
+		Intent prepIntent = VpnService.prepare(this);
+		if (prepIntent != null) {
+			startActivityForResult(prepIntent, START_VPN_CONFIG);
+		} else {
+			onActivityResult(START_VPN_CONFIG, RESULT_OK, null);
+		}
     }
 
 
@@ -420,9 +411,36 @@ public class LogWindow extends ListActivity implements StateListener  {
 				mSpeedView.setText(prefix + logmessage);
 			}
 		});
-
 	}
 
+    private void stopVPN() {
+    	// FIXME
+    }
+
+    private void handleBackButton() {
+    	stopVPN();
+    	super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+    	new AlertDialog.Builder(this)
+    		.setTitle(R.string.cancel_connection_long)
+    		.setMessage(R.string.cancel_connection_query)
+    		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handleBackButton();
+				}
+    		})
+    		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+    		})
+    		.create()
+    		.show();
+    }
 
 	@Override
 	protected void onDestroy() {
