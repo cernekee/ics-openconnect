@@ -17,11 +17,17 @@ import de.blinkt.openvpn.AuthFormHandler;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.UiTask;
 import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
 
 	public static final String TAG = "OpenConnect";
+
+	public static final int STATE_AUTHENTICATING = 1;
+	public static final int STATE_USER_PROMPT = 2;
+	public static final int STATE_AUTHENTICATED = 3;
+	public static final int STATE_CONNECTING = 4;
+	public static final int STATE_CONNECTED = 5;
+	public static final int STATE_DISCONNECTED = 6;
 
 	public static Context mContext;
 	private VpnProfile mProfile;
@@ -44,33 +50,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     }
 
     private String getStringPref(final String key) {
-		UiTask r = new UiTask(mContext, mPrefs) {
-			public Object fn(Object arg) {
-				return getStringPref(key);
-			}
-		};
-		return (String)r.go(null);
+    	return mPrefs.getString(key, "");
     }
 
-    @SuppressWarnings("unused")
-	private void setStringPref(final String key, final String value) {
-		UiTask r = new UiTask(mContext, mPrefs) {
-			public Object fn(Object arg) {
-				setStringPref(key, value);
-				return null;
-			}
-		};
-		r.go(null);
-    }
-
-    @SuppressWarnings("unused")
-	private boolean getBooleanPref(final String key) {
-		UiTask r = new UiTask(mContext, mPrefs) {
-			public Object fn(Object arg) {
-				return getBooleanPref(key);
-			}
-		};
-		return (Boolean)r.go(null);
+    private void log(String msg) {
+    	OpenVPN.logMessage(0, "", msg);
     }
 
     private class CertWarningHandler extends UiTask
@@ -125,7 +109,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	private class AndroidOC extends LibOpenConnect {
 		public int onValidatePeerCert(String reason) {
-			OpenVPN.logMessage(0, "", "CALLBACK: onValidatePeerCert");
+			log("CALLBACK: onValidatePeerCert");
 
 			CertWarningHandler h = new CertWarningHandler(mContext, mPrefs);
 			h.reason = reason;
@@ -135,33 +119,35 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			if ((Boolean)h.go(null)) {
 				return 0;
 			} else {
-				OpenVPN.logMessage(0, "", "AUTH: user rejected bad certificate");
+				log("AUTH: user rejected bad certificate");
 				return -1;
 			}
 		}
 
 		public int onWriteNewConfig(byte[] buf) {
-			OpenVPN.logMessage(0, "", "CALLBACK: onWriteNewConfig");
+			log("CALLBACK: onWriteNewConfig");
 			return 0;
 		}
 
 		public int onProcessAuthForm(LibOpenConnect.AuthForm authForm) {
-			OpenVPN.logMessage(0, "", "CALLBACK: onProcessAuthForm");
+			log("CALLBACK: onProcessAuthForm");
+			setState(STATE_USER_PROMPT);
 			if ((Boolean)new AuthFormHandler(mContext, mPrefs).go(authForm)) {
+				setState(STATE_AUTHENTICATING);
 				return AUTH_FORM_PARSED;
 			} else {
-				OpenVPN.logMessage(0, "", "AUTH: user aborted");
+				log("AUTH: user aborted");
 				return AUTH_FORM_CANCELLED;
 			}
 		}
 
 		public void onProgress(int level, String msg) {
-			OpenVPN.logMessage(0, "", "PROGRESS: " + msg.trim());
+			log("PROGRESS: " + msg.trim());
 		}
 
 		public void onProtectSocket(int fd) {
 			if (mOpenVPNService.protect(fd) != true) {
-				OpenVPN.logMessage(0, "", "Error protecting fd " + fd);
+				log("Error protecting fd " + fd);
 			}
 		}
 	}
@@ -174,25 +160,39 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	@Override
 	public void run() {
+		if (!runVPN()) {
+			log("VPN terminated with errors");
+		}
+		setState(STATE_DISCONNECTED);
+	}
+
+	private void setState(int state) {
+		log("New state: " + state);
+	}
+
+	private boolean runVPN() {
 		initNative();
 
 		RootTools.installBinary(mContext, R.raw.android_csd, "android_csd.sh", "0755");
 		RootTools.installBinary(mContext, R.raw.curl, "curl", "0755");
 
+		setState(STATE_CONNECTING);
 		mOC = new AndroidOC();
-
-		mOpenVPNService.updateState("USER_VPN_PASSWORD", "", R.string.state_user_vpn_password,
-				ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT);
 
 		mFilesDir = mContext.getFilesDir().getPath();
 		mOC.setCSDWrapper(mFilesDir + File.separator + "android_csd.sh", mFilesDir);
-		if (mOC.parseURL(getStringPref("server_address")) != 0 ||
-			mOC.obtainCookie() != 0 ||
-			mOC.makeCSTPConnection() != 0) {
-
-			mOpenVPNService.updateState("AUTH_FAILED", "",
-					R.string.state_auth_failed, ConnectionStatus.LEVEL_AUTH_FAILED);
-			return;
+		if (mOC.parseURL(getStringPref("server_address")) != 0) {
+			log("Error parsing server address");
+			return false;
+		}
+		if (mOC.obtainCookie() != 0) {
+			log("Error obtaining cookie");
+			return false;
+		}
+		setState(STATE_AUTHENTICATED);
+		if (mOC.makeCSTPConnection() != 0) {
+			log("Error establishing CSTP connection");
+			return false;
 		}
 
 		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
@@ -216,38 +216,34 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		ParcelFileDescriptor pfd = mOpenVPNService.openTun();
 		if (pfd == null || mOC.setupTunFD(pfd.getFd()) != 0) {
-			mOpenVPNService.updateState("NOPROCESS", "",
-					R.string.state_noprocess, ConnectionStatus.LEVEL_NOTCONNECTED);
-			return;
+			log("Error setting up tunnel fd");
+			return false;
 		}
-
-		mOpenVPNService.updateState("CONNECTED", "",
-				R.string.state_connected, ConnectionStatus.LEVEL_CONNECTED);
+		setState(STATE_CONNECTED);
 
 		mOC.setupDTLS(60);
 		mOC.mainloop(300, LibOpenConnect.RECONNECT_INTERVAL_MIN);
 
-		mOpenVPNService.updateState("NOPROCESS", "",
-				R.string.state_noprocess, ConnectionStatus.LEVEL_NOTCONNECTED);
+		return true;
 	}
 
 	public void reconnect() {
-		OpenVPN.logMessage(0, "", "RECONNECT");
+		log("RECONNECT");
 	}
 
 	@Override
 	public void pause (pauseReason reason) {
-		OpenVPN.logMessage(0, "", "PAUSE");
+		log("PAUSE");
 	}
 
 	@Override
 	public void resume() {
-		OpenVPN.logMessage(0, "", "RESUME");
+		log("RESUME");
 	}
 
 	@Override
 	public boolean stopVPN() {
-		OpenVPN.logMessage(0, "", "STOP");
+		log("STOP");
 		mOC.cancel();
 		return true;
 	}
