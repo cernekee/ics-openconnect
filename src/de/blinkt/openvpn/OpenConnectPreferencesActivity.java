@@ -31,12 +31,6 @@ public class OpenConnectPreferencesActivity extends Activity {
         mName = getIntent().getStringExtra(getPackageName() + ".profileName");
         mPrefs.edit().putString("profile_name", mName).commit();
 
-        // Hack to make checkProfile leave us alone
-        ProfileManager pm = ProfileManager.getInstance(this);
-        VpnProfile vp = ProfileManager.get(this, mUUID);
-        vp.mAuthenticationType = VpnProfile.TYPE_STATICKEYS;
-        pm.saveProfile(this, vp);
-
         // FIXME: VPNProfileList should use the names stored in SharedPreferences
         //mName = mPrefs.getString("profile_name", "");
 

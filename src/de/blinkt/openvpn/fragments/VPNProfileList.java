@@ -252,7 +252,6 @@ public class VPNProfileList extends ListFragment {
 	private void addProfile(VpnProfile profile) {
 		getPM().addProfile(profile);
 		getPM().saveProfileList(getActivity());
-		getPM().saveProfile(getActivity(),profile);
 		mArrayadapter.add(profile);
 	}
 
@@ -278,10 +277,6 @@ public class VPNProfileList extends ListFragment {
 			return;
 
 		if (requestCode == START_VPN_CONFIG) {
-			String configuredVPN = data.getStringExtra(VpnProfile.EXTRA_PROFILEUUID);
-
-			VpnProfile profile = ProfileManager.get(getActivity(),configuredVPN);
-			getPM().saveProfile(getActivity(), profile);
 			// Name could be modified, reset List adapter
 			setListAdapter();
 
@@ -314,10 +309,6 @@ public class VPNProfileList extends ListFragment {
 	}
 
 	private void startVPN(VpnProfile profile) {
-
-		getPM().saveProfile(getActivity(), profile);
-
-		//Intent intent = new Intent(getActivity(),LaunchVPN.class);
 		Intent intent = new Intent(getActivity(),LogWindow.class);
 		intent.putExtra(getActivity().getPackageName() + LogWindow.EXTRA_UUID,
 						profile.getUUID().toString());

@@ -2,9 +2,6 @@ package de.blinkt.openvpn.core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -112,15 +109,7 @@ public class ProfileManager {
 	public void saveProfileList(Context context) {
 		SharedPreferences sharedprefs = context.getSharedPreferences(PREFS_NAME,Activity.MODE_PRIVATE);
 		Editor editor = sharedprefs.edit();
-		editor.putStringSet("vpnlist", profiles.keySet());
-		
-		// For reasing I do not understand at all 
-		// Android saves my prefs file only one time 
-		// if I remove the debug code below :(
-		int counter = sharedprefs.getInt("counter", 0);
-		editor.putInt("counter", counter+1);
-		editor.apply();
-
+		editor.putStringSet("vpnlist", profiles.keySet()).commit();
 	}
 
 	public void addProfile(VpnProfile profile) {
@@ -132,62 +121,18 @@ public class ProfileManager {
 		ProfileManager.tmpprofile = tmp;
 	}
 	
-	
-	public void saveProfile(Context context,VpnProfile profile) {
-		// First let basic settings save its state
-		
-		ObjectOutputStream vpnfile;
-		try {
-			vpnfile = new ObjectOutputStream(context.openFileOutput((profile.getUUID().toString() + ".vp"),Activity.MODE_PRIVATE));
-
-			vpnfile.writeObject(profile);
-			vpnfile.flush();
-			vpnfile.close();
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			throw new RuntimeException(e);
-
-		}
-	}
-	
-	
 	private void loadVPNList(Context context) {
 		profiles = new HashMap<String, VpnProfile>();
 		SharedPreferences listpref = context.getSharedPreferences(PREFS_NAME,Activity.MODE_PRIVATE);
 		Set<String> vlist = listpref.getStringSet("vpnlist", null);
-		Exception exp =null;
 		if(vlist==null){
 			vlist = new HashSet<String>();
 		}
 
 		for (String vpnentry : vlist) {
-			try {
-				ObjectInputStream vpnfile = new ObjectInputStream(context.openFileInput(vpnentry + ".vp"));
-				VpnProfile vp = ((VpnProfile) vpnfile.readObject());
-
-				// Sanity check 
-				if(vp==null || vp.mName==null || vp.getUUID()==null)
-					continue;
-				
-				profiles.put(vp.getUUID().toString(), vp);
-
-			} catch (StreamCorruptedException e) {
-				exp=e;
-			} catch (FileNotFoundException e) {
-				exp=e;
-			} catch (IOException e) {
-				exp=e;
-			} catch (ClassNotFoundException e) { 
-				exp=e;
-			}
-			if(exp!=null) {
-				exp.printStackTrace();
-			}
+			SharedPreferences sp = context.getSharedPreferences(vpnentry, Activity.MODE_PRIVATE);
+			VpnProfile vp = new VpnProfile(sp.getString("profile_name", ""), vpnentry);
+			profiles.put(vpnentry, vp);
 		}
 	}
 
@@ -195,16 +140,13 @@ public class ProfileManager {
 		return profiles.size();
 	}
 
-
-
 	public void removeProfile(Context context,VpnProfile profile) {
 		String vpnentry = profile.getUUID().toString();
 		profiles.remove(vpnentry);
 		saveProfileList(context);
-		context.deleteFile(vpnentry + ".vp");
+		// FIXME: delete prefs file
 		if(mLastConnectedVpn==profile)
 			mLastConnectedVpn=null;
-		
 	}
 
 

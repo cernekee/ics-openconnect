@@ -4,6 +4,8 @@ import java.io.*;
 import java.security.PrivateKey;
 import java.util.UUID;
 
+import android.content.SharedPreferences;
+
 public class VpnProfile implements Serializable {
     // Note that this class cannot be moved to core where it belongs since
     // the profile loading depends on it being here
@@ -88,9 +90,15 @@ public class VpnProfile implements Serializable {
     // Public attributes, since I got mad with getter/setter
     // set members to default values
     private UUID mUuid;
+    public SharedPreferences mPrefs;
 
     public VpnProfile(String name) {
         mUuid = UUID.randomUUID();
+        mName = name;
+    }
+    
+    public VpnProfile(String name, String uuid) {
+        mUuid = UUID.fromString(uuid);
         mName = name;
     }
 
