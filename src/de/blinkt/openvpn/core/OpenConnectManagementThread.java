@@ -1,6 +1,11 @@
 package de.blinkt.openvpn.core;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -34,6 +39,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private OpenVpnService mOpenVPNService;
 	private SharedPreferences mPrefs;
 	private String mFilesDir;
+	private String mCacheDir;
 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
@@ -171,6 +177,42 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		log("New state: " + state);
 	}
 
+	private String prefToTempFile(String prefName, boolean isExecutable) throws IOException {
+		String prefData = getStringPref(prefName);
+		String path;
+
+		if (prefData.equals("")) {
+			return null;
+		}
+		if (prefData.startsWith("[[INLINE]]")) {
+			prefData = prefData.substring(10);
+
+			// It would be nice to use mCacheDir here, but putting curl and the CSD script in the same
+			// directory simplifies things.
+			path = mFilesDir + File.separator + prefName + ".tmp";
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
+			writer.write(prefData);
+			writer.close();
+
+			log("PREF: wrote out " + path);
+		} else {
+			path = prefData;
+			log("PREF: using existing file " + path);
+		}
+
+		if (isExecutable) {
+			File f = new File(path);
+			if (!f.exists()) {
+				log("PREF: file does not exist");
+				return null;
+			}
+			if (!f.setExecutable(true)) {
+				throw new IOException();
+			}
+		}
+		return path;
+	}
+
 	private boolean runVPN() {
 		initNative();
 
@@ -181,7 +223,33 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOC = new AndroidOC();
 
 		mFilesDir = mContext.getFilesDir().getPath();
-		mOC.setCSDWrapper(mFilesDir + File.separator + "android_csd.sh", mFilesDir);
+		mCacheDir = mContext.getCacheDir().getPath();
+		try {
+			String s;
+
+			s = prefToTempFile("custom_csd_wrapper", true);
+			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd.sh"), mCacheDir);
+
+			s = prefToTempFile("ca_certificate", false);
+			if (s != null) {
+				mOC.setCAFile(s);
+			}
+
+			s = prefToTempFile("user_certificate", false);
+			String key = prefToTempFile("private_key", false);
+			if (s != null) {
+				if (key == null) {
+					// assume the file contains the cert + key
+					mOC.setClientCert(s, s);
+				} else {
+					mOC.setClientCert(s, key);
+				}
+			}
+		} catch (IOException e) {
+			log("Error writing temporary file");
+			return false;
+		}
+
 		if (mOC.parseURL(getStringPref("server_address")) != 0) {
 			log("Error parsing server address");
 			return false;
