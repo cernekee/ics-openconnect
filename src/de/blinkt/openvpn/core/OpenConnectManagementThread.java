@@ -40,6 +40,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private SharedPreferences mPrefs;
 	private String mFilesDir;
 	private String mCacheDir;
+	private String mServerAddr;
 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
@@ -57,6 +58,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
     private String getStringPref(final String key) {
     	return mPrefs.getString(key, "");
+    }
+
+    private boolean getBoolPref(final String key) {
+    	return mPrefs.getBoolean(key, false);
     }
 
     private void log(String msg) {
@@ -213,20 +218,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return path;
 	}
 
-	private boolean runVPN() {
-		initNative();
+	private boolean setPreferences() {
+		String s;
 
-		RootTools.installBinary(mContext, R.raw.android_csd, "android_csd.sh", "0755");
-		RootTools.installBinary(mContext, R.raw.curl, "curl", "0755");
-
-		setState(STATE_CONNECTING);
-		mOC = new AndroidOC();
-
-		mFilesDir = mContext.getFilesDir().getPath();
-		mCacheDir = mContext.getCacheDir().getPath();
 		try {
-			String s;
-
 			s = prefToTempFile("custom_csd_wrapper", true);
 			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd.sh"), mCacheDir);
 
@@ -250,7 +245,43 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return false;
 		}
 
-		if (mOC.parseURL(getStringPref("server_address")) != 0) {
+		mServerAddr = getStringPref("server_address");
+		mOC.setXMLPost(!getBoolPref("disable_xml_post"));
+		mOC.setReportedOS(getStringPref("reported_os"));
+
+		s = getStringPref("software_token");
+		String token = getStringPref("token_string");
+		int ret = 0;
+
+		if (s.equals("securid")) {
+			ret = mOC.setTokenMode(LibOpenConnect.OC_TOKEN_MODE_STOKEN, token);
+		} else if (s.equals("totp")) {
+			ret = mOC.setTokenMode(LibOpenConnect.OC_TOKEN_MODE_TOTP, token);
+		}
+		if (ret < 0) {
+			log("Error " + ret + " setting token string");
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean runVPN() {
+		initNative();
+
+		RootTools.installBinary(mContext, R.raw.android_csd, "android_csd.sh", "0755");
+		RootTools.installBinary(mContext, R.raw.curl, "curl", "0755");
+
+		setState(STATE_CONNECTING);
+		mOC = new AndroidOC();
+
+		mFilesDir = mContext.getFilesDir().getPath();
+		mCacheDir = mContext.getCacheDir().getPath();
+
+		if (setPreferences() == false)
+			return false;
+
+		if (mOC.parseURL(mServerAddr) != 0) {
 			log("Error parsing server address");
 			return false;
 		}
