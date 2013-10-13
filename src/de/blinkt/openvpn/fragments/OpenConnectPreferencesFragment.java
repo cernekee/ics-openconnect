@@ -125,10 +125,6 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
 		startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
 		startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
 
-		if (key.equals("custom_csd_wrapper")) {
-			startFC.putExtra(FileSelect.NO_INLINE_SELECTION, true);
-		}
-
 		startActivityForResult(startFC, idx);
 		return false;
 	}
