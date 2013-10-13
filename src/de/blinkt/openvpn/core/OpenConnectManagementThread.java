@@ -78,15 +78,16 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			}
 
 			holdoff();
-			new AlertDialog.Builder(mContext)
+			AlertDialog alert = new AlertDialog.Builder(mContext)
 				.setTitle(R.string.cert_warning_title)
 				.setMessage(mContext.getString(R.string.cert_warning_message,
 						hostname, reason, certSHA1))
 				.setPositiveButton(R.string.cert_warning_always_connect, this)
 				.setNeutralButton(R.string.cert_warning_just_once, this)
 				.setNegativeButton(R.string.no, this)
-				.setOnDismissListener(this)
-				.show();
+				.create();
+			alert.setOnDismissListener(this);
+			alert.show();
 			return null;
 		}
 
