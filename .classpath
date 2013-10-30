@@ -5,7 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="lib" path="misc/intellij-annotations.jar"/>
-	<classpathentry exported="true" kind="lib" path="misc/openconnect-wrapper.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/intellij-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/openconnect-wrapper.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
