@@ -2,3 +2,4 @@ arm/
 x86/
 mips/
 .openconnect-sources
+openconnect-wrapper.jar
