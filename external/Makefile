@@ -2,17 +2,14 @@ NDK := /opt/android-ndk-r9
 GCCVER := 4.8
 
 LIBS := ../libs
-# FIXME: broken zlib dependency on MIPS
-ARCH_LIST := arm x86 # mips
-NDK_ARCH_LIST := armeabi armeabi-v7 x86 mips
+ARCH_LIST := arm x86 mips
+NDK_ARCH_LIST := armeabi x86 mips
 
-# FIXME: http://stackoverflow.com/questions/17429139/will-an-app-built-with-only-armeabi-run-on-armeabi-v7a-devices
 .PHONY: all clean
 all: $(addsuffix /libopenconnect.so,$(ARCH_LIST)) openconnect-wrapper.jar
 	mkdir -p $(addprefix $(LIBS)/,$(NDK_ARCH_LIST))
 	cp arm/libopenconnect.so $(LIBS)/armeabi/
-	cp arm/libopenconnect.so $(LIBS)/armeabi-v7a/
-	#cp mips/libopenconnect.so $(LIBS)/mips/
+	cp mips/libopenconnect.so $(LIBS)/mips/
 	cp x86/libopenconnect.so $(LIBS)/x86/
 	cp openconnect-wrapper.jar $(LIBS)/
 
