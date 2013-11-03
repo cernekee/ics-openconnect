@@ -293,13 +293,14 @@ public class AuthFormHandler extends UiTask
 		}
 
 		/* FIXME: this needs to be rerendered on e.g. screen rotation events */
-		new AlertDialog.Builder(mContext)
+		AlertDialog alert = new AlertDialog.Builder(mContext)
 				.setView(v)
 				.setTitle(mContext.getString(R.string.login_title, getStringPref("profile_name")))
 				.setPositiveButton(R.string.ok, h)
 				.setNegativeButton(R.string.cancel, h)
-				.setOnDismissListener(h)
-				.show();
+				.create();
+		alert.setOnDismissListener(h);
+		alert.show();
 		return null;
 	}
 }
