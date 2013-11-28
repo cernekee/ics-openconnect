@@ -42,10 +42,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
 
-    public OpenConnectManagementThread(VpnProfile profile, OpenVpnService openVpnService) {
+    public OpenConnectManagementThread(Context context, VpnProfile profile, OpenVpnService openVpnService) {
+    	mContext = context;
 		mProfile = profile;
 		mOpenVPNService = openVpnService;
-		mPrefs = mContext.getApplicationContext().getSharedPreferences(mProfile.getUUID().toString(),
+		mPrefs = mContext.getSharedPreferences(mProfile.getUUID().toString(),
 				Context.MODE_PRIVATE);
 	}
 

@@ -38,7 +38,6 @@ public class VPNPreferences extends PreferenceActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		OpenConnectManagementThread.mContext = this;
 		Intent intent = getIntent();
 		
 
