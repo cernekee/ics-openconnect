@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Html.ImageGetter;
@@ -27,10 +26,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.blinkt.openvpn.FileSelect;
-import de.blinkt.openvpn.LogWindow;
 import de.blinkt.openvpn.OpenConnectPreferencesActivity;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VpnProfile;
+import de.blinkt.openvpn.api.GrantPermissionsActivity;
 import de.blinkt.openvpn.core.ProfileManager;
 
 public class VPNProfileList extends ListFragment {
@@ -309,9 +308,11 @@ public class VPNProfileList extends ListFragment {
 	}
 
 	private void startVPN(VpnProfile profile) {
-		Intent intent = new Intent(getActivity(),LogWindow.class);
-		intent.putExtra(getActivity().getPackageName() + LogWindow.EXTRA_UUID,
-						profile.getUUID().toString());
+		Intent intent = new Intent(getActivity(), GrantPermissionsActivity.class);
+		String pkg = getActivity().getPackageName();
+
+		intent.putExtra(pkg + GrantPermissionsActivity.EXTRA_UUID, profile.getUUID().toString());
+		intent.putExtra(pkg + GrantPermissionsActivity.EXTRA_START_ACTIVITY, pkg + ".LogWindow");
 		intent.setAction(Intent.ACTION_MAIN);
 		startActivity(intent);
 	}

@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.ParcelFileDescriptor;
 
@@ -20,7 +18,6 @@ import com.stericson.RootTools.RootTools;
 
 import de.blinkt.openvpn.AuthFormHandler;
 import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.UiTask;
 import de.blinkt.openvpn.VpnProfile;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
@@ -68,67 +65,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	OpenVPN.logMessage(0, "", msg);
     }
 
-    private class CertWarningHandler extends UiTask
-		implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
-
-    	public String hostname;
-    	public String certSHA1;
-    	public String reason;
-
-    	private boolean isOK = false;
-
-    	public CertWarningHandler(Context context, SharedPreferences prefs) {
-    		super(context, prefs);
-    	}
-
-		@Override
-		public Object fn(Object arg) {
-			String goodSHA1 = getStringPref("accepted_cert_sha1");
-			if (certSHA1.equals(goodSHA1)) {
-				return true;
-			}
-
-			holdoff();
-			AlertDialog alert = new AlertDialog.Builder(mContext)
-				.setTitle(R.string.cert_warning_title)
-				.setMessage(mContext.getString(R.string.cert_warning_message,
-						hostname, reason, certSHA1))
-				.setPositiveButton(R.string.cert_warning_always_connect, this)
-				.setNeutralButton(R.string.cert_warning_just_once, this)
-				.setNegativeButton(R.string.no, this)
-				.create();
-			alert.setOnDismissListener(this);
-			alert.show();
-			return null;
-		}
-
-		@Override
-		public void onDismiss(DialogInterface dialog) {
-			// catches Pos/Neg/Neutral and Back button presses
-			complete(isOK);
-		}
-
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			if (which == DialogInterface.BUTTON_POSITIVE) {
-				isOK = true;
-				setStringPref("accepted_cert_sha1", certSHA1);
-			} else if (which == DialogInterface.BUTTON_NEUTRAL) {
-				isOK = true;
-			}
-		}
-    }
-
 	private class AndroidOC extends LibOpenConnect {
 		public int onValidatePeerCert(String reason) {
 			log("CALLBACK: onValidatePeerCert");
 
-			CertWarningHandler h = new CertWarningHandler(mContext, mPrefs);
-			h.reason = reason;
-			h.hostname = getHostname();
-			h.certSHA1 = getCertSHA1();
+			Boolean response = (Boolean)mOpenVPNService.promptUser(
+					new CertWarningDialog(mPrefs, reason, getHostname(), getCertSHA1()));
 
-			if ((Boolean)h.go(null)) {
+			if (response) {
 				return 0;
 			} else {
 				log("AUTH: user rejected bad certificate");
@@ -144,7 +88,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		public int onProcessAuthForm(LibOpenConnect.AuthForm authForm) {
 			log("CALLBACK: onProcessAuthForm");
 			setState(STATE_USER_PROMPT);
-			if ((Boolean)new AuthFormHandler(mContext, mPrefs).go(authForm)) {
+
+			Boolean response = (Boolean)mOpenVPNService.promptUser(
+					new AuthFormHandler(mPrefs, authForm));
+
+			if (response) {
 				setState(STATE_AUTHENTICATING);
 				return AUTH_FORM_PARSED;
 			} else {

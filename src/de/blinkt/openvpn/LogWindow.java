@@ -4,17 +4,16 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.*;
 import android.database.DataSetObserver;
-import android.net.VpnService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.IBinder;
 import android.os.Message;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
-import de.blinkt.openvpn.core.OpenConnectManagementThread;
 import de.blinkt.openvpn.core.OpenVPN;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPN.LogItem;
@@ -31,16 +30,14 @@ import java.util.Locale;
 import java.util.Vector;
 
 public class LogWindow extends ListActivity implements StateListener  {
-	public static final String EXTRA_UUID = ".UUID";
-
-	private String mUUID;
+	public static final String TAG = "OpenConnect";
 
 	private static final String LOGTIMEFORMAT = "logtimeformat";
-	private static final int START_VPN_CONFIG = 0;
+
+	protected BroadcastReceiver mReceiver; 
 	protected OpenVpnService mService;
+
 	private ServiceConnection mConnection = new ServiceConnection() {
-
-
 
 		@Override
 		public void onServiceConnected(ComponentName className,
@@ -48,16 +45,15 @@ public class LogWindow extends ListActivity implements StateListener  {
 			// We've bound to LocalService, cast the IBinder and get LocalService instance
 			LocalBinder binder = (LocalBinder) service;
 			mService = binder.getService();
+			updateUI();
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName arg0) {
-			mService =null;
+			mService = null;
+			Log.w(TAG, "unbound from OpenVpnService");
 		}
-
 	};
-
-
 
 	class LogWindowListAdapter implements ListAdapter, LogListener, Callback {
 
@@ -318,46 +314,40 @@ public class LogWindow extends ListActivity implements StateListener  {
 		return true;
 	}
 
+    private synchronized void updateUI() {
+    	if (mService != null) {
+    		mService.startActiveDialog(this);
+    	}
+    }
+
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OpenConnectManagementThread.mContext = this;
-		OpenVPN.addStateListener(this);
+	protected void onStart() {
+		super.onStart();
+
         Intent intent = new Intent(this, OpenVpnService.class);
         intent.setAction(OpenVpnService.START_SERVICE);
-
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(getPackageName() + ".VPN_STATUS");
 
-        if (getIntent() !=null && OpenVpnService.DISCONNECT_VPN.equals(getIntent().getAction()))
-            showDisconnectDialog();
-
-        setIntent(null);
-
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-    }
-
-    @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-    	Intent intent = new Intent(getBaseContext(), OpenVpnService.class);
-    	String p = getPackageName();
-    	intent.putExtra(p + EXTRA_UUID, mUUID);
-    	startService(intent);
+        mReceiver = new BroadcastReceiver() {
+          @Override
+          public void onReceive(Context context, Intent intent) {
+        	  updateUI();
+          }
+        };
+        registerReceiver(mReceiver, filter);
 	}
 
 	@Override
 	protected void onStop() {
-		super.onStop();
-		OpenVPN.removeStateListener(this);
+    	if (mService != null) {
+    		mService.stopActiveDialog();
+    	}
         unbindService(mConnection);
-        getPreferences(0).edit().putInt(LOGTIMEFORMAT, ladapter.mTimeFormat).apply();
-
+        unregisterReceiver(mReceiver);
+		super.onStop();
     }
 
     @Override
@@ -387,16 +377,6 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 		mSpeedView = (TextView) findViewById(R.id.speed);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		Intent myIntent = getIntent();
-		mUUID = myIntent.getStringExtra(getPackageName() + EXTRA_UUID);
-
-		Intent prepIntent = VpnService.prepare(this);
-		if (prepIntent != null) {
-			startActivityForResult(prepIntent, START_VPN_CONFIG);
-		} else {
-			onActivityResult(START_VPN_CONFIG, RESULT_OK, null);
-		}
     }
 
 

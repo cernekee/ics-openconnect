@@ -72,6 +72,9 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
     
 	private OpenVPNManagement mManagement;
 
+	private UserDialog mDialog;
+	private Context mDialogContext;
+
 	public class LocalBinder extends Binder {
 		public OpenVpnService getService() {
 			// Return this instance of LocalService so clients can call public methods
@@ -599,7 +602,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	private void doSendBroadcast(String state, ConnectionStatus level) {
 		Intent vpnstatus = new Intent();
-		vpnstatus.setAction("de.blinkt.openvpn.VPN_STATUS");
+		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
 		vpnstatus.putExtra("status", level.toString());
 		vpnstatus.putExtra("detailstatus", state);
 		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
@@ -649,5 +652,47 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	public OpenVPNManagement getManagement() {
 		return mManagement;
+	}
+
+	/* called from the activity on broadcast receipt, or startup */
+	public synchronized void startActiveDialog(Context context) {
+		if (mDialog != null && mDialogContext == null) {
+			mDialogContext = context;
+			mDialog.onStart(context);
+		}
+	}
+
+	/* called when the activity shuts down (mDialog will be re-rendered when the activity starts again) */
+	public synchronized void stopActiveDialog() {
+		if (mDialog != null && mDialogContext != null) {
+			mDialog.onStop(mDialogContext);
+		}
+		mDialogContext = null;
+	}
+
+	private synchronized void setDialog(Context context, UserDialog dialog) {
+		mDialogContext = context;
+		mDialog = dialog;
+	}
+
+	/* called from the VPN thread; blocks until user responds */
+	public Object promptUser(UserDialog dialog) {
+		Object ret;
+
+		ret = dialog.earlyReturn();
+		if (ret != null) {
+			return ret;
+		}
+
+		setDialog(null, dialog);
+
+		Intent vpnstatus = new Intent();
+		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
+		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
+
+		ret = mDialog.waitForResponse();
+
+		setDialog(null, null);
+		return ret;
 	}
 }

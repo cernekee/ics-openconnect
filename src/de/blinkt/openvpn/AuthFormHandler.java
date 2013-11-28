@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
+import de.blinkt.openvpn.core.UserDialog;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,13 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class AuthFormHandler extends UiTask
+public class AuthFormHandler extends UserDialog
 		implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
 	public static final String TAG = "OpenConnect";
 
 	private LibOpenConnect.AuthForm mForm;
-	private boolean isOK = false;
+	private Context mContext;
+	private boolean isOK;
+	private AlertDialog mAlert;
 
 	private CheckBox savePassword = null;
 	private boolean noSave = false;
@@ -40,14 +44,28 @@ public class AuthFormHandler extends UiTask
 	private static final int BATCH_MODE_EMPTY_ONLY = 1;
 	private static final int BATCH_MODE_ENABLED = 2;
 
-	public AuthFormHandler(Context context, SharedPreferences prefs) {
-		super(context, prefs);
+	public AuthFormHandler(SharedPreferences prefs, LibOpenConnect.AuthForm form) {
+		super(prefs);
+
+		mForm = form;
+		formPfx = getFormPrefix(mForm);
+		noSave = getBooleanPref("disable_username_caching");
+
+		String s = getStringPref("batch_mode");
+		if (s.equals("empty_only")) {
+			batchMode = BATCH_MODE_EMPTY_ONLY;
+		} else if (s.equals("enabled")) {
+			batchMode = BATCH_MODE_ENABLED;
+		}
 	}
 
 	@Override
 	public void onDismiss(DialogInterface dialog) {
 		// catches OK, Cancel, and Back button presses
-		saveAndStore();
+		if (isOK) {
+			saveAndStore();
+		}
+		finish(isOK);
 	}
 
 	@Override
@@ -201,6 +219,7 @@ public class AuthFormHandler extends UiTask
 	}
 
 	private void saveAndStore() {
+		// FIXME: How do we avoid saving bad/mistyped information?
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
 			switch (opt.type) {
 			case LibOpenConnect.OC_FORM_OPT_TEXT: {
@@ -232,23 +251,14 @@ public class AuthFormHandler extends UiTask
 				break;
 			}
 		}
-		complete((Boolean)isOK);
 	}
 
-	public Object fn(Object form) {
+	public void onStart(Context context) {
 		final AuthFormHandler h = this;
 
-		mForm = (LibOpenConnect.AuthForm)form;
-		formPfx = getFormPrefix(mForm);
-		noSave = getBooleanPref("disable_username_caching");
-
-		String s = getStringPref("batch_mode");
-		if (s.equals("empty_only")) {
-			batchMode = BATCH_MODE_EMPTY_ONLY;
-		} else if (s.equals("enabled")) {
-			batchMode = BATCH_MODE_ENABLED;
-		}
-
+		super.onStart(context);
+		mContext = context;
+		isOK = false;
 		LinearLayout v = new LinearLayout(mContext);
 		v.setOrientation(LinearLayout.VERTICAL);
 
@@ -284,24 +294,28 @@ public class AuthFormHandler extends UiTask
 			v.addView(savePassword);
 		}
 
-		holdoff();
 		if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
 			batchMode == BATCH_MODE_ENABLED || !hasUserOptions) {
-			isOK = true;
 			saveAndStore();
-			return null;
+			finish(true);
+			return;
 		}
 
-		/* FIXME: this needs to be rerendered on e.g. screen rotation events */
-		AlertDialog alert = new AlertDialog.Builder(mContext)
+		mAlert = new AlertDialog.Builder(mContext)
 				.setView(v)
 				.setTitle(mContext.getString(R.string.login_title, getStringPref("profile_name")))
 				.setPositiveButton(R.string.ok, h)
 				.setNegativeButton(R.string.cancel, h)
 				.create();
-		alert.setOnDismissListener(h);
-		alert.show();
-		return null;
+		mAlert.setOnDismissListener(h);
+		mAlert.show();
+	}
+
+	public void onStop(Context context) {
+		super.onStop(context);
+		if (mAlert != null) {
+			mAlert.dismiss();
+			mAlert = null;
+		}
 	}
 }
-
