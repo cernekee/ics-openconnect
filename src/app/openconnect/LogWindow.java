@@ -22,6 +22,8 @@ import app.openconnect.core.OpenVPN.LogListener;
 import app.openconnect.core.OpenVPN.StateListener;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.OpenVpnService.LocalBinder;
+import app.openconnect.core.VPNLog;
+import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -39,6 +41,11 @@ public class LogWindow extends ListActivity implements StateListener  {
 
     private MenuItem mCancelButton;
     private boolean mDisconnected;
+
+	private LogArrayAdapter mLogAdapter;
+	private ListView mLogView;
+
+	private TextView mSpeedView;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -243,15 +250,10 @@ public class LogWindow extends ListActivity implements StateListener  {
 		
 	}
 
-
-
-	private LogWindowListAdapter ladapter;
-	private TextView mSpeedView;
-
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId()==R.id.clearlog) {
-			ladapter.clearLog();
+			mService.clearLog();
 			return true;
 		} else if(item.getItemId()==R.id.cancel) {
 			if (mDisconnected) {
@@ -263,9 +265,9 @@ public class LogWindow extends ListActivity implements StateListener  {
 			}
             return true;
         } else if(item.getItemId()==R.id.send) {
-			ladapter.shareLog();
+			// XXX mLogAdapter.shareLog();
 		} else if(item.getItemId() == R.id.toggle_time) {
-			ladapter.nextTimeFormat();
+			mLogAdapter.setTimeFormat(VPNLog.TIME_FORMAT_TOGGLE);
 		} else if(item.getItemId() == android.R.id.home) {
 			// This is called when the Home (Up) button is pressed
 			// in the Action Bar.
@@ -312,6 +314,13 @@ public class LogWindow extends ListActivity implements StateListener  {
     		}
     		String states[] = getResources().getStringArray(R.array.connection_states);
     		mSpeedView.setText(states[state]);
+
+    		if (mLogAdapter == null) {
+    			mLogAdapter = mService.getArrayAdapter(this);
+    			mLogAdapter.setTimeFormat(getPreferences(0).getInt(LOGTIMEFORMAT, VPNLog.TIME_FORMAT_LONG));
+    			mLogView.setAdapter(mLogAdapter);
+    			mLogView.setSelection(mLogAdapter.getCount());
+    		}
     	}
     }
 
@@ -337,11 +346,13 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 	@Override
 	protected void onStop() {
+        unregisterReceiver(mReceiver);
     	if (mService != null) {
     		mService.stopActiveDialog();
+    		mService.putArrayAdapter(mLogAdapter);
+    		mLogAdapter = null;
     	}
         unbindService(mConnection);
-        unregisterReceiver(mReceiver);
 		super.onStop();
     }
 
@@ -350,9 +361,9 @@ public class LogWindow extends ListActivity implements StateListener  {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.logwindow);
-		ListView lv = getListView();
+		mLogView = getListView();
 
-		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+		mLogView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -365,10 +376,6 @@ public class LogWindow extends ListActivity implements StateListener  {
 				return true;
 			}
 		});
-
-		ladapter = new LogWindowListAdapter();
-		ladapter.mTimeFormat = getPreferences(0).getInt(LOGTIMEFORMAT, 0);
-		lv.setAdapter(ladapter);
 
 		mSpeedView = (TextView) findViewById(R.id.speed);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -428,7 +435,6 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 	@Override
 	protected void onDestroy() {
-		OpenVPN.removeLogListener(ladapter);
 		super.onDestroy();
 	}
 

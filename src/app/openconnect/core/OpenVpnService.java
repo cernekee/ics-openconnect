@@ -21,6 +21,7 @@ import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.OpenVPN.ByteCountListener;
 import app.openconnect.core.OpenVPN.ConnectionStatus;
 import app.openconnect.core.OpenVPN.StateListener;
+import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -68,6 +69,9 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 	private Context mDialogContext;
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
+
+	private VPNLog mVPNLog = new VPNLog();
+	private Handler mHandler = new Handler();
 
 	public class LocalBinder extends Binder {
 		public OpenVpnService getService() {
@@ -538,6 +542,34 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	public synchronized int getConnectionState() {
 		return mConnectionState;
+	}
+
+	public LogArrayAdapter getArrayAdapter(Context context) {
+		return mVPNLog.getArrayAdapter(context);
+	}
+
+	public void putArrayAdapter(LogArrayAdapter adapter) {
+		if (adapter != null) {
+			mVPNLog.putArrayAdapter(adapter);
+		}
+	}
+
+	public void log(final int level, final String msg) {
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mVPNLog.add(level, msg);
+			}
+		});
+	}
+
+	public void clearLog() {
+		mVPNLog.clear();
+	}
+
+	public String dumpLog() {
+		return mVPNLog.dump();
 	}
 
 	public void startReconnectActivity(Context context) {

@@ -64,7 +64,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     }
 
     private void log(String msg) {
-    	OpenVPN.logMessage(0, "", msg);
+    	mOpenVPNService.log(VPNLog.LEVEL_INFO, msg);
     }
 
 	private class AndroidOC extends LibOpenConnect {
@@ -104,7 +104,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		}
 
 		public void onProgress(int level, String msg) {
-			log("PROGRESS: " + msg.trim());
+			mOpenVPNService.log(level, "LIB: " + msg.trim());
 		}
 
 		public void onProtectSocket(int fd) {
