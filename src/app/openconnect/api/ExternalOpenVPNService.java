@@ -1,7 +1,5 @@
 package app.openconnect.api;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,16 +19,13 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import app.openconnect.R;
 import app.openconnect.VpnProfile;
-import app.openconnect.core.OpenVPN;
 import app.openconnect.core.OpenVPN.ConnectionStatus;
-import app.openconnect.core.OpenVPN.StateListener;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.OpenVpnService.LocalBinder;
 import app.openconnect.core.ProfileManager;
 
-public class ExternalOpenVPNService extends Service implements StateListener {
+public class ExternalOpenVPNService extends Service {
 
 	private static final int SEND_TOALL = 0;
 
@@ -62,7 +57,6 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		OpenVPN.addStateListener(this);
 		mExtAppDb = new ExternalAppDatabase(this);
 
 		Intent intent = new Intent(getBaseContext(), OpenVpnService.class);
@@ -234,7 +228,6 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 		super.onDestroy();
 		mCallbacks.kill();
 		unbindService(mConnection);
-		OpenVPN.removeStateListener(this);
 	}
 
 	class UpdateMessage {
@@ -248,17 +241,6 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 			this.logmessage = logmessage;
 			this.level = level;
 		}
-	}
-
-	@Override
-	public void updateState (String state, String logmessage, int resid, ConnectionStatus level) {
-		mMostRecentState =  new UpdateMessage(state, logmessage, level);
-		if (ProfileManager.getLastConnectedVpn()!=null)
-			mMostRecentState.vpnUUID = ProfileManager.getLastConnectedVpn().getUUIDString();
-
-		Message msg = mHandler.obtainMessage(SEND_TOALL, mMostRecentState);
-		msg.sendToTarget();
-
 	}
 
 	private static final OpenVPNServiceHandler mHandler = new OpenVPNServiceHandler();

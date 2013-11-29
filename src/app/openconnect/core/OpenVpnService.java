@@ -12,15 +12,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.VpnService;
 import android.os.*;
-import android.os.Handler.Callback;
 import android.preference.PreferenceManager;
 import app.openconnect.LogWindow;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
-import app.openconnect.core.OpenVPN.ByteCountListener;
 import app.openconnect.core.OpenVPN.ConnectionStatus;
-import app.openconnect.core.OpenVPN.StateListener;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +27,7 @@ import java.util.Locale;
 
 import static app.openconnect.core.OpenVPN.ConnectionStatus.*;
 
-public class OpenVpnService extends VpnService implements StateListener, Callback, ByteCountListener {
+public class OpenVpnService extends VpnService {
 	public static final String START_SERVICE = "app.openconnect.START_SERVICE";
 	public static final String START_SERVICE_STICKY = "app.openconnect.START_SERVICE_STICKY";
 	public static final String ALWAYS_SHOW_NOTIFICATION = "app.openconnect.NOTIFICATION_ALWAYS_VISIBLE";
@@ -48,13 +45,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	private DeviceStateReceiver mDeviceStateReceiver;
 
-	private boolean mDisplayBytecount=false;
-
 	private boolean mStarting=false;
-
-	private long mConnecttime;
-
-
 	private static final int OPENVPN_STATUS = 1;
 
 	private static boolean mNotificationAlwaysVisible =false;
@@ -102,15 +93,12 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	private void endVpnService() {
 		mProcessThread=null;
-		OpenVPN.removeByteCountListener(this);
-		unregisterDeviceStateReceiver();
 		ProfileManager.setConntectedVpnProfileDisconnected(this);
 		if(!mStarting) {
 			stopForeground(!mNotificationAlwaysVisible);
 
 			if( !mNotificationAlwaysVisible) {
 				stopSelf();
-				OpenVPN.removeStateListener(this);
 			}
 		}
 	}
@@ -245,13 +233,11 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 		filter.addAction(Intent.ACTION_SCREEN_ON);
 		mDeviceStateReceiver = new DeviceStateReceiver(magnagement);
 		registerReceiver(mDeviceStateReceiver, filter);
-		OpenVPN.addByteCountListener(mDeviceStateReceiver);
 	}
 
 	synchronized void unregisterDeviceStateReceiver() {
 		if(mDeviceStateReceiver!=null)
 			try {
-				OpenVPN.removeByteCountListener(mDeviceStateReceiver);
 				this.unregisterReceiver(mDeviceStateReceiver);
 			} catch (IllegalArgumentException iae) {
 				// I don't know why  this happens:
@@ -268,9 +254,6 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 		if(intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
 			mNotificationAlwaysVisible =true;
-
-		OpenVPN.addStateListener(this);
-		OpenVPN.addByteCountListener(this);
 
         if(intent != null && PAUSE_VPN.equals(intent.getAction()))
         {
@@ -343,7 +326,6 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
                 Thread mSocketManagerThread = new Thread(ovpnManagementThread, "OpenVPNManagementThread");
                 mSocketManagerThread.start();
                 mManagement = ovpnManagementThread;
-                OpenVPN.logInfo("started Socket Thread");
             }
         }
 
@@ -363,10 +345,10 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
         } else {
             HashMap<String, String> env = new HashMap<String, String>();
-            processThread = new OpenVPNThread(this, argv, env, nativelibdir);
+            //processThread = new OpenVPNThread(this, argv, env, nativelibdir);
         }
 
-		mProcessThread = new Thread(processThread, "OpenVPNProcessThread");
+		//mProcessThread = new Thread(processThread, "OpenVPNProcessThread");
 		//mProcessThread.start();
 
 		if(mDeviceStateReceiver!=null)
@@ -395,8 +377,6 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 			this.unregisterReceiver(mDeviceStateReceiver);
 		}
 		// Just in case unregister for state
-		OpenVPN.removeStateListener(this);
-
 	}
 
 	public Builder getVpnServiceBuilder() {
@@ -404,60 +384,6 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 		b.setSession(mProfile.mName);
 		b.setConfigureIntent(getLogPendingIntent());
 		return b;
-	}
-
-	@Override
-	public void updateState(String state,String logmessage, int resid, ConnectionStatus level) {
-		// If the process is not running, ignore any state, 
-		// Notification should be invisible in this state
-		doSendBroadcast(state, level);
-		if(mProcessThread==null && !mNotificationAlwaysVisible)
-			return;
-
-		// Display byte count only after being connected
-
-		{
-			if (level == LEVEL_WAITING_FOR_USER_INPUT) {
-				// The user is presented a dialog of some kind, no need to inform the user 
-				// with a notifcation
-				return;
-			} else if(level == LEVEL_CONNECTED) {
-				mDisplayBytecount = true;
-				mConnecttime = System.currentTimeMillis();
-			} else {
-				mDisplayBytecount = false;
-			}
-
-			// Other notifications are shown,
-			// This also mean we are no longer connected, ignore bytecount messages until next
-			// CONNECTED
-			String ticker = getString(resid);
-			showNotification(getString(resid) +" " + logmessage,ticker,false,0, level);
-
-		}
-	}
-
-	private void doSendBroadcast(String state, ConnectionStatus level) {
-		Intent vpnstatus = new Intent();
-		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
-		vpnstatus.putExtra("status", level.toString());
-		vpnstatus.putExtra("detailstatus", state);
-		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
-	}
-
-	@Override
-	public void updateByteCount(long in, long out, long diffin, long diffout) {
-		if(mDisplayBytecount) {
-			String netstat = String.format(getString(R.string.statusline_bytecount),
-					humanReadableByteCount(in, false),
-					humanReadableByteCount(diffin/ OpenVPNManagement.mBytecountInterval, true),
-					humanReadableByteCount(out, false),
-					humanReadableByteCount(diffout/ OpenVPNManagement.mBytecountInterval, true));
-
-			boolean lowpriority = !mNotificationAlwaysVisible;
-			showNotification(netstat,null,lowpriority,mConnecttime, LEVEL_CONNECTED);
-		}
-
 	}
 
 	// From: http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
@@ -474,17 +400,6 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 			return String.format(Locale.getDefault(),"%.1f %sbit", bytes / Math.pow(unit, exp), pre);
 		else 
 			return String.format(Locale.getDefault(),"%.1f %sB", bytes / Math.pow(unit, exp), pre);
-	}
-
-	@Override
-	public boolean handleMessage(Message msg) {
-		Runnable r = msg.getCallback();
-		if(r!=null){
-			r.run();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	public OpenVPNManagement getManagement() {

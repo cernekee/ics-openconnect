@@ -9,13 +9,12 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.preference.PreferenceManager;
 import app.openconnect.R;
-import app.openconnect.core.OpenVPN.ByteCountListener;
 
 import java.util.LinkedList;
 
 import static app.openconnect.core.OpenVPNManagement.pauseReason;
 
-public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountListener {
+public class DeviceStateReceiver extends BroadcastReceiver {
     private int lastNetwork = -1;
     private OpenVPNManagement mManagement;
 
@@ -48,32 +47,6 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
     }
 
     LinkedList<Datapoint> trafficdata = new LinkedList<DeviceStateReceiver.Datapoint>();
-
-    @Override
-    public void updateByteCount(long in, long out, long diffin, long diffout) {
-        if (screen != connectState.PENDINGDISCONNECT)
-            return;
-
-        long total = diffin + diffout;
-        trafficdata.add(new Datapoint(System.currentTimeMillis(), total));
-
-        while (trafficdata.getFirst().timestamp <= (System.currentTimeMillis() - TRAFFIC_WINDOW * 1000)) {
-            trafficdata.removeFirst();
-        }
-
-        long windowtraffic = 0;
-        for (Datapoint dp : trafficdata)
-            windowtraffic += dp.data;
-
-        if (windowtraffic < TRAFFIC_LIMIT) {
-            screen = connectState.DISCONNECTED;
-            OpenVPN.logInfo(R.string.screenoff_pause,
-                    OpenVpnService.humanReadableByteCount(TRAFFIC_LIMIT, false), TRAFFIC_WINDOW);
-
-            mManagement.pause(getPauseReason());
-        }
-    }
-
 
     public void userPause(boolean pause) {
         if (pause) {

@@ -6,11 +6,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.fragments.AboutFragment;
 import app.openconnect.fragments.FaqFragment;
 import app.openconnect.fragments.GeneralSettings;
-import app.openconnect.fragments.SendDumpFragment;
 import app.openconnect.fragments.VPNProfileList;
 
 
