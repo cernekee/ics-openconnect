@@ -40,10 +40,10 @@ public class SendDumpFragment extends Fragment  {
 		final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
 		emailIntent.setType("*/*");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, 
-				new String[]{"Arne Schwabe <arne@rfc2549.org>"});
+				new String[]{"Kevin Cernekee <cernekee@gmail.com>"});
 
 		String version;
-		String name="ics-openvpn";
+		String name="ics-openconnect";
 		try {
 			PackageInfo packageinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
 			version = packageinfo.versionName;
