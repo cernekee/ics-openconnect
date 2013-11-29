@@ -13,7 +13,6 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 
 import org.infradead.libopenconnect.LibOpenConnect;
-import org.jetbrains.annotations.NotNull;
 
 import com.stericson.RootTools.RootTools;
 
@@ -52,7 +51,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				Context.MODE_PRIVATE);
 	}
 
-    public boolean openManagementInterface(@NotNull Context c) {
+    public boolean openManagementInterface(Context c) {
     	return true;
     }
 
