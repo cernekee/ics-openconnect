@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 import java.io.File;
 
 import android.app.AlertDialog;
@@ -13,8 +13,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.api.ExternalAppDatabase;
+import app.openconnect.R;
+import app.openconnect.api.ExternalAppDatabase;
 
 public class GeneralSettings extends PreferenceFragment implements OnPreferenceClickListener, OnClickListener {
 

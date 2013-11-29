@@ -2,7 +2,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="de.blinkt.openvpn">
+    package="app.openconnect">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,7 +19,7 @@
     <!-- Copy the <permission> block to your app when using the REMOTE API. Otherwise OpenVPN for
         Android needs to be installed first -->
     <permission
-        android:name="de.blinkt.openvpn.REMOTE_API"
+        android:name="app.openconnect.REMOTE_API"
         android:description="@string/permission_description"
         android:label="Control OpenVPN"
         android:permissionGroup="android.permission-group.NETWORK"
@@ -54,7 +54,7 @@
         </activity>
 
         <service
-            android:name="de.blinkt.openvpn.core.OpenVpnService"
+            android:name="app.openconnect.core.OpenVpnService"
             android:permission="android.permission.BIND_VPN_SERVICE" >
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -62,21 +62,21 @@
         </service>
         <service
             android:name=".api.ExternalOpenVPNService"
-            android:permission="de.blinkt.openvpn.REMOTE_API" >
+            android:permission="app.openconnect.REMOTE_API" >
             <intent-filter>
-                <action android:name="de.blinkt.openvpn.api.IOpenVPNAPIService" />
+                <action android:name="app.openconnect.api.IOpenVPNAPIService" />
             </intent-filter>
         </service>
 
         <activity
-            android:permission="de.blinkt.openvpn.REMOTE_API"
+            android:permission="app.openconnect.REMOTE_API"
             android:name=".api.GrantPermissionsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:permission="de.blinkt.openvpn.REMOTE_API"
+            android:permission="app.openconnect.REMOTE_API"
             android:name=".api.ConfirmDialog" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -153,7 +153,7 @@
 
         <provider
             android:name=".FileProvider"
-            android:authorities="de.blinkt.openvpn.FileProvider"
+            android:authorities="app.openconnect.FileProvider"
             android:exported="true"
             android:grantUriPermissions="true"
             tools:ignore="ExportedContentProvider" />

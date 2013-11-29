@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.blinkt.openvpn.VpnProfile;
+import app.openconnect.VpnProfile;
 
 import android.app.Activity;
 import android.content.Context;

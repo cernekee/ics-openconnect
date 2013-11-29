@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import com.stericson.RootTools.RootTools;
 
-import de.blinkt.openvpn.AuthFormHandler;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
+import app.openconnect.AuthFormHandler;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
 

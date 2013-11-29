@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 public interface OpenVPNManagement {
     enum pauseReason {

@@ -1,10 +1,10 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
 import org.spongycastle.util.io.pem.PemObject;
 import org.spongycastle.util.io.pem.PemReader;
 

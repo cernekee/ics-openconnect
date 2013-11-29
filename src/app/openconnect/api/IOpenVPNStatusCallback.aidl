@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 /**
  * Example of a callback interface used by IRemoteService to send

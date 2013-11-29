@@ -1,10 +1,10 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.util.Log;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
-import de.blinkt.openvpn.core.OpenVPN.LogItem;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
+import app.openconnect.core.OpenVPN.ConnectionStatus;
+import app.openconnect.core.OpenVPN.LogItem;
 
 import java.io.*;
 import java.text.SimpleDateFormat;

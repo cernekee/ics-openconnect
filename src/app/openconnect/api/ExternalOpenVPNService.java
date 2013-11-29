@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,14 +21,14 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.core.OpenVPN;
-import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
-import de.blinkt.openvpn.core.OpenVPN.StateListener;
-import de.blinkt.openvpn.core.OpenVpnService;
-import de.blinkt.openvpn.core.OpenVpnService.LocalBinder;
-import de.blinkt.openvpn.core.ProfileManager;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
+import app.openconnect.core.OpenVPN;
+import app.openconnect.core.OpenVPN.ConnectionStatus;
+import app.openconnect.core.OpenVPN.StateListener;
+import app.openconnect.core.OpenVpnService;
+import app.openconnect.core.OpenVpnService.LocalBinder;
+import app.openconnect.core.ProfileManager;
 
 public class ExternalOpenVPNService extends Service implements StateListener {
 
@@ -114,8 +114,8 @@ public class ExternalOpenVPNService extends Service implements StateListener {
 
 			/*
 			Intent shortVPNIntent = new Intent(Intent.ACTION_MAIN);
-			shortVPNIntent.setClass(getBaseContext(),de.blinkt.openvpn.LaunchVPN.class);
-			shortVPNIntent.putExtra(de.blinkt.openvpn.LaunchVPN.EXTRA_KEY,profileUUID);
+			shortVPNIntent.setClass(getBaseContext(),app.openconnect.LaunchVPN.class);
+			shortVPNIntent.putExtra(app.openconnect.LaunchVPN.EXTRA_KEY,profileUUID);
 			shortVPNIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(shortVPNIntent);
 			*/

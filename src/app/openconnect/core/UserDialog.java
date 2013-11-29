@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;

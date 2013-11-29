@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -25,12 +25,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.blinkt.openvpn.FileSelect;
-import de.blinkt.openvpn.OpenConnectPreferencesActivity;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.api.GrantPermissionsActivity;
-import de.blinkt.openvpn.core.ProfileManager;
+import app.openconnect.FileSelect;
+import app.openconnect.OpenConnectPreferencesActivity;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
+import app.openconnect.api.GrantPermissionsActivity;
+import app.openconnect.core.ProfileManager;
 
 public class VPNProfileList extends ListFragment {
 

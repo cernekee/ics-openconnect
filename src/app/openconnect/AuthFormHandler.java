@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
-import de.blinkt.openvpn.core.UserDialog;
+import app.openconnect.core.UserDialog;
 
 import android.app.AlertDialog;
 import android.content.Context;

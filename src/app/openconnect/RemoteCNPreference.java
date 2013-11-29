@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import android.content.Context;
 import android.preference.DialogPreference;

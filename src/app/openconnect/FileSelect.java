@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 
 import java.io.File;
@@ -18,16 +18,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
-import de.blinkt.openvpn.fragments.FileSelectionFragment;
-import de.blinkt.openvpn.fragments.InlineFileTab;
+import app.openconnect.fragments.FileSelectionFragment;
+import app.openconnect.fragments.InlineFileTab;
 
 public class FileSelect extends Activity {
 	public static final String RESULT_DATA = "RESULT_PATH";
 	public static final String START_DATA = "START_DATA";
 	public static final String WINDOW_TITLE = "WINDOW_TILE";
-	public static final String NO_INLINE_SELECTION = "de.blinkt.openvpn.NO_INLINE_SELECTION";
-	public static final String SHOW_CLEAR_BUTTON = "de.blinkt.openvpn.SHOW_CLEAR_BUTTON";
-	public static final String DO_BASE64_ENCODE = "de.blinkt.openvpn.BASE64ENCODE";
+	public static final String NO_INLINE_SELECTION = "app.openconnect.NO_INLINE_SELECTION";
+	public static final String SHOW_CLEAR_BUTTON = "app.openconnect.SHOW_CLEAR_BUTTON";
+	public static final String DO_BASE64_ENCODE = "app.openconnect.BASE64ENCODE";
 	
 	private FileSelectionFragment mFSFragment;
 	private InlineFileTab mInlineFragment;

@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 
 import android.app.Fragment;
 import android.content.pm.PackageInfo;
@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import de.blinkt.openvpn.R;
+import app.openconnect.R;
 
 public class AboutFragment extends Fragment  {
 

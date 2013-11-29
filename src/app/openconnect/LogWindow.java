@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -14,14 +14,14 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
-import de.blinkt.openvpn.core.OpenConnectManagementThread;
-import de.blinkt.openvpn.core.OpenVPN;
-import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
-import de.blinkt.openvpn.core.OpenVPN.LogItem;
-import de.blinkt.openvpn.core.OpenVPN.LogListener;
-import de.blinkt.openvpn.core.OpenVPN.StateListener;
-import de.blinkt.openvpn.core.OpenVpnService;
-import de.blinkt.openvpn.core.OpenVpnService.LocalBinder;
+import app.openconnect.core.OpenConnectManagementThread;
+import app.openconnect.core.OpenVPN;
+import app.openconnect.core.OpenVPN.ConnectionStatus;
+import app.openconnect.core.OpenVPN.LogItem;
+import app.openconnect.core.OpenVPN.LogListener;
+import app.openconnect.core.OpenVPN.StateListener;
+import app.openconnect.core.OpenVpnService;
+import app.openconnect.core.OpenVpnService.LocalBinder;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;

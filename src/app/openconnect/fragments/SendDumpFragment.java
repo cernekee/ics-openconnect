@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.core.OpenVPN;
+import app.openconnect.R;
+import app.openconnect.core.OpenVPN;
 
 public class SendDumpFragment extends Fragment  {
 
@@ -64,8 +64,8 @@ public class SendDumpFragment extends Fragment  {
 			OpenVPN.logError("No Minidump found!");
 		}
 
-		uris.add(Uri.parse("content://de.blinkt.openvpn.FileProvider/" + ldump.getName()));
-		uris.add(Uri.parse("content://de.blinkt.openvpn.FileProvider/" + ldump.getName() + ".log"));
+		uris.add(Uri.parse("content://app.openconnect.FileProvider/" + ldump.getName()));
+		uris.add(Uri.parse("content://app.openconnect.FileProvider/" + ldump.getName() + ".log"));
 
 		emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);

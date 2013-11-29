@@ -1,3 +1,3 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 parcelable APIVpnProfile;

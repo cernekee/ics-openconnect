@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;

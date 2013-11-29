@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.Manifest.permission;
 import android.annotation.TargetApi;
@@ -14,31 +14,31 @@ import android.net.VpnService;
 import android.os.*;
 import android.os.Handler.Callback;
 import android.preference.PreferenceManager;
-import de.blinkt.openvpn.LogWindow;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.api.GrantPermissionsActivity;
-import de.blinkt.openvpn.core.OpenVPN.ByteCountListener;
-import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
-import de.blinkt.openvpn.core.OpenVPN.StateListener;
+import app.openconnect.LogWindow;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
+import app.openconnect.api.GrantPermissionsActivity;
+import app.openconnect.core.OpenVPN.ByteCountListener;
+import app.openconnect.core.OpenVPN.ConnectionStatus;
+import app.openconnect.core.OpenVPN.StateListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static de.blinkt.openvpn.core.OpenVPN.ConnectionStatus.*;
+import static app.openconnect.core.OpenVPN.ConnectionStatus.*;
 
 public class OpenVpnService extends VpnService implements StateListener, Callback, ByteCountListener {
-	public static final String START_SERVICE = "de.blinkt.openvpn.START_SERVICE";
-	public static final String START_SERVICE_STICKY = "de.blinkt.openvpn.START_SERVICE_STICKY";
-	public static final String ALWAYS_SHOW_NOTIFICATION = "de.blinkt.openvpn.NOTIFICATION_ALWAYS_VISIBLE";
+	public static final String START_SERVICE = "app.openconnect.START_SERVICE";
+	public static final String START_SERVICE_STICKY = "app.openconnect.START_SERVICE_STICKY";
+	public static final String ALWAYS_SHOW_NOTIFICATION = "app.openconnect.NOTIFICATION_ALWAYS_VISIBLE";
 
 	public static final String EXTRA_UUID = ".UUID";
 
-    public static final String DISCONNECT_VPN = "de.blinkt.openvpn.DISCONNECT_VPN";
-    private static final String PAUSE_VPN = "de.blinkt.openvpn.PAUSE_VPN";
-    private static final String RESUME_VPN = "de.blinkt.openvpn.RESUME_VPN";
+    public static final String DISCONNECT_VPN = "app.openconnect.DISCONNECT_VPN";
+    private static final String PAUSE_VPN = "app.openconnect.PAUSE_VPN";
+    private static final String RESUME_VPN = "app.openconnect.RESUME_VPN";
 
 
     private Thread mProcessThread=null;
@@ -251,7 +251,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 				this.unregisterReceiver(mDeviceStateReceiver);
 			} catch (IllegalArgumentException iae) {
 				// I don't know why  this happens:
-				// java.lang.IllegalArgumentException: Receiver not registered: de.blinkt.openvpn.NetworkSateReceiver@41a61a10
+				// java.lang.IllegalArgumentException: Receiver not registered: app.openconnect.NetworkSateReceiver@41a61a10
 				// Ignore for now ...
 				iae.printStackTrace();
 			}

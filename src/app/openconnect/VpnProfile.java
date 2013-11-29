@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import java.io.*;
 import java.security.PrivateKey;
@@ -27,7 +27,7 @@ public class VpnProfile implements Serializable {
     public static final int X509_VERIFY_TLSREMOTE_RDN = 3;
     public static final int X509_VERIFY_TLSREMOTE_RDN_PREFIX = 4;
     // Don't change this, not all parts of the program use this constant
-    public static final String EXTRA_PROFILEUUID = "de.blinkt.openvpn.profileUUID";
+    public static final String EXTRA_PROFILEUUID = "app.openconnect.profileUUID";
     public static final String INLINE_TAG = "[[INLINE]]";
     public static final String MINIVPN = "miniopenvpn";
     private static final long serialVersionUID = 7085688938959334563L;

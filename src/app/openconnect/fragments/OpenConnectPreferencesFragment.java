@@ -1,10 +1,10 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 
 import java.util.Map;
 
-import de.blinkt.openvpn.FileSelect;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.ShowTextPreference;
+import app.openconnect.FileSelect;
+import app.openconnect.R;
+import app.openconnect.ShowTextPreference;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.ListPreference;

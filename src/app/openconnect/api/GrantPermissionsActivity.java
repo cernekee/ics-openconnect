@@ -1,6 +1,6 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
-import de.blinkt.openvpn.core.OpenVpnService;
+import app.openconnect.core.OpenVpnService;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.VpnService;

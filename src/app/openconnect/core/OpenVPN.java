@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.blinkt.openvpn.R;
+import app.openconnect.R;
 
 import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;

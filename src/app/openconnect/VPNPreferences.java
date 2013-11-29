@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import de.blinkt.openvpn.core.OpenConnectManagementThread;
-import de.blinkt.openvpn.core.ProfileManager;
-import de.blinkt.openvpn.fragments.VPNProfileList;
+import app.openconnect.core.OpenConnectManagementThread;
+import app.openconnect.core.ProfileManager;
+import app.openconnect.fragments.VPNProfileList;
 
 
 public class VPNPreferences extends PreferenceActivity {

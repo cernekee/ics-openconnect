@@ -1,10 +1,10 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import de.blinkt.openvpn.api.GrantPermissionsActivity;
-import de.blinkt.openvpn.core.ProfileManager;
+import app.openconnect.api.GrantPermissionsActivity;
+import app.openconnect.core.ProfileManager;
 
 
 public class OnBootReceiver extends BroadcastReceiver {

@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import java.io.File;
 import java.io.FileInputStream;

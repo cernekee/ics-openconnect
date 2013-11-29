@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import de.blinkt.openvpn.R;
+import app.openconnect.R;
 
 /**
  * Created by arne on 25.07.13.

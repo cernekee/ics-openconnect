@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,7 +29,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import de.blinkt.openvpn.R;
+import app.openconnect.R;
 
 
 public class ConfirmDialog extends Activity implements

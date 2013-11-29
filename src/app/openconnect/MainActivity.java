@@ -1,4 +1,4 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -6,12 +6,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import de.blinkt.openvpn.core.OpenConnectManagementThread;
-import de.blinkt.openvpn.fragments.AboutFragment;
-import de.blinkt.openvpn.fragments.FaqFragment;
-import de.blinkt.openvpn.fragments.GeneralSettings;
-import de.blinkt.openvpn.fragments.SendDumpFragment;
-import de.blinkt.openvpn.fragments.VPNProfileList;
+import app.openconnect.core.OpenConnectManagementThread;
+import app.openconnect.fragments.AboutFragment;
+import app.openconnect.fragments.FaqFragment;
+import app.openconnect.fragments.GeneralSettings;
+import app.openconnect.fragments.SendDumpFragment;
+import app.openconnect.fragments.VPNProfileList;
 
 
 public class MainActivity extends Activity {

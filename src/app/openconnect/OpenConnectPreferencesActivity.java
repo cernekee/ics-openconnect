@@ -1,8 +1,8 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
-import de.blinkt.openvpn.core.ProfileManager;
-import de.blinkt.openvpn.fragments.OpenConnectPreferencesFragment;
-import de.blinkt.openvpn.fragments.VPNProfileList;
+import app.openconnect.core.ProfileManager;
+import app.openconnect.fragments.OpenConnectPreferencesFragment;
+import app.openconnect.fragments.VPNProfileList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

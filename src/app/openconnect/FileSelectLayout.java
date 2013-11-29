@@ -1,6 +1,6 @@
-package de.blinkt.openvpn;
+package app.openconnect;
 
-import de.blinkt.openvpn.core.X509Utils;
+import app.openconnect.core.X509Utils;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;

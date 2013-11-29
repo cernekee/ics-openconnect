@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.fragments;
+package app.openconnect.fragments;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import de.blinkt.openvpn.FileSelect;
-import de.blinkt.openvpn.R;
+import app.openconnect.FileSelect;
+import app.openconnect.R;
 
 public class FileSelectionFragment extends ListFragment {
 

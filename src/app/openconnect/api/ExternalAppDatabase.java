@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.api;
+package app.openconnect.api;
 
 import java.util.HashSet;
 import java.util.Set;

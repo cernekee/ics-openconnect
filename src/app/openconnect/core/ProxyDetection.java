@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -9,8 +9,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.VpnProfile;
+import app.openconnect.R;
+import app.openconnect.VpnProfile;
 
 public class ProxyDetection {
 	static SocketAddress detectProxy(VpnProfile vp) {

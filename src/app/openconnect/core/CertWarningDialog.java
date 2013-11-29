@@ -1,6 +1,6 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
-import de.blinkt.openvpn.R;
+import app.openconnect.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

@@ -11,7 +11,7 @@
             android:key="server_address"
             android:title="@string/server_address"
             android:defaultValue="" />
-        <de.blinkt.openvpn.ShowTextPreference
+        <app.openconnect.ShowTextPreference
             android:key="ca_certificate"
             android:title="@string/ca_certificate"
             android:defaultValue="" />
@@ -19,11 +19,11 @@
     <PreferenceCategory
         android:title="@string/authentication"
         android:key="pref_key_authentication">
-        <de.blinkt.openvpn.ShowTextPreference
+        <app.openconnect.ShowTextPreference
             android:key="user_certificate"
             android:title="@string/user_certificate"
             android:defaultValue="" />
-        <de.blinkt.openvpn.ShowTextPreference
+        <app.openconnect.ShowTextPreference
             android:key="private_key"
             android:title="@string/private_key"
             android:defaultValue="" />
@@ -38,7 +38,7 @@
             android:key="token_string"
             android:title="@string/token_string"
             android:defaultValue="" />
-        <de.blinkt.openvpn.ClearPasswordPreference
+        <app.openconnect.ClearPasswordPreference
             android:key="clear_saved_passwords"
             android:title="@string/clear_saved_passwords"
             android:dialogTitle="@string/clear_saved_passwords"
@@ -64,7 +64,7 @@
             android:entries="@array/reported_os_entries"
             android:entryValues="@array/reported_os_values"
             android:defaultValue="android" />
-        <de.blinkt.openvpn.ShowTextPreference
+        <app.openconnect.ShowTextPreference
             android:key="custom_csd_wrapper"
             android:title="@string/custom_csd_wrapper"
             android:defaultValue="" />

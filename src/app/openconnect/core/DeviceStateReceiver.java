@@ -1,4 +1,4 @@
-package de.blinkt.openvpn.core;
+package app.openconnect.core;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,12 +8,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.preference.PreferenceManager;
-import de.blinkt.openvpn.R;
-import de.blinkt.openvpn.core.OpenVPN.ByteCountListener;
+import app.openconnect.R;
+import app.openconnect.core.OpenVPN.ByteCountListener;
 
 import java.util.LinkedList;
 
-import static de.blinkt.openvpn.core.OpenVPNManagement.pauseReason;
+import static app.openconnect.core.OpenVPNManagement.pauseReason;
 
 public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountListener {
     private int lastNetwork = -1;
