@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import de.blinkt.openvpn.LogWindow;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VpnProfile;
+import de.blinkt.openvpn.api.GrantPermissionsActivity;
 import de.blinkt.openvpn.core.OpenVPN.ByteCountListener;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPN.StateListener;
@@ -33,6 +34,8 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 	public static final String START_SERVICE = "de.blinkt.openvpn.START_SERVICE";
 	public static final String START_SERVICE_STICKY = "de.blinkt.openvpn.START_SERVICE_STICKY";
 	public static final String ALWAYS_SHOW_NOTIFICATION = "de.blinkt.openvpn.NOTIFICATION_ALWAYS_VISIBLE";
+
+	public static final String EXTRA_UUID = ".UUID";
 
     public static final String DISCONNECT_VPN = "de.blinkt.openvpn.DISCONNECT_VPN";
     private static final String PAUSE_VPN = "de.blinkt.openvpn.PAUSE_VPN";
@@ -69,11 +72,14 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	private final IBinder mBinder = new LocalBinder();
 	private boolean mOvpn3 = false;
-    
+
+	private String mUUID;
 	private OpenVPNManagement mManagement;
 
 	private UserDialog mDialog;
 	private Context mDialogContext;
+
+	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
 
 	public class LocalBinder extends Binder {
 		public OpenVpnService getService() {
@@ -301,9 +307,9 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 		String prefix = getPackageName();
 		String[] argv = { }; //intent.getStringArrayExtra(prefix + ".ARGV");
 		String nativelibdir = ""; //intent.getStringExtra(prefix + ".nativelib");
-		String profileUUID = intent.getStringExtra(prefix + ".UUID");
+		mUUID = intent.getStringExtra(prefix + EXTRA_UUID);
 
-		mProfile = ProfileManager.get(this,profileUUID);
+		mProfile = ProfileManager.get(this, mUUID);
 
 		String startTitle = getString(R.string.start_vpn_title, mProfile.mName);
 		String startTicker = getString(R.string.start_vpn_ticker, mProfile.mName);
@@ -675,6 +681,12 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 		mDialog = dialog;
 	}
 
+	private void wakeUpActivity() {
+		Intent vpnstatus = new Intent();
+		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
+		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
+	}
+
 	/* called from the VPN thread; blocks until user responds */
 	public Object promptUser(UserDialog dialog) {
 		Object ret;
@@ -685,14 +697,31 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 		}
 
 		setDialog(null, dialog);
-
-		Intent vpnstatus = new Intent();
-		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
-		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
-
+		wakeUpActivity();
 		ret = mDialog.waitForResponse();
 
 		setDialog(null, null);
 		return ret;
+	}
+
+	public synchronized void setConnectionState(int state) {
+		mConnectionState = state;
+		wakeUpActivity();
+	}
+
+	public synchronized int getConnectionState() {
+		return mConnectionState;
+	}
+
+	public void startReconnectActivity(Context context) {
+		Intent intent = new Intent(context, GrantPermissionsActivity.class);
+		intent.putExtra(getPackageName() + GrantPermissionsActivity.EXTRA_UUID, mUUID);
+		context.startActivity(intent);
+	}
+
+	public void stopVPN() {
+		if (mManagement != null) {
+			mManagement.stopVPN();
+		}
 	}
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
+import de.blinkt.openvpn.core.OpenConnectManagementThread;
 import de.blinkt.openvpn.core.OpenVPN;
 import de.blinkt.openvpn.core.OpenVPN.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPN.LogItem;
@@ -21,7 +22,6 @@ import de.blinkt.openvpn.core.OpenVPN.LogListener;
 import de.blinkt.openvpn.core.OpenVPN.StateListener;
 import de.blinkt.openvpn.core.OpenVpnService;
 import de.blinkt.openvpn.core.OpenVpnService.LocalBinder;
-import de.blinkt.openvpn.core.ProfileManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -36,6 +36,9 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 	protected BroadcastReceiver mReceiver; 
 	protected OpenVpnService mService;
+
+    private MenuItem mCancelButton;
+    private boolean mDisconnected;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -245,47 +248,22 @@ public class LogWindow extends ListActivity implements StateListener  {
 	private LogWindowListAdapter ladapter;
 	private TextView mSpeedView;
 
-    private void showDisconnectDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_cancel);
-        builder.setMessage(R.string.cancel_connection_query);
-        builder.setNegativeButton(android.R.string.no, null);
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ProfileManager.setConntectedVpnProfileDisconnected(LogWindow.this);
-                if (mService != null && mService.getManagement() != null)
-                    mService.getManagement().stopVPN();
-            }
-        });
-
-        builder.show();
-    }
-
-
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId()==R.id.clearlog) {
 			ladapter.clearLog();
 			return true;
-		} else if(item.getItemId()==R.id.cancel){
-            showDisconnectDialog();
+		} else if(item.getItemId()==R.id.cancel) {
+			if (mDisconnected) {
+				if (mService != null) {
+					mService.startReconnectActivity(this);
+				}
+			} else {
+				stopVPN();
+			}
             return true;
         } else if(item.getItemId()==R.id.send) {
 			ladapter.shareLog();
-		/*
-		} else if(item.getItemId()==R.id.edit_vpn) {
-			VpnProfile lastConnectedprofile = ProfileManager.getLastConnectedVpn();
-
-			if(lastConnectedprofile!=null) {
-				Intent vprefintent = new Intent(this,VPNPreferences.class)
-				.putExtra(VpnProfile.EXTRA_PROFILEUUID,lastConnectedprofile.getUUIDString());
-				startActivityForResult(vprefintent,START_VPN_CONFIG);
-			} else {
-				Toast.makeText(this, R.string.log_no_last_vpn, Toast.LENGTH_LONG).show();
-			}
-		*/
 		} else if(item.getItemId() == R.id.toggle_time) {
 			ladapter.nextTimeFormat();
 		} else if(item.getItemId() == android.R.id.home) {
@@ -304,19 +282,36 @@ public class LogWindow extends ListActivity implements StateListener  {
 
 	}
 
-    private MenuItem cancelButton;
-
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.logmenu, menu);
-		cancelButton = menu.findItem(R.id.cancel);
+		mCancelButton = menu.findItem(R.id.cancel);
+		updateUI();
 		return true;
 	}
 
     private synchronized void updateUI() {
     	if (mService != null) {
     		mService.startActiveDialog(this);
+
+    		int state = mService.getConnectionState();
+    		if (mCancelButton != null) {
+    			String title;
+    			if (state == OpenConnectManagementThread.STATE_DISCONNECTED) {
+    				title = getString(R.string.reconnect);
+    				mCancelButton.setIcon(android.R.drawable.ic_menu_rotate);
+    				mDisconnected = true;
+    			} else {
+    				title = getString(R.string.disconnect);
+    				mCancelButton.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+    				mDisconnected = false;
+    			}
+				mCancelButton.setTitle(title);
+				mCancelButton.setTitleCondensed(title);
+    		}
+    		String states[] = getResources().getStringArray(R.array.connection_states);
+    		mSpeedView.setText(states[state]);
     	}
     }
 
@@ -397,7 +392,9 @@ public class LogWindow extends ListActivity implements StateListener  {
 	}
 
     private void stopVPN() {
-    	// FIXME
+    	if (mService != null) {
+    		mService.stopVPN();
+    	}
     }
 
     private void handleBackButton() {
@@ -407,16 +404,20 @@ public class LogWindow extends ListActivity implements StateListener  {
 
     @Override
     public void onBackPressed() {
+    	if (mDisconnected) {
+    		super.onBackPressed();
+    		return;
+    	}
     	new AlertDialog.Builder(this)
     		.setTitle(R.string.cancel_connection_long)
     		.setMessage(R.string.cancel_connection_query)
-    		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+    		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					handleBackButton();
 				}
     		})
-    		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 				}

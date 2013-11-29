@@ -24,6 +24,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	public static final String TAG = "OpenConnect";
 
+	// Keep these in sync with the "connection_states" string array
 	public static final int STATE_AUTHENTICATING = 1;
 	public static final int STATE_USER_PROMPT = 2;
 	public static final int STATE_AUTHENTICATED = 3;
@@ -127,8 +128,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		setState(STATE_DISCONNECTED);
 	}
 
-	private void setState(int state) {
-		log("New state: " + state);
+	private synchronized void setState(int state) {
+		mOpenVPNService.setConnectionState(state);
 	}
 
 	private String prefToTempFile(String prefName, boolean isExecutable) throws IOException {

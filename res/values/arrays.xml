@@ -65,4 +65,13 @@
         <item>win</item>
         <item>mac</item>
     </string-array>
+    <string-array name="connection_states">
+        <item>Unknown</item>
+        <item>Authenticating</item>
+        <item>Prompting for user input</item>
+        <item>Authenticated</item>
+        <item>Connecting</item>
+        <item>Connected</item>
+        <item>Disconnected</item>
+    </string-array>
 </resources>

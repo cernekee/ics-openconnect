@@ -7,8 +7,8 @@ import android.net.VpnService;
 import android.os.Bundle;
 
 public class GrantPermissionsActivity extends Activity {
-	public static final String EXTRA_UUID = ".UUID";
 	public static final String EXTRA_START_ACTIVITY = ".start_activity";
+	public static final String EXTRA_UUID = ".UUID";
 
 	private String mUUID;
 	private String mStartActivity;
@@ -41,7 +41,7 @@ public class GrantPermissionsActivity extends Activity {
 
 		if (resultCode == RESULT_OK) {
 	    	Intent intent = new Intent(getBaseContext(), OpenVpnService.class);
-	    	intent.putExtra(getPackageName() + EXTRA_UUID, mUUID);
+	    	intent.putExtra(getPackageName() + OpenVpnService.EXTRA_UUID, mUUID);
 	    	startService(intent);
 
 	    	if (mStartActivity != null) {
