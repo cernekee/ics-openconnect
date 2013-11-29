@@ -34,21 +34,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             tools:ignore="SelectableText" />
-
-        <TextView
-            android:id="@+id/import_vpn_hint"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="SelectableText" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="12sp" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/faq_hint" />
     </LinearLayout>
 
 </LinearLayout>
