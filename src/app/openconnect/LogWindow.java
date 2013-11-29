@@ -30,6 +30,7 @@ public class LogWindow extends ListActivity {
 	private ListView mLogView;
 
 	private TextView mSpeedView;
+	private AlertDialog mAlert;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -152,6 +153,9 @@ public class LogWindow extends ListActivity {
     		mLogAdapter = null;
     	}
         unbindService(mConnection);
+        if (mAlert != null) {
+        	mAlert.dismiss();
+        }
 		super.onStop();
     }
 
@@ -197,7 +201,7 @@ public class LogWindow extends ListActivity {
     		super.onBackPressed();
     		return;
     	}
-    	new AlertDialog.Builder(this)
+    	mAlert = new AlertDialog.Builder(this)
     		.setTitle(R.string.cancel_connection_long)
     		.setMessage(R.string.cancel_connection_query)
     		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -211,8 +215,14 @@ public class LogWindow extends ListActivity {
 				public void onClick(DialogInterface dialog, int which) {
 				}
     		})
-    		.create()
-    		.show();
+    		.create();
+    	mAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				mAlert = null;
+			}
+		});
+    	mAlert.show();
     }
 
 	@Override
