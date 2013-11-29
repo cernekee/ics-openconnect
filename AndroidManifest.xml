@@ -16,12 +16,12 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
 
-    <!-- Copy the <permission> block to your app when using the REMOTE API. Otherwise OpenVPN for
-        Android needs to be installed first -->
+    <!-- Copy the <permission> block to your app when using the REMOTE API. Otherwise OpenConnect
+        needs to be installed first -->
     <permission
         android:name="app.openconnect.REMOTE_API"
         android:description="@string/permission_description"
-        android:label="Control OpenVPN"
+        android:label="Control OpenConnect"
         android:permissionGroup="android.permission-group.NETWORK"
         android:protectionLevel="dangerous" />
 

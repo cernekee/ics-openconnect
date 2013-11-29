@@ -16,8 +16,8 @@ Prerequisites:
 
 Quick start:
 
-    git clone git://github.com/cernekee/ics-openvpn
-    cd ics-openvpn
+    git clone git://github.com/cernekee/ics-openconnect
+    cd ics-openconnect
     android update project -p .
     ant debug
 
