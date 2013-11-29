@@ -211,8 +211,8 @@ public class ExternalOpenVPNService extends Service {
 		@Override
 		public void disconnect() throws RemoteException {
 			checkOpenVPNPermission();
-			if(mService!=null && mService.getManagement()!=null)
-				mService.getManagement().stopVPN();
+			if(mService != null)
+				mService.stopVPN();
 		}
 	};
 

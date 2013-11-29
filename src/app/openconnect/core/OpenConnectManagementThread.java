@@ -51,10 +51,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				Context.MODE_PRIVATE);
 	}
 
-    public boolean openManagementInterface(Context c) {
-    	return true;
-    }
-
     private String getStringPref(final String key) {
     	return mPrefs.getString(key, "");
     }
