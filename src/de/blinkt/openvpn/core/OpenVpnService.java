@@ -26,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Vector;
 
 import static de.blinkt.openvpn.core.OpenVPN.ConnectionStatus.*;
 
@@ -44,19 +43,8 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
     private Thread mProcessThread=null;
 
-	private final Vector<String> mDnslist=new Vector<String>();
-
 	private VpnProfile mProfile;
 
-	private String mDomain=null;
-
-	private final Vector<CIDRIP> mRoutes=new Vector<CIDRIP>();
-	private final Vector<String> mRoutesv6=new Vector<String>();
-
-	private CIDRIP mLocalIP=null;
-
-	private int mMtu;
-	private String mLocalIPv6=null;
 	private DeviceStateReceiver mDeviceStateReceiver;
 
 	private boolean mDisplayBytecount=false;
@@ -407,172 +395,11 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
 	}
 
-
-
-	public ParcelFileDescriptor openTun() {
-		Builder builder = new Builder();
-
-		if(mLocalIP==null && mLocalIPv6==null) {
-			OpenVPN.logMessage(0, "", getString(R.string.opentun_no_ipaddr));
-			return null;
-		}
-
-		if(mLocalIP!=null) {
-			builder.addAddress(mLocalIP.mIp, mLocalIP.len);
-		}
-
-		if(mLocalIPv6!=null) {
-			String[] ipv6parts = mLocalIPv6.split("/");
-			builder.addAddress(ipv6parts[0],Integer.parseInt(ipv6parts[1]));
-		}
-
-
-		for (String dns : mDnslist ) {
-			try {
-				builder.addDnsServer(dns);
-			} catch (IllegalArgumentException iae) {
-				OpenVPN.logError(R.string.dns_add_error, dns,iae.getLocalizedMessage());
-			}
-		}
-
-
-		builder.setMtu(mMtu);
-
-
-		for (CIDRIP route:mRoutes) {
-			try {
-				builder.addRoute(route.mIp, route.len);
-			} catch (IllegalArgumentException ia) {
-				OpenVPN.logMessage(0, "", getString(R.string.route_rejected) + route + " " + ia.getLocalizedMessage());
-			}
-		}
-
-		for(String v6route:mRoutesv6) {
-			try {
-				String[] v6parts = v6route.split("/");
-				builder.addRoute(v6parts[0],Integer.parseInt(v6parts[1]));
-			} catch (IllegalArgumentException ia) {
-				OpenVPN.logMessage(0, "", getString(R.string.route_rejected) + v6route + " " + ia.getLocalizedMessage());
-			}
-		}
-
-		if(mDomain!=null)
-			builder.addSearchDomain(mDomain);
-
-		OpenVPN.logInfo(R.string.last_openvpn_tun_config);
-		OpenVPN.logInfo(R.string.local_ip_info,mLocalIP.mIp,mLocalIP.len,mLocalIPv6, mMtu);
-		OpenVPN.logInfo(R.string.dns_server_info, joinString(mDnslist), mDomain);
-		OpenVPN.logInfo(R.string.routes_info, joinString(mRoutes));
-		OpenVPN.logInfo(R.string.routes_info6, joinString(mRoutesv6));
-
-		String session = mProfile.mName;
-		if(mLocalIP!=null && mLocalIPv6!=null)
-			session = getString(R.string.session_ipv6string,session, mLocalIP, mLocalIPv6);
-		else if (mLocalIP !=null)
-			session= getString(R.string.session_ipv4string, session, mLocalIP);
-
-		builder.setSession(session);
-
-		// No DNS Server, log a warning 
-		if(mDnslist.size()==0)
-			OpenVPN.logInfo(R.string.warn_no_dns);
-
-		// Reset information
-		mDnslist.clear();
-		mRoutes.clear();
-		mRoutesv6.clear();
-		mLocalIP=null;
-		mLocalIPv6=null;
-		mDomain=null;
-
-		builder.setConfigureIntent(getLogPendingIntent());
-
-		try {
-            return builder.establish();
-		} catch (Exception e) {
-			OpenVPN.logMessage(0, "", getString(R.string.tun_open_error));
-			OpenVPN.logMessage(0, "", getString(R.string.error) + e.getLocalizedMessage());
-			OpenVPN.logMessage(0, "", getString(R.string.tun_error_helpful));
-			return null;
-		}
-
-	}
-
-
-	// Ugly, but java has no such method
-	private <T> String joinString(Vector<T> vec) {
-		String ret = "";
-		if(vec.size() > 0){ 
-			ret = vec.get(0).toString();
-			for(int i=1;i < vec.size();i++) {
-				ret = ret + ", " + vec.get(i).toString();
-			}
-		}
-		return ret;
-	}
-
-
-
-
-
-
-	public void addDNS(String dns) {
-		mDnslist.add(dns);		
-	}
-
-
-	public void setDomain(String domain) {
-		if(mDomain==null) {
-			mDomain=domain;
-		}
-	}
-
-	public void addRoute(String dest, String mask) {
-		CIDRIP route = new CIDRIP(dest, mask);		
-		if(route.len == 32 && !mask.equals("255.255.255.255")) {
-			OpenVPN.logMessage(0, "", getString(R.string.route_not_cidr,dest,mask));
-		}
-
-		if(route.normalise())
-			OpenVPN.logMessage(0, "", getString(R.string.route_not_netip,dest,route.len,route.mIp));
-
-		mRoutes.add(route);
-	}
-
-	public void addRoutev6(String extra) {
-		mRoutesv6.add(extra);		
-	}
-
-	public void setMtu(int mtu) {
-		mMtu=mtu;
-	}
-
-    public void setLocalIP(CIDRIP cdrip)
-	{
-		mLocalIP=cdrip;
-	}
-
-
-	public void setLocalIP(String local, String netmask,int mtu, String mode) {
-		mLocalIP = new CIDRIP(local, netmask);
-		mMtu = mtu;
-
-		if(mLocalIP.len == 32 && !netmask.equals("255.255.255.255")) {
-			// get the netmask as IP
-			long netint = CIDRIP.getInt(netmask);
-			if(Math.abs(netint - mLocalIP.getInt()) ==1) {
-				if("net30".equals(mode))
-					mLocalIP.len=30;
-				else
-					mLocalIP.len=31;
-			} else {
-				OpenVPN.logMessage(0, "", getString(R.string.ip_not_cidr, local,netmask,mode));
-			}
-		}
-	}
-
-	public void setLocalIPv6(String ipv6addr) {
-		mLocalIPv6 = ipv6addr;
+	public Builder getVpnServiceBuilder() {
+		VpnService.Builder b = new VpnService.Builder();
+		b.setSession(mProfile.mName);
+		b.setConfigureIntent(getLogPendingIntent());
+		return b;
 	}
 
 	@Override

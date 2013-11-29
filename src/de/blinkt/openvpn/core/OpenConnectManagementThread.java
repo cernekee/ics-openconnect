@@ -9,6 +9,7 @@ import java.io.Writer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 
 import org.infradead.libopenconnect.LibOpenConnect;
@@ -216,6 +217,54 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return true;
 	}
 
+	private void setIPInfo(VpnService.Builder b) {
+		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
+		CIDRIP cdr;
+
+		/* IP + MTU */
+
+		if (ip.addr != null && ip.netmask != null) {
+			cdr = new CIDRIP(ip.addr, ip.netmask);
+			b.addAddress(cdr.mIp, cdr.len);
+			log("IPv4: " + cdr.mIp + "/" + cdr.len);
+		}
+		if (ip.addr6 != null && ip.netmask6 != null) {
+			int netmask = Integer.parseInt(ip.netmask6);
+			b.addAddress(ip.addr6, netmask);
+			log("IPv6: " + ip.addr6 + "/" + netmask);
+		}
+		b.setMtu(ip.MTU);
+		log("MTU: " + ip.MTU);
+
+		/* routing */
+
+		if (ip.splitIncludes.isEmpty()) {
+			b.addRoute("0.0.0.0", 0);
+			log("ROUTE: 0.0.0.0/0");
+		} else {
+			for (String s : ip.splitIncludes) {
+				String ss[] = s.split("/");
+				cdr = new CIDRIP(ss[0], ss[1]);
+				b.addRoute(cdr.mIp, cdr.len);
+				log("ROUTE: " + cdr.mIp + "/" + cdr.len);
+			}
+			for (String s : ip.DNS) {
+				b.addRoute(s, 32);
+			}
+		}
+
+		/* DNS */
+
+		for (String s : ip.DNS) {
+			b.addDnsServer(s);
+			log("DNS: " + s);
+		}
+		if (ip.domain != null) {
+			b.addSearchDomain(ip.domain);
+			log("DOMAIN: " + ip.domain);
+		}
+	}
+
 	private boolean runVPN() {
 		initNative();
 
@@ -245,26 +294,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return false;
 		}
 
-		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
-		mOpenVPNService.setLocalIP(ip.addr, ip.netmask, ip.MTU, "");
+		VpnService.Builder b = mOpenVPNService.getVpnServiceBuilder();
+		setIPInfo(b);
 
-		for (String s : ip.DNS) {
-			mOpenVPNService.addDNS(s);
-		}
-
-		if (ip.splitIncludes.isEmpty()) {
-			mOpenVPNService.addRoute("0.0.0.0", "0.0.0.0");
-		} else {
-			for (String s : ip.splitIncludes) {
-				String ss[] = s.split("/");
-				mOpenVPNService.addRoute(ss[0], ss[1]);
-			}
-			for (String s : ip.DNS) {
-				mOpenVPNService.addRoute(s, "255.255.255.255");
-			}
-		}
-
-		ParcelFileDescriptor pfd = mOpenVPNService.openTun();
+		ParcelFileDescriptor pfd = b.establish();
 		if (pfd == null || mOC.setupTunFD(pfd.getFd()) != 0) {
 			log("Error setting up tunnel fd");
 			return false;
