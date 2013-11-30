@@ -306,6 +306,6 @@ public class OpenVpnService extends VpnService {
 
 	public void stopVPN() {
 		killVPNThread(false);
-		ProfileManager.setConntectedVpnProfileDisconnected(this);
+		ProfileManager.setConnectedVpnProfileDisconnected(this);
 	}
 }
