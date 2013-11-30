@@ -135,7 +135,7 @@ public class VPNLog {
 	public String dump() {
 		StringBuilder ret = new StringBuilder();
 		for (Object s : circ.toArray()) {
-			ret.append((String)s + "\n");
+			ret.append(s.toString() + "\n");
 		}
 		return ret.toString();
 	}

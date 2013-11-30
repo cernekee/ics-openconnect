@@ -3,6 +3,8 @@ package app.openconnect;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.*;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -50,6 +52,39 @@ public class LogWindow extends ListActivity {
 		}
 	};
 
+	private void sendReport() {
+		String ver, dataText;
+
+		if (mService == null) {
+			return;
+		}
+		dataText = mService.dumpLog();
+
+		try {
+			ver = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			ver = "???";
+		}
+
+		// "ENTER PROBLEM DESCRIPTION" on the top (K9) and bottom (Email.apk) to cover both
+		// types of client behavior
+		String body = getString(R.string.enter_problem) + "\n\n\n\n" +
+				dataText + "\n\n" +
+				getString(R.string.enter_problem) + "\n\n";
+
+		String uriText = "mailto:cernekee@gmail.com?subject=" +
+				Uri.encode("ics-openconnect problem report - v" + ver) + "&body=" +
+				Uri.encode(body);
+		Intent email = new Intent(Intent.ACTION_SENDTO);
+		email.setData(Uri.parse(uriText));
+
+		// this shouldn't be necessary, but the default Android email client overrides
+		// "body=" from the URI.  See MessageCompose.initFromIntent()
+		email.putExtra(Intent.EXTRA_TEXT, body);
+
+		startActivity(Intent.createChooser(email, getString(R.string.send_logfile)));
+	}
+
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId()==R.id.clearlog) {
@@ -65,7 +100,7 @@ public class LogWindow extends ListActivity {
 			}
             return true;
         } else if(item.getItemId()==R.id.send) {
-			// XXX mLogAdapter.shareLog();
+        	sendReport();
 		} else if(item.getItemId() == R.id.toggle_time) {
 			mLogAdapter.setTimeFormat(VPNLog.TIME_FORMAT_TOGGLE);
 		} else if(item.getItemId() == android.R.id.home) {
