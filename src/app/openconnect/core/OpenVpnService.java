@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.VpnService;
 import android.os.*;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import app.openconnect.LogWindow;
 import app.openconnect.VpnProfile;
@@ -33,6 +35,7 @@ public class OpenVpnService extends VpnService {
 	private final IBinder mBinder = new LocalBinder();
 
 	private String mUUID;
+	private int mStartId;
 
 	private Thread mVPNThread;
 	private OpenConnectManagementThread mVPN;
@@ -63,35 +66,48 @@ public class OpenVpnService extends VpnService {
 
 	@Override
 	public void onRevoke() {
-		endVpnService();
+		Log.i(TAG, "VPN access has been revoked");
+		stopVPN();
+	}
+
+	@Override
+	public void onCreate() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+		// Restore service state from disk if available
+		// This gets overwritten if somebody calls startService()
+		// NOTE: We aren't saving the log buffer
+		mUUID = prefs.getString("service_mUUID", "");
 	}
 
 	@Override
 	public void onDestroy() {
-		killVPNThread();
-		if (mDeviceStateReceiver!= null) {
+		killVPNThread(true);
+		if (mDeviceStateReceiver != null) {
 			this.unregisterReceiver(mDeviceStateReceiver);
 		}
-	}
 
-	private void killVPNThread() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		prefs.edit().putString("service_mUUID", mUUID).apply();
+	}
+	
+	private synchronized boolean doStopVPN() {
 		if (mVPN != null) {
 			mVPN.stopVPN();
+			return true;
+		}
+		return false;
+	}
+
+	private void killVPNThread(boolean joinThread) {
+		if (doStopVPN() && joinThread) {
 			try {
 				mVPNThread.join(1000);
 			} catch (InterruptedException e) {
 				Log.e(TAG, "OpenConnect thread did not exit");
 			}
-			mVPN = null;
 		}
 	}
-
-	private void endVpnService() {
-		killVPNThread();
-		ProfileManager.setConntectedVpnProfileDisconnected(this);
-		stopSelf();
-	}
-
 
 	PendingIntent getLogPendingIntent() {
 		// Let the configure Button show the Log
@@ -129,7 +145,6 @@ public class OpenVpnService extends VpnService {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
 		String action = intent.getAction();
-
 		if (START_SERVICE.equals(action)) {
 			return START_NOT_STICKY;
 		} else if (START_SERVICE_STICKY.equals(action)) {
@@ -142,9 +157,14 @@ public class OpenVpnService extends VpnService {
 		if (mUUID == null) {
 			return START_NOT_STICKY;
 		}
-		mProfile = ProfileManager.get(this, mUUID);
 
-		killVPNThread();
+		mProfile = ProfileManager.get(this, mUUID);
+		killVPNThread(true);
+
+		// stopSelfResult(most_recent_startId) will kill the service
+		// stopSelfResult(previous_startId) will not
+		mStartId = startId;
+
         mVPN = new OpenConnectManagementThread(getApplicationContext(), mProfile, this);
         mVPNThread = new Thread(mVPN, "OpenVPNManagementThread");
         mVPNThread.start();
@@ -225,6 +245,22 @@ public class OpenVpnService extends VpnService {
 		return ret;
 	}
 
+	public synchronized void threadDone() {
+		final int startId = mStartId;
+
+		Log.i(TAG, "VPN thread has terminated");
+		mVPN = null;
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				if (stopSelfResult(startId) == false) {
+					Log.w(TAG, "not stopping service due to startId mismatch");
+				}
+			}
+		});
+	}
+
 	public synchronized void setConnectionState(int state) {
 		mConnectionState = state;
 		wakeUpActivity();
@@ -269,8 +305,7 @@ public class OpenVpnService extends VpnService {
 	}
 
 	public void stopVPN() {
-		if (mVPN != null) {
-			mVPN.stopVPN();
-		}
+		killVPNThread(false);
+		ProfileManager.setConntectedVpnProfileDisconnected(this);
 	}
 }

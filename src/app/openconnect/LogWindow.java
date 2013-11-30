@@ -186,6 +186,7 @@ public class LogWindow extends ListActivity {
 
     private void stopVPN() {
     	if (mService != null) {
+    		Log.d(TAG, "connection terminated via UI");
     		mService.stopVPN();
     	}
     }
