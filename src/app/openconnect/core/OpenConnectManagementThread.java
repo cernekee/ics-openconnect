@@ -122,6 +122,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("VPN terminated with errors");
 		}
 		setState(STATE_DISCONNECTED);
+
+		mOC.destroy();
+		mOC = null;
+
 		mOpenVPNService.threadDone();
 	}
 
