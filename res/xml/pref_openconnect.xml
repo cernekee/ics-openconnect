@@ -6,10 +6,12 @@
         <EditTextPreference
             android:key="profile_name"
             android:title="@string/profile_name"
+            android:inputType="text|textNoSuggestions|textCapSentences"
             android:defaultValue="" />
         <EditTextPreference
             android:key="server_address"
             android:title="@string/server_address"
+            android:inputType="textUri"
             android:defaultValue="" />
         <app.openconnect.ShowTextPreference
             android:key="ca_certificate"

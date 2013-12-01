@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Html.ImageGetter;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -210,6 +211,8 @@ public class VPNProfileList extends ListFragment {
 		if (context != null) {
 			final EditText entry = new EditText(context);
 			entry.setSingleLine();
+			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
+					InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 			dialog.setTitle(R.string.menu_add_profile);
