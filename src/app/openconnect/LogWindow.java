@@ -167,16 +167,13 @@ public class LogWindow extends ListActivity {
         intent.setAction(OpenVpnService.START_SERVICE);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(getPackageName() + ".VPN_STATUS");
-
         mReceiver = new BroadcastReceiver() {
           @Override
           public void onReceive(Context context, Intent intent) {
         	  updateUI();
           }
         };
-        registerReceiver(mReceiver, filter);
+        registerReceiver(mReceiver, new IntentFilter(OpenVpnService.ACTION_VPN_STATUS));
 	}
 
 	@Override

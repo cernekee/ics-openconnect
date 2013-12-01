@@ -26,7 +26,9 @@ public class OpenVpnService extends VpnService {
 	public static final String START_SERVICE_STICKY = "app.openconnect.START_SERVICE_STICKY";
 	public static final String ALWAYS_SHOW_NOTIFICATION = "app.openconnect.NOTIFICATION_ALWAYS_VISIBLE";
 
-	public static final String EXTRA_UUID = ".UUID";
+	public static final String ACTION_VPN_STATUS = "app.openconnect.VPN_STATUS";
+	public static final String EXTRA_CONNECTION_STATE = "app.openconnect.connectionState";
+	public static final String EXTRA_UUID = "app.openconnect.UUID";
 
 	private VpnProfile mProfile;
 
@@ -152,8 +154,7 @@ public class OpenVpnService extends VpnService {
 		}
 
 		// Extract information from the intent.
-		String prefix = getPackageName();
-		mUUID = intent.getStringExtra(prefix + EXTRA_UUID);
+		mUUID = intent.getStringExtra(EXTRA_UUID);
 		if (mUUID == null) {
 			return START_NOT_STICKY;
 		}
@@ -223,8 +224,9 @@ public class OpenVpnService extends VpnService {
 	}
 
 	private void wakeUpActivity() {
-		Intent vpnstatus = new Intent();
-		vpnstatus.setAction(getPackageName() + ".VPN_STATUS");
+		Intent vpnstatus = new Intent(ACTION_VPN_STATUS);
+		vpnstatus.putExtra(EXTRA_CONNECTION_STATE, mConnectionState);
+		vpnstatus.putExtra(EXTRA_UUID, mUUID);
 		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
 	}
 

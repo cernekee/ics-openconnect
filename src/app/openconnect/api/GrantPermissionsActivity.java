@@ -41,7 +41,7 @@ public class GrantPermissionsActivity extends Activity {
 
 		if (resultCode == RESULT_OK) {
 	    	Intent intent = new Intent(getBaseContext(), OpenVpnService.class);
-	    	intent.putExtra(getPackageName() + OpenVpnService.EXTRA_UUID, mUUID);
+	    	intent.putExtra(OpenVpnService.EXTRA_UUID, mUUID);
 	    	startService(intent);
 
 	    	if (mStartActivity != null) {
