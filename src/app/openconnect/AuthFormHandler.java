@@ -65,7 +65,7 @@ public class AuthFormHandler extends UserDialog
 		if (isOK) {
 			saveAndStore();
 		}
-		finish(isOK);
+		finish(isOK ? LibOpenConnect.OC_FORM_RESULT_OK : LibOpenConnect.OC_FORM_RESULT_ERR);
 	}
 
 	@Override
@@ -165,19 +165,38 @@ public class AuthFormHandler extends UserDialog
 	private void spinnerSelect(LibOpenConnect.FormOpt opt, int index) {
 		LibOpenConnect.FormChoice fc = opt.choices.get((int)index);
 		String s = fc.name != null ? fc.name : "";
-		opt.userData = s;
+
+		if (opt.userData == null) {
+			// first run
+			opt.userData = s;
+		} else if (!s.equals(opt.userData)) {
+			opt.setValue(s);
+			mAlert.dismiss();
+			finish(LibOpenConnect.OC_FORM_RESULT_NEWGROUP);
+		}
 	}
 
 	private LinearLayout newDropdown(final LibOpenConnect.FormOpt opt, String defval) {
 		List<String> choiceList = new ArrayList<String>();
-		int selection = 0;
+		int server_selection = -1, defval_selection = -1, selection;
 
 		for (int i = 0; i < opt.choices.size(); i++) {
 			LibOpenConnect.FormChoice fc = opt.choices.get(i);
 			choiceList.add(fc.label);
 			if (defval.equals(fc.name)) {
-				selection = i;
+				defval_selection = i;
 			}
+			if (fc.selected) {
+				server_selection = i;
+			}
+		}
+
+		if (server_selection != -1) {
+			selection = server_selection;
+		} else if (defval_selection != -1) {
+			selection = defval_selection;
+		} else {
+			selection = 0;
 		}
 
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,
@@ -297,7 +316,7 @@ public class AuthFormHandler extends UserDialog
 		if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
 			batchMode == BATCH_MODE_ENABLED || !hasUserOptions) {
 			saveAndStore();
-			finish(true);
+			finish(LibOpenConnect.OC_FORM_RESULT_OK);
 			return;
 		}
 

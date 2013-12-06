@@ -87,16 +87,15 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("CALLBACK: onProcessAuthForm");
 			setState(STATE_USER_PROMPT);
 
-			Boolean response = (Boolean)mOpenVPNService.promptUser(
+			Integer response = (Integer)mOpenVPNService.promptUser(
 					new AuthFormHandler(mPrefs, authForm));
 
-			if (response) {
+			if (response == OC_FORM_RESULT_OK) {
 				setState(STATE_AUTHENTICATING);
-				return AUTH_FORM_PARSED;
 			} else {
-				log("AUTH: user aborted");
-				return AUTH_FORM_CANCELLED;
+				log("AUTH: form result is " + response);
 			}
+			return response;
 		}
 
 		public void onProgress(int level, String msg) {
