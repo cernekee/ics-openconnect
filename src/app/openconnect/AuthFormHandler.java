@@ -39,15 +39,17 @@ public class AuthFormHandler extends UserDialog
 	private boolean noSave = false;
 	private String formPfx;
 	private int batchMode = BATCH_MODE_DISABLED;
+	private boolean mAuthgroupSet;
 
 	private static final int BATCH_MODE_DISABLED = 0;
 	private static final int BATCH_MODE_EMPTY_ONLY = 1;
 	private static final int BATCH_MODE_ENABLED = 2;
 
-	public AuthFormHandler(SharedPreferences prefs, LibOpenConnect.AuthForm form) {
+	public AuthFormHandler(SharedPreferences prefs, LibOpenConnect.AuthForm form, boolean authgroupSet) {
 		super(prefs);
 
 		mForm = form;
+		mAuthgroupSet = authgroupSet;
 		formPfx = getFormPrefix(mForm);
 		noSave = getBooleanPref("disable_username_caching");
 
@@ -265,11 +267,41 @@ public class AuthFormHandler extends UserDialog
 				String s = (String)opt.userData;
 				if (!noSave) {
 					setStringPref(formPfx + getOptDigest(opt), s);
+					if ("group_list".equals(opt.name)) {
+						setStringPref("authgroup", s);
+					}
 				}
 				opt.setValue(s);
 				break;
 			}
 		}
+	}
+
+	// If the user had saved a preferred authgroup, submit a NEWGROUP request before rendering the form
+	public Object earlyReturn() {
+		String authgroup = getStringPref("authgroup");
+
+		if (mAuthgroupSet || authgroup.equals("")) {
+			return null;
+		}
+
+		for (LibOpenConnect.FormOpt opt : mForm.opts) {
+			if ("group_list".equals(opt.name)) {
+				for (LibOpenConnect.FormChoice choice : opt.choices) {
+					if (authgroup.equals(choice.name)) {
+						if (choice.selected) {
+							// already good to go
+							return null;
+						} else {
+							// not selected, so send a request back to libopenconnect
+							opt.setValue(choice.name);
+							return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public void onStart(Context context) {

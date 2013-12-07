@@ -42,6 +42,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
+	private boolean mAuthgroupSet = false;
 
     public OpenConnectManagementThread(Context context, VpnProfile profile, OpenVpnService openVpnService) {
     	mContext = context;
@@ -88,10 +89,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			setState(STATE_USER_PROMPT);
 
 			Integer response = (Integer)mOpenVPNService.promptUser(
-					new AuthFormHandler(mPrefs, authForm));
+					new AuthFormHandler(mPrefs, authForm, mAuthgroupSet));
 
 			if (response == OC_FORM_RESULT_OK) {
 				setState(STATE_AUTHENTICATING);
+			} else if (response == OC_FORM_RESULT_NEWGROUP) {
+				log("AUTH: requesting authgroup change " +
+						(mAuthgroupSet ? "(interactive)" : "(non-interactive)"));
+				mAuthgroupSet = true;
 			} else {
 				log("AUTH: form result is " + response);
 			}
