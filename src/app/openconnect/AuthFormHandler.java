@@ -240,7 +240,6 @@ public class AuthFormHandler extends UserDialog
 	}
 
 	private void saveAndStore() {
-		// FIXME: How do we avoid saving bad/mistyped information?
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
 			switch (opt.type) {
 			case LibOpenConnect.OC_FORM_OPT_TEXT: {

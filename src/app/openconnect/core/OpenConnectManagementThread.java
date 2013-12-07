@@ -129,6 +129,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		mOC.destroy();
 		mOC = null;
+		UserDialog.clearDeferredPrefs();
 
 		mOpenVPNService.threadDone();
 	}
@@ -292,6 +293,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("Error obtaining cookie");
 			return false;
 		}
+
+		UserDialog.writeDeferredPrefs();
 		setState(STATE_AUTHENTICATED);
 		if (mOC.makeCSTPConnection() != 0) {
 			log("Error establishing CSTP connection");
