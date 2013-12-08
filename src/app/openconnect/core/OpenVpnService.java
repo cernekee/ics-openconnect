@@ -12,6 +12,7 @@ import android.os.*;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import app.openconnect.LogWindow;
+import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
@@ -46,6 +47,7 @@ public class OpenVpnService extends VpnService {
 	private Context mDialogContext;
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
+	private String mConnectionStateNames[];
 
 	private VPNLog mVPNLog = new VPNLog();
 	private Handler mHandler = new Handler();
@@ -80,6 +82,7 @@ public class OpenVpnService extends VpnService {
 		// This gets overwritten if somebody calls startService()
 		// NOTE: We aren't saving the log buffer
 		mUUID = prefs.getString("service_mUUID", "");
+		mConnectionStateNames = getResources().getStringArray(R.array.connection_states);
 	}
 
 	@Override
@@ -270,6 +273,10 @@ public class OpenVpnService extends VpnService {
 
 	public synchronized int getConnectionState() {
 		return mConnectionState;
+	}
+
+	public String getConnectionStateName() {
+		return mConnectionStateNames[getConnectionState()];
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {
