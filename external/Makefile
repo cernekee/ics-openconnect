@@ -14,7 +14,7 @@ all: $(addsuffix /libopenconnect.so,$(ARCH_LIST)) openconnect-wrapper.jar
 	cp openconnect-wrapper.jar $(LIBS)/
 
 clean:
-	rm -rf $(ARCH_LIST)
+	rm -rf $(ARCH_LIST) openconnect-wrapper.jar
 
 %/libopenconnect.so: .openconnect-sources
 	rm -rf $*
