@@ -104,7 +104,6 @@ public abstract class UserDialog {
 
 	protected void setBooleanPref(String key, boolean value) {
 		mDeferredPrefs.put(key, new DeferredBooleanPref(mPrefs, key, value));
-		mPrefs.edit().putBoolean(key, value).commit();
 	}
 
 	protected boolean getBooleanPref(String key) {
