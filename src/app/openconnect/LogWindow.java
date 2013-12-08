@@ -6,14 +6,13 @@ import android.content.*;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemLongClickListener;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
-import app.openconnect.core.OpenVpnService.LocalBinder;
+import app.openconnect.core.VPNConnector;
 import app.openconnect.core.VPNLog;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
 
@@ -22,8 +21,7 @@ public class LogWindow extends ListActivity {
 
 	private static final String LOGTIMEFORMAT = "logtimeformat";
 
-	protected BroadcastReceiver mReceiver; 
-	protected OpenVpnService mService;
+	private VPNConnector mConn;
 
     private MenuItem mCancelButton;
     private boolean mDisconnected;
@@ -34,31 +32,10 @@ public class LogWindow extends ListActivity {
 	private TextView mSpeedView;
 	private AlertDialog mAlert;
 
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName className,
-				IBinder service) {
-			// We've bound to LocalService, cast the IBinder and get LocalService instance
-			LocalBinder binder = (LocalBinder) service;
-			mService = binder.getService();
-			updateUI();
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			mService = null;
-			Log.w(TAG, "unbound from OpenVpnService");
-		}
-	};
-
 	private void sendReport() {
 		String ver, dataText;
 
-		if (mService == null) {
-			return;
-		}
-		dataText = mService.dumpLog();
+		dataText = mConn.service.dumpLog();
 
 		try {
 			ver = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -87,14 +64,15 @@ public class LogWindow extends ListActivity {
 
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mConn.service == null) {
+			return true;
+		}
 		if(item.getItemId()==R.id.clearlog) {
-			mService.clearLog();
+			mConn.service.clearLog();
 			return true;
 		} else if(item.getItemId()==R.id.cancel) {
 			if (mDisconnected) {
-				if (mService != null) {
-					mService.startReconnectActivity(this);
-				}
+				mConn.service.startReconnectActivity(this);
 			} else {
 				stopVPN();
 			}
@@ -124,15 +102,15 @@ public class LogWindow extends ListActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.logmenu, menu);
 		mCancelButton = menu.findItem(R.id.cancel);
-		updateUI();
+		updateUI(mConn.service);
 		return true;
 	}
 
-    private synchronized void updateUI() {
-    	if (mService != null) {
-    		mService.startActiveDialog(this);
+    private synchronized void updateUI(OpenVpnService service) {
+    	if (service != null) {
+    		service.startActiveDialog(this);
 
-    		int state = mService.getConnectionState();
+    		int state = service.getConnectionState();
     		if (mCancelButton != null) {
     			String title;
     			if (state == OpenConnectManagementThread.STATE_DISCONNECTED) {
@@ -151,7 +129,7 @@ public class LogWindow extends ListActivity {
     		mSpeedView.setText(states[state]);
 
     		if (mLogAdapter == null) {
-    			mLogAdapter = mService.getArrayAdapter(this);
+    			mLogAdapter = service.getArrayAdapter(this);
     			mLogAdapter.setTimeFormat(getPreferences(0).getInt(LOGTIMEFORMAT, VPNLog.TIME_FORMAT_LONG));
     			mLogView.setAdapter(mLogAdapter);
     			mLogView.setSelection(mLogAdapter.getCount());
@@ -163,28 +141,23 @@ public class LogWindow extends ListActivity {
 	protected void onStart() {
 		super.onStart();
 
-        Intent intent = new Intent(this, OpenVpnService.class);
-        intent.setAction(OpenVpnService.START_SERVICE);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
-        mReceiver = new BroadcastReceiver() {
-          @Override
-          public void onReceive(Context context, Intent intent) {
-        	  updateUI();
-          }
-        };
-        registerReceiver(mReceiver, new IntentFilter(OpenVpnService.ACTION_VPN_STATUS));
+		mConn = new VPNConnector(this) {
+			@Override
+			public void onUpdate(OpenVpnService service) {
+				updateUI(service);
+			}
+		};
 	}
 
 	@Override
 	protected void onStop() {
-        unregisterReceiver(mReceiver);
-    	if (mService != null) {
-    		mService.stopActiveDialog();
-    		mService.putArrayAdapter(mLogAdapter);
+		mConn.stop();
+		if (mConn.service != null) {
+    		mConn.service.stopActiveDialog();
+    		mConn.service.putArrayAdapter(mLogAdapter);
     		mLogAdapter = null;
-    	}
-        unbindService(mConnection);
+		}
+		mConn.unbind();
         if (mAlert != null) {
         	mAlert.dismiss();
         }
@@ -217,9 +190,9 @@ public class LogWindow extends ListActivity {
     }
 
     private void stopVPN() {
-    	if (mService != null) {
+    	if (mConn.service != null) {
     		Log.d(TAG, "connection terminated via UI");
-    		mService.stopVPN();
+    		mConn.service.stopVPN();
     	}
     }
 

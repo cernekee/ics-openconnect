@@ -41,8 +41,15 @@ public abstract class VPNConnector {
 		mOwnerName = mContext.getClass().getSimpleName();
 	}
 
+	public void stop() {
+		if (mReceiver != null) {
+			mContext.unregisterReceiver(mReceiver);
+			mReceiver = null;
+		}
+	}
+
 	public void unbind() {
-		mContext.unregisterReceiver(mReceiver);
+		stop();
 		mContext.unbindService(mConnection);
 	}
 
