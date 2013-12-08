@@ -32,7 +32,7 @@
     <string name="ipv4_dialog_title">Enter IPv4 Address/Netmask in CIDR Format (e.g. 1.2.3.4/24)</string>
     <string name="ipv4_address">IPv4 Address</string>
     <string name="ipv6_address">IPv6 Address</string>
-    <string name="custom_option_warning">Enter custom OpenVPN options. Use with caution. Also note that many of the tun related OpenVPN settings cannot be supported by design of the VPNSettings. If you think an important option is missing contact the author</string>
+    <string name="custom_option_warning">Enter custom OpenConnect options. Use with caution. Also note that many of the tun related OpenConnect settings cannot be supported by design of the VPNSettings. If you think an important option is missing contact the author</string>
     <string name="auth_username">Username</string>
     <string name="auth_pwquery">Password</string>
     <string name="static_keys_info">For the static configuration the TLS Auth Keys will be used as static keys</string>
@@ -47,7 +47,7 @@
     <string name="ipv4_format_error">Error parsing the IPv4 address</string>
     <string name="custom_route_format_error">Error parsing the custom routes</string>
     <string name="pw_query_hint">(leave empty to query on demand)</string>
-    <string name="vpn_shortcut">OpenVPN Shortcut</string>
+    <string name="vpn_shortcut">OpenConnect Shortcut</string>
     <string name="vpn_launch_title">Connect to VPN</string>
     <string name="shortcut_profile_notfound">Profile specified in shortcut not found</string>
     <string name="random_host_prefix">Random Host Prefix</string>
@@ -67,7 +67,7 @@
     <string name="check_remote_tlscert_title">Expect TLS server certificate</string>
     <string name="remote_tlscn_check_summary">Checks the Remote Server Certificate Subject DN</string>
     <string name="remote_tlscn_check_title">Certificate Hostname Check</string>
-    <string name="enter_tlscn_dialog">Specify the check used to verify the remote certificate DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecify the complete DN or the RDN (openvpn.blinkt.de in the example) or an RDN prefix for verification.\n\nWhen using RDN prefix \"Server\" matches \"Server-1\" and \"Server-2\"\n\nLeaving the text field empty will check the RDN against the server hostname.\n\nFor more details see the OpenVPN 2.3.1+ manpage under —verify-x509-name</string>
+    <string name="enter_tlscn_dialog">Specify the check used to verify the remote certificate DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecify the complete DN or the RDN (openvpn.blinkt.de in the example) or an RDN prefix for verification.\n\nWhen using RDN prefix \"Server\" matches \"Server-1\" and \"Server-2\"\n\nLeaving the text field empty will check the RDN against the server hostname.\n\nFor more details see the OpenConnect 2.3.1+ manpage under —verify-x509-name</string>
     <string name="enter_tlscn_title">Remote certificate subject</string>
     <string name="tls_key_auth">Enables the TLS Key Authentication</string>
     <string name="tls_auth_file">TLS Auth File</string>
@@ -104,7 +104,7 @@
     <string name="dns_server_info">DNS Server: %1$s, Domain: %2$s</string>
     <string name="routes_info">Routes: %s</string>
     <string name="routes_info6">Routes IPv6: %s</string>
-    <string name="ip_not_cidr">Got interface information %1$s and %2$s, assuming second address is peer address of remote. Using /32 netmask for local IP. Mode given by OpenVPN is \"%3$s\".</string>
+    <string name="ip_not_cidr">Got interface information %1$s and %2$s, assuming second address is peer address of remote. Using /32 netmask for local IP. Mode given by OpenConnect is \"%3$s\".</string>
     <string name="route_not_cidr">Cannot make sense of %1$s and %2$s as IP route with CIDR netmask, using /32 as netmask.</string>
     <string name="route_not_netip">Corrected route %1$s/%2$s to %3$s/%2$s</string>
     <string name="keychain_access">Cannot access the Android Keychain Certificates. This can be caused by a firmware upgrade or by restoring a backup of the app/app settings. Please edit the VPN and reselect the certificate under basic settings to recreate the permission to access the certificate.</string>
@@ -112,7 +112,7 @@
     <string name="send_logfile">Send log file</string>
     <string name="send">Send</string>
     <string name="enter_problem">ENTER PROBLEM DESCRIPTION HERE:</string>
-    <string name="ics_openvpn_log_file">ICS OpenVPN log file</string>
+    <string name="ics_openvpn_log_file">ICS OpenConnect log file</string>
     <string name="copied_entry">Copied log entry to clip board</string>
     <string name="tap_mode">Tap Mode</string>
     <string name="faq_tap_mode">Tap Mode is not possible with the non root VPN API. Therefore this application cannot provide tap support</string>
@@ -122,12 +122,12 @@
     <string name="copying_log_entries">Copying log entries</string>
     <string name="faq_copying">To copy a single log entry press and and hold on the log entry. To copy/send the whole log use the Send Log option. Use the hardware menu button if not visible in the GUI.</string>
     <string name="faq_shortcut">Shortcut to start</string>
-    <string name="faq_howto_shortcut">You can place a shortcut to start OpenVPN on your desktop. Depending on your homescreen program you will have to add either a shortcut or a widget.</string>
+    <string name="faq_howto_shortcut">You can place a shortcut to start OpenConnect on your desktop. Depending on your homescreen program you will have to add either a shortcut or a widget.</string>
     <string name="no_vpn_support_image">Your image does not support the VPNService API, sorry :(</string>
     <string name="encryption">Encryption</string>
     <string name="cipher_dialog_title">Enter encryption method</string>
-    <string name="chipher_dialog_message">Enter the encryption cipher algorithm used by OpenVPN. Leave empty to use default cipher.</string>
-    <string name="auth_dialog_message">Enter the authentication digest used for OpenVPN. Leave empty to use default digest.</string>
+    <string name="chipher_dialog_message">Enter the encryption cipher algorithm used by OpenConnect. Leave empty to use default cipher.</string>
+    <string name="auth_dialog_message">Enter the authentication digest used for OpenConnect. Leave empty to use default digest.</string>
     <string name="settings_auth">Authentication/Encryption</string>
     <string name="file_explorer_tab">File Explorer</string>
     <string name="inline_file_tab">Inline File</string>
@@ -148,7 +148,7 @@
     <string name="no_bind">No local binding</string>
     <string name="import_configuration_file">Import configuration file</string>
     <string name="faq_security_title">Security considerations</string>
-    <string name="faq_security">"As OpenVPN is security sensitive a few notes about security are sensible. All data on the sdcard is inherently insecure. Every app can read it (for example this program requires no special sd card rights). The data of this application can only be read by the application itself. By using the import option for cacert/cert/key in the file dialog the data is stored in the VPN profile. The VPN profiles are only accessible by this application. (Do not forget to delete the copies on the sd card afterwards). Even though accessible only by this application the data is still unencrypted. By rooting the telephone or other exploits it may be possible to retrieve the data. Saved passwords are stored in plain text as well. For pkcs12 files it is highly recommended that you import them into the android keystore."</string>
+    <string name="faq_security">"As OpenConnect is security sensitive a few notes about security are sensible. All data on the sdcard is inherently insecure. Every app can read it (for example this program requires no special sd card rights). The data of this application can only be read by the application itself. By using the import option for cacert/cert/key in the file dialog the data is stored in the VPN profile. The VPN profiles are only accessible by this application. (Do not forget to delete the copies on the sd card afterwards). Even though accessible only by this application the data is still unencrypted. By rooting the telephone or other exploits it may be possible to retrieve the data. Saved passwords are stored in plain text as well. For pkcs12 files it is highly recommended that you import them into the android keystore."</string>
     <string name="import_vpn">Import</string>
     <string name="broken_image_cert_title">Error showing certificate selection</string>
     <string name="broken_image_cert">Got an exception trying to show the Android 4.0+ certificate selection dialog. This should never happen as this a standard feature of Android 4.0+. Maybe your Android ROM support for certificate storage is broken</string>
@@ -168,7 +168,7 @@
     <string name="generalsettings">Settings</string>
     <string name="owner_fix_summary">Tries to set the owner of /dev/tun to the \'system\' UID (1000). Some CM9 images need this to make the VPNService API work. Requires root.</string>
     <string name="owner_fix">Fix ownership of /dev/tun</string>
-    <string name="generated_config_summary">Shows the generated OpenVPN Configuration File</string>
+    <string name="generated_config_summary">Shows the generated OpenConnect Configuration File</string>
     <string name="edit_profile_title">Editing \"%s\"</string>
     <string name="building_configration">Building configuration…</string>
     <string name="netchange_summary">Turning this option on will force a reconnect if the network state is changed (e.g. WiFi to/from mobile)</string>
@@ -188,7 +188,7 @@
     <string name="ipdns">IP and DNS</string>
     <string name="basic">Basic</string>
     <string name="routing">Routing</string>
-    <string name="obscure">Obscure OpenVPN Settings. Normally not needed.</string>
+    <string name="obscure">Obscure OpenConnect Settings. Normally not needed.</string>
     <string name="advanced">Advanced</string>
     <string name="export_config_title">ICS Openvpn Config</string>
     <string name="warn_no_dns">No DNS servers being used. Name resolution may not work. Consider setting custom DNS Servers. Please also note that Android will keep using your proxy settings specified for your mobile/Wi-Fi connection when no DNS servers are set.</string>
@@ -203,7 +203,7 @@
     <string name="use_system_proxy">Use system proxy</string>
     <string name="use_system_proxy_summary">Use the system wide configuration for HTTP/HTTPS proxies to connect.</string>
     <string name="donatewithpaypal">You can &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;donate with PayPal&lt;/a&gt; </string>
-    <string name="onbootrestartsummary">OpenVPN will reconnect a VPN if it was active on system reboot/shutdown. Please read the Connection warning FAQ before using this option.</string>
+    <string name="onbootrestartsummary">OpenConnect will reconnect a VPN if it was active on system reboot/shutdown. Please read the Connection warning FAQ before using this option.</string>
     <string name="onbootrestart">Reconnect on reboot</string>
     <string name="ignore">Ignore</string>
     <string name="restart">Restart</string>
@@ -211,29 +211,29 @@
     <string name="configuration_changed">Configuration changed</string>
     <string name="log_no_last_vpn">Could not determine last connected profile for editing</string>
     <string name="faq_duplicate_notification_title">Duplicate notifications</string>
-    <string name="faq_duplicate_notification">If Android is under system memory (RAM) pressure, apps and service which are not needed at the moment are removed from active memory. This terminates an ongoing VPN connection. To ensure that the connection/OpenVPN survives the service runs with higher priority. To run with higher priority the application must display a notification. The key notification icon is imposed by the system as described in the previous FAQ entry. It does not count as app notification for purpose of running with higher priority.</string>
+    <string name="faq_duplicate_notification">If Android is under system memory (RAM) pressure, apps and service which are not needed at the moment are removed from active memory. This terminates an ongoing VPN connection. To ensure that the connection/OpenConnect survives the service runs with higher priority. To run with higher priority the application must display a notification. The key notification icon is imposed by the system as described in the previous FAQ entry. It does not count as app notification for purpose of running with higher priority.</string>
     <string name="no_vpn_profiles_defined">No VPN profiles defined.</string>
     <string name="add_new_vpn_hint">Use the &lt;img src=\"ic_menu_add\"/&gt; icon to add a new VPN</string>
     <string name="vpn_import_hint">Use the &lt;img src=\"ic_menu_archive\"/&gt; icon to import an existing (.ovpn or .conf) profile from your sdcard.</string>
     <string name="faq_hint">Be sure to also check out the FAQ. There is a quick start guide.</string>
     <string name="faq_routing_title">Routing/Interface Configuration</string>
     <string name="faq_routing">The Routing and interface configuration is not done via traditionell ifconfig/route command but by using the VPNService API. This results in a different routing configuration than on other OSes. The configuration only consists of the IP of the tunnel interface and the networks that should be routed over this interface. Especially no peer partner address or gateway address is needed. Special routes to reach the VPN Server (for example added when using redirect-gateway) are not needed either. The application will consequently ignore these settings when importing a configuration. The app ensures with the VPNService API that the connection to the server is not routed through the VPN tunnel. Since only specifing networks to be routed via tunnel is supported extra routes not pointing to the tunnel cannot be supported either. (e.g. route x.x.x.x y.y.y.y net_gateway). The log windows shows the current configuration of the VPNService upon establishing a connection. </string>
-    <string name="persisttun_summary">Do not fallback to no VPN connection when OpenVPN is reconnecting.</string>
+    <string name="persisttun_summary">Do not fallback to no VPN connection when OpenConnect is reconnecting.</string>
     <string name="persistent_tun_title">Persistent tun</string>
     <string name="openvpn_log">OpenConnect Log</string>
-    <string name="import_config">Import OpenVPN configuration</string>
+    <string name="import_config">Import OpenConnect configuration</string>
     <string name="battery_consumption_title">Battery consumption</string>
-    <string name="baterry_consumption">In my personal tests the main reason for high battery consumption of OpenVPN are the keepalive packets. Most OpenVPN servers have a configuration directive like \'keepalive 10 60\' which causes the client and server to exchange keepalive packets every ten seconds. &lt;p&gt; While these packets are small and do not use much traffic, they keep the mobile radio network busy and increase the energy consumption. (See also &lt;a href="http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt; This keepalive setting cannot be changed on the client. Only the system administrator of the OpenVPN can change the setting. &lt;p&gt; Unfortunately using a keepalive larger than 60 seconds with UDP can cause some NAT gateways to drop the connection due to an inactivity timeout. Using TCP with a long keepalive timeout works, but tunneling TCP over TCP performs extremely poorly on connections with high packet loss. (See &lt;a href="http://sites.inka.de/bigred/devel/tcp-tcp.html"&gt;Why TCP Over TCP Is A Bad Idea&lt;/a&gt;)</string>
+    <string name="baterry_consumption">In my personal tests the main reason for high battery consumption of OpenConnect are the keepalive packets. Most OpenConnect servers have a configuration directive like \'keepalive 10 60\' which causes the client and server to exchange keepalive packets every ten seconds. &lt;p&gt; While these packets are small and do not use much traffic, they keep the mobile radio network busy and increase the energy consumption. (See also &lt;a href="http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt; This keepalive setting cannot be changed on the client. Only the system administrator of the OpenConnect can change the setting. &lt;p&gt; Unfortunately using a keepalive larger than 60 seconds with UDP can cause some NAT gateways to drop the connection due to an inactivity timeout. Using TCP with a long keepalive timeout works, but tunneling TCP over TCP performs extremely poorly on connections with high packet loss. (See &lt;a href="http://sites.inka.de/bigred/devel/tcp-tcp.html"&gt;Why TCP Over TCP Is A Bad Idea&lt;/a&gt;)</string>
     <string name="faq_tethering">The Android Tethering feature (over WiFi, USB or Bluetooth) and the VPNService API (used by this program) do not work together. For more details see the &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\">issue #34&lt;/a></string>
     <string name="vpn_tethering_title">VPN and Tethering</string>
     <string name="connection_retries">Connection retries</string>
     <string name="reconnection_settings">Reconnection settings</string>
     <string name="connectretrymessage">Number of seconds to wait between connection attempts.</string>
     <string name="connectretrywait">Seconds between connections</string>
-    <string name="minidump_generated">OpenVPN crashed unexpectedly. Please consider using the send Minidump option in the main menu</string>
+    <string name="minidump_generated">OpenConnect crashed unexpectedly. Please consider using the send Minidump option in the main menu</string>
     <string name="send_minidump">Send Minidump to developer</string>
     <string name="send_minidump_summary">Sends debugging information about last crash to developer</string>
-    <string name="notifcation_title">OpenVPN - %s</string>
+    <string name="notifcation_title">OpenConnect - %s</string>
     <string name="session_ipv4string">%1$s - %2$s</string>
     <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
     <string name="state_connecting">Connecting</string>
@@ -276,7 +276,7 @@
     <string name="tls_remote_deprecated">tls-remote (DEPRECATED)</string>
     <string name="help_translate">You can help translating by visiting http://crowdin.net/project/ics-openvpn/invite</string>
     <string name="prompt">%1$s attempts to control %2$s</string>
-    <string name="remote_warning">By proceeding, you are giving the application permission to completely control OpenVPN for Android and to intercept all network traffic. <b> Do NOT accept unless you trust the application. </b> Otherwise, you run the risk of having your data compromised by malicious software."</string>
+    <string name="remote_warning">By proceeding, you are giving the application permission to completely control OpenConnect for Android and to intercept all network traffic. <b> Do NOT accept unless you trust the application. </b> Otherwise, you run the risk of having your data compromised by malicious software."</string>
     <string name="remote_trust">I trust this application.</string>
     <string name="no_external_app_allowed">No app allowed to use external API</string>
     <string name="allowed_apps">Allowed apps: %s</string>
