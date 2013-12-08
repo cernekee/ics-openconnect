@@ -59,4 +59,12 @@
                 android:title="@string/setting_loadtun"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/advanced">
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="trace_log"
+                android:summary="@string/trace_log_summary"
+                android:title="@string/trace_log"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
+import android.preference.PreferenceManager;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
@@ -36,6 +37,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private VpnProfile mProfile;
 	private OpenVpnService mOpenVPNService;
 	private SharedPreferences mPrefs;
+	private SharedPreferences mAppPrefs;
 	private String mFilesDir;
 	private String mCacheDir;
 	private String mServerAddr;
@@ -50,6 +52,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOpenVPNService = openVpnService;
 		mPrefs = mContext.getSharedPreferences(mProfile.getUUID().toString(),
 				Context.MODE_PRIVATE);
+		mAppPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 	}
 
     private String getStringPref(final String key) {
@@ -217,6 +220,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		if (ret < 0) {
 			log("Error " + ret + " setting token string");
 			return false;
+		}
+
+		if (mAppPrefs.getBoolean("trace_log", false)) {
+			mOC.setLogLevel(LibOpenConnect.PRG_TRACE);
 		}
 
 		return true;

@@ -197,6 +197,8 @@
     <string name="faq_howto_title">Quick Start</string>
     <string name="setting_loadtun_summary">Try to load the tun.ko kernel module before trying to connect. Needs rooted devices.</string>
     <string name="setting_loadtun">Load tun module</string>
+    <string name="trace_log_summary">Increase logging verbosity for debugging purposes. This will affect performance.</string>
+    <string name="trace_log">Enable TRACE logging</string>
     <string name="importpkcs12fromconfig">Import PKCS12 from configuration into Android Keystore</string>
     <string name="getproxy_error">Error getting proxy settings: %s</string>
     <string name="using_proxy">Using proxy %1$s %2$d</string>
@@ -309,7 +311,6 @@
     <string name="clear_saved_passwords_confirm">Are you sure you want to erase all stored credentials?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <!-- <string name="advanced">Advanced</string> -->
     <string name="batch_mode">Batch mode</string>
     <string name="reported_os">Reported OS</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
