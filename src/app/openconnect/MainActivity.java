@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Bundle;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
@@ -19,28 +20,36 @@ public class MainActivity extends Activity {
 
 	public static final String TAG = "OpenConnect";
 
+	private ActionBar mBar;
 	private Tab mVpnListTab;
 	private Tab mSettingsTab;
 	private Tab mStatusTab;
 	private Tab mFaqtab;
 	private Tab mAboutTab;
+	private String mLastTab;
+	private boolean mTabsActive;
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
 	private VPNConnector mConn;
 
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		ActionBar bar = getActionBar();
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		mTabsActive = false;
+		if (savedInstanceState != null) {
+			mLastTab = savedInstanceState.getString("active_tab");
+		}
 
-		mVpnListTab = bar.newTab().setText(R.string.vpn_list_title);
-		mSettingsTab = bar.newTab().setText(R.string.generalsettings);
-		mStatusTab = bar.newTab().setText(R.string.status);
-		mFaqtab = bar.newTab().setText(R.string.faq);
-		mAboutTab = bar.newTab().setText(R.string.about);
+		mBar = getActionBar();
+		mBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		mVpnListTab = mBar.newTab().setText(R.string.vpn_list_title);
+		mSettingsTab = mBar.newTab().setText(R.string.generalsettings);
+		mStatusTab = mBar.newTab().setText(R.string.status);
+		mFaqtab = mBar.newTab().setText(R.string.faq);
+		mAboutTab = mBar.newTab().setText(R.string.about);
 
 		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
 				VPNProfileList.class));
@@ -52,26 +61,49 @@ public class MainActivity extends Activity {
 				FaqFragment.class));
 		mAboutTab.setTabListener(new TabListener<AboutFragment>("about",
 				AboutFragment.class));
+	}
 
-		bar.addTab(mVpnListTab);
-		bar.addTab(mSettingsTab);
-		bar.addTab(mStatusTab);
+	@Override
+	protected void onSaveInstanceState(Bundle b) {
+		b.putString("active_tab", mLastTab);
 	}
 
 	private void updateUI(OpenVpnService service) {
 		int newState = service.getConnectionState();
+
+		if (!mTabsActive) {
+			// NOTE: addTab may cause mLastTab to change, so cache the value here
+			String lastTab = mLastTab;
+
+			mBar.addTab(mVpnListTab);
+			mBar.addTab(mSettingsTab);
+			mBar.addTab(mStatusTab);
+
+			if ("profiles".equals(lastTab)) {
+				mBar.selectTab(mVpnListTab);
+			} else if ("settings".equals(lastTab)) {
+				mBar.selectTab(mSettingsTab);
+			} else if ("status".equals(lastTab)) {
+				mBar.selectTab(mStatusTab);
+			} else if ("faq".equals(lastTab)) {
+				mBar.selectTab(mFaqtab);
+			} else if ("about".equals(lastTab)) {
+				mBar.selectTab(mAboutTab);
+			}
+
+			mTabsActive = true;
+		}
+
 		if (mConnectionState == newState) {
 			return;
 		}
 
-		ActionBar bar = getActionBar();
-
 		if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			bar.addTab(mVpnListTab, 0);
-			bar.addTab(mSettingsTab, 1);
+			mBar.addTab(mVpnListTab, 0);
+			mBar.addTab(mSettingsTab, 1);
 		} else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			bar.removeTab(mVpnListTab);
-			bar.removeTab(mSettingsTab);
+			mBar.removeTab(mVpnListTab);
+			mBar.removeTab(mSettingsTab);
 		}
 		mConnectionState = newState;
 	}
@@ -117,6 +149,7 @@ public class MainActivity extends Activity {
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			mLastTab = mTag;
 			if (mFragment == null) {
 				mFragment = Fragment.instantiate(MainActivity.this,
 						mClass.getName());
