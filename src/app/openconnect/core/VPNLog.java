@@ -1,14 +1,16 @@
 package app.openconnect.core;
 
-import java.text.SimpleDateFormat;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,39 +32,8 @@ public class VPNLog {
 	public static final int LEVEL_TRACE = LibOpenConnect.PRG_TRACE;
 
 	private static final int MAX_ENTRIES = 512;
-	private ArrayList<LogItem> circ = new ArrayList<LogItem>();
+	private ArrayList<VPNLogItem> circ = new ArrayList<VPNLogItem>();
 	private LogArrayAdapter mArrayAdapter;
-
-	private class LogItem {
-		private long mLogtime = System.currentTimeMillis();
-		private int mLevel;
-		private String mMsg;
-
-		public LogItem(int level, String msg) {
-			this.mLevel = level;
-			this.mMsg = msg;
-		}
-
-		public String format(Context context, int timeFormat) {
-			String pfx = "";
-			if (timeFormat != TIME_FORMAT_NONE) {
-				Date d = new Date(mLogtime);
-				java.text.DateFormat formatter;
-
-				if (timeFormat == TIME_FORMAT_LONG) { 
-					formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
-				} else {
-					formatter = DateFormat.getTimeFormat(context);
-				}
-				pfx = formatter.format(d) + " ";
-			}
-			return pfx + mMsg;
-		}
-
-		public String toString() {
-			return "<" + mLevel + "> " + mMsg;
-		}
-	};
 
 	public class LogArrayAdapter extends BaseAdapter {
 
@@ -97,7 +68,7 @@ public class VPNLog {
 				v = new TextView(mContext);
 			}
 
-			LogItem li = (LogItem)getItem(position);
+			VPNLogItem li = (VPNLogItem)getItem(position);
 			v.setText(li.format(mContext, mTimeFormat));
 			return v;
 		}
@@ -119,7 +90,7 @@ public class VPNLog {
 	}
 
 	public void add(int level, String msg) {
-		LogItem li = new LogItem(level, msg);
+		VPNLogItem li = new VPNLogItem(level, msg);
 		circ.add(li);
 		while (circ.size() > MAX_ENTRIES) {
 			circ.remove(0);
