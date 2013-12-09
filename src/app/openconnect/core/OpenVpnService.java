@@ -165,6 +165,10 @@ public class OpenVpnService extends VpnService {
 		}
 
 		mProfile = ProfileManager.get(this, mUUID);
+		if (mProfile == null) {
+			return START_NOT_STICKY;
+		}
+
 		killVPNThread(true);
 
 		// stopSelfResult(most_recent_startId) will kill the service
