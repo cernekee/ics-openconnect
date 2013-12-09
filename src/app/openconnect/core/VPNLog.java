@@ -111,6 +111,49 @@ public class VPNLog {
 		return ret.toString();
 	}
 
+	public int saveToFile(String path) {
+		int ret = -1;
+
+		try {
+			ObjectOutputStream s = new ObjectOutputStream(new FileOutputStream(path));
+
+			s.writeObject((Integer)circ.size());
+			for (VPNLogItem i : circ) {
+				s.writeObject(i);
+			}
+			s.close();
+			ret = 0;
+		} catch (FileNotFoundException e) {
+			Log.w(TAG, "file not found writing " + path, e);
+		} catch (IOException e) {
+			Log.w(TAG, "I/O error writing " + path, e);
+		}
+		return ret;
+	}
+
+	public int restoreFromFile(String path) {
+		int ret = -1;
+
+		try {
+			ObjectInputStream s = new ObjectInputStream(new FileInputStream(path));
+			int records = (Integer)s.readObject();
+
+			circ.clear();
+			for (; records > 0; records--) {
+				circ.add((VPNLogItem)s.readObject());
+			}
+			s.close();
+			ret = 0;
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "file not found reading " + path, e);
+		} catch (IOException e) {
+			Log.w(TAG, "I/O error reading " + path, e);
+		} catch (ClassNotFoundException e) {
+			Log.w(TAG, "Class not found reading " + path, e);
+		}
+		return ret;
+	}
+
 	public LogArrayAdapter getArrayAdapter(Context mContext) {
 		if (mArrayAdapter != null) {
 			Log.w(TAG, "duplicate LogArrayAdapter registration");

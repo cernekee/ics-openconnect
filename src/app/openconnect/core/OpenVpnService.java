@@ -76,12 +76,12 @@ public class OpenVpnService extends VpnService {
 
 	@Override
 	public void onCreate() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
 		// Restore service state from disk if available
 		// This gets overwritten if somebody calls startService()
-		// NOTE: We aren't saving the log buffer
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		mUUID = prefs.getString("service_mUUID", "");
+
+		mVPNLog.restoreFromFile(getCacheDir().getAbsolutePath() + "/logdata.ser");
 		mConnectionStateNames = getResources().getStringArray(R.array.connection_states);
 	}
 
@@ -94,8 +94,10 @@ public class OpenVpnService extends VpnService {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		prefs.edit().putString("service_mUUID", mUUID).apply();
+
+		mVPNLog.saveToFile(getCacheDir().getAbsolutePath() + "/logdata.ser");
 	}
-	
+
 	private synchronized boolean doStopVPN() {
 		if (mVPN != null) {
 			mVPN.stopVPN();
