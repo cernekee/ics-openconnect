@@ -138,8 +138,8 @@ public class LogWindow extends ListActivity {
     }
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 
 		mConn = new VPNConnector(this) {
 			@Override
@@ -150,7 +150,7 @@ public class LogWindow extends ListActivity {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onPause() {
 		mConn.stop();
 		if (mConn.service != null) {
     		mConn.service.putArrayAdapter(mLogAdapter);
@@ -160,7 +160,7 @@ public class LogWindow extends ListActivity {
         if (mAlert != null) {
         	mAlert.dismiss();
         }
-		super.onStop();
+		super.onPause();
     }
 
     @Override

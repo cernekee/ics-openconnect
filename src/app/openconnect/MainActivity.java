@@ -111,8 +111,8 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 
 		mConn = new VPNConnector(this) {
 			@Override
@@ -123,9 +123,9 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onPause() {
 		mConn.unbind();
-		super.onStop();
+		super.onPause();
 	}
 
 	protected class TabListener<T extends Fragment> implements
