@@ -1,6 +1,5 @@
 package app.openconnect;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.*;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,7 +29,6 @@ public class LogWindow extends ListActivity {
 	private ListView mLogView;
 
 	private TextView mSpeedView;
-	private AlertDialog mAlert;
 
 	private void sendReport() {
 		String ver, dataText;
@@ -157,9 +155,6 @@ public class LogWindow extends ListActivity {
     		mLogAdapter = null;
 		}
 		mConn.unbind();
-        if (mAlert != null) {
-        	mAlert.dismiss();
-        }
 		super.onPause();
     }
 
@@ -193,41 +188,6 @@ public class LogWindow extends ListActivity {
     		Log.d(TAG, "connection terminated via UI");
     		mConn.service.stopVPN();
     	}
-    }
-
-    private void handleBackButton() {
-    	stopVPN();
-    	super.onBackPressed();
-    }
-
-    @Override
-    public void onBackPressed() {
-    	if (mDisconnected) {
-    		super.onBackPressed();
-    		return;
-    	}
-    	mAlert = new AlertDialog.Builder(this)
-    		.setTitle(R.string.cancel_connection_long)
-    		.setMessage(R.string.cancel_connection_query)
-    		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleBackButton();
-				}
-    		})
-    		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-				}
-    		})
-    		.create();
-    	mAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mAlert = null;
-			}
-		});
-    	mAlert.show();
     }
 
 	@Override
