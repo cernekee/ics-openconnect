@@ -46,6 +46,9 @@ public abstract class VPNConnector {
 			mContext.unregisterReceiver(mReceiver);
 			mReceiver = null;
 		}
+		if (service != null) {
+			service.stopActiveDialog(mContext);
+		}
 	}
 
 	public void unbind() {

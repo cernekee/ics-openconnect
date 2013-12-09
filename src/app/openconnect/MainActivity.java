@@ -71,6 +71,8 @@ public class MainActivity extends Activity {
 	private void updateUI(OpenVpnService service) {
 		int newState = service.getConnectionState();
 
+		service.startActiveDialog(this);
+
 		if (!mTabsActive) {
 			// NOTE: addTab may cause mLastTab to change, so cache the value here
 			String lastTab = mLastTab;

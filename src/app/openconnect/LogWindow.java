@@ -153,7 +153,6 @@ public class LogWindow extends ListActivity {
 	protected void onStop() {
 		mConn.stop();
 		if (mConn.service != null) {
-    		mConn.service.stopActiveDialog();
     		mConn.service.putArrayAdapter(mLogAdapter);
     		mLogAdapter = null;
 		}

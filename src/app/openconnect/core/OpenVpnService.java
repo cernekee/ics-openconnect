@@ -214,8 +214,11 @@ public class OpenVpnService extends VpnService {
 	}
 
 	/* called when the activity shuts down (mDialog will be re-rendered when the activity starts again) */
-	public synchronized void stopActiveDialog() {
-		if (mDialog != null && mDialogContext != null) {
+	public synchronized void stopActiveDialog(Context context) {
+		if (mDialogContext != context) {
+			return;
+		}
+		if (mDialog != null) {
 			mDialog.onStop(mDialogContext);
 		}
 		mDialogContext = null;
