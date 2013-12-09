@@ -124,6 +124,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onPause() {
+		mConn.stopActiveDialog();
 		mConn.unbind();
 		super.onPause();
 	}

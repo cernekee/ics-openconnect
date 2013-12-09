@@ -41,13 +41,19 @@ public abstract class VPNConnector {
 		mOwnerName = mContext.getClass().getSimpleName();
 	}
 
+	// an Activity should call stopActiveDialog() from onPause()
+	public void stopActiveDialog() {
+		stop();
+		if (service != null) {
+			service.stopActiveDialog(mContext);
+		}
+	}
+
+	// a Fragment should call unbind() or stop()+unbind() from onDestroyView
 	public void stop() {
 		if (mReceiver != null) {
 			mContext.unregisterReceiver(mReceiver);
 			mReceiver = null;
-		}
-		if (service != null) {
-			service.stopActiveDialog(mContext);
 		}
 	}
 
