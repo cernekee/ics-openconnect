@@ -12,8 +12,8 @@ public class VPNLogItem implements Serializable {
 	private static final long serialVersionUID = 7341923752956090364L;
 
 	private long mLogtime = System.currentTimeMillis();
-	private int mLevel;
 	private String mMsg;
+	@SuppressWarnings("unused")	private int mLevel;
 
 	public VPNLogItem(int level, String msg) {
 		this.mLevel = level;
@@ -37,6 +37,6 @@ public class VPNLogItem implements Serializable {
 	}
 
 	public String toString() {
-		return "<" + mLevel + "> " + mMsg;
+		return format(null, VPNLog.TIME_FORMAT_LONG);
 	}
 }
