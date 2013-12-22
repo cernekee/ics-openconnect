@@ -1,0 +1,5 @@
+sources/
+sysroot-*/
+arm-linux-androideabi/
+i686-linux-android/
+mipsel-linux-android/
