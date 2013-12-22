@@ -178,32 +178,16 @@ public class AuthFormHandler extends UserDialog
 		}
 	}
 
-	private LinearLayout newDropdown(final LibOpenConnect.FormOpt opt, String defval) {
+	private LinearLayout newDropdown(final LibOpenConnect.FormOpt opt, int selection) {
 		List<String> choiceList = new ArrayList<String>();
-		int server_selection = -1, defval_selection = -1, selection;
-
-		for (int i = 0; i < opt.choices.size(); i++) {
-			LibOpenConnect.FormChoice fc = opt.choices.get(i);
-			choiceList.add(fc.label);
-			if (defval.equals(fc.name)) {
-				defval_selection = i;
-			}
-			if (fc.selected) {
-				server_selection = i;
-			}
-		}
-
-		if (server_selection != -1) {
-			selection = server_selection;
-		} else if (defval_selection != -1) {
-			selection = defval_selection;
-		} else {
-			selection = 0;
-		}
 
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,
 	    		android.R.layout.simple_spinner_item, choiceList);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+	    for (LibOpenConnect.FormChoice fc : opt.choices) {
+	    	choiceList.add(fc.label);
+	    };
 
 		Spinner sp = new Spinner(mContext);
 		sp.setAdapter(adapter);
@@ -285,18 +269,15 @@ public class AuthFormHandler extends UserDialog
 		}
 
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
-			if ("group_list".equals(opt.name)) {
-				for (LibOpenConnect.FormChoice choice : opt.choices) {
-					if (authgroup.equals(choice.name)) {
-						if (choice.selected) {
-							// already good to go
-							return null;
-						} else {
-							// not selected, so send a request back to libopenconnect
-							opt.setValue(choice.name);
-							return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
-						}
-					}
+			if (opt.name.equals(mForm.authgroupField)) {
+				LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
+				if (authgroup.equals(selected.name)) {
+					// already good to go
+					return null;
+				} else {
+					// not selected, so send a request back to libopenconnect
+					opt.setValue(selected.name);
+					return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
 				}
 			}
 		}
@@ -332,8 +313,20 @@ public class AuthFormHandler extends UserDialog
 				if (opt.choices.size() == 0) {
 					break;
 				}
-				defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
-				v.addView(newDropdown(opt, defval));
+
+				int selection = 0;
+				if (opt.name.equals(mForm.authgroupField)) {
+					selection = mForm.authgroupSelection;
+				} else {
+					// do any servers actually use non-authgroup downdowns?
+					defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
+					for (int i = 0; i < opt.choices.size(); i++) {
+						if (opt.choices.get(i).name.equals(defval)) {
+							selection = i;
+						}
+					}
+				}
+				v.addView(newDropdown(opt, selection));
 				hasUserOptions = true;
 				break;
 			}
