@@ -15,10 +15,7 @@ import android.preference.PreferenceManager;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
-import com.stericson.RootTools.RootTools;
-
 import app.openconnect.AuthFormHandler;
-import app.openconnect.R;
 import app.openconnect.VpnProfile;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
@@ -280,8 +277,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private boolean runVPN() {
 		initNative();
 
-		RootTools.installBinary(mContext, R.raw.android_csd, "android_csd.sh", "0755");
-		RootTools.installBinary(mContext, R.raw.curl, "curl", "0755");
+		AssetExtractor.extractAll(mContext);
 
 		setState(STATE_CONNECTING);
 		mOC = new AndroidOC();
