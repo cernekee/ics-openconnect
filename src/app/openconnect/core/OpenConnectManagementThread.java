@@ -152,9 +152,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		if (prefData.startsWith("[[INLINE]]")) {
 			prefData = prefData.substring(10);
 
-			// It would be nice to use mCacheDir here, but putting curl and the CSD script in the same
-			// directory simplifies things.
-			path = mFilesDir + File.separator + prefName + ".tmp";
+			path = mCacheDir + File.separator + prefName + ".tmp";
 			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
 			writer.write(prefData);
 			writer.close();
@@ -182,8 +180,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		String s;
 
 		try {
+			String PATH = System.getenv("PATH");
+			if (!PATH.startsWith(mFilesDir)) {
+				PATH = mFilesDir + ":" + PATH;
+			}
 			s = prefToTempFile("custom_csd_wrapper", true);
-			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd.sh"), mCacheDir);
+			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd.sh"), mCacheDir, PATH);
 
 			s = prefToTempFile("ca_certificate", false);
 			if (s != null) {

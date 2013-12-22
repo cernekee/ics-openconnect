@@ -7,7 +7,7 @@ mobile_device_uniqueid="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 # delete the csdXXXXXX temp file so they don't start piling up
 rm -f $1
 
-exec ${0%/*}/curl \
+exec curl \
 	--insecure \
 	--user-agent "AnyConnect Android 3.0.09156" \
 	--header "X-Transcend-Version: 1" \
