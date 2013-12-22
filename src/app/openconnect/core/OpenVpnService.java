@@ -19,6 +19,8 @@ import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.util.Locale;
 
+import org.infradead.libopenconnect.LibOpenConnect.VPNStats;
+
 public class OpenVpnService extends VpnService {
 
 	public static final String TAG = "OpenConnect";
@@ -48,6 +50,7 @@ public class OpenVpnService extends VpnService {
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
 	private String mConnectionStateNames[];
+	private VPNStats mStats = new VPNStats();
 
 	private VPNLog mVPNLog = new VPNLog();
 	private Handler mHandler = new Handler();
@@ -286,6 +289,21 @@ public class OpenVpnService extends VpnService {
 
 	public String getConnectionStateName() {
 		return mConnectionStateNames[getConnectionState()];
+	}
+
+	public void requestStats() {
+		if (mVPN != null) {
+			mVPN.requestStats();
+		}
+	}
+
+	public synchronized void setStats(VPNStats stats) {
+		mStats = stats;
+		wakeUpActivity();
+	}
+
+	public synchronized VPNStats getStats() {
+		return mStats;
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {

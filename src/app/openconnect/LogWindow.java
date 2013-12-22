@@ -123,8 +123,13 @@ public class LogWindow extends ListActivity {
 				mCancelButton.setTitle(title);
 				mCancelButton.setTitleCondensed(title);
     		}
+
+    		String byteCountSummary = "";
+    		if (state == OpenConnectManagementThread.STATE_CONNECTED) {
+				byteCountSummary = " - " + mConn.getByteCountSummary();
+    		}
     		String states[] = getResources().getStringArray(R.array.connection_states);
-    		mSpeedView.setText(states[state]);
+    		mSpeedView.setText(states[state] + byteCountSummary);
 
     		if (mLogAdapter == null) {
     			mLogAdapter = service.getArrayAdapter(this);

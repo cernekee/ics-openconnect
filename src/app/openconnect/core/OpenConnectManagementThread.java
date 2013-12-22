@@ -112,6 +112,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				log("Error protecting fd " + fd);
 			}
 		}
+
+		public void onStatsUpdate(LibOpenConnect.VPNStats stats) {
+			mOpenVPNService.setStats(stats);
+		}
 	}
 
 	private synchronized void initNative() {
@@ -337,7 +341,15 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	@Override
 	public boolean stopVPN() {
 		log("STOP");
-		mOC.cancel();
+		if (mOC != null) {
+			mOC.cancel();
+		}
 		return true;
+	}
+
+	public void requestStats() {
+		if (mOC != null) {
+			mOC.requestStats();
+		}
 	}
 }

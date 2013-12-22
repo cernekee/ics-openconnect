@@ -66,9 +66,15 @@ public class StatusFragment extends Fragment {
 
     private void updateUI(OpenVpnService service) {
 		TextView tv = (TextView)mView.findViewById(R.id.status);
-		tv.setText(getString(R.string.netstatus, service.getConnectionStateName()));
+		int state = service.getConnectionState();
 
-		if (service.getConnectionState() != OpenConnectManagementThread.STATE_DISCONNECTED) {
+		String line = getString(R.string.netstatus, service.getConnectionStateName());
+		if (state == OpenConnectManagementThread.STATE_CONNECTED) {
+			line += "\n" + mConn.getByteCountSummary();
+		}
+		tv.setText(line);
+
+		if (state != OpenConnectManagementThread.STATE_DISCONNECTED) {
 			mDisconnectButton.setVisibility(View.VISIBLE);
 		} else {
 			mDisconnectButton.setVisibility(View.INVISIBLE);
