@@ -69,7 +69,7 @@ $(OPENSSL_DIR)/Makefile: $(OPENSSL_DIR)/Configure
 		$(OPENSSL_TARGET):"gcc --sysroot=$(NDK_SYSROOT)"
 
 $(OPENSSL_DIR)/libssl.a: $(OPENSSL_DIR)/Makefile
-	$(MAKE) -C $(OPENSSL_DIR)
+	$(MAKE) -C $(OPENSSL_DIR) build_libs
 
 $(OC_SYSROOT)/lib/libssl.a: $(OPENSSL_DIR)/libssl.a
 	# Do this manually instead of using 'make install' since we want symlinks
