@@ -3,28 +3,50 @@ GCCVER := 4.8
 
 LIBS := ../libs
 ASSETS := ../assets/raw
+
 ARCH_LIST := arm x86 mips
-NDK_ARCH_LIST := armeabi x86 mips
+NDK_ARCH_arm := armeabi
+NDK_ARCH_x86 := x86
+NDK_ARCH_mips := mips
 
-.PHONY: all clean
-all: $(addsuffix /libopenconnect.so,$(ARCH_LIST)) \
-     $(addsuffix /curl,$(ARCH_LIST)) \
-     openconnect-wrapper.jar
-	mkdir -p $(addprefix $(LIBS)/,$(NDK_ARCH_LIST))
-	mkdir -p $(addprefix $(ASSETS)/,$(NDK_ARCH_LIST))
-	cp arm/libopenconnect.so $(LIBS)/armeabi/
-	cp arm/curl $(ASSETS)/armeabi/
-	cp mips/libopenconnect.so $(LIBS)/mips/
-	cp mips/curl $(ASSETS)/mips/
-	cp x86/libopenconnect.so $(LIBS)/x86/
-	cp x86/curl $(ASSETS)/x86/
-	cp openconnect-wrapper.jar $(LIBS)/
+JAR_LIST := openconnect-wrapper.jar
 
+ARCH_TARGETS := $(addprefix arch-,$(ARCH_LIST))
+ARCH_UTILS_TARGETS := $(addprefix arch-utils-,$(ARCH_LIST))
+ARCH_CURL_TARGETS := $(addsuffix /curl,$(ARCH_LIST))
+ARCH_OC_TARGETS := $(addsuffix /libopenconnect.so,$(ARCH_LIST))
+
+INSTALL_ARCH_TARGETS := $(addprefix install-arch-,$(ARCH_LIST))
+INSTALL_JAR_TARGETS := $(addprefix install-jar-,$(JAR_LIST))
+
+.PHONY: install
+install: $(INSTALL_ARCH_TARGETS) $(INSTALL_JAR_TARGETS)
+
+.PHONY: clean
 clean:
 	$(MAKE) -C utils clean
-	rm -rf $(ARCH_LIST) openconnect-wrapper.jar
+	rm -rf $(ARCH_LIST) $(JAR_LIST)
 
-%/libopenconnect.so: .openconnect-sources
+.PHONY: $(INSTALL_JAR_TARGETS)
+$(INSTALL_JAR_TARGETS) : install-jar-% : %
+	mkdir -p $(LIBS)
+	cp $* $(LIBS)/
+
+.PHONY: $(INSTALL_ARCH_TARGETS)
+$(INSTALL_ARCH_TARGETS) : install-arch-% : arch-%
+	mkdir -p $(LIBS)/$(NDK_ARCH_$*)
+	cp $*/libopenconnect.so $(LIBS)/$(NDK_ARCH_$*)/
+	mkdir -p $(ASSETS)/$(NDK_ARCH_$*)
+	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/
+
+.PHONY: $(ARCH_TARGETS)
+$(ARCH_TARGETS) : arch-%: %/libopenconnect.so %/curl
+
+$(ARCH_CURL_TARGETS) : %/curl : arch-utils-%
+	mkdir -p $*
+	cp utils/$*/curl $*/
+
+$(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	rm -rf $*/openconnect
 	mkdir -p $*/openconnect
 	cp -a openconnect $*/
@@ -35,13 +57,9 @@ clean:
 	$(MAKE) -C openconnect/android sources
 	touch $@
 
-.PHONY: %/utils
-%/utils: utils-sources
+.PHONY: $(ARCH_UTILS_TARGETS)
+$(ARCH_UTILS_TARGETS) : arch-utils-% : utils-sources
 	$(MAKE) -C utils ARCH=$* NDK=$(NDK) GCCVER=$(GCCVER)
-
-%/curl: %/utils
-	mkdir -p $*
-	cp utils/$*/curl $*/
 
 .PHONY: utils-sources
 utils-sources:
