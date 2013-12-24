@@ -44,8 +44,10 @@ public class AuthFormHandler extends UserDialog
 	private static final int BATCH_MODE_DISABLED = 0;
 	private static final int BATCH_MODE_EMPTY_ONLY = 1;
 	private static final int BATCH_MODE_ENABLED = 2;
+	private static final int BATCH_MODE_ABORTED = 3;
 
-	public AuthFormHandler(SharedPreferences prefs, LibOpenConnect.AuthForm form, boolean authgroupSet) {
+	public AuthFormHandler(SharedPreferences prefs, LibOpenConnect.AuthForm form, boolean authgroupSet,
+			String lastFormDigest) {
 		super(prefs);
 
 		mForm = form;
@@ -59,6 +61,21 @@ public class AuthFormHandler extends UserDialog
 		} else if (s.equals("enabled")) {
 			batchMode = BATCH_MODE_ENABLED;
 		}
+
+		// If the server is sending us the same form twice in a row, that probably
+		// means there's a problem with the data we are sending back.  Either prompt
+		// the user, or abort.
+		if (formPfx.equals(lastFormDigest)) {
+			if (batchMode == BATCH_MODE_EMPTY_ONLY) {
+				batchMode = BATCH_MODE_DISABLED;
+			} else if (batchMode == BATCH_MODE_ENABLED) {
+				batchMode = BATCH_MODE_ABORTED;
+			}
+		}
+	}
+
+	public String getFormDigest() {
+		return formPfx;
 	}
 
 	@Override
@@ -338,6 +355,11 @@ public class AuthFormHandler extends UserDialog
 			boolean savePass = !getStringPref(formPfx + "savePass").equals("false");
 			savePassword = newSavePasswordView(savePass);
 			v.addView(savePassword);
+		}
+
+		if (batchMode == BATCH_MODE_ABORTED) {
+			finish(LibOpenConnect.OC_FORM_RESULT_CANCELLED);
+			return;
 		}
 
 		if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||

@@ -42,6 +42,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	LibOpenConnect mOC;
 	private boolean mInitDone = false;
 	private boolean mAuthgroupSet = false;
+	private String mLastFormDigest;
 
     public OpenConnectManagementThread(Context context, VpnProfile profile, OpenVpnService openVpnService) {
     	mContext = context;
@@ -88,9 +89,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("CALLBACK: onProcessAuthForm");
 			setState(STATE_USER_PROMPT);
 
-			Integer response = (Integer)mOpenVPNService.promptUser(
-					new AuthFormHandler(mPrefs, authForm, mAuthgroupSet));
+			AuthFormHandler h = new AuthFormHandler(mPrefs, authForm, mAuthgroupSet, mLastFormDigest);
+			mLastFormDigest = h.getFormDigest();
 
+			Integer response = (Integer)mOpenVPNService.promptUser(h);
 			if (response == OC_FORM_RESULT_OK) {
 				setState(STATE_AUTHENTICATING);
 			} else if (response == OC_FORM_RESULT_NEWGROUP) {
