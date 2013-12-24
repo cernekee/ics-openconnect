@@ -274,11 +274,14 @@ public class AuthFormHandler extends UserDialog
 				if (authgroup.equals(selected.name)) {
 					// already good to go
 					return null;
-				} else {
-					// not selected, so send a request back to libopenconnect
-					opt.setValue(selected.name);
-					return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
 				}
+				for (LibOpenConnect.FormChoice ch : opt.choices) {
+					if (authgroup.equals(ch.name)){
+						opt.setValue(authgroup);
+						return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
+					}
+				}
+				Log.w(TAG, "saved authgroup '" + authgroup + "' not present in " + opt.name + " dropdown");
 			}
 		}
 		return null;
