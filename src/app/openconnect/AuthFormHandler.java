@@ -242,6 +242,9 @@ public class AuthFormHandler extends UserDialog
 
 	private void saveAndStore() {
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
+			if ((opt.flags & LibOpenConnect.OC_FORM_OPT_IGNORE) != 0) {
+				continue;
+			}
 			switch (opt.type) {
 			case LibOpenConnect.OC_FORM_OPT_TEXT: {
 				TextView tv = (TextView)opt.userData;
@@ -317,6 +320,9 @@ public class AuthFormHandler extends UserDialog
 		String defval;
 
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
+			if ((opt.flags & LibOpenConnect.OC_FORM_OPT_IGNORE) != 0) {
+				continue;
+			}
 			switch (opt.type) {
 			case LibOpenConnect.OC_FORM_OPT_PASSWORD:
 				hasPassword = true;
