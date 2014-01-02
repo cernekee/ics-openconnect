@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -43,6 +44,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private boolean mInitDone = false;
 	private boolean mAuthgroupSet = false;
 	private String mLastFormDigest;
+	private HashMap<String,Boolean> mAcceptedCerts = new HashMap<String,Boolean>();
+	private boolean mAuthDone = false;
 
     public OpenConnectManagementThread(Context context, VpnProfile profile, OpenVpnService openVpnService) {
     	mContext = context;
@@ -69,10 +72,21 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		public int onValidatePeerCert(String reason) {
 			log("CALLBACK: onValidatePeerCert");
 
+			// This can be called repeatedly on the same (re)connection attempt
+			String hash = getCertSHA1();
+			if (mAcceptedCerts.containsKey(hash)) {
+				return 0;
+			}
+			if (mAuthDone) {
+				log("AUTH: certificate mismatch on existing connection");
+				return -1;
+			}
+
 			Boolean response = (Boolean)mOpenVPNService.promptUser(
-					new CertWarningDialog(mPrefs, reason, getHostname(), getCertSHA1()));
+					new CertWarningDialog(mPrefs, reason, getHostname(), hash));
 
 			if (response) {
+				mAcceptedCerts.put(hash, true);
 				return 0;
 			} else {
 				log("AUTH: user rejected bad certificate");
@@ -305,6 +319,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return false;
 		}
 
+		mAuthDone = true;
 		UserDialog.writeDeferredPrefs();
 		setState(STATE_AUTHENTICATED);
 		if (mOC.makeCSTPConnection() != 0) {
