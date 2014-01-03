@@ -281,11 +281,11 @@ public class AuthFormHandler extends UserDialog
 	}
 
 	// If the user had saved a preferred authgroup, submit a NEWGROUP request before rendering the form
-	public Object earlyReturn() {
+	public boolean setAuthgroup() {
 		String authgroup = getStringPref("authgroup");
 
 		if (mAuthgroupSet || authgroup.equals("")) {
-			return null;
+			return false;
 		}
 
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
@@ -293,18 +293,45 @@ public class AuthFormHandler extends UserDialog
 				LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
 				if (authgroup.equals(selected.name)) {
 					// already good to go
-					return null;
+					return false;
 				}
 				for (LibOpenConnect.FormChoice ch : opt.choices) {
-					if (authgroup.equals(ch.name)){
+					if (authgroup.equals(ch.name)) {
 						opt.setValue(authgroup);
-						return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
+						return true;
 					}
 				}
 				Log.w(TAG, "saved authgroup '" + authgroup + "' not present in " + opt.name + " dropdown");
 			}
 		}
-		return null;
+		return false;
+	}
+
+	public Object earlyReturn() {
+		if (setAuthgroup()) {
+			return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
+		}
+		if (batchMode == BATCH_MODE_DISABLED) {
+			return null;
+		}
+
+		// do a quick pass through all prompts to see if we can fill in the
+		// answers without bugging the user
+		for (LibOpenConnect.FormOpt opt : mForm.opts) {
+			if ((opt.flags & LibOpenConnect.OC_FORM_OPT_IGNORE) != 0) {
+				continue;
+			}
+			switch (opt.type) {
+			case LibOpenConnect.OC_FORM_OPT_PASSWORD:
+			case LibOpenConnect.OC_FORM_OPT_TEXT:
+				String defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
+				if (defval.equals("")) {
+					return null;
+				}
+				opt.setValue(defval);
+			}
+		}
+		return LibOpenConnect.OC_FORM_RESULT_OK;
 	}
 
 	public void onStart(Context context) {
