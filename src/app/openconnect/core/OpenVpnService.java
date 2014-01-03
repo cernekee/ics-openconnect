@@ -167,7 +167,7 @@ public class OpenVpnService extends VpnService {
 			return START_NOT_STICKY;
 		}
 
-		mProfile = ProfileManager.get(this, mUUID);
+		mProfile = ProfileManager.get(mUUID);
 		if (mProfile == null) {
 			return START_NOT_STICKY;
 		}

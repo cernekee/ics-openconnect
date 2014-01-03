@@ -56,10 +56,6 @@ public class ProfileManager {
 		return mProfiles.values();
 	}
 
-	public synchronized static VpnProfile get(Context context, String key) {
-		return key == null ? null : mProfiles.get(key);
-	}
-
 	public synchronized static VpnProfile get(String key) {
 		return key == null ? null : mProfiles.get(key);
 	}
