@@ -92,11 +92,9 @@ public class ExternalOpenVPNService extends Service {
 		public List<APIVpnProfile> getProfiles() throws RemoteException {
 			checkOpenVPNPermission();
 
-			ProfileManager pm = ProfileManager.getInstance(getBaseContext());
-
 			List<APIVpnProfile> profiles = new LinkedList<APIVpnProfile>();
 
-			for(VpnProfile vp: pm.getProfiles())
+			for(VpnProfile vp: ProfileManager.getProfiles())
 				profiles.add(new APIVpnProfile(vp.getUUIDString(),vp.mName,vp.mUserEditable));
 
 			return profiles;

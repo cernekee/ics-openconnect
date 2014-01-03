@@ -30,7 +30,8 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app"
-        android:supportsRtl="true" >
+        android:supportsRtl="true"
+        android:name="app.openconnect.Application" >
         <activity
             android:name=".VPNPreferences"
             android:windowSoftInputMode="stateHidden" />

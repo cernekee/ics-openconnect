@@ -186,7 +186,7 @@ public class OpenVpnService extends VpnService {
 			unregisterDeviceStateReceiver();
 		registerDeviceStateReceiver(mVPN);
 
-		ProfileManager.setConnectedVpnProfile(this, mProfile);
+		ProfileManager.setConnectedVpnProfile(mProfile);
 
         return START_NOT_STICKY;
     }
@@ -342,6 +342,6 @@ public class OpenVpnService extends VpnService {
 
 	public void stopVPN() {
 		killVPNThread(false);
-		ProfileManager.setConnectedVpnProfileDisconnected(this);
+		ProfileManager.setConnectedVpnProfileDisconnected();
 	}
 }

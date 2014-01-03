@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import android.content.SharedPreferences;
 
-public class VpnProfile implements Serializable {
+public class VpnProfile implements Serializable, Comparable<VpnProfile> {
     // Note that this class cannot be moved to core where it belongs since
     // the profile loading depends on it being here
     // The Serializable documentation mentions that class name change are possible
@@ -31,7 +31,6 @@ public class VpnProfile implements Serializable {
     public static final String INLINE_TAG = "[[INLINE]]";
     public static final String MINIVPN = "miniopenvpn";
     private static final long serialVersionUID = 7085688938959334563L;
-    private static final String OVPNCONFIGFILE = "android.conf";
     public static String DEFAULT_DNS1 = "8.8.8.8";
     public static String DEFAULT_DNS2 = "8.8.4.4";
     public transient String mTransientPW = null;
@@ -92,14 +91,38 @@ public class VpnProfile implements Serializable {
     private UUID mUuid;
     public SharedPreferences mPrefs;
 
-    public VpnProfile(String name) {
-        mUuid = UUID.randomUUID();
-        mName = name;
+    private void loadPrefs(SharedPreferences prefs) {
+    	mPrefs = prefs;
+
+    	String uuid = mPrefs.getString("profile_uuid", null);
+    	if (uuid != null) {
+    		mUuid = UUID.fromString(uuid);
+    	}
+    	mName = mPrefs.getString("profile_name", null);
     }
-    
+
+    public VpnProfile(SharedPreferences prefs, String uuid, String name) {
+    	prefs.edit()
+    		.putString("profile_uuid", uuid)
+    		.putString("profile_name", name)
+    		.commit();
+    	loadPrefs(prefs);
+    }
+
+    public VpnProfile(SharedPreferences prefs) {
+    	loadPrefs(prefs);
+    }
+
     public VpnProfile(String name, String uuid) {
         mUuid = UUID.fromString(uuid);
         mName = name;
+    }
+
+    public boolean isValid() {
+    	if (mName == null || mUuid == null) {
+    		return false;
+    	}
+    	return true;
     }
 
     public UUID getUUID() {
@@ -124,6 +147,11 @@ public class VpnProfile implements Serializable {
     public PrivateKey getKeystoreKey() {
         return mPrivateKey;
     }
+
+	@Override
+	public int compareTo(VpnProfile arg0) {
+		return getName().compareTo(arg0.getName());
+	}
 }
 
 

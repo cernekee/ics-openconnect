@@ -190,7 +190,7 @@ public class KeepAlive extends BroadcastReceiver {
 		if (mConnectionActive && state == OpenConnectManagementThread.STATE_DISCONNECTED) {
 			stop(context);
 		} else if (!mConnectionActive && state == OpenConnectManagementThread.STATE_CONNECTED) {
-			SharedPreferences p = context.getSharedPreferences(UUID, Context.MODE_PRIVATE);
+			SharedPreferences p = ProfileManager.get(UUID).mPrefs;
 			int minutes = DEFAULT_INTERVAL;
 			try {
 				minutes = Integer.parseInt(p.getString("keepalive_interval", ""));

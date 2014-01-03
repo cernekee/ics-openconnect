@@ -57,7 +57,6 @@ public class VPNPreferences extends PreferenceActivity {
 		// When a profile is deleted from a category fragment in hadset mod we need to finish
 		// this activity as well when returning
 		if (mProfile==null || mProfile.profileDleted) {
-			setResult(VPNProfileList.RESULT_VPN_DELETED);
 			finish();
 		}
 	}
@@ -120,19 +119,13 @@ public class VPNPreferences extends PreferenceActivity {
 				new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				removeProfile(mProfile);
+				ProfileManager.delete(mProfile.getUUIDString());
+				finish();
 			}
 
 		});
 		dialog.setNegativeButton(android.R.string.no,null);
 		dialog.create().show();
-	}
-	
-	protected void removeProfile(VpnProfile profile) {
-		ProfileManager.getInstance(this).removeProfile(this,profile);
-		setResult(VPNProfileList.RESULT_VPN_DELETED);
-		finish();
-		
 	}
 }
 

@@ -3,8 +3,11 @@ package app.openconnect.fragments;
 import java.util.Map;
 
 import app.openconnect.FileSelect;
+import app.openconnect.OpenConnectPreferencesActivity;
 import app.openconnect.R;
 import app.openconnect.ShowTextPreference;
+import app.openconnect.VpnProfile;
+import app.openconnect.core.ProfileManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.ListPreference;
@@ -21,8 +24,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 public class OpenConnectPreferencesFragment extends PreferenceFragment
 		implements OnSharedPreferenceChangeListener, OnPreferenceClickListener {
 
-	Context mContext;
 	PreferenceManager mPrefs;
+	VpnProfile mProfile;
 
     String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
 
@@ -30,10 +33,10 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mContext = getActivity();
+        mProfile = ProfileManager.get(getArguments().getString("profileUUID"));
 
         mPrefs = getPreferenceManager();
-        mPrefs.setSharedPreferencesName(getArguments().getString("profileUUID"));
+        mPrefs.setSharedPreferencesName(ProfileManager.getPrefsName(mProfile.getUUIDString()));
         mPrefs.setSharedPreferencesMode(Context.MODE_PRIVATE);
 
         // Load the preferences from an XML resource
@@ -72,17 +75,17 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
 
         Preference pref = findPreference(key);
         if (pref != null) {
-		if (pref instanceof ListPreference) {
-			ListPreference lpref = (ListPreference)pref;
-			pref.setSummary(lpref.getEntry());
-		} else {
-			/* for ShowTextPreference entries, hide the raw base64 cert data */
-			if (value.startsWith("[[INLINE]]")) {
-				pref.setSummary("[STORED]");
+			if (pref instanceof ListPreference) {
+				ListPreference lpref = (ListPreference)pref;
+				pref.setSummary(lpref.getEntry());
 			} else {
-				pref.setSummary(value);
+				/* for ShowTextPreference entries, hide the raw base64 cert data */
+				if (value.startsWith("[[INLINE]]")) {
+					pref.setSummary("[STORED]");
+				} else {
+					pref.setSummary(value);
+				}
 			}
-		}
         }
 
         /* disable token_string item if the profile isn't using a software token */ 
@@ -91,6 +94,10 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
             if (pref != null) {
                 pref.setEnabled(!value.equals("disabled"));
             }
+        }
+
+        if (key.equals("profile_name")) {
+        	((OpenConnectPreferencesActivity)getActivity()).setProfileName(value);
         }
     }
 
@@ -132,7 +139,7 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
 	@Override
 	public void onActivityResult(int idx, int resultCode, Intent data) {
 		super.onActivityResult(idx, resultCode, data);
-		if(resultCode == Activity.RESULT_OK) {
+		if (resultCode == Activity.RESULT_OK) {
 			String key = fileSelectKeys[idx];
 			ShowTextPreference p = (ShowTextPreference)findPreference(key);
 			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));

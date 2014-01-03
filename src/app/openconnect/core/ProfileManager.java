@@ -1,162 +1,136 @@
 package app.openconnect.core;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 import app.openconnect.VpnProfile;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class ProfileManager {
-	private static final String PREFS_NAME =  "VPNList";
+	public static final String TAG = "OpenConnect";
 
+	private static final String PROFILE_PFX = "profile-";
+	private static HashMap<String,VpnProfile> mProfiles;
 
+	private static Context mContext;
+	private static SharedPreferences mAppPrefs;
 
-	private static final String ONBOOTPROFILE = "onBootProfile";
-
-
-
-	private static ProfileManager instance;
-
-
+	private static final String ON_BOOT_PROFILE = "onBootProfile";
+	private static final String RESTART_ON_BOOT = "restartvpnonboot";
 
 	private static VpnProfile mLastConnectedVpn=null;
-	private HashMap<String,VpnProfile> profiles=new HashMap<String, VpnProfile>();
-	private static VpnProfile tmpprofile=null;
 
+	public static void init(Context context) {
+		mContext = context;
+		mAppPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		mProfiles = new HashMap<String, VpnProfile>();
 
-	private static VpnProfile get(String key) {
-		if (tmpprofile!=null && tmpprofile.getUUIDString().equals(key))
-			return tmpprofile;
-			
-		if(instance==null)
-			return null;
-		return instance.profiles.get(key);
-		
+		File prefsdir = new File(context.getApplicationInfo().dataDir, "shared_prefs");
+	    if (prefsdir.exists() && prefsdir.isDirectory()) {
+	    	for (String s : prefsdir.list()) {
+	    		if (s.startsWith(PROFILE_PFX)) {
+	    			SharedPreferences p = context.getSharedPreferences(s.replaceFirst(".xml", ""),
+	    					Activity.MODE_PRIVATE);
+	    			VpnProfile entry = new VpnProfile(p);
+	    			if (!entry.isValid()) {
+	    				Log.w(TAG, "removing bogus profile '" + s + "'");
+	    				File f = new File(s);
+	    				f.delete();
+	    			} else {
+	    				mProfiles.put(entry.getUUIDString(), entry);
+	    			}
+	    		}
+	    	}
+	    }
 	}
 
+	public synchronized static Collection<VpnProfile> getProfiles() {
+		init(mContext);
+		return mProfiles.values();
+	}
 
-	
-	private ProfileManager() { }
-	
-	private static void checkInstance(Context context) {
-		if(instance == null) {
-			instance = new ProfileManager();
-			instance.loadVPNList(context);
+	public synchronized static VpnProfile get(Context context, String key) {
+		return key == null ? null : mProfiles.get(key);
+	}
+
+	public synchronized static VpnProfile get(String key) {
+		return key == null ? null : mProfiles.get(key);
+	}
+
+	public static String getPrefsName(String uuid) {
+		return PROFILE_PFX + uuid;
+	}
+
+	public synchronized static VpnProfile create(String name) {
+		if (getProfileByName(name) != null) {
+			return null;
 		}
+		String uuid = UUID.randomUUID().toString();
+		SharedPreferences p = mContext.getSharedPreferences(getPrefsName(uuid), Activity.MODE_PRIVATE);
+		VpnProfile profile = new VpnProfile(p, uuid, name);
+		mProfiles.put(uuid, profile);
+		return profile;
 	}
 
-	synchronized public static ProfileManager getInstance(Context context) {
-		checkInstance(context);
-		return instance;
-	}
-	
-	public static void setConnectedVpnProfileDisconnected(Context c) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-		Editor prefsedit = prefs.edit();
-		prefsedit.putString(ONBOOTPROFILE, null);
-		prefsedit.apply();
-		
-	}
-
-	public static void setConnectedVpnProfile(Context c, VpnProfile connectedrofile) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-		Editor prefsedit = prefs.edit();
-		
-		prefsedit.putString(ONBOOTPROFILE, connectedrofile.getUUIDString());
-		prefsedit.apply();
-		mLastConnectedVpn=connectedrofile;
-		
-	}
-	
-	public static VpnProfile getOnBootProfile(Context c) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-
-		boolean useStartOnBoot = prefs.getBoolean("restartvpnonboot", false);
-
-		
-		String mBootProfileUUID = prefs.getString(ONBOOTPROFILE,null);
-		if(useStartOnBoot && mBootProfileUUID!=null)
-			return get(c, mBootProfileUUID);
-		else 
-			return null;
-	}
-	
-	
-	
-	
-	public Collection<VpnProfile> getProfiles() {
-		return profiles.values();
-	}
-	
-	public VpnProfile getProfileByName(String name) {
-		for (VpnProfile vpnp : profiles.values()) {
+	public synchronized static VpnProfile getProfileByName(String name) {
+		for (VpnProfile vpnp : mProfiles.values()) {
 			if(vpnp.getName().equals(name)) {
 				return vpnp;
 			}
 		}
-		return null;			
+		return null;
 	}
 
-	public void saveProfileList(Context context) {
-		SharedPreferences sharedprefs = context.getSharedPreferences(PREFS_NAME,Activity.MODE_PRIVATE);
-		Editor editor = sharedprefs.edit();
-		editor.putStringSet("vpnlist", profiles.keySet()).commit();
-	}
-
-	public void addProfile(VpnProfile profile) {
-		profiles.put(profile.getUUID().toString(),profile);
-		
-	}
-	
-	public static void setTemporaryProfile(VpnProfile tmp) {
-		ProfileManager.tmpprofile = tmp;
-	}
-	
-	private void loadVPNList(Context context) {
-		profiles = new HashMap<String, VpnProfile>();
-		SharedPreferences listpref = context.getSharedPreferences(PREFS_NAME,Activity.MODE_PRIVATE);
-		Set<String> vlist = listpref.getStringSet("vpnlist", null);
-		if(vlist==null){
-			vlist = new HashSet<String>();
+	public synchronized static boolean delete(String uuid) {
+		VpnProfile profile = get(uuid);
+		if (profile == null) {
+			Log.w(TAG, "error looking up profile " + uuid);
+			return false;
 		}
+		mProfiles.remove(uuid);
 
-		for (String vpnentry : vlist) {
-			SharedPreferences sp = context.getSharedPreferences(vpnentry, Activity.MODE_PRIVATE);
-			VpnProfile vp = new VpnProfile(sp.getString("profile_name", ""), vpnentry);
-			profiles.put(vpnentry, vp);
+		File f = new File(mContext.getApplicationInfo().dataDir + File.separator +
+				"shared_prefs" + File.separator + PROFILE_PFX + uuid + ".xml");
+
+		if (f.delete()) {
+			Log.i(TAG, "deleted profile " + uuid);
+			return true;
+		} else {
+			Log.w(TAG, "error deleting profile " + uuid);
+			return false;
 		}
 	}
 
-	public int getNumberOfProfiles() {
-		return profiles.size();
+	public synchronized static void setConnectedVpnProfileDisconnected() {
+		mLastConnectedVpn = null;
+		mAppPrefs.edit()
+			.remove(ON_BOOT_PROFILE)
+			.commit();
 	}
 
-	public void removeProfile(Context context,VpnProfile profile) {
-		String vpnentry = profile.getUUID().toString();
-		profiles.remove(vpnentry);
-		saveProfileList(context);
-		// FIXME: delete prefs file
-		if(mLastConnectedVpn==profile)
-			mLastConnectedVpn=null;
+	public synchronized static void setConnectedVpnProfile(VpnProfile connectedProfile) {
+		mLastConnectedVpn = connectedProfile;
+		mAppPrefs.edit()
+			.putString(ON_BOOT_PROFILE, connectedProfile.getUUIDString())
+			.commit();
 	}
 
+	public synchronized static VpnProfile getOnBootProfile() {
+		if (!mAppPrefs.getBoolean(RESTART_ON_BOOT, false)) {
+			return null;
+		}
 
-
-	public static VpnProfile get(Context context, String profileUUID) {
-		checkInstance(context);
-		return get(profileUUID);
+		String uuid = mAppPrefs.getString(ON_BOOT_PROFILE, null);
+		VpnProfile profile = get(uuid);
+		return profile;
 	}
-
-
 
 	public static VpnProfile getLastConnectedVpn() {
 		return mLastConnectedVpn;

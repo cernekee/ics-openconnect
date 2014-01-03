@@ -51,8 +51,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	mContext = context;
 		mProfile = profile;
 		mOpenVPNService = openVpnService;
-		mPrefs = mContext.getSharedPreferences(mProfile.getUUID().toString(),
-				Context.MODE_PRIVATE);
+		mPrefs = mProfile.mPrefs;
 		mAppPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 	}
 

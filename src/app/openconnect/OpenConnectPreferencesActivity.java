@@ -2,19 +2,16 @@ package app.openconnect;
 
 import app.openconnect.core.ProfileManager;
 import app.openconnect.fragments.OpenConnectPreferencesFragment;
-import app.openconnect.fragments.VPNProfileList;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class OpenConnectPreferencesActivity extends Activity {
 
-    private String mName;
+    private String mName = "";
     private String mUUID;
 
     @Override
@@ -26,17 +23,6 @@ public class OpenConnectPreferencesActivity extends Activity {
         Bundle args = new Bundle();
         args.putString("profileUUID", mUUID);
         frag.setArguments(args);
-
-        SharedPreferences mPrefs = getSharedPreferences(mUUID, Context.MODE_PRIVATE);
-        mName = getIntent().getStringExtra(getPackageName() + ".profileName");
-        mPrefs.edit().putString("profile_name", mName).commit();
-
-        // FIXME: VPNProfileList should use the names stored in SharedPreferences
-        //mName = mPrefs.getString("profile_name", "");
-
-        if (!mName.equals("")) {
-            setTitle(getString(R.string.edit_profile_title, mName));
-        }
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
@@ -57,6 +43,11 @@ public class OpenConnectPreferencesActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void setProfileName(String name) {
+		mName = name;
+    	setTitle(getString(R.string.edit_profile_title, mName));
+	}
+
 	private void askProfileRemoval() {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 		dialog.setTitle("Confirm deletion");
@@ -66,13 +57,7 @@ public class OpenConnectPreferencesActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Context ctx = OpenConnectPreferencesActivity.this;
-				VpnProfile profile = ProfileManager.get(ctx, mUUID);
-				if (profile != null) {
-					/* TODO: delete the xml file from the app's data dir */
-					ProfileManager.getInstance(ctx).removeProfile(ctx, profile);
-				}
-				setResult(VPNProfileList.RESULT_VPN_DELETED);
+				ProfileManager.delete(mUUID);
 				finish();
 			}
 		});
