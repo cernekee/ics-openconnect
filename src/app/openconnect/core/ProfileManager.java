@@ -122,10 +122,7 @@ public class ProfileManager {
 		if (!mAppPrefs.getBoolean(RESTART_ON_BOOT, false)) {
 			return null;
 		}
-
-		String uuid = mAppPrefs.getString(ON_BOOT_PROFILE, null);
-		VpnProfile profile = get(uuid);
-		return profile;
+		return get(mAppPrefs.getString(ON_BOOT_PROFILE, null));
 	}
 
 	public static VpnProfile getLastConnectedVpn() {

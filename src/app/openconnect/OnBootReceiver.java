@@ -3,11 +3,14 @@ package app.openconnect;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.ProfileManager;
 
 
 public class OnBootReceiver extends BroadcastReceiver {
+
+	public static final String TAG = "OpenConnect";
 
 	// Debug: am broadcast -a android.intent.action.BOOT_COMPLETED
 	@Override
@@ -18,15 +21,18 @@ public class OnBootReceiver extends BroadcastReceiver {
 		if(Intent.ACTION_BOOT_COMPLETED.equals(action)) {
 			VpnProfile bootProfile = ProfileManager.getOnBootProfile();
 			if(bootProfile != null) {
-				lauchVPN(bootProfile, context);
-			}		
+				Log.i(TAG, "starting profile '" + bootProfile.getName() + "' on boot");
+				launchVPN(bootProfile, context);
+			} else {
+				Log.d(TAG, "no boot profile configured");
+			}
 		}
 	}
 
-	void lauchVPN(VpnProfile profile,Context context) {
-		Intent startVpnIntent = new Intent(Intent.ACTION_MAIN);
-		startVpnIntent.setClass(context, GrantPermissionsActivity.class);
-		startVpnIntent.putExtra(GrantPermissionsActivity.EXTRA_UUID,profile.getUUIDString());
+	void launchVPN(VpnProfile profile, Context context) {
+		Intent startVpnIntent = new Intent(context, GrantPermissionsActivity.class);
+		startVpnIntent.putExtra(context.getPackageName() + GrantPermissionsActivity.EXTRA_UUID,
+				profile.getUUIDString());
 		startVpnIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		//startVpnIntent.putExtra(LogWindow.EXTRA_HIDELOG, true);
 
