@@ -94,6 +94,7 @@ public abstract class VPNConnector {
 
 	public void unbind() {
 		stop();
+		service.updateActivityRefcount(-1);
 		mContext.unbindService(mConnection);
 	}
 
@@ -113,6 +114,7 @@ public abstract class VPNConnector {
 			// LocalService instance
 			LocalBinder binder = (LocalBinder) serviceBinder;
 			service = binder.getService();
+			service.updateActivityRefcount(1);
 			onUpdate(service);
 		}
 

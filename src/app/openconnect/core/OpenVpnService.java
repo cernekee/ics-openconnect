@@ -1,6 +1,8 @@
 package app.openconnect.core;
 
 import android.Manifest.permission;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +49,10 @@ public class OpenVpnService extends VpnService {
 
 	private UserDialog mDialog;
 	private Context mDialogContext;
+
+	private final int NOTIFICATION_ID = 1;
+	private int mActivityConnections;
+	private boolean mNotificationActive;
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
 	private String mConnectionStateNames[];
@@ -238,11 +244,50 @@ public class OpenVpnService extends VpnService {
 		mDialog = dialog;
 	}
 
+	@SuppressWarnings("deprecation")
+	private void updateNotification() {
+		if (mDialog != null && mActivityConnections == 0 && !mNotificationActive) {
+			mNotificationActive = true;
+
+			Notification.Builder builder = new Notification.Builder(this)
+		            .setSmallIcon(R.drawable.ic_stat_vpn)
+		            .setContentTitle(getString(R.string.notification_input_needed))
+		            .setContentText(getString(R.string.notification_touch_here));
+
+            Intent intent = new Intent(this, LogWindow.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pend = PendingIntent.getActivity(this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pend);
+
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(NOTIFICATION_ID, builder.getNotification());
+            mNotificationActive = true;
+		} else if ((mDialog == null || mActivityConnections > 0) && mNotificationActive) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.cancel(NOTIFICATION_ID);
+            mNotificationActive = false;
+		}
+	}
+
 	private void wakeUpActivity() {
-		Intent vpnstatus = new Intent(ACTION_VPN_STATUS);
-		vpnstatus.putExtra(EXTRA_CONNECTION_STATE, mConnectionState);
-		vpnstatus.putExtra(EXTRA_UUID, mUUID);
-		sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				Intent vpnstatus = new Intent(ACTION_VPN_STATUS);
+				vpnstatus.putExtra(EXTRA_CONNECTION_STATE, mConnectionState);
+				vpnstatus.putExtra(EXTRA_UUID, mUUID);
+				sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
+
+				updateNotification();
+			}
+		});
+	}
+
+	public void updateActivityRefcount(int num) {
+		mActivityConnections += num;
+		Log.d(TAG, "service: " + mActivityConnections + " UI connections");
+		updateNotification();
 	}
 
 	/* called from the VPN thread; blocks until user responds */
