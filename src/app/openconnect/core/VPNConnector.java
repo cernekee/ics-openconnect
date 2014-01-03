@@ -94,7 +94,9 @@ public abstract class VPNConnector {
 
 	public void unbind() {
 		stop();
-		service.updateActivityRefcount(-1);
+		if (service != null) {
+			service.updateActivityRefcount(-1);
+		}
 		mContext.unbindService(mConnection);
 	}
 
