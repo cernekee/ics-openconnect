@@ -82,7 +82,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			}
 
 			Boolean response = (Boolean)mOpenVPNService.promptUser(
-					new CertWarningDialog(mPrefs, reason, getHostname(), hash));
+					new CertWarningDialog(mPrefs, getHostname(), hash, reason));
 
 			if (response) {
 				mAcceptedCerts.put(hash, true);
