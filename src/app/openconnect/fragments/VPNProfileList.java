@@ -26,7 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import app.openconnect.OpenConnectPreferencesActivity;
+import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
@@ -182,7 +182,7 @@ public class VPNProfileList extends ListFragment {
 
 	private void editVPN(VpnProfile profile) {
 		String pfx = getActivity().getPackageName();
-		Intent vprefintent = new Intent(getActivity(), OpenConnectPreferencesActivity.class)
+		Intent vprefintent = new Intent(getActivity(), ConnectionEditorActivity.class)
 			.putExtra(pfx + ".profileUUID", profile.getUUID().toString())
 			.putExtra(pfx + ".profileName", profile.getName());
 

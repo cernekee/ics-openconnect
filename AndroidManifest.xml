@@ -36,7 +36,7 @@
             android:name=".VPNPreferences"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".OpenConnectPreferencesActivity" />
+            android:name=".ConnectionEditorActivity" />
         <activity
             android:name=".LogWindow"
             android:allowTaskReparenting="true"

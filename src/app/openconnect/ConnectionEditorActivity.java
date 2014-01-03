@@ -1,7 +1,7 @@
 package app.openconnect;
 
 import app.openconnect.core.ProfileManager;
-import app.openconnect.fragments.OpenConnectPreferencesFragment;
+import app.openconnect.fragments.ConnectionEditorFragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class OpenConnectPreferencesActivity extends Activity {
+public class ConnectionEditorActivity extends Activity {
 
     private String mName = "";
     private String mUUID;
@@ -18,7 +18,7 @@ public class OpenConnectPreferencesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        OpenConnectPreferencesFragment frag = new OpenConnectPreferencesFragment();
+        ConnectionEditorFragment frag = new ConnectionEditorFragment();
         mUUID = getIntent().getStringExtra(getPackageName() + ".profileUUID");
         Bundle args = new Bundle();
         args.putString("profileUUID", mUUID);

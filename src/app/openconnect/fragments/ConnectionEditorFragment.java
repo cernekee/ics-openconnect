@@ -3,7 +3,7 @@ package app.openconnect.fragments;
 import java.util.Map;
 
 import app.openconnect.FileSelect;
-import app.openconnect.OpenConnectPreferencesActivity;
+import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.ShowTextPreference;
 import app.openconnect.VpnProfile;
@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
-public class OpenConnectPreferencesFragment extends PreferenceFragment
+public class ConnectionEditorFragment extends PreferenceFragment
 		implements OnSharedPreferenceChangeListener, OnPreferenceClickListener {
 
 	PreferenceManager mPrefs;
@@ -97,7 +97,7 @@ public class OpenConnectPreferencesFragment extends PreferenceFragment
         }
 
         if (key.equals("profile_name")) {
-        	((OpenConnectPreferencesActivity)getActivity()).setProfileName(value);
+        	((ConnectionEditorActivity)getActivity()).setProfileName(value);
         }
     }
 
