@@ -220,5 +220,8 @@ public class KeepAlive extends BroadcastReceiver {
 				}
 			});
 		}
+		if (mDNSSock != null) {
+			mDNSSock.close();
+		}
 	}
 };
