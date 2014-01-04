@@ -1,13 +1,26 @@
-License for OpenVPN for Android. Please note that the thirdparty libraries/executables may have other license (OpenVPN, lzo, OpenSSL, Google Breakpad)
+This file contains the license for OpenConnect for Android.  The bundled
+dependencies under external/ have their own licenses:
+
+ - curl: MIT
+ - OpenSSL: old BSD with advertising clause
+ - libopenconnect: LGPLv2.1
+ - stoken: LGPLv2.1+
+ - gmp: LGPLv3+
+ - gnutls: LGPLv2.1+
+ - libxml2: MIT
+ - nettle: LGPLv2.1+
+ - liboath: LGPLv2.1+
+
+OpenConnect for Android (app.openconnect) is licensed under GPLv2+ with an
+OpenSSL linking exception.
 
 Copyright (c) 2012-2013, Arne Schwabe
+Copyright (c) 2013-2014, Kevin Cernekee
  All rights reserved.
-
-If you need a non GPLv2 license of the source please contact me.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation;  either version 2
+as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -22,4 +35,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 In addition, as a special exception, the copyright holders give
 permission to link the code of portions of this program with the
 OpenSSL library.
-

@@ -6,6 +6,8 @@ This is an experimental VPN client for Android, based on the Linux build of
 
 Most of the Java code was derived from [OpenVPN for Android](https://play.google.com/store/apps/details?id=de.blinkt.openvpn&hl=en) by Arne Schwabe.
 
+OpenConnect for Android is released under the GPLv2 license.  For more information see the COPYING and doc/LICENSE.txt files.
+
 ## Compiling the app
 
 Prerequisites:
