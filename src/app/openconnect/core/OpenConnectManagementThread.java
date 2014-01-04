@@ -31,7 +31,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	public static final int STATE_CONNECTED = 5;
 	public static final int STATE_DISCONNECTED = 6;
 
-	public static Context mContext;
+	private Context mContext;
 	private VpnProfile mProfile;
 	private OpenVpnService mOpenVPNService;
 	private SharedPreferences mPrefs;
@@ -40,7 +40,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private String mCacheDir;
 	private String mServerAddr;
 
-	LibOpenConnect mOC;
+	private LibOpenConnect mOC;
 	private boolean mAuthgroupSet = false;
 	private String mLastFormDigest;
 	private HashMap<String,Boolean> mAcceptedCerts = new HashMap<String,Boolean>();
@@ -358,6 +358,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			}
 		}
 
+		try {
+			pfd.close();
+		} catch (IOException e) {
+		}
 		return true;
 	}
 
