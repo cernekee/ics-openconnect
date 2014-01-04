@@ -107,11 +107,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			setState(STATE_USER_PROMPT);
 
 			AuthFormHandler h = new AuthFormHandler(mPrefs, authForm, mAuthgroupSet, mLastFormDigest);
-			mLastFormDigest = h.getFormDigest();
 
 			Integer response = (Integer)mOpenVPNService.promptUser(h);
 			if (response == OC_FORM_RESULT_OK) {
 				setState(STATE_AUTHENTICATING);
+				mLastFormDigest = h.getFormDigest();
 			} else if (response == OC_FORM_RESULT_NEWGROUP) {
 				log("AUTH: requesting authgroup change " +
 						(mAuthgroupSet ? "(interactive)" : "(non-interactive)"));
