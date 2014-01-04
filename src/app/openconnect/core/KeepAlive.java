@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.util.Log;
 
@@ -191,19 +192,15 @@ public class KeepAlive extends BroadcastReceiver {
 		if (mBaseDelayMs == 0) {
 			return;
 		}
-		if (mWorkerHandler == null) {
-			// initial one-time setup
 
-			HandlerThread t = new HandlerThread("KeepAlive");
-			t.start();
-			mWorkerHandler = new Handler(t.getLooper());
-			mMainHandler = new Handler();
+		HandlerThread t = new HandlerThread("KeepAlive");
+		t.start();
+		mWorkerHandler = new Handler(t.getLooper());
+		mMainHandler = new Handler();
 
-			PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "KeepAlive");
-		}
+		PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "KeepAlive");
 
-		stop(context);
 		mConnectionActive = true;
 		scheduleNext(context, mBaseDelayMs);
 	}
@@ -214,6 +211,14 @@ public class KeepAlive extends BroadcastReceiver {
 			AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			am.cancel(mPendingIntent);
 			mPendingIntent = null;
+		}
+		if (mWorkerHandler != null) {
+			mWorkerHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					Looper.myLooper().quit();
+				}
+			});
 		}
 	}
 };
