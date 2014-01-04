@@ -41,7 +41,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private String mServerAddr;
 
 	LibOpenConnect mOC;
-	private boolean mInitDone = false;
 	private boolean mAuthgroupSet = false;
 	private String mLastFormDigest;
 	private HashMap<String,Boolean> mAcceptedCerts = new HashMap<String,Boolean>();
@@ -134,12 +133,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		public void onStatsUpdate(LibOpenConnect.VPNStats stats) {
 			mOpenVPNService.setStats(stats);
-		}
-	}
-
-	private synchronized void initNative() {
-		if (!mInitDone) {
-			System.loadLibrary("openconnect");
 		}
 	}
 
@@ -304,8 +297,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	}
 
 	private boolean runVPN() {
-		initNative();
-
 		AssetExtractor.extractAll(mContext);
 
 		setState(STATE_CONNECTING);
