@@ -19,8 +19,10 @@ import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
 
+import java.net.InetAddress;
 import java.util.Locale;
 
+import org.infradead.libopenconnect.LibOpenConnect;
 import org.infradead.libopenconnect.LibOpenConnect.VPNStats;
 
 public class OpenVpnService extends VpnService {
@@ -38,8 +40,10 @@ public class OpenVpnService extends VpnService {
 	private VpnProfile mProfile;
 
 	private DeviceStateReceiver mDeviceStateReceiver;
-	private KeepAlive mKeepAlive;
 	private SharedPreferences mPrefs;
+
+	private KeepAlive mKeepAlive;
+	private LibOpenConnect.IPInfo mIPInfo;
 
 	private final IBinder mBinder = new LocalBinder();
 
@@ -143,17 +147,35 @@ public class OpenVpnService extends VpnService {
 		registerReceiver(mDeviceStateReceiver, filter);
 	}
 
-	private void registerKeepAlive() {
-		int minutes = 14;
+	private synchronized void registerKeepAlive() {
 		String DNSServer = "8.8.8.8";
-
 		try {
-			minutes = Integer.parseInt(mProfile.mPrefs.getString("keepalive_interval", ""));
-		} catch (NumberFormatException e) {
+			String dns = mIPInfo.DNS.get(0);
+			if (InetAddress.getByName(dns) != null) {
+				DNSServer = dns;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			/* empty DNS server list */
+		} catch (Exception e) {
+			Log.i(TAG, "server DNS IP is bogus, falling back to " + DNSServer + " for KeepAlive", e);
 		}
 
+		int idle = 1800;
+		try {
+			int val = Integer.parseInt(mIPInfo.CSTPOptions.get("X-CSTP-Idle-Timeout"));
+			if (val >= 60 && val <= 7200) {
+				idle = val;
+			}
+		} catch (Exception e) {
+		}
+
+		// set to 40% of the idle timeout value, to buy a little margin in case
+		// the first 1-2 attempts fail
+		idle = idle * 4 / 10;
+		Log.d(TAG, "calculated KeepAlive interval: " + idle + " seconds");
+
 		IntentFilter filter = new IntentFilter(KeepAlive.ACTION_KEEPALIVE_ALARM);
-		mKeepAlive = new KeepAlive(minutes, DNSServer, mDeviceStateReceiver);
+		mKeepAlive = new KeepAlive(idle, DNSServer, mDeviceStateReceiver);
 		registerReceiver(mKeepAlive, filter);
 		mKeepAlive.start(this);
 	}
@@ -303,7 +325,8 @@ public class OpenVpnService extends VpnService {
 
 				updateNotification();
 
-				if (mKeepAlive == null) {
+				if (mConnectionState == OpenConnectManagementThread.STATE_CONNECTED &&
+						mKeepAlive == null) {
 					registerKeepAlive();
 				}
 			}
@@ -377,6 +400,10 @@ public class OpenVpnService extends VpnService {
 
 	public synchronized VPNStats getStats() {
 		return mStats;
+	}
+
+	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo) {
+		mIPInfo = ipInfo;
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {

@@ -38,8 +38,8 @@ public class KeepAlive extends BroadcastReceiver {
 
 	private String mDNSHost = "www.google.com";
 
-	public KeepAlive(int minutes, String DNSServer, DeviceStateReceiver deviceStateReceiver) {
-		mBaseDelayMs = minutes * 60 * 1000;
+	public KeepAlive(int seconds, String DNSServer, DeviceStateReceiver deviceStateReceiver) {
+		mBaseDelayMs = seconds * 1000;
 		mDNSServer = DNSServer;
 		mDeviceStateReceiver = deviceStateReceiver;
 	}

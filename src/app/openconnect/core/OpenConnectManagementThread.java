@@ -299,6 +299,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			b.addSearchDomain(ip.domain);
 			log("DOMAIN: " + ip.domain);
 		}
+
+		mOpenVPNService.setIPInfo(ip);
 	}
 
 	private boolean runVPN() {

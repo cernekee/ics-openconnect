@@ -321,7 +321,6 @@
     <string name="disable_username_caching_summary">Never cache login names, user groups, or passwords</string>
     <string name="disable_xml_post">Disable XML POST</string>
     <string name="disable_xml_post_summary">Use the old authentication handshake; may fail on newer servers</string>
-    <string name="keepalive_interval">Keepalive interval (minutes)</string>
     <string name="cert_warning_title">Certificate warning</string>
     <string name="cert_warning_message">The certificate from VPN server \"%1$s\" failed verification.\n\nReason: \"%2$s\"\nSHA1: %3$s\n\nConnect anyway?</string>
     <string name="cert_warning_just_once">Just once</string>

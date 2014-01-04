@@ -80,10 +80,5 @@
             android:title="@string/disable_xml_post"
             android:summary="@string/disable_xml_post_summary"
             android:defaultValue="false" />
-        <EditTextPreference
-            android:key="keepalive_interval"
-            android:title="@string/keepalive_interval"
-            android:inputType="number"
-            android:defaultValue="14" />
     </PreferenceCategory>
 </PreferenceScreen>
