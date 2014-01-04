@@ -24,21 +24,21 @@ public class KeepAlive extends BroadcastReceiver {
 	public static final String ACTION_KEEPALIVE_ALARM = "app.openconnect.KEEPALIVE_ALARM";
 
 	/* sync with pref_openconnect.xml */
-	private static int DEFAULT_INTERVAL = 14;
+	private int DEFAULT_INTERVAL = 14;
 
-	private static boolean mConnectionActive;
+	private boolean mConnectionActive;
 
-	private static PendingIntent mPendingIntent;
-	private static int mBaseDelayMs;
+	private PendingIntent mPendingIntent;
+	private int mBaseDelayMs;
 
-	private static DatagramSocket mDNSSock;
-	private static PowerManager.WakeLock mWakeLock;
+	private DatagramSocket mDNSSock;
+	private PowerManager.WakeLock mWakeLock;
 
-	private static Handler mWorkerHandler;
-	private static Handler mMainHandler;
+	private Handler mWorkerHandler;
+	private Handler mMainHandler;
 
-	private static String mDNSServer = "8.8.8.8";
-	private static String mDNSHost = "www.google.com";
+	private String mDNSServer = "8.8.8.8";
+	private String mDNSHost = "www.google.com";
 
 	// Bypass the resolver so we know we're never getting a cached result, contacting
 	// the wrong server, using an incorrect timeout, etc.
@@ -178,7 +178,7 @@ public class KeepAlive extends BroadcastReceiver {
 		}
 	}
 
-	private static void scheduleNext(Context context, int delayMs) {
+	private void scheduleNext(Context context, int delayMs) {
 		Intent intent = new Intent("app.openconnect.KEEPALIVE_ALARM");
 		mPendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -200,7 +200,7 @@ public class KeepAlive extends BroadcastReceiver {
 		}
 	}
 
-	private static void start(Context context, int seconds) {
+	private void start(Context context, int seconds) {
 		if (mWorkerHandler == null) {
 			// initial one-time setup
 
@@ -222,7 +222,7 @@ public class KeepAlive extends BroadcastReceiver {
 		}
 	}
 
-	private static void stop(Context context) {
+	private void stop(Context context) {
 		mConnectionActive = false;
 		if (mPendingIntent != null) {
 			AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
