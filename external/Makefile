@@ -68,3 +68,17 @@ utils-sources:
 openconnect-wrapper.jar:
 	cd openconnect/java && ant
 	cp openconnect/java/dist/$@ .
+
+# note: this skips curl as it rarely changes
+.PHONY: refresh
+refresh:
+	cd openconnect && \
+		git remote update -p && \
+		git checkout -f origin/master
+	rev=`cd openconnect && git rev-parse --short HEAD`; \
+		git commit openconnect -sm \
+			"external: Sync with openconnect rev $$rev"
+	$(MAKE) clean
+	$(MAKE) install
+	git checkout -f ../assets
+	git commit ../libs -m "libs: Sync with latest openconnect sources"
