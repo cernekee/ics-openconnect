@@ -38,6 +38,7 @@ public class OpenVpnService extends VpnService {
 	private VpnProfile mProfile;
 
 	private DeviceStateReceiver mDeviceStateReceiver;
+	private KeepAlive mKeepAlive;
 	private SharedPreferences mPrefs;
 
 	private final IBinder mBinder = new LocalBinder();
@@ -132,7 +133,7 @@ public class OpenVpnService extends VpnService {
 		return startLW;
 	}
 
-	synchronized void registerDeviceStateReceiver(OpenVPNManagement management) {
+	private void registerDeviceStateReceiver(OpenVPNManagement management) {
 		// Registers BroadcastReceiver to track network connection changes.
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -142,17 +143,33 @@ public class OpenVpnService extends VpnService {
 		registerReceiver(mDeviceStateReceiver, filter);
 	}
 
-	synchronized void unregisterDeviceStateReceiver() {
-		if(mDeviceStateReceiver!=null)
-			try {
-				this.unregisterReceiver(mDeviceStateReceiver);
-			} catch (IllegalArgumentException iae) {
-				// I don't know why  this happens:
-				// java.lang.IllegalArgumentException: Receiver not registered: app.openconnect.NetworkSateReceiver@41a61a10
-				// Ignore for now ...
-				iae.printStackTrace();
+	private void registerKeepAlive() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(KeepAlive.ACTION_KEEPALIVE_ALARM);
+		filter.addAction(OpenVpnService.ACTION_VPN_STATUS);
+		mKeepAlive = new KeepAlive();
+		registerReceiver(mKeepAlive, filter);
+	}
+
+	private void unregisterReceivers() {
+		try {
+			if (mDeviceStateReceiver != null) {
+				unregisterReceiver(mDeviceStateReceiver);
 			}
-		mDeviceStateReceiver=null;
+			mDeviceStateReceiver = null;
+		} catch (IllegalArgumentException iae) {
+			// catch "Receiver not registered" error
+			Log.w(TAG, "can't unregister DeviceStateReceiver", iae);
+		}
+
+		try {
+			if (mKeepAlive != null) {
+				unregisterReceiver(mKeepAlive);
+			}
+			mKeepAlive = null;
+		} catch (IllegalArgumentException iae) {
+			Log.w(TAG, "can't unregister KeepAlive", iae);
+		}
 	}
 
 	@Override
@@ -186,9 +203,9 @@ public class OpenVpnService extends VpnService {
         mVPNThread = new Thread(mVPN, "OpenVPNManagementThread");
         mVPNThread.start();
 
-		if(mDeviceStateReceiver != null)
-			unregisterDeviceStateReceiver();
+		unregisterReceivers();
 		registerDeviceStateReceiver(mVPN);
+		registerKeepAlive();
 
 		ProfileManager.setConnectedVpnProfile(mProfile);
 

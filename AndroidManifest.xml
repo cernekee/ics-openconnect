@@ -91,13 +91,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".core.KeepAlive" >
-            <intent-filter>
-                <action android:name="app.openconnect.KEEPALIVE_ALARM" />
-                <action android:name="app.openconnect.VPN_STATUS" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".ConfigConverter"
             android:label="Convert Config File"
