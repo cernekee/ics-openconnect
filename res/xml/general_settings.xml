@@ -35,14 +35,11 @@
                 android:summary="@string/netchange_summary"
                 android:title="@string/netchange"/>
 
-
-<!--
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="screenoff"
                 android:summary="@string/screenoff_summary"
                 android:title="@string/screenoff_title"/>
--->
 
     </PreferenceCategory>
 

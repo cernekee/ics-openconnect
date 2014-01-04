@@ -38,6 +38,7 @@ public class OpenVpnService extends VpnService {
 	private VpnProfile mProfile;
 
 	private DeviceStateReceiver mDeviceStateReceiver;
+	private SharedPreferences mPrefs;
 
 	private final IBinder mBinder = new LocalBinder();
 
@@ -87,8 +88,8 @@ public class OpenVpnService extends VpnService {
 	public void onCreate() {
 		// Restore service state from disk if available
 		// This gets overwritten if somebody calls startService()
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		mUUID = prefs.getString("service_mUUID", "");
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		mUUID = mPrefs.getString("service_mUUID", "");
 
 		mVPNLog.restoreFromFile(getCacheDir().getAbsolutePath() + "/logdata.ser");
 		mConnectionStateNames = getResources().getStringArray(R.array.connection_states);
@@ -100,10 +101,7 @@ public class OpenVpnService extends VpnService {
 		if (mDeviceStateReceiver != null) {
 			this.unregisterReceiver(mDeviceStateReceiver);
 		}
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		prefs.edit().putString("service_mUUID", mUUID).apply();
-
+		mPrefs.edit().putString("service_mUUID", mUUID).apply();
 		mVPNLog.saveToFile(getCacheDir().getAbsolutePath() + "/logdata.ser");
 	}
 
@@ -134,13 +132,13 @@ public class OpenVpnService extends VpnService {
 		return startLW;
 	}
 
-	synchronized void registerDeviceStateReceiver(OpenVPNManagement magnagement) {
+	synchronized void registerDeviceStateReceiver(OpenVPNManagement management) {
 		// Registers BroadcastReceiver to track network connection changes.
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		filter.addAction(Intent.ACTION_SCREEN_ON);
-		mDeviceStateReceiver = new DeviceStateReceiver(magnagement);
+		mDeviceStateReceiver = new DeviceStateReceiver(management, mPrefs);
 		registerReceiver(mDeviceStateReceiver, filter);
 	}
 

@@ -47,6 +47,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private HashMap<String,Boolean> mAcceptedCerts = new HashMap<String,Boolean>();
 	private boolean mAuthDone = false;
 
+	private boolean mRequestPause;
+	private boolean mRequestDisconnect;
+	private Object mMainloopLock = new Object();
+
     public OpenConnectManagementThread(Context context, VpnProfile profile, OpenVpnService openVpnService) {
     	mContext = context;
 		mProfile = profile;
@@ -146,8 +150,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		}
 		setState(STATE_DISCONNECTED);
 
-		mOC.destroy();
-		mOC = null;
+		synchronized (mMainloopLock) {
+			mOC.destroy();
+			mOC = null;
+		}
 		UserDialog.clearDeferredPrefs();
 
 		mOpenVPNService.threadDone();
@@ -301,7 +307,9 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		AssetExtractor.extractAll(mContext);
 
 		setState(STATE_CONNECTING);
-		mOC = new AndroidOC();
+		synchronized (mMainloopLock) {
+			mOC = new AndroidOC();
+		}
 
 		mFilesDir = mContext.getFilesDir().getPath();
 		mCacheDir = mContext.getCacheDir().getPath();
@@ -337,30 +345,73 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		setState(STATE_CONNECTED);
 
 		mOC.setupDTLS(60);
-		mOC.mainloop(300, LibOpenConnect.RECONNECT_INTERVAL_MIN);
+
+		while (true) {
+			int ret = mOC.mainloop(300, LibOpenConnect.RECONNECT_INTERVAL_MIN);
+			if (ret == LibOpenConnect.MAINLOOP_DONE) {
+				break;
+			}
+			synchronized (mMainloopLock) {
+				if (mRequestDisconnect) {
+					// let the library send the BYE packet and wrap up
+					continue;
+				}
+				while (mRequestPause) {
+					try {
+						mMainloopLock.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+		}
 
 		return true;
 	}
 
 	public void reconnect() {
 		log("RECONNECT");
+		// if mRequestPause is false, this will drop the connection and immediately
+		// restart the mainloop
+		synchronized (mMainloopLock) {
+			if (mOC != null) {
+				mOC.pause();
+			}
+		}
 	}
 
 	@Override
-	public void pause (pauseReason reason) {
+	public void pause () {
 		log("PAUSE");
+		synchronized (mMainloopLock) {
+			if (!mRequestPause && !mRequestDisconnect && mOC != null) {
+				mRequestPause = true;
+				mOC.pause();
+			}
+		}
 	}
 
 	@Override
 	public void resume() {
 		log("RESUME");
+		synchronized (mMainloopLock) {
+			if (mRequestPause) {
+				mRequestPause = false;
+				mMainloopLock.notify();
+			}
+		}
 	}
 
 	@Override
 	public boolean stopVPN() {
 		log("STOP");
-		if (mOC != null) {
+		synchronized (mMainloopLock) {
+			if (mRequestDisconnect || mOC == null) {
+				return true;
+			}
+			mRequestDisconnect = true;
+			mRequestPause = false;
 			mOC.cancel();
+			mMainloopLock.notify();
 		}
 		return true;
 	}

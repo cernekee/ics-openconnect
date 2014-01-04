@@ -11,7 +11,7 @@ public interface OpenVPNManagement {
 
 	void reconnect();
 
-	void pause(pauseReason reason);
+	void pause();
 
 	void resume();
 

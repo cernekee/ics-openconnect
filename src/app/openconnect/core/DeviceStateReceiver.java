@@ -7,206 +7,81 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
-import android.preference.PreferenceManager;
-import app.openconnect.R;
-
-import java.util.LinkedList;
-
-import static app.openconnect.core.OpenVPNManagement.pauseReason;
+import android.util.Log;
 
 public class DeviceStateReceiver extends BroadcastReceiver {
-    private int lastNetwork = -1;
+
+	public static final String TAG = "OpenConnect";
+
     private OpenVPNManagement mManagement;
+    private boolean mPauseOnScreenOff;
+    private boolean mNetchangeReconnect;
 
-    // Window time in s
-    private final int TRAFFIC_WINDOW = 60;
-    // Data traffic limit in bytes
-    private final long TRAFFIC_LIMIT = 64 * 1024;
+    private boolean mScreenOff;
+    private boolean mNetworkOff;
+    private int mNetworkType = -1;
+    private boolean mKeepaliveActive;
+    private boolean mPaused;
 
-
-    connectState network = connectState.DISCONNECTED;
-    connectState screen = connectState.SHOULDBECONNECTED;
-    connectState userpause = connectState.SHOULDBECONNECTED;
-
-    private String lastStateMsg = null;
-
-    enum connectState {
-        SHOULDBECONNECTED,
-        PENDINGDISCONNECT,
-        DISCONNECTED
-    }
-
-    static class Datapoint {
-        private Datapoint(long t, long d) {
-            timestamp = t;
-            data = d;
-        }
-
-        long timestamp;
-        long data;
-    }
-
-    LinkedList<Datapoint> trafficdata = new LinkedList<DeviceStateReceiver.Datapoint>();
-
-    public void userPause(boolean pause) {
-        if (pause) {
-            userpause = connectState.DISCONNECTED;
-            // Check if we should disconnect
-            mManagement.pause(getPauseReason());
-        } else {
-            boolean wereConnected = shouldBeConnected();
-            userpause = connectState.SHOULDBECONNECTED;
-            if (shouldBeConnected() && !wereConnected)
-                mManagement.resume();
-            else
-                // Update the reason why we currently paused
-                mManagement.pause(getPauseReason());
-        }
-    }
-
-    public DeviceStateReceiver(OpenVPNManagement magnagement) {
+    public DeviceStateReceiver(OpenVPNManagement management, SharedPreferences prefs) {
         super();
-        mManagement = magnagement;
+        mManagement = management;
+        mPauseOnScreenOff = prefs.getBoolean("screenoff", false);
+        mNetchangeReconnect = prefs.getBoolean("netchangereconnect", false);
     }
 
+    private void updatePauseState() {
+    	boolean pause = false;
+    	if (mPauseOnScreenOff && mScreenOff && !mKeepaliveActive) {
+    		pause = true;
+    	}
+    	if (mNetworkOff) {
+    		pause = true;
+    	}
+    	if (pause && !mPaused) {
+    		Log.i(TAG, "pausing: mScreenOff=" + mScreenOff + " mNetworkOff=" + mNetworkOff);
+    		mManagement.pause();
+    	} else if (!pause && mPaused) {
+    		Log.i(TAG, "resuming: mScreenOff=" + mScreenOff + " mNetworkOff=" + mNetworkOff);
+    		mManagement.resume();
+    	}
+    	mPaused = pause;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
             networkStateChange(context);
         } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-            boolean screenOff = prefs.getBoolean("screenoff", false);
-
-            if (screenOff) {
-                if (!ProfileManager.getLastConnectedVpn().mPersistTun)
-                    OpenVPN.logError(R.string.screen_nopersistenttun);
-
-                screen = connectState.PENDINGDISCONNECT;
-                fillTrafficData();
-                if (network == connectState.DISCONNECTED || userpause == connectState.DISCONNECTED)
-                    screen = connectState.DISCONNECTED;
-            }
+        	mScreenOff = true;
         } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-            // Network was disabled because screen off
-            boolean connected = shouldBeConnected();
-            screen = connectState.SHOULDBECONNECTED;
-
-            /* should be connected has changed because the screen is on now, connect the VPN */
-            if (shouldBeConnected() != connected)
-                mManagement.resume();
-            else if (!shouldBeConnected())
-                /*Update the reason why we are still paused */
-                mManagement.pause(getPauseReason());
-
+        	mScreenOff = false;
         }
+        updatePauseState();
     }
-
-
-    private void fillTrafficData() {
-        trafficdata.add(new Datapoint(System.currentTimeMillis(), TRAFFIC_LIMIT));
-    }
-
 
     public void networkStateChange(Context context) {
-        NetworkInfo networkInfo = getCurrentNetworkInfo(context);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean sendusr1 = prefs.getBoolean("netchangereconnect", true);
-
-
-        String netstatestring;
-        if (networkInfo == null) {
-            netstatestring = "not connected";
-        } else {
-            String subtype = networkInfo.getSubtypeName();
-            if (subtype == null)
-                subtype = "";
-            String extrainfo = networkInfo.getExtraInfo();
-            if (extrainfo == null)
-                extrainfo = "";
-
-			/*
-            if(networkInfo.getType()==android.net.ConnectivityManager.TYPE_WIFI) {
-				WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-				WifiInfo wifiinfo = wifiMgr.getConnectionInfo();
-				extrainfo+=wifiinfo.getBSSID();
-
-				subtype += wifiinfo.getNetworkId();
-			}*/
-
-
-            netstatestring = String.format("%2$s %4$s to %1$s %3$s", networkInfo.getTypeName(),
-                    networkInfo.getDetailedState(), extrainfo, subtype);
-        }
-
-        if (networkInfo != null && networkInfo.getState() == State.CONNECTED) {
-            int newnet = networkInfo.getType();
-            network = connectState.SHOULDBECONNECTED;
-
-            if (sendusr1 && lastNetwork != newnet) {
-                if (screen == connectState.PENDINGDISCONNECT)
-                    screen = connectState.DISCONNECTED;
-
-                if (shouldBeConnected()) {
-                    if (lastNetwork == -1) {
-                        mManagement.resume();
-                    } else {
-                        mManagement.reconnect();
-                    }
-                }
-
-
-                lastNetwork = newnet;
-            }
-        } else if (networkInfo == null) {
-            // Not connected, stop openvpn, set last connected network to no network
-            lastNetwork = -1;
-            if (sendusr1) {
-                network = connectState.DISCONNECTED;
-
-                // Set screen state to be disconnected if disconnect pending
-                if (screen == connectState.PENDINGDISCONNECT)
-                    screen = connectState.DISCONNECTED;
-
-                mManagement.pause(getPauseReason());
-            }
-        }
-
-
-        if (!netstatestring.equals(lastStateMsg))
-            OpenVPN.logInfo(R.string.netstatus, netstatestring);
-        lastStateMsg = netstatestring;
-
-    }
-
-    public boolean isUserPaused() {
-        return userpause == connectState.DISCONNECTED;
-    }
-
-    private boolean shouldBeConnected() {
-        return (screen == connectState.SHOULDBECONNECTED && userpause == connectState.SHOULDBECONNECTED &&
-                network == connectState.SHOULDBECONNECTED);
-    }
-
-    private pauseReason getPauseReason() {
-        if (userpause == connectState.DISCONNECTED)
-            return pauseReason.userPause;
-
-        if (screen == connectState.DISCONNECTED)
-            return pauseReason.screenOff;
-
-        if (network == connectState.DISCONNECTED)
-            return pauseReason.noNetwork;
-
-        return pauseReason.userPause;
-    }
-
-    private NetworkInfo getCurrentNetworkInfo(Context context) {
         ConnectivityManager conn = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conn.getActiveNetworkInfo();
 
-        return conn.getActiveNetworkInfo();
+        if (networkInfo == null || networkInfo.getState() != State.CONNECTED) {
+        	mNetworkOff = true;
+        } else {
+        	int networkType = networkInfo.getType();
+        	if (mNetworkType != -1 && mNetworkType != networkType) {
+        		if (!mPaused && mNetchangeReconnect) {
+        			Log.i(TAG, "reconnecting due to network type change");
+        			mManagement.reconnect();
+        		}
+        	}
+        	mNetworkType = networkType;
+        	mNetworkOff = false;
+        }
+    }
+
+    public void setKeepalive(boolean active) {
+    	mKeepaliveActive = active;
+    	updatePauseState();
     }
 }
