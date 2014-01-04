@@ -340,8 +340,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOC.setupDTLS(60);
 
 		while (true) {
-			int ret = mOC.mainloop(300, LibOpenConnect.RECONNECT_INTERVAL_MIN);
-			if (ret == LibOpenConnect.MAINLOOP_DONE) {
+			if (mOC.mainloop(300, LibOpenConnect.RECONNECT_INTERVAL_MIN) < 0) {
 				break;
 			}
 			synchronized (mMainloopLock) {
