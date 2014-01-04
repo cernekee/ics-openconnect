@@ -144,11 +144,18 @@ public class OpenVpnService extends VpnService {
 	}
 
 	private void registerKeepAlive() {
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(KeepAlive.ACTION_KEEPALIVE_ALARM);
-		filter.addAction(OpenVpnService.ACTION_VPN_STATUS);
-		mKeepAlive = new KeepAlive();
+		int minutes = 14;
+		String DNSServer = "8.8.8.8";
+
+		try {
+			minutes = Integer.parseInt(mProfile.mPrefs.getString("keepalive_interval", ""));
+		} catch (NumberFormatException e) {
+		}
+
+		IntentFilter filter = new IntentFilter(KeepAlive.ACTION_KEEPALIVE_ALARM);
+		mKeepAlive = new KeepAlive(minutes, DNSServer, mDeviceStateReceiver);
 		registerReceiver(mKeepAlive, filter);
+		mKeepAlive.start(this);
 	}
 
 	private void unregisterReceivers() {
@@ -164,6 +171,7 @@ public class OpenVpnService extends VpnService {
 
 		try {
 			if (mKeepAlive != null) {
+				mKeepAlive.stop(this);
 				unregisterReceiver(mKeepAlive);
 			}
 			mKeepAlive = null;
@@ -205,7 +213,6 @@ public class OpenVpnService extends VpnService {
 
 		unregisterReceivers();
 		registerDeviceStateReceiver(mVPN);
-		registerKeepAlive();
 
 		ProfileManager.setConnectedVpnProfile(mProfile);
 
@@ -295,6 +302,10 @@ public class OpenVpnService extends VpnService {
 				sendBroadcast(vpnstatus, permission.ACCESS_NETWORK_STATE);
 
 				updateNotification();
+
+				if (mKeepAlive == null) {
+					registerKeepAlive();
+				}
 			}
 		});
 	}
@@ -333,6 +344,8 @@ public class OpenVpnService extends VpnService {
 			public void run() {
 				if (stopSelfResult(startId) == false) {
 					Log.w(TAG, "not stopping service due to startId mismatch");
+				} else {
+					unregisterReceivers();
 				}
 			}
 		});

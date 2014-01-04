@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.PowerManager;
@@ -23,13 +22,9 @@ public class KeepAlive extends BroadcastReceiver {
 
 	public static final String ACTION_KEEPALIVE_ALARM = "app.openconnect.KEEPALIVE_ALARM";
 
-	/* sync with pref_openconnect.xml */
-	private int DEFAULT_INTERVAL = 14;
-
 	private boolean mConnectionActive;
 
 	private PendingIntent mPendingIntent;
-	private int mBaseDelayMs;
 
 	private DatagramSocket mDNSSock;
 	private PowerManager.WakeLock mWakeLock;
@@ -37,8 +32,17 @@ public class KeepAlive extends BroadcastReceiver {
 	private Handler mWorkerHandler;
 	private Handler mMainHandler;
 
-	private String mDNSServer = "8.8.8.8";
+	private String mDNSServer;
+	private int mBaseDelayMs;
+	private DeviceStateReceiver mDeviceStateReceiver;
+
 	private String mDNSHost = "www.google.com";
+
+	public KeepAlive(int minutes, String DNSServer, DeviceStateReceiver deviceStateReceiver) {
+		mBaseDelayMs = minutes * 60 * 1000;
+		mDNSServer = DNSServer;
+		mDeviceStateReceiver = deviceStateReceiver;
+	}
 
 	// Bypass the resolver so we know we're never getting a cached result, contacting
 	// the wrong server, using an incorrect timeout, etc.
@@ -147,6 +151,7 @@ public class KeepAlive extends BroadcastReceiver {
 		}
 
 		mWakeLock.acquire();
+		mDeviceStateReceiver.setKeepalive(true);
 		mWorkerHandler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -156,8 +161,9 @@ public class KeepAlive extends BroadcastReceiver {
 					@Override
 					public void run() {
 						// this runs back on the main thread
-						mWakeLock.release();
 						scheduleNext(context, result ? mBaseDelayMs : (mBaseDelayMs / 2));
+						mDeviceStateReceiver.setKeepalive(false);
+						mWakeLock.release();
 					}
 				});
 			}
@@ -168,12 +174,7 @@ public class KeepAlive extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 
-		if (action.equals(OpenVpnService.ACTION_VPN_STATUS)) {
-			int state = intent.getIntExtra(OpenVpnService.EXTRA_CONNECTION_STATE,
-					OpenConnectManagementThread.STATE_DISCONNECTED);
-			String UUID = intent.getStringExtra(OpenVpnService.EXTRA_UUID);
-			handleVpnStatus(context, state, UUID);
-		} else if (action.equals(ACTION_KEEPALIVE_ALARM)) {
+		if (action.equals(ACTION_KEEPALIVE_ALARM)) {
 			handleKeepAlive(context);
 		}
 	}
@@ -186,21 +187,10 @@ public class KeepAlive extends BroadcastReceiver {
 		am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delayMs, mPendingIntent);
 	}
 
-	private void handleVpnStatus(Context context, int state, String UUID) {
-		if (mConnectionActive && state == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			stop(context);
-		} else if (!mConnectionActive && state == OpenConnectManagementThread.STATE_CONNECTED) {
-			SharedPreferences p = ProfileManager.get(UUID).mPrefs;
-			int minutes = DEFAULT_INTERVAL;
-			try {
-				minutes = Integer.parseInt(p.getString("keepalive_interval", ""));
-			} catch (NumberFormatException e) {
-			}
-			start(context, minutes * 60);
+	public void start(Context context) {
+		if (mBaseDelayMs == 0) {
+			return;
 		}
-	}
-
-	private void start(Context context, int seconds) {
 		if (mWorkerHandler == null) {
 			// initial one-time setup
 
@@ -215,14 +205,10 @@ public class KeepAlive extends BroadcastReceiver {
 
 		stop(context);
 		mConnectionActive = true;
-
-		if (seconds > 0) {
-			mBaseDelayMs = seconds * 1000;
-			scheduleNext(context, mBaseDelayMs);
-		}
+		scheduleNext(context, mBaseDelayMs);
 	}
 
-	private void stop(Context context) {
+	public void stop(Context context) {
 		mConnectionActive = false;
 		if (mPendingIntent != null) {
 			AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
