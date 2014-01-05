@@ -15,10 +15,12 @@
                 android:summary="@string/onbootrestartsummary"
                 android:title="@string/onbootrestart"/>
 
+<!--
         <Preference
                 android:key="clearapi"
                 android:persistent="false"
                 android:title="Clear allowed external apps"/>
+-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/vpnbehaviour">

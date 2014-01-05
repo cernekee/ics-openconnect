@@ -62,6 +62,7 @@
                 <action android:name="android.net.VpnService" />
             </intent-filter>
         </service>
+<!--
         <service
             android:name=".api.ExternalOpenVPNService"
             android:permission="app.openconnect.REMOTE_API" >
@@ -69,6 +70,7 @@
                 <action android:name="app.openconnect.api.IOpenVPNAPIService" />
             </intent-filter>
         </service>
+-->
 
         <activity
             android:permission="app.openconnect.REMOTE_API"
