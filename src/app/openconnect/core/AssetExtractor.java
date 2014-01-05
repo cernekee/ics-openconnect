@@ -24,12 +24,16 @@
 
 package app.openconnect.core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
@@ -45,11 +49,13 @@ public class AssetExtractor {
 	public static final int FL_FORCE = 0x01;
 	public static final int FL_NOEXEC = 0x02;
 
+	private static final int BUFLEN = 65536;
+
     private static long crc32(File f)
     		throws FileNotFoundException, IOException {
         FileInputStream in = new FileInputStream(f);
         CRC32 crcMaker = new CRC32();
-        byte[] buffer = new byte[65536];
+        byte[] buffer = new byte[BUFLEN];
 
         while (true) {
         	int len = in.read(buffer);
@@ -66,7 +72,7 @@ public class AssetExtractor {
     		throws FileNotFoundException, IOException {
     	FileOutputStream out = new FileOutputStream(file);
 
-    	byte[] buffer = new byte[65536];
+    	byte[] buffer = new byte[BUFLEN];
 
     	while (true) {
     		int len = in.read(buffer);
@@ -132,5 +138,28 @@ public class AssetExtractor {
 
 	public static boolean extractAll(Context ctx) {
 		return extractAll(ctx, 0, null);
+	}
+
+	public static String readString(Context ctx, String name) {
+		StringWriter sw = new StringWriter();
+		InputStream in;
+		try {
+			in = ctx.getAssets().open(name);
+	    	char[] buffer = new char[BUFLEN];
+	    	Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+
+	    	while (true) {
+	    		int len = reader.read(buffer);
+	    		if (len == -1) {
+	    			break;
+	    		}
+	    		sw.write(buffer, 0, len);
+	    	}
+	    	in.close();
+	    	return sw.toString();
+		} catch (IOException e) {
+			Log.e(TAG, "AssetExtractor: readString exception", e);
+		}
+		return null;
 	}
 }
