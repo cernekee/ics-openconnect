@@ -53,7 +53,9 @@ public class FileSelect extends Activity {
 	public static final String NO_INLINE_SELECTION = "app.openconnect.NO_INLINE_SELECTION";
 	public static final String SHOW_CLEAR_BUTTON = "app.openconnect.SHOW_CLEAR_BUTTON";
 	public static final String DO_BASE64_ENCODE = "app.openconnect.BASE64ENCODE";
-	
+
+	private static final int MAX_FILE_LEN = 32768;
+
 	private FileSelectionFragment mFSFragment;
 	private InlineFileTab mInlineFragment;
 	private String mData;
@@ -145,32 +147,38 @@ public class FileSelect extends Activity {
 	
 	public void importFile(String path) {
 		File ifile = new File(path);
-		Exception fe = null;
+		String error = null;
+
 		try {
 
 			String data = "";
 			
-			byte[] filedata = readBytesFromFile(ifile) ;
-			if(mBase64Encode)
-				data += Base64.encodeToString(filedata, Base64.DEFAULT);
-			else
-				data += new String(filedata);
-			
-			mData =data;
-			
-			/*
-			mInlineFragment.setData(data);
-			getActionBar().selectTab(inlineFileTab); */
-			saveInlineData(data);
+			if (ifile.length() > MAX_FILE_LEN) {
+				error = getString(R.string.file_too_large);
+			} else {
+				byte[] filedata = readBytesFromFile(ifile) ;
+				if(mBase64Encode)
+					data += Base64.encodeToString(filedata, Base64.DEFAULT);
+				else
+					data += new String(filedata);
+				mData = data;
+
+				/*
+				mInlineFragment.setData(data);
+				getActionBar().selectTab(inlineFileTab);
+				*/
+				saveInlineData(data);
+			}
 		} catch (FileNotFoundException e) {
-			fe = e;
+			error = e.getLocalizedMessage();
 		} catch (IOException e) {
-			fe =e;
+			error = e.getLocalizedMessage();
 		}
-		if(fe!=null) {
+
+		if (error != null) {
 			Builder ab = new AlertDialog.Builder(this);
 			ab.setTitle(R.string.error_importing_file);
-			ab.setMessage(getString(R.string.import_error_message) + "\n" + fe.getLocalizedMessage());
+			ab.setMessage(getString(R.string.import_error_message) + ": " + error);
 			ab.setPositiveButton(android.R.string.ok, null);
 			ab.show();
 		}

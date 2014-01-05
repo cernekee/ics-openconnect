@@ -132,6 +132,7 @@
     <string name="settings_auth">Authentication/Encryption</string>
     <string name="file_explorer_tab">File Explorer</string>
     <string name="inline_file_tab">Inline File</string>
+    <string name="file_too_large">File is too large</string>
     <string name="error_importing_file">Error importing File</string>
     <string name="import_error_message">Could not import File from filesystem</string>
     <string name="inline_file_data">[[Inline file data]]</string>
