@@ -58,10 +58,11 @@ public class GeneralSettings extends PreferenceFragment implements OnPreferenceC
 			loadtun.setEnabled(false);
 
 		mExtapp = new ExternalAppDatabase(getActivity());
+		/*
 		Preference clearapi = findPreference("clearapi");
 		clearapi.setOnPreferenceClickListener(this);
-
 		setClearApiSummary();
+		*/
 	}
 
 	private void setClearApiSummary() {
