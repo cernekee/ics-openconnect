@@ -106,6 +106,7 @@ public class MainActivity extends Activity {
 			mBar.addTab(mVpnListTab);
 			mBar.addTab(mSettingsTab);
 			mBar.addTab(mStatusTab);
+			mBar.addTab(mAboutTab);
 
 			if ("profiles".equals(lastTab)) {
 				mBar.selectTab(mVpnListTab);
