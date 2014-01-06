@@ -57,13 +57,15 @@
         <item>Linux (64-bit)</item>
         <item>Windows</item>
         <item>Mac</item>
+        <item>iOS</item>
     </string-array>
     <string-array name="reported_os_values">
         <item>android</item>
         <item>linux</item>
         <item>linux-64</item>
         <item>win</item>
-        <item>mac</item>
+        <item>mac-intel</item>
+        <item>apple-ios</item>
     </string-array>
     <string-array name="connection_states">
         <item>Unknown</item>
