@@ -8,6 +8,19 @@ Most of the Java code was derived from [OpenVPN for Android](https://play.google
 
 OpenConnect for Android is released under the GPLv2 license.  For more information see the COPYING and doc/LICENSE.txt files.
 
+## Downloads
+
+Binary APK files are available at [F-Droid](https://f-droid.org/repository/browse/?fdid=app.openconnect).
+No registration is required.
+
+## Screenshots
+
+![screenshot-0](screenshots/screenshot-0.png)&nbsp;
+![screenshot-1](screenshots/screenshot-1.png)
+
+![screenshot-2](screenshots/screenshot-2.png)&nbsp;
+![screenshot-3](screenshots/screenshot-3.png)
+
 ## Compiling the app
 
 Prerequisites:
@@ -22,6 +35,9 @@ Quick start:
     cd ics-openconnect
     android update project -p .
     ant debug
+
+Logs of successful (and not-so-successful) builds can be found on this project's
+[Travis CI page](https://travis-ci.org/cernekee/ics-openconnect).
 
 ## Recompiling the external dependencies
 
