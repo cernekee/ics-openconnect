@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -194,6 +196,20 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOpenVPNService.setConnectionState(state);
 	}
 
+	/* if the wrapper script starts with "#!/path/to/nonexistent/file", use /system/bin/sh instead */
+	private boolean rewriteShell(String s) {
+		Matcher m = Pattern.compile("^#![ \\t]*(/\\S+)[ \\t\\n]").matcher(s);
+		if (!m.find()) {
+			return false;
+		}
+
+		File f = new File(m.group(1));
+		if (f.exists()) {
+			return false;
+		}
+		return true;
+	}
+
 	private String prefToTempFile(String prefName, boolean isExecutable) throws IOException {
 		String prefData = getStringPref(prefName);
 		String path;
@@ -206,6 +222,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 			path = mCacheDir + File.separator + prefName + ".tmp";
 			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
+
+			/* Allow reuse of standard x86 Linux CSD scripts */
+			if (rewriteShell(prefData)) {
+				writer.write("#!/system/bin/sh\n");
+			}
+
 			writer.write(prefData);
 			writer.close();
 
