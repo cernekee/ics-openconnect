@@ -28,6 +28,7 @@ package app.openconnect;
 
 import java.io.*;
 import java.security.PrivateKey;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.content.SharedPreferences;
@@ -176,7 +177,8 @@ public class VpnProfile implements Serializable, Comparable<VpnProfile> {
 
 	@Override
 	public int compareTo(VpnProfile arg0) {
-		return getName().compareTo(arg0.getName());
+		Locale def = Locale.getDefault();
+		return getName().toUpperCase(def).compareTo(arg0.getName().toUpperCase(def));
 	}
 }
 
