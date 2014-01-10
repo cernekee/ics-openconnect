@@ -88,13 +88,19 @@ public class ProfileManager {
 		return PROFILE_PFX + uuid;
 	}
 
-	public synchronized static VpnProfile create(String name) {
-		if (getProfileByName(name) != null) {
-			return null;
+	public synchronized static VpnProfile create(String hostname) {
+		String profName = hostname;
+
+		// generate a non-conflicting name if necessary
+		for (int i = 1; getProfileByName(profName) != null; i++) {
+			profName = hostname + " (" + i + ")";
 		}
+
 		String uuid = UUID.randomUUID().toString();
 		SharedPreferences p = mContext.getSharedPreferences(getPrefsName(uuid), Activity.MODE_PRIVATE);
-		VpnProfile profile = new VpnProfile(p, uuid, name);
+		p.edit().putString("server_address", hostname).commit();
+
+		VpnProfile profile = new VpnProfile(p, uuid, profName);
 		mProfiles.put(uuid, profile);
 		return profile;
 	}

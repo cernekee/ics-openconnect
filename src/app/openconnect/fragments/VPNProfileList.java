@@ -38,9 +38,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +51,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -180,28 +183,44 @@ public class VPNProfileList extends ListFragment {
 		if (context != null) {
 			final EditText entry = new EditText(context);
 			entry.setSingleLine();
-			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
-					InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
-			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-			dialog.setTitle(R.string.menu_add_profile);
-			dialog.setMessage(R.string.add_profile_name_prompt);
-			dialog.setView(entry);
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			builder.setTitle(R.string.menu_add_profile);
+			builder.setMessage(R.string.add_profile_hostname_prompt);
+			builder.setView(entry);
 
-			dialog.setPositiveButton(android.R.string.ok,
+			builder.setPositiveButton(android.R.string.ok,
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					VpnProfile profile = ProfileManager.create(entry.getText().toString());
-					if (profile != null) {
-						editVPN(profile);
-					} else {
-						Toast.makeText(getActivity(), R.string.duplicate_profile_name, Toast.LENGTH_LONG).show();
-					}
+					editVPN(ProfileManager.create(entry.getText().toString()));
 				}
 			});
-			dialog.setNegativeButton(android.R.string.cancel, null);
-			dialog.create().show();
+			builder.setNegativeButton(android.R.string.cancel, null);
+
+			AlertDialog dialog = builder.create();
+			dialog.show();
+
+			// Block user from entering an empty hostname
+
+			final Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+			okButton.setEnabled(false);
+
+			entry.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable arg0) {
+					okButton.setEnabled(entry.getText().length() != 0);
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+			});
 		}
 
 	}

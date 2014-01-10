@@ -39,8 +39,7 @@
     <string name="static_keys_info">For the static configuration the TLS Auth Keys will be used as static keys</string>
     <string name="configure_the_vpn">Configure the VPN</string>
     <string name="menu_add_profile">Add Profile</string>
-    <string name="add_profile_name_prompt">Enter a name identifying the new Profile</string>
-    <string name="duplicate_profile_name">Please enter a unique Profile Name</string>
+    <string name="add_profile_hostname_prompt">Enter the hostname, IP address, or URL:</string>
     <string name="profilename">Profile Name</string>
     <string name="no_keystore_cert_selected">You must select a User certificate</string>
     <string name="no_error_found">No error found</string>
