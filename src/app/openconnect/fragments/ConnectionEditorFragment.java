@@ -24,6 +24,7 @@
 
 package app.openconnect.fragments;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import app.openconnect.FileSelect;
@@ -46,12 +47,13 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 public class ConnectionEditorFragment extends PreferenceFragment
-		implements OnSharedPreferenceChangeListener, OnPreferenceClickListener {
+		implements OnSharedPreferenceChangeListener {
 
 	PreferenceManager mPrefs;
 	VpnProfile mProfile;
 
     String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
+    HashMap<String,Integer> fileSelectMap = new HashMap<String,Integer>();
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
         Preference pref = findPreference(key);
         if (pref != null) {
 			if (pref instanceof ListPreference) {
+				/* update all spinner prefs so the summary shows the current value */
 				ListPreference lpref = (ListPreference)pref;
 				pref.setSummary(lpref.getEntry());
 			} else {
@@ -129,41 +132,40 @@ public class ConnectionEditorFragment extends PreferenceFragment
 		updatePref(sharedPreferences, key);
 	}
 
-	/* These functions start up a FileSelect activity to import data from the filesystem */
-
 	private void setClickListeners() {
-		for (String key : fileSelectKeys) {
+		for (int idx = 0; idx < fileSelectKeys.length; idx++) {
+			String key = fileSelectKeys[idx];
 			Preference p = findPreference(key);
-			p.setOnPreferenceClickListener(this);
+			fileSelectMap.put(key, idx);
+
+			/* Start up a FileSelect activity to import data from the filesystem */
+			p.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					Integer idx = fileSelectMap.get(preference.getKey());
+					if (idx == null) {
+						return false;
+					}
+
+					Intent startFC = new Intent(getActivity(), FileSelect.class);
+					startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
+					startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
+
+					startActivityForResult(startFC, idx);
+					return false;
+				}
+			});
 		}
-	}
-
-	@Override
-	public boolean onPreferenceClick(Preference preference) {
-		int idx;
-
-		String key = preference.getKey();
-		for (idx = 0; ; idx++) {
-			if (idx == fileSelectKeys.length) {
-				return false;
-			}
-			if (fileSelectKeys[idx].equals(key)) {
-				break;
-			}
-		}
-
-		Intent startFC = new Intent(getActivity(), FileSelect.class);
-		startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
-		startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
-
-		startActivityForResult(startFC, idx);
-		return false;
 	}
 
 	@Override
 	public void onActivityResult(int idx, int resultCode, Intent data) {
 		super.onActivityResult(idx, resultCode, data);
-		if (resultCode == Activity.RESULT_OK) {
+		if (resultCode != Activity.RESULT_OK) {
+			return;
+		}
+
+		if (idx >= 0) {
 			String key = fileSelectKeys[idx];
 			ShowTextPreference p = (ShowTextPreference)findPreference(key);
 			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));
