@@ -36,7 +36,7 @@
             android:entries="@array/software_token_entries"
             android:entryValues="@array/software_token_values"
             android:defaultValue="disabled" />
-        <EditTextPreference
+        <app.openconnect.ShowTextPreference
             android:key="token_string"
             android:title="@string/token_string"
             android:defaultValue="" />

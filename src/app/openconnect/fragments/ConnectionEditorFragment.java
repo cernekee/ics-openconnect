@@ -31,6 +31,7 @@ import app.openconnect.FileSelect;
 import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.ShowTextPreference;
+import app.openconnect.TokenImportActivity;
 import app.openconnect.VpnProfile;
 import app.openconnect.core.ProfileManager;
 import android.os.Bundle;
@@ -51,18 +52,22 @@ public class ConnectionEditorFragment extends PreferenceFragment
 
 	PreferenceManager mPrefs;
 	VpnProfile mProfile;
+	String mUUID;
 
     String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
     HashMap<String,Integer> fileSelectMap = new HashMap<String,Integer>();
+
+    private final int IDX_TOKEN_STRING = -1;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mProfile = ProfileManager.get(getArguments().getString("profileUUID"));
+        mUUID = mProfile.getUUIDString();
 
         mPrefs = getPreferenceManager();
-        mPrefs.setSharedPreferencesName(ProfileManager.getPrefsName(mProfile.getUUIDString()));
+        mPrefs.setSharedPreferencesName(ProfileManager.getPrefsName(mUUID));
         mPrefs.setSharedPreferencesMode(Context.MODE_PRIVATE);
 
         // Load the preferences from an XML resource
@@ -156,6 +161,18 @@ public class ConnectionEditorFragment extends PreferenceFragment
 				}
 			});
 		}
+
+		Preference p = findPreference("token_string");
+		/* The TokenImport activity will set the token_string preference for us */
+		p.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(getActivity(), TokenImportActivity.class);
+				intent.putExtra(TokenImportActivity.EXTRA_UUID, mUUID);
+				startActivityForResult(intent, IDX_TOKEN_STRING);
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -170,6 +187,8 @@ public class ConnectionEditorFragment extends PreferenceFragment
 			ShowTextPreference p = (ShowTextPreference)findPreference(key);
 			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));
 			updatePref(mPrefs.getSharedPreferences(), key);
+		} else {
+			updatePref(mPrefs.getSharedPreferences(), "token_string");
 		}
 	}
 

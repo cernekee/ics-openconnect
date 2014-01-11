@@ -38,6 +38,8 @@
         <activity
             android:name=".ConnectionEditorActivity" />
         <activity
+            android:name=".TokenImportActivity" />
+        <activity
             android:name=".LogWindow"
             android:allowTaskReparenting="true"
             android:label="@string/openvpn_log"
