@@ -72,7 +72,8 @@ public class FileSelectionFragment extends ListFragment {
 	private String mStartPath;
 	private CheckBox mInlineImport;
 	private Button mClearButton;
-	private boolean mHideImport=false;
+	private boolean mHideImport = false;
+	private boolean mForceImport = false;
 
 
 	@Override
@@ -84,12 +85,13 @@ public class FileSelectionFragment extends ListFragment {
 
 		mInlineImport = (CheckBox) v.findViewById(R.id.doinline);
 
-		if(mHideImport) {
+		if (mHideImport) {
 			mInlineImport.setVisibility(View.GONE);
 			mInlineImport.setChecked(false);
+		} else if (mForceImport) {
+			mInlineImport.setEnabled(false);
+			mInlineImport.setChecked(true);
 		}
-
-
 
 		selectButton = (Button) v.findViewById(R.id.fdButtonSelect);
 		selectButton.setEnabled(false);
@@ -274,8 +276,11 @@ public class FileSelectionFragment extends ListFragment {
 	}
 
 	public void setNoInLine() {
-		mHideImport=true;
-	
+		mHideImport = true;
+	}
+
+	public void setForceInLine() {
+		mForceImport = true;
 	}
 
 }

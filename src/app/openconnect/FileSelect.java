@@ -51,6 +51,7 @@ public class FileSelect extends Activity {
 	public static final String START_DATA = "START_DATA";
 	public static final String WINDOW_TITLE = "WINDOW_TILE";
 	public static final String NO_INLINE_SELECTION = "app.openconnect.NO_INLINE_SELECTION";
+	public static final String FORCE_INLINE_SELECTION = "app.openconnect.FORCE_INLINE_SELECTION";
 	public static final String SHOW_CLEAR_BUTTON = "app.openconnect.SHOW_CLEAR_BUTTON";
 	public static final String DO_BASE64_ENCODE = "app.openconnect.BASE64ENCODE";
 
@@ -62,6 +63,7 @@ public class FileSelect extends Activity {
 	private Tab inlineFileTab;
 	private Tab fileExplorerTab;
 	private boolean mNoInline;
+	private boolean mForceInline;
 	private boolean mShowClear;
 	private boolean mBase64Encode;
 	
@@ -83,6 +85,7 @@ public class FileSelect extends Activity {
 			setTitle(title);
 		
 		mNoInline = getIntent().getBooleanExtra(NO_INLINE_SELECTION, false);
+		mForceInline = getIntent().getBooleanExtra(FORCE_INLINE_SELECTION, false);
 		mShowClear = getIntent().getBooleanExtra(SHOW_CLEAR_BUTTON, false);
 		mBase64Encode = getIntent().getBooleanExtra(DO_BASE64_ENCODE, false);
 		
@@ -99,6 +102,9 @@ public class FileSelect extends Activity {
 			mInlineFragment = new InlineFileTab();
 			inlineFileTab.setTabListener(new MyTabsListener<InlineFileTab>(this, mInlineFragment));
 			bar.addTab(inlineFileTab);
+			if (mForceInline) {
+				mFSFragment.setForceInLine();
+			}
 		} else {
 			mFSFragment.setNoInLine();
 		}
