@@ -46,6 +46,7 @@ public abstract class VPNConnector {
 	public VPNStats oldStats = new VPNStats();
 	public VPNStats newStats = new VPNStats();
 	public VPNStats deltaStats = new VPNStats();
+	public boolean statsValid = false;
 
 	private Context mContext;
 	private BroadcastReceiver mReceiver;
@@ -53,6 +54,7 @@ public abstract class VPNConnector {
 
 	private Handler mStatsHandler;
 	private Runnable mStatsRunnable;
+	private int mStatsCount = 0;
 
 	public abstract void onUpdate(OpenVpnService service);
 
@@ -88,6 +90,11 @@ public abstract class VPNConnector {
 					deltaStats.txPkts = newStats.txPkts - oldStats.txPkts;
 
 					service.requestStats();
+
+					// wait until we've received at least two samples, so the delta is correct
+					if (++mStatsCount >= 2) {
+						statsValid = true;
+					}
 				}
 				mStatsHandler.postDelayed(mStatsRunnable, 1000);
 			}
@@ -125,6 +132,9 @@ public abstract class VPNConnector {
 	}
 
 	public String getByteCountSummary() {
+		if (!statsValid) {
+			return "";
+		}
 		return mContext.getString(R.string.statusline_bytecount,
 				OpenVpnService.humanReadableByteCount(newStats.rxBytes, false),
 				OpenVpnService.humanReadableByteCount(deltaStats.rxBytes, true),
