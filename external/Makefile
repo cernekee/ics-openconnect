@@ -9,11 +9,13 @@ NDK_ARCH_arm := armeabi
 NDK_ARCH_x86 := x86
 NDK_ARCH_mips := mips
 
-JAR_LIST := openconnect-wrapper.jar
+JAR_LIST := openconnect-wrapper.jar stoken-wrapper.jar
 
 ARCH_TARGETS := $(addprefix arch-,$(ARCH_LIST))
 ARCH_UTILS_TARGETS := $(addprefix arch-utils-,$(ARCH_LIST))
+
 ARCH_CURL_TARGETS := $(addsuffix /curl,$(ARCH_LIST))
+ARCH_STOKEN_TARGETS := $(addsuffix /libstoken.so,$(ARCH_LIST))
 ARCH_OC_TARGETS := $(addsuffix /libopenconnect.so,$(ARCH_LIST))
 
 INSTALL_ARCH_TARGETS := $(addprefix install-arch-,$(ARCH_LIST))
@@ -36,15 +38,20 @@ $(INSTALL_JAR_TARGETS) : install-jar-% : %
 $(INSTALL_ARCH_TARGETS) : install-arch-% : arch-%
 	mkdir -p $(LIBS)/$(NDK_ARCH_$*)
 	cp $*/libopenconnect.so $(LIBS)/$(NDK_ARCH_$*)/
+	cp $*/libstoken.so $(LIBS)/$(NDK_ARCH_$*)/
 	mkdir -p $(ASSETS)/$(NDK_ARCH_$*)
 	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/
 
 .PHONY: $(ARCH_TARGETS)
-$(ARCH_TARGETS) : arch-%: %/libopenconnect.so %/curl
+$(ARCH_TARGETS) : arch-% : %/curl %/libstoken.so %/libopenconnect.so
 
 $(ARCH_CURL_TARGETS) : %/curl : arch-utils-%
 	mkdir -p $*
 	cp utils/$*/curl $*/
+
+$(ARCH_STOKEN_TARGETS) : %/libstoken.so : arch-utils-%
+	mkdir -p $*
+	cp utils/$*/libstoken.so $*/
 
 $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	rm -rf $*/openconnect
@@ -69,7 +76,11 @@ openconnect-wrapper.jar:
 	cd openconnect/java && ant
 	cp openconnect/java/dist/$@ .
 
-# note: this skips curl as it rarely changes
+stoken-wrapper.jar:
+	cd stoken/java && ant
+	cp stoken/java/dist/$@ .
+
+# note: this skips curl and libstoken as they rarely change
 .PHONY: refresh
 refresh:
 	cd openconnect && \
@@ -80,5 +91,5 @@ refresh:
 			"external: Sync with openconnect rev $$rev"
 	$(MAKE) clean
 	$(MAKE) install
-	git checkout -f ../assets
-	git commit ../libs -m "libs: Sync with latest openconnect sources"
+	git checkout -f $(ASSETS)
+	git commit $(LIBS) -sm "libs: Sync with latest openconnect sources"
