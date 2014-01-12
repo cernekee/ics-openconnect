@@ -53,11 +53,25 @@
         android:textStyle="italic"
         android:text="@string/token_string_examples_3" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12sp" />
+
     <Button
         android:id="@+id/token_string_import"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/import_from_file" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12sp" />
+
+    <Button
+        android:id="@+id/token_string_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear_token" />
 
     <Space
         android:layout_width="match_parent"

@@ -138,6 +138,13 @@ public class TokenImportActivity extends Activity {
 			}
 		});
 
+		((Button)findViewById(R.id.token_string_clear)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((EditText)findViewById(R.id.token_string_entry)).setText("");
+			}
+		});
+
 		setupCommonButtons(true, !mIsSecurid, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -220,6 +227,9 @@ public class TokenImportActivity extends Activity {
 
     private void writeAndExit() {
     	mProfile.mPrefs.edit().putString("token_string", mTokenString).commit();
+    	if (mTokenString.equals("")) {
+    		mProfile.mPrefs.edit().putString("software_token", "disabled").commit();
+    	}
     	setResult(RESULT_OK);
     	finish();
     }
@@ -234,7 +244,7 @@ public class TokenImportActivity extends Activity {
 
     private void validateToken() {
     	// No validation on TOTP tokens
-    	if (!mIsSecurid) {
+    	if (!mIsSecurid || (mProfile != null && mTokenString.equals(""))) {
     		saveToken();
     		return;
     	}
