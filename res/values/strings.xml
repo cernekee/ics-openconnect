@@ -327,6 +327,8 @@
     <string name="token_bad_password_summary">The supplied password is not suitable for this token.  Please check for errors and resubmit.</string>
     <string name="import_from_file">Import from file...</string>
     <string name="clear_token">Clear token</string>
+    <string name="choose_existing_vpn">Select the VPN profile that will be used with this token, or add a new one:</string>
+    <string name="new_vpn_option">Add new VPN profile...</string>
     <string name="clear_saved_passwords">Clear saved passwords</string>
     <string name="clear_saved_passwords_confirm">Are you sure you want to erase all stored credentials?</string>
     <string name="yes">Yes</string>

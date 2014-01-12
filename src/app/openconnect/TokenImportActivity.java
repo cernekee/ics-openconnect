@@ -1,5 +1,9 @@
 package app.openconnect;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -7,10 +11,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import app.openconnect.core.ProfileManager;
 import org.stoken.LibStoken;
 
@@ -33,6 +43,7 @@ public class TokenImportActivity extends Activity {
 	private String mTokenString;
 	private String mTokenDevID;
 	private String mTokenPassword;
+	private String mNewVpnHostname;
 
 	private String mUUID;
 	private int mAlertType = ALERT_NONE;
@@ -42,6 +53,7 @@ public class TokenImportActivity extends Activity {
 	private boolean mIsSecurid = true;
 	private VpnProfile mProfile;
 	private LibStoken mStoken;
+	private List<VpnProfile> mVpnProfileList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,7 @@ public class TokenImportActivity extends Activity {
         	mTokenString = savedInstanceState.getString("mTokenString", null);
         	mTokenDevID = savedInstanceState.getString("mTokenDevID", null);
         	mTokenPassword = savedInstanceState.getString("mTokenPassword", null);
+        	mNewVpnHostname = savedInstanceState.getString("mNewVpnHostname", null);
 
         	mUUID = savedInstanceState.getString("mUUID", null);
         	mAlertType = savedInstanceState.getInt("mAlertType", ALERT_NONE);
@@ -182,7 +195,132 @@ public class TokenImportActivity extends Activity {
 		});
     }
 
+    private void refreshProfileSelection(boolean updateText) {
+    	boolean allowFinish = false;
+    	boolean enableEntry = false;
+    	int numProfiles = mVpnProfileList.size();
+
+		EditText entry = (EditText)findViewById(R.id.new_vpn_hostname);
+		TextView entryLabel = (TextView)findViewById(R.id.new_vpn_label);
+
+    	Spinner sp = (Spinner)findViewById(R.id.vpn_spinner);
+    	long id = sp.getSelectedItemId();
+
+    	mUUID = null;
+    	if (id != AdapterView.INVALID_ROW_ID) {
+    		if (id < numProfiles) {
+    			allowFinish = true;
+    			mProfile = mVpnProfileList.get((int)id);
+    			mUUID = mProfile.getUUIDString();
+    		} else if (id == numProfiles) {
+    			enableEntry = true;
+    			if (!entry.getText().toString().equals("")) {
+    				allowFinish = true;
+    			}
+    		}
+    	}
+
+    	Button b = (Button)findViewById(R.id.next_button);
+    	b.setEnabled(allowFinish);
+
+    	int visibility = enableEntry ? View.VISIBLE : View.INVISIBLE;
+    	entryLabel.setVisibility(visibility);
+    	entry.setVisibility(visibility);
+    	if (!enableEntry && updateText) {
+    		// This is safe to call from the spinner callbacks but not from TextWatcher
+    		entry.setText("");
+    	}
+    }
+
+    private void setupProfileSpinner() {
+    	mVpnProfileList = new ArrayList<VpnProfile>(ProfileManager.getProfiles());
+    	Collections.sort(mVpnProfileList);
+
+    	List<String> choiceList = new ArrayList<String>();
+    	for (VpnProfile v : mVpnProfileList) {
+    		choiceList.add(v.getName());
+    	}
+    	choiceList.add(getString(R.string.new_vpn_option));
+
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+    			android.R.layout.simple_spinner_item, choiceList);
+    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+    	Spinner sp = (Spinner)findViewById(R.id.vpn_spinner);
+    	sp.setAdapter(adapter);
+    	sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				refreshProfileSelection(true);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				refreshProfileSelection(true);
+			}
+		});
+
+    	int position = 0;
+    	if (mNewVpnHostname != null) {
+    		// the very last entry in the spinner is "Add new VPN profile..."
+    		position = mVpnProfileList.size();
+    	} else if (mUUID != null) {
+    		for (int i = 0; i < mVpnProfileList.size(); i++) {
+    			if (mVpnProfileList.get(i).getName().equals(mUUID)) {
+    				position = i;
+    			}
+    		}
+    	}
+    	sp.setSelection(position);
+
+    	// Update "Finish" button status when chars are added/deleted
+    	EditText entry = (EditText)findViewById(R.id.new_vpn_hostname);
+		entry.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				refreshProfileSelection(false);
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+		});
+    }
+
     private void setupSelectProfileScreen() {
+    	setContentView(R.layout.token_profile);
+
+    	if (mStoken.importString(mTokenString) != LibStoken.SUCCESS ||
+    	    mStoken.decryptSeed(mTokenPassword, mTokenDevID) != LibStoken.SUCCESS) {
+    		// should never happen, as it passed in the previous screen
+    		Log.e(TAG, "error processing previously-valid token string");
+    		cancel();
+    		return;
+    	}
+
+    	// store the ctf in "canonical" format, throwing away any Android/iPhone/... URI prefixes
+		mTokenString = mStoken.encryptSeed(null, null);
+
+    	setupProfileSpinner();
+    	refreshProfileSelection(true);
+
+		setupCommonButtons(true, true, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				fetchFormEntries();
+				if (mUUID == null) {
+					mProfile = ProfileManager.create(mNewVpnHostname);
+				}
+				mProfile.mPrefs.edit().putString("software_token", "securid").commit();
+				writeAndExit();
+			}
+		});
     }
 
     private void updateScreen(int newScreen) {
@@ -260,6 +398,7 @@ public class TokenImportActivity extends Activity {
 		} else {
 			if (mStoken.decryptSeed(null, null) == LibStoken.SUCCESS) {
 				Log.i(TAG, "token seed was successfully decrypted");
+				mTokenString = mStoken.encryptSeed(null, null);
 				saveToken();
 			} else {
 				Log.w(TAG, "error processing NON-encrypted seed");
@@ -295,6 +434,13 @@ public class TokenImportActivity extends Activity {
     	} else if (mScreen == SCREEN_UNLOCK_TOKEN) {
     		mTokenDevID = ((EditText)findViewById(R.id.token_devid_entry)).getText().toString().trim();
     		mTokenPassword = ((EditText)findViewById(R.id.token_password_entry)).getText().toString().trim();
+    	} else if (mScreen == SCREEN_SELECT_PROFILE) {
+    		// don't save/restore mNewVpnHostname unless "Add new VPN profile..." is the active selection
+    		if (mUUID != null) {
+    			mNewVpnHostname = null;
+    		} else {
+    			mNewVpnHostname = ((EditText)findViewById(R.id.new_vpn_hostname)).getText().toString().trim();
+    		}
     	}
     }
 
@@ -306,6 +452,7 @@ public class TokenImportActivity extends Activity {
     	b.putString("mTokenString", mTokenString);
     	b.putString("mTokenDevID", mTokenDevID);
     	b.putString("mTokenPassword", mTokenPassword);
+    	b.putString("mNewVpnHostname", mNewVpnHostname);
 
     	b.putString("mUUID", mUUID);
     	b.putInt("mAlertType", mAlertType);
