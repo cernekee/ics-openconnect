@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,8 +96,27 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     	return mPrefs.getBoolean(key, false);
     }
 
+    private void putStringPref(final String key, String value) {
+    	mPrefs.edit().putString(key, value).commit();
+    }
+
     private void log(String msg) {
     	mOpenVPNService.log(VPNLog.LEVEL_INFO, msg);
+    }
+
+    private boolean isCertAccepted(String hash) {
+    	if (mAcceptedCerts.containsKey(hash) ||
+    			getStringPref("ACCEPTED-CERT-" + hash).equals("true")) {
+    		return true;
+    	}
+    	return false;
+    }
+
+    private void acceptCert(String hash, boolean save) {
+		mAcceptedCerts.put(hash, true);
+		if (save) {
+			putStringPref("ACCEPTED-CERT-" + hash, "true");
+		}
     }
 
 	private class AndroidOC extends LibOpenConnect {
@@ -104,8 +124,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("CALLBACK: onValidatePeerCert");
 
 			// This can be called repeatedly on the same (re)connection attempt
-			String hash = getCertSHA1();
-			if (mAcceptedCerts.containsKey(hash)) {
+			String hash = getCertSHA1().toLowerCase(Locale.US);
+			if (isCertAccepted(hash)) {
 				return 0;
 			}
 			if (mAuthDone) {
@@ -113,11 +133,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				return -1;
 			}
 
-			Boolean response = (Boolean)mOpenVPNService.promptUser(
+			Integer response = (Integer)mOpenVPNService.promptUser(
 					new CertWarningDialog(mPrefs, getHostname(), hash, reason));
 
-			if (response) {
-				mAcceptedCerts.put(hash, true);
+			if (response != CertWarningDialog.RESULT_NO) {
+				acceptCert(hash, response == CertWarningDialog.RESULT_ALWAYS);
 				return 0;
 			} else {
 				log("AUTH: user rejected bad certificate");

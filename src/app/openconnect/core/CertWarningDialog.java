@@ -33,11 +33,15 @@ import android.content.SharedPreferences;
 public class CertWarningDialog extends UserDialog
 	implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
+	public static final int RESULT_NO = 0;
+	public static final int RESULT_ONCE = 1;
+	public static final int RESULT_ALWAYS = 2;
+
 	public String mHostname;
 	public String mCertSHA1;
 	public String mReason;
 
-	private boolean mAccept;
+	private int mAccept = RESULT_NO;
 	private AlertDialog mAlert;
 
 	public CertWarningDialog(SharedPreferences prefs, String hostname, String certSHA1, String reason) {
@@ -49,10 +53,6 @@ public class CertWarningDialog extends UserDialog
 
 	@Override
 	public Object earlyReturn() {
-		String goodSHA1 = getStringPref("accepted_cert_sha1");
-		if (mCertSHA1.equals(goodSHA1)) {
-			return true;
-		}
 		return null;
 	}
 
@@ -81,10 +81,9 @@ public class CertWarningDialog extends UserDialog
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		if (which == DialogInterface.BUTTON_POSITIVE) {
-			mAccept = true;
-			setStringPref("accepted_cert_sha1", mCertSHA1);
+			mAccept = RESULT_ALWAYS;
 		} else if (which == DialogInterface.BUTTON_NEUTRAL) {
-			mAccept = true;
+			mAccept = RESULT_ONCE;
 		}
 	}
 

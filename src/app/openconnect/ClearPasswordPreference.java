@@ -44,7 +44,7 @@ public class ClearPasswordPreference extends DialogPreference {
             SharedPreferences sp = mPrefs.getSharedPreferences();
             for (Map.Entry<String,?> entry : sp.getAll().entrySet()) {
             	String key = entry.getKey();
-            	if (key.startsWith("FORMDATA-")) {
+            	if (key.startsWith("FORMDATA-") || key.startsWith("ACCEPTED-CERT-")) {
             		sp.edit().putString(key, "").commit();
             	}
             }
