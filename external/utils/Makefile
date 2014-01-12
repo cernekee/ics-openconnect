@@ -6,7 +6,8 @@ NDK     := /opt/android-ndk-r9
 ARCH    := arm
 GCCVER  := 4.8
 APIVER  := 14
-DIST	:= ../dist
+TOP	:= ..
+DIST	:= $(TOP)/dist
 
 # You should be able to just 'make ARCH=x86' and it should DTRT.
 ifeq ($(ARCH),arm)
@@ -43,7 +44,7 @@ CONFIGURE_ARGS := --host=$(TRIPLET) --prefix=$(OC_SYSROOT) \
 		  LDFLAGS="-L$(OC_SYSROOT)/lib"
 
 .PHONY: all
-all: curl
+all: curl stoken
 
 .PHONY: clean
 clean:
@@ -112,5 +113,69 @@ $(ARCH)/curl: $(CURL_BUILD)/src/curl
 .PHONY: curl
 curl: $(ARCH)/curl
 
+
+#####################################################################
+#
+# Build libtomcrypt
+#
+TOMCRYPT_VER := 1.17
+TOMCRYPT_DIR := $(TRIPLET)/libtomcrypt-$(TOMCRYPT_VER)
+
+$(TOMCRYPT_DIR)/makefile: $(DIST)/crypt-$(TOMCRYPT_VER).tar.bz2
+	mkdir -p $(TRIPLET)
+	tar xfj $< -C $(TRIPLET)
+	touch $@
+
+$(TOMCRYPT_DIR)/libtomcrypt.a: $(TOMCRYPT_DIR)/makefile
+	$(MAKE) -C $(TOMCRYPT_DIR) \
+		CC="$(TRIPLET)-gcc --sysroot=$(NDK_SYSROOT)" \
+		AR="$(TRIPLET)-ar" \
+		RANLIB="$(TRIPLET)-ranlib"
+
+$(OC_SYSROOT)/lib/libtomcrypt.a: $(TOMCRYPT_DIR)/libtomcrypt.a
+	$(MAKE) -C $(TOMCRYPT_DIR) \
+		DESTDIR=$(OC_SYSROOT) \
+		LIBPATH=/lib INCPATH=/include \
+		INSTALL_USER=$(shell id -u) \
+		INSTALL_GROUP=$(shell id -g) \
+		NODOCS=1 install
+
+TOMCRYPT_DEPS := $(OC_SYSROOT)/lib/libtomcrypt.a
+
+tomcrypt: $(TOMCRYPT_DEPS)
+
+
+#####################################################################
+#
+# Build libstoken
+#
+STOKEN_SRC := $(TOP)/stoken
+STOKEN_BUILD := $(TRIPLET)/stoken
+
+$(STOKEN_SRC)/configure:
+	cd $(STOKEN_SRC) && ./autogen.sh
+	touch $@
+
+$(STOKEN_BUILD)/Makefile: $(STOKEN_SRC)/configure $(TOMCRYPT_DEPS)
+	mkdir -p $(STOKEN_BUILD)
+	cd $(STOKEN_BUILD) && ../../$(STOKEN_SRC)/configure $(CONFIGURE_ARGS) \
+		--without-gtk --with-java=$(NDK_SYSROOT)/usr/include \
+		--enable-jni-standalone --enable-shared --disable-static
+
+$(STOKEN_BUILD)/libstoken.so: $(STOKEN_BUILD)/Makefile
+	$(MAKE) -C $(STOKEN_BUILD)
+
+$(OC_SYSROOT)/lib/libstoken.so: $(STOKEN_BUILD)/libstoken.so
+	$(MAKE) -C $(STOKEN_BUILD) install
+
+STOKEN_DEPS := $(OC_SYSROOT)/lib/libstoken.so
+
+$(ARCH)/libstoken.so: $(STOKEN_DEPS)
+	mkdir -p $(ARCH)
+	cp $< $@
+
+.PHONY: stoken
+stoken: $(ARCH)/libstoken.so
+
 .PHONY: sources
-sources: $(CURL_SRC)/configure
+sources: $(CURL_SRC)/configure $(STOKEN_SRC)/configure
