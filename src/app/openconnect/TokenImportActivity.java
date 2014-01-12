@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import app.openconnect.core.ProfileManager;
+import org.stoken.LibStoken;
 
 public class TokenImportActivity extends Activity {
 
@@ -40,10 +41,13 @@ public class TokenImportActivity extends Activity {
 	private AlertDialog mAlert;
 	private boolean mIsSecurid = true;
 	private VpnProfile mProfile;
+	private LibStoken mStoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mStoken = new LibStoken();
 
         Intent intent = getIntent();
         mUUID = intent.getStringExtra(EXTRA_UUID);
@@ -146,12 +150,18 @@ public class TokenImportActivity extends Activity {
     private void setupUnlockTokenScreen() {
     	setContentView(R.layout.token_unlock);
 
-    	if (!tokenNeedsDevID()) {
+    	if (mStoken.importString(mTokenString) != LibStoken.SUCCESS) {
+    		// should never happen, as it passed in the previous screen
+    		Log.e(TAG, "error processing previously-valid token string");
+    		saveToken();
+    		return;
+    	}
+    	if (!mStoken.isDevIDRequired()) {
     		((View)findViewById(R.id.token_need_devid)).setVisibility(View.GONE);
     		((View)findViewById(R.id.token_devid_entry)).setVisibility(View.GONE);
     		((View)findViewById(R.id.token_devid_space)).setVisibility(View.GONE);
     	}
-    	if (!tokenNeedsPassword()) {
+    	if (!mStoken.isPassRequired()) {
     		((View)findViewById(R.id.token_need_password)).setVisibility(View.GONE);
     		((View)findViewById(R.id.token_password_entry)).setVisibility(View.GONE);
     	}
@@ -229,59 +239,52 @@ public class TokenImportActivity extends Activity {
     		return;
     	}
 
-    	if (!isTokenStringValid()) {
+    	if (mStoken.importString(mTokenString) != LibStoken.SUCCESS) {
+			Log.i(TAG, "rejecting invalid token string");
     		updateScreen(SCREEN_ENTER_TOKEN);
     		setAlert(ALERT_BAD_TOKEN);
-    	} else {
-    		if (tokenNeedsDevID() || tokenNeedsPassword()) {
-    			updateScreen(SCREEN_UNLOCK_TOKEN);
-    		} else {
-    			saveToken();
-    		}
+    		return;
     	}
+		if (mStoken.isDevIDRequired() || mStoken.isPassRequired()) {
+			updateScreen(SCREEN_UNLOCK_TOKEN);
+		} else {
+			if (mStoken.decryptSeed(null, null) == LibStoken.SUCCESS) {
+				Log.i(TAG, "token seed was successfully decrypted");
+				saveToken();
+			} else {
+				Log.w(TAG, "error processing NON-encrypted seed");
+	    		updateScreen(SCREEN_ENTER_TOKEN);
+	    		setAlert(ALERT_BAD_TOKEN);
+			}
+		}
     }
 
     private void decryptToken() {
-    	if (!isTokenDevIDValid()) {
+    	if (mStoken.decryptSeed(mTokenPassword, mTokenDevID) == LibStoken.SUCCESS) {
+    		Log.i(TAG, "storing decrypted token seed");
+    		mTokenString = mStoken.encryptSeed(null, null);
+    		saveToken();
+    		return;
+    	}
+
+    	if (mStoken.isDevIDRequired() && !mStoken.checkDevID(mTokenDevID)) {
     		setAlert(ALERT_BAD_DEVID);
-    	} else if (!isTokenPasswordValid()) {
+    	} else if (mStoken.isPassRequired()) {
+    		// NOTE: Under some circumstances, checkDevID() can return true but we can still
+    		// get a decryption failure due to a DevID mismatch.  Maybe the error messages
+    		// should be changed.
     		setAlert(ALERT_BAD_PASSWORD);
     	} else {
-    		saveToken();
+    		setAlert(ALERT_BAD_TOKEN);
     	}
-    }
-
-    private boolean isTokenDevIDValid() {
-    	// FIXME
-    	return true;
-    }
-
-    private boolean isTokenPasswordValid() {
-    	// FIXME
-    	return true;
-    }
-
-    private boolean isTokenStringValid() {
-    	// FIXME
-    	return mTokenString.length() > 2;
-    }
-
-    private boolean tokenNeedsDevID() {
-    	// FIXME
-    	return false;
-    }
-
-    private boolean tokenNeedsPassword() {
-    	// FIXME
-    	return false;
     }
 
     private void fetchFormEntries() {
     	if (mScreen == SCREEN_ENTER_TOKEN) {
-    		mTokenString = ((EditText)findViewById(R.id.token_string_entry)).getText().toString();
+    		mTokenString = ((EditText)findViewById(R.id.token_string_entry)).getText().toString().trim();
     	} else if (mScreen == SCREEN_UNLOCK_TOKEN) {
-    		mTokenDevID = ((EditText)findViewById(R.id.token_devid_entry)).getText().toString();
-    		mTokenPassword = ((EditText)findViewById(R.id.token_password_entry)).getText().toString();
+    		mTokenDevID = ((EditText)findViewById(R.id.token_devid_entry)).getText().toString().trim();
+    		mTokenPassword = ((EditText)findViewById(R.id.token_password_entry)).getText().toString().trim();
     	}
     }
 
@@ -333,5 +336,6 @@ public class TokenImportActivity extends Activity {
     protected void onDestroy() {
     	super.onDestroy();
     	setAlert(ALERT_NONE);
+    	mStoken.destroy();
     }
 }

@@ -30,6 +30,7 @@ public class Application extends android.app.Application {
 
 	public void onCreate() {
 		System.loadLibrary("openconnect");
+		System.loadLibrary("stoken");
 		ProfileManager.init(getApplicationContext());
 	}
 }
