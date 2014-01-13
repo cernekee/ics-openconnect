@@ -46,7 +46,10 @@ import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 import org.infradead.libopenconnect.LibOpenConnect.VPNStats;
@@ -63,13 +66,16 @@ public class OpenVpnService extends VpnService {
 	public static final String EXTRA_CONNECTION_STATE = "app.openconnect.connectionState";
 	public static final String EXTRA_UUID = "app.openconnect.UUID";
 
-	private VpnProfile mProfile;
+	// These are valid in the CONNECTED state
+	public VpnProfile profile;
+	public LibOpenConnect.IPInfo ipInfo;
+	public String serverName;
+	public Date startTime;
 
 	private DeviceStateReceiver mDeviceStateReceiver;
 	private SharedPreferences mPrefs;
 
 	private KeepAlive mKeepAlive;
-	private LibOpenConnect.IPInfo mIPInfo;
 
 	private final IBinder mBinder = new LocalBinder();
 
@@ -176,7 +182,7 @@ public class OpenVpnService extends VpnService {
 	private synchronized void registerKeepAlive() {
 		String DNSServer = "8.8.8.8";
 		try {
-			String dns = mIPInfo.DNS.get(0);
+			String dns = ipInfo.DNS.get(0);
 			if (InetAddress.getByName(dns) != null) {
 				DNSServer = dns;
 			}
@@ -188,7 +194,7 @@ public class OpenVpnService extends VpnService {
 
 		int idle = 1800;
 		try {
-			int val = Integer.parseInt(mIPInfo.CSTPOptions.get("X-CSTP-Idle-Timeout"));
+			int val = Integer.parseInt(ipInfo.CSTPOptions.get("X-CSTP-Idle-Timeout"));
 			if (val >= 60 && val <= 7200) {
 				idle = val;
 			}
@@ -244,8 +250,8 @@ public class OpenVpnService extends VpnService {
 			return START_NOT_STICKY;
 		}
 
-		mProfile = ProfileManager.get(mUUID);
-		if (mProfile == null) {
+		profile = ProfileManager.get(mUUID);
+		if (profile == null) {
 			return START_NOT_STICKY;
 		}
 
@@ -255,21 +261,21 @@ public class OpenVpnService extends VpnService {
 		// stopSelfResult(previous_startId) will not
 		mStartId = startId;
 
-        mVPN = new OpenConnectManagementThread(getApplicationContext(), mProfile, this);
+        mVPN = new OpenConnectManagementThread(getApplicationContext(), profile, this);
         mVPNThread = new Thread(mVPN, "OpenVPNManagementThread");
         mVPNThread.start();
 
 		unregisterReceivers();
 		registerDeviceStateReceiver(mVPN);
 
-		ProfileManager.setConnectedVpnProfile(mProfile);
+		ProfileManager.setConnectedVpnProfile(profile);
 
         return START_NOT_STICKY;
     }
 
 	public Builder getVpnServiceBuilder() {
 		VpnService.Builder b = new VpnService.Builder();
-		b.setSession(mProfile.mName);
+		b.setSession(profile.mName);
 		b.setConfigureIntent(getLogPendingIntent());
 		return b;
 	}
@@ -288,6 +294,12 @@ public class OpenVpnService extends VpnService {
 			return String.format(Locale.getDefault(),"%.1f %sbit", bytes / Math.pow(unit, exp), pre);
 		else 
 			return String.format(Locale.getDefault(),"%.1f %sB", bytes / Math.pow(unit, exp), pre);
+	}
+
+	public static String formatElapsedTime(long startTime) {
+		SimpleDateFormat fmt = new SimpleDateFormat("HH:mm:ss", Locale.US);
+		fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return fmt.format(new Date().getTime() - startTime);
 	}
 
 	/* called from the activity on broadcast receipt, or startup */
@@ -401,6 +413,10 @@ public class OpenVpnService extends VpnService {
 	}
 
 	public synchronized void setConnectionState(int state) {
+		if (state == OpenConnectManagementThread.STATE_CONNECTED &&
+				mConnectionState != OpenConnectManagementThread.STATE_CONNECTED) {
+			startTime = new Date();
+		}
 		mConnectionState = state;
 		wakeUpActivity();
 	}
@@ -428,8 +444,9 @@ public class OpenVpnService extends VpnService {
 		return mStats;
 	}
 
-	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo) {
-		mIPInfo = ipInfo;
+	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo, String serverName) {
+		this.ipInfo = ipInfo;
+		this.serverName = serverName;
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {
