@@ -57,7 +57,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
     String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
     HashMap<String,Integer> fileSelectMap = new HashMap<String,Integer>();
 
-    private final int IDX_TOKEN_STRING = -1;
+    private final int IDX_TOKEN_STRING = 65536;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
 			if (pref instanceof ListPreference) {
 				/* update all spinner prefs so the summary shows the current value */
 				ListPreference lpref = (ListPreference)pref;
+				lpref.setValue(value);
 				pref.setSummary(lpref.getEntry());
 			} else {
 				/* for ShowTextPreference entries, hide the raw base64 cert data */
@@ -133,8 +134,8 @@ public class ConnectionEditorFragment extends PreferenceFragment
         }
     }
 
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		updatePref(sharedPreferences, key);
+	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+		updatePref(sp, key);
 	}
 
 	private void setClickListeners() {
@@ -178,18 +179,20 @@ public class ConnectionEditorFragment extends PreferenceFragment
 	@Override
 	public void onActivityResult(int idx, int resultCode, Intent data) {
 		super.onActivityResult(idx, resultCode, data);
+
 		if (resultCode != Activity.RESULT_OK) {
 			return;
 		}
 
-		if (idx >= 0) {
+		SharedPreferences prefs = mPrefs.getSharedPreferences();
+		if (idx >= IDX_TOKEN_STRING) {
+			updatePref(prefs, "token_string");
+			updatePref(prefs, "software_token");
+		} else {
 			String key = fileSelectKeys[idx];
 			ShowTextPreference p = (ShowTextPreference)findPreference(key);
 			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));
-			updatePref(mPrefs.getSharedPreferences(), key);
-		} else {
-			updatePref(mPrefs.getSharedPreferences(), "token_string");
+			updatePref(prefs, key);
 		}
 	}
-
 }

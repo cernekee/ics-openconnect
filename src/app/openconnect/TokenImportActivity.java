@@ -364,8 +364,10 @@ public class TokenImportActivity extends Activity {
     }
 
     private void writeAndExit() {
+    	boolean wasEmpty = mProfile.mPrefs.getString("token_string", "").equals("");
+
     	mProfile.mPrefs.edit().putString("token_string", mTokenString).commit();
-    	if (mTokenString.equals("")) {
+    	if (mTokenString.equals("") && !wasEmpty) {
     		mProfile.mPrefs.edit().putString("software_token", "disabled").commit();
     	}
     	setResult(RESULT_OK);
