@@ -177,7 +177,12 @@
     <string name="netchange_summary">Turning this option on will force a reconnect if the network state is changed (e.g. WiFi to/from mobile)</string>
     <string name="netchange">Reconnect on network change</string>
     <string name="cert_from_keystore">Got certificate \'%s\' from Keystore</string>
-    <string name="netstatus">Network Status: %s</string>
+    <string name="netstatus">Network Status:</string>
+    <string name="uptime">Uptime:</string>
+    <string name="tx">TX:</string>
+    <string name="rx">RX:</string>
+    <string name="local_ip">Local IP:</string>
+    <string name="server_name">Server name:</string>
     <string name="extracahint">The CA cert is usually returned from the Android Keystore. Specify a separate certificate if you get certificate verification errors.</string>
     <string name="select_file">Select</string>
     <string name="keychain_nocacert">No CA Certificate returned while reading from Android keystore. Auhtentication will probably fail.</string>
@@ -250,6 +255,7 @@
     <string name="state_assign_ip">Assigning IP addresses</string>
     <string name="state_add_routes">Adding routes</string>
     <string name="state_connected">Connected</string>
+    <string name="state_connected_to">Connected to %1$s</string>
     <string name="state_disconnected">Disconnect</string>
     <string name="state_reconnecting">Reconnecting</string>
     <string name="state_exiting">Exiting</string>
@@ -258,6 +264,7 @@
     <string name="state_tcp_connect">Connecting (TCP)</string>
     <string name="state_auth_failed">Authentication failed</string>
     <string name="state_nonetwork">Waiting for usable network</string>
+    <string name="oneway_bytecount">%1$s/s %2$s</string>
     <string name="statusline_bytecount">↓%2$s/s %1$s - ↑%4$s/s %3$s</string>
     <string name="notifcation_title_notconnect">Not connected</string>
     <string name="start_vpn_title">Connecting to VPN %s</string>

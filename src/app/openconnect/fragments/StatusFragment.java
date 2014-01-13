@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -88,20 +89,47 @@ public class StatusFragment extends Fragment {
     	super.onDestroyView();
     }
 
+    private void writeStatusField(int id, int header_res, String value) {
+    	String html = "<b>" + getString(header_res) + "</b><br>" + value;
+    	TextView tv = (TextView)mView.findViewById(id);
+    	tv.setText(Html.fromHtml(html));
+    }
+
     private void updateUI(OpenVpnService service) {
-		TextView tv = (TextView)mView.findViewById(R.id.status);
 		int state = service.getConnectionState();
+		int visibility = View.INVISIBLE;
 
-		String line = getString(R.string.netstatus, service.getConnectionStateName());
 		if (state == OpenConnectManagementThread.STATE_CONNECTED) {
-			line += "\n" + mConn.getByteCountSummary();
-		}
-		tv.setText(line);
 
-		if (state != OpenConnectManagementThread.STATE_DISCONNECTED) {
-			mDisconnectButton.setVisibility(View.VISIBLE);
+			visibility = View.VISIBLE;
+
+			writeStatusField(R.id.connection_state, R.string.netstatus,
+					getString(R.string.state_connected_to, service.profile.getName()));
+			writeStatusField(R.id.connection_time, R.string.uptime,
+					OpenVpnService.formatElapsedTime(service.startTime.getTime()));
+
+			int statsVisibility = mConn.statsValid ? View.VISIBLE : View.INVISIBLE;
+			mView.findViewById(R.id.tx).setVisibility(statsVisibility);
+			mView.findViewById(R.id.rx).setVisibility(statsVisibility);
+
+			writeStatusField(R.id.tx, R.string.tx, getString(R.string.oneway_bytecount,
+					OpenVpnService.humanReadableByteCount(mConn.deltaStats.txBytes, true),
+					OpenVpnService.humanReadableByteCount(mConn.newStats.txBytes, false)));
+
+			writeStatusField(R.id.rx, R.string.rx, getString(R.string.oneway_bytecount,
+					OpenVpnService.humanReadableByteCount(mConn.deltaStats.rxBytes, true),
+					OpenVpnService.humanReadableByteCount(mConn.newStats.rxBytes, false)));
+
+			writeStatusField(R.id.local_ip, R.string.local_ip, service.ipInfo.addr);
+			writeStatusField(R.id.server_name, R.string.server_name, service.serverName);
+
 		} else {
-			mDisconnectButton.setVisibility(View.INVISIBLE);
+			writeStatusField(R.id.connection_state, R.string.netstatus,
+					service.getConnectionStateName());
 		}
+
+		mDisconnectButton.setVisibility(visibility);
+		mView.findViewById(R.id.connection_rows).setVisibility(visibility);
+		mView.findViewById(R.id.connection_time).setVisibility(visibility);
     }
 }
