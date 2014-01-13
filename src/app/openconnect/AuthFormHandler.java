@@ -312,22 +312,22 @@ public class AuthFormHandler extends UserDialog
 			return false;
 		}
 
-		for (LibOpenConnect.FormOpt opt : mForm.opts) {
-			if (opt.name.equals(mForm.authgroupField)) {
-				LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
-				if (authgroup.equals(selected.name)) {
-					// already good to go
-					return false;
-				}
-				for (LibOpenConnect.FormChoice ch : opt.choices) {
-					if (authgroup.equals(ch.name)) {
-						opt.setValue(authgroup);
-						return true;
-					}
-				}
-				Log.w(TAG, "saved authgroup '" + authgroup + "' not present in " + opt.name + " dropdown");
+		LibOpenConnect.FormOpt opt = mForm.authgroupOpt;
+		if (opt == null) {
+			return false;
+		}
+		LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
+		if (authgroup.equals(selected.name)) {
+			// already good to go
+			return false;
+		}
+		for (LibOpenConnect.FormChoice ch : opt.choices) {
+			if (authgroup.equals(ch.name)) {
+				opt.setValue(authgroup);
+				return true;
 			}
 		}
+		Log.w(TAG, "saved authgroup '" + authgroup + "' not present in " + opt.name + " dropdown");
 		return false;
 	}
 
@@ -392,7 +392,7 @@ public class AuthFormHandler extends UserDialog
 				}
 
 				int selection = 0;
-				if (opt.name.equals(mForm.authgroupField)) {
+				if (opt == mForm.authgroupOpt) {
 					selection = mForm.authgroupSelection;
 				} else {
 					// do any servers actually use non-authgroup downdowns?
