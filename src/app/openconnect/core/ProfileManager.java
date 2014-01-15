@@ -47,7 +47,7 @@ public class ProfileManager {
 	private static SharedPreferences mAppPrefs;
 
 	private static final String ON_BOOT_PROFILE = "onBootProfile";
-	private static final String RESTART_ON_BOOT = "restartvpnonboot";
+	private static final String RESTART_ON_BOOT = "restartvpnonboot" + "_FIXME"; // FIXME
 
 	private static VpnProfile mLastConnectedVpn=null;
 
