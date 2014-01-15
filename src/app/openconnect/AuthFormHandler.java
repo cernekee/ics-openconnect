@@ -192,11 +192,14 @@ public class AuthFormHandler extends UserDialog
 		if (defval != null) {
 			tv.setText(defval);
 		}
+
+		int baseType = (opt.flags & LibOpenConnect.OC_FORM_OPT_NUMERIC) != 0 ?
+				InputType.TYPE_CLASS_NUMBER : InputType.TYPE_CLASS_TEXT;
 		if (opt.type == LibOpenConnect.OC_FORM_OPT_PASSWORD) {
-			tv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			tv.setInputType(baseType | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 			tv.setTransformationMethod(PasswordTransformationMethod.getInstance());
 		} else {
-			tv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+			tv.setInputType(baseType | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		}
 
 		opt.userData = tv;
