@@ -126,7 +126,9 @@ public class LogWindow extends ListActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.logmenu, menu);
 		mCancelButton = menu.findItem(R.id.cancel);
-		updateUI(mConn.service);
+		if (mConn != null) {
+			updateUI(mConn.service);
+		}
 		return true;
 	}
 
