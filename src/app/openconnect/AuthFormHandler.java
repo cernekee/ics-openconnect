@@ -191,6 +191,8 @@ public class AuthFormHandler extends UserDialog
 		tv.setLayoutParams(fillWidth);
 		if (defval != null) {
 			tv.setText(defval);
+		} else if (opt.value != null) {
+			tv.setText(opt.value);
 		}
 
 		int baseType = (opt.flags & LibOpenConnect.OC_FORM_OPT_NUMERIC) != 0 ?
@@ -215,7 +217,7 @@ public class AuthFormHandler extends UserDialog
 			// first run
 			opt.userData = s;
 		} else if (!s.equals(opt.userData)) {
-			opt.setValue(s);
+			opt.value = s;
 			mAlert.dismiss();
 			finish(LibOpenConnect.OC_FORM_RESULT_NEWGROUP);
 		}
@@ -278,7 +280,7 @@ public class AuthFormHandler extends UserDialog
 				if (!noSave) {
 					setStringPref(formPfx + getOptDigest(opt), s);
 				}
-				opt.setValue(s);
+				opt.value = s;
 				break;
 			}
 			case LibOpenConnect.OC_FORM_OPT_PASSWORD: {
@@ -289,7 +291,7 @@ public class AuthFormHandler extends UserDialog
 					setStringPref(formPfx + getOptDigest(opt), checked ? s : "");
 					setStringPref(formPfx + "savePass", checked ? "true" : "false");
 				}
-				opt.setValue(s);
+				opt.value = s;
 				break;
 			}
 			case LibOpenConnect.OC_FORM_OPT_SELECT:
@@ -300,7 +302,7 @@ public class AuthFormHandler extends UserDialog
 						setStringPref("authgroup", s);
 					}
 				}
-				opt.setValue(s);
+				opt.value = s;
 				break;
 			}
 		}
@@ -325,7 +327,7 @@ public class AuthFormHandler extends UserDialog
 		}
 		for (LibOpenConnect.FormChoice ch : opt.choices) {
 			if (authgroup.equals(ch.name)) {
-				opt.setValue(authgroup);
+				opt.value = authgroup;
 				return true;
 			}
 		}
@@ -354,7 +356,7 @@ public class AuthFormHandler extends UserDialog
 				if (defval.equals("")) {
 					return null;
 				}
-				opt.setValue(defval);
+				opt.value = defval;
 			}
 		}
 		return LibOpenConnect.OC_FORM_RESULT_OK;
