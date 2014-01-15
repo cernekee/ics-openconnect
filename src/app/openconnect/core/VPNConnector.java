@@ -49,6 +49,7 @@ public abstract class VPNConnector {
 	public boolean statsValid = false;
 
 	private Context mContext;
+	private boolean mIsActivity;
 	private BroadcastReceiver mReceiver;
 	private String mOwnerName;
 
@@ -58,8 +59,10 @@ public abstract class VPNConnector {
 
 	public abstract void onUpdate(OpenVpnService service);
 
-	public VPNConnector(Context ctx) {
+	public VPNConnector(Context ctx, boolean isActivity) {
 		mContext = ctx;
+		mIsActivity = isActivity;
+
 		Intent intent = new Intent(mContext, OpenVpnService.class);
 		intent.setAction(OpenVpnService.START_SERVICE);
 		mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -126,7 +129,7 @@ public abstract class VPNConnector {
 	public void unbind() {
 		stop();
 		if (service != null) {
-			service.updateActivityRefcount(-1);
+			service.updateActivityRefcount(mIsActivity ? -1 : 0);
 		}
 		mContext.unbindService(mConnection);
 	}
@@ -150,7 +153,7 @@ public abstract class VPNConnector {
 			// LocalService instance
 			LocalBinder binder = (LocalBinder) serviceBinder;
 			service = binder.getService();
-			service.updateActivityRefcount(1);
+			service.updateActivityRefcount(mIsActivity ? 1 : 0);
 			onUpdate(service);
 		}
 

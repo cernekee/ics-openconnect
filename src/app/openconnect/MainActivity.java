@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		mConn = new VPNConnector(this) {
+		mConn = new VPNConnector(this, true) {
 			@Override
 			public void onUpdate(OpenVpnService service) {
 				updateUI(service);

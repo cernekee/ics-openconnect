@@ -78,7 +78,7 @@ public class StatusFragment extends Fragment {
 			}
     	});
 
-    	mConn = new VPNConnector(getActivity()) {
+    	mConn = new VPNConnector(getActivity(), false) {
 			@Override
 			public void onUpdate(OpenVpnService service) {
 				updateUI(service);
