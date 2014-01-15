@@ -39,7 +39,7 @@ import android.net.VpnService;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import app.openconnect.LogWindow;
+import app.openconnect.MainActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
@@ -162,7 +162,7 @@ public class OpenVpnService extends VpnService {
 
 	PendingIntent getLogPendingIntent() {
 		// Let the configure Button show the Log
-		Intent intent = new Intent(getBaseContext(),LogWindow.class);
+		Intent intent = new Intent(getBaseContext(), MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		PendingIntent startLW = PendingIntent.getActivity(this, 0, intent, 0);
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -336,7 +336,7 @@ public class OpenVpnService extends VpnService {
 		            .setContentTitle(getString(R.string.notification_input_needed))
 		            .setContentText(getString(R.string.notification_touch_here));
 
-            Intent intent = new Intent(this, LogWindow.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent pend = PendingIntent.getActivity(this, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);

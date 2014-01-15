@@ -187,7 +187,7 @@
     <string name="extracahint">The CA cert is usually returned from the Android Keystore. Specify a separate certificate if you get certificate verification errors.</string>
     <string name="select_file">Select</string>
     <string name="keychain_nocacert">No CA Certificate returned while reading from Android keystore. Auhtentication will probably fail.</string>
-    <string name="show_log_summary">Shows the log window on connect. The log window can always be accessed from the notification status.</string>
+    <string name="show_log_summary">Shows the log window on connect. The log window can always be accessed from the status tab.</string>
     <string name="show_log_window">Show log window</string>
     <string name="mobile_info">Running on %1$s (%2$s) %3$s, Android API %4$d</string>
     <string name="error_rsa_sign">Error signing with Android keystore key %1$s: %2$s</string>
