@@ -500,8 +500,18 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	}
 
 	public void requestStats() {
-		if (mOC != null) {
-			mOC.requestStats();
+		boolean noStats = false;
+		synchronized (mMainloopLock) {
+			if (mRequestPause || mRequestDisconnect || mOC == null) {
+				noStats = true;
+			} else {
+				mOC.requestStats();
+			}
+		}
+		if (noStats) {
+			// Generate fake callback to the activity that requested stats, so it
+			// isn't waiting forever for a nonexistent event
+			mOpenVPNService.setStats(null);
 		}
 	}
 }

@@ -436,7 +436,9 @@ public class OpenVpnService extends VpnService {
 	}
 
 	public synchronized void setStats(VPNStats stats) {
-		mStats = stats;
+		if (stats != null) {
+			mStats = stats;
+		}
 		wakeUpActivity();
 	}
 
