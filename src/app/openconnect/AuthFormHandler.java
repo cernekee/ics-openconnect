@@ -385,7 +385,11 @@ public class AuthFormHandler extends UserDialog
 			case LibOpenConnect.OC_FORM_OPT_TEXT:
 				defval = noSave ? "" : getStringPref(formPfx + getOptDigest(opt));
 				if (defval.equals("")) {
-					allFilled = false;
+					if (opt.value != null && !opt.value.equals("")) {
+						defval = opt.value;
+					} else {
+						allFilled = false;
+					}
 				}
 				v.addView(newTextBlank(opt, defval));
 				hasUserOptions = true;
@@ -443,6 +447,7 @@ public class AuthFormHandler extends UserDialog
 	public void onStop(Context context) {
 		super.onStop(context);
 		if (mAlert != null) {
+			saveAndStore();
 			mAlert.dismiss();
 			mAlert = null;
 		}
