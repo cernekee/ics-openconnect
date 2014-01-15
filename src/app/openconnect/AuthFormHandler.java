@@ -166,7 +166,6 @@ public class AuthFormHandler extends UserDialog
 	}
 
 	private void fixPadding(View v) {
-		v.setPadding(20, 20, 20, 20);
 	}
 
 	private LinearLayout.LayoutParams fillWidth =
