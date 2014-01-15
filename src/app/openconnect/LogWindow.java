@@ -142,10 +142,12 @@ public class LogWindow extends ListActivity {
     			if (state == OpenConnectManagementThread.STATE_DISCONNECTED) {
     				title = getString(R.string.reconnect);
     				mCancelButton.setIcon(android.R.drawable.ic_menu_rotate);
+					mCancelButton.setVisible(service.getReconnectName() != null);
     				mDisconnected = true;
     			} else {
     				title = getString(R.string.disconnect);
     				mCancelButton.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+					mCancelButton.setVisible(true);
     				mDisconnected = false;
     			}
 				mCancelButton.setTitle(title);

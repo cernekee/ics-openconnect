@@ -69,7 +69,12 @@ public class StatusFragment extends Fragment {
     	mDisconnectButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				mConn.service.stopVPN();
+				if (mConn.service.getConnectionState() ==
+						OpenConnectManagementThread.STATE_DISCONNECTED) {
+					mConn.service.startReconnectActivity(getActivity());
+				} else {
+					mConn.service.stopVPN();
+				}
 			}
     	});
 
@@ -128,8 +133,21 @@ public class StatusFragment extends Fragment {
 					service.getConnectionStateName());
 		}
 
-		mDisconnectButton.setVisibility(visibility);
 		mView.findViewById(R.id.connection_rows).setVisibility(visibility);
 		mView.findViewById(R.id.connection_time).setVisibility(visibility);
+
+		// Check explicitly for "disconnected" so the user can cancel connections-in-progress
+		if (state == OpenConnectManagementThread.STATE_DISCONNECTED) {
+			String profileName = service.getReconnectName();
+			if (profileName != null) {
+				mDisconnectButton.setVisibility(View.VISIBLE);
+				mDisconnectButton.setText(getString(R.string.reconnect_to, profileName));
+			} else {
+				mDisconnectButton.setVisibility(View.INVISIBLE);
+			}
+		} else {
+			mDisconnectButton.setVisibility(View.VISIBLE);
+			mDisconnectButton.setText(R.string.disconnect);
+		}
     }
 }

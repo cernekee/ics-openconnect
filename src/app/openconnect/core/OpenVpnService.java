@@ -477,6 +477,11 @@ public class OpenVpnService extends VpnService {
 		return mVPNLog.dump();
 	}
 
+	public String getReconnectName() {
+		VpnProfile p = ProfileManager.get(mUUID);
+		return p == null ? null : p.getName();
+	}
+
 	public void startReconnectActivity(Context context) {
 		Intent intent = new Intent(context, GrantPermissionsActivity.class);
 		intent.putExtra(getPackageName() + GrantPermissionsActivity.EXTRA_UUID, mUUID);

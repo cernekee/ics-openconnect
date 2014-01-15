@@ -59,6 +59,7 @@
     <string name="route_rejected">Route rejected by Android</string>
     <string name="disconnect">Disconnect</string>
     <string name="reconnect">Reconnect</string>
+    <string name="reconnect_to">Reconnect to %1$s</string>
     <string name="cancel_connection">Disconnect</string>
     <string name="cancel_connection_long">Disconnect VPN</string>
     <string name="clear_log">clear log</string>
