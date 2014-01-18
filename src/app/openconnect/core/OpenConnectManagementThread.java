@@ -75,6 +75,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private boolean mAuthgroupSet = false;
 	private String mLastFormDigest;
 	private HashMap<String,Boolean> mAcceptedCerts = new HashMap<String,Boolean>();
+	private HashMap<String,Boolean> mRejectedCerts = new HashMap<String,Boolean>();
 	private boolean mAuthDone = false;
 
 	private boolean mRequestPause;
@@ -129,6 +130,9 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			if (isCertAccepted(hash)) {
 				return 0;
 			}
+			if (mRejectedCerts.containsKey(hash)) {
+				return -1;
+			}
 			if (mAuthDone) {
 				log("AUTH: certificate mismatch on existing connection");
 				return -1;
@@ -142,6 +146,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				return 0;
 			} else {
 				log("AUTH: user rejected bad certificate");
+
+				// these aren't cached in the profile, but the library can call
+				// onValidatePeerCert() multiple times if it's retrying with and without
+				// XML POST enabled
+				mRejectedCerts.put(hash, true);
 				return -1;
 			}
 		}
@@ -408,9 +417,16 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			errorAlert(mContext.getString(R.string.error_invalid_hostname, mServerAddr));
 			return false;
 		}
-		if (mOC.obtainCookie() != 0) {
+		int ret = mOC.obtainCookie();
+		if (ret < 0) {
 			log("Error obtaining cookie");
-			errorAlert();
+			// don't pop up an alert if the user rejected the server cert
+			if (mRejectedCerts.isEmpty()) {
+				errorAlert();
+			}
+			return false;
+		} else if (ret > 0) {
+			log("User canceled auth dialog");
 			return false;
 		}
 

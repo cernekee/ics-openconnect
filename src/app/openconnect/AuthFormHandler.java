@@ -108,7 +108,7 @@ public class AuthFormHandler extends UserDialog
 		if (isOK) {
 			saveAndStore();
 		}
-		finish(isOK ? LibOpenConnect.OC_FORM_RESULT_OK : LibOpenConnect.OC_FORM_RESULT_ERR);
+		finish(isOK ? LibOpenConnect.OC_FORM_RESULT_OK : LibOpenConnect.OC_FORM_RESULT_CANCELLED);
 	}
 
 	@Override
