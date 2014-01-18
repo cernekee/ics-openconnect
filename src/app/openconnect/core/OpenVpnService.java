@@ -46,10 +46,8 @@ import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 import java.net.InetAddress;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 import org.infradead.libopenconnect.LibOpenConnect.VPNStats;
@@ -297,9 +295,21 @@ public class OpenVpnService extends VpnService {
 	}
 
 	public static String formatElapsedTime(long startTime) {
-		SimpleDateFormat fmt = new SimpleDateFormat("HH:mm:ss", Locale.US);
-		fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-		return fmt.format(new Date().getTime() - startTime);
+		StringBuilder sb = new StringBuilder();
+		startTime = (new Date().getTime() - startTime) / 1000;
+		if (startTime >= 60 * 60 * 24) {
+			// days
+			sb.append(String.format("%1$d:", startTime / (60 * 60 * 24)));
+		}
+		if (startTime >= 60 * 60) {
+			// hours
+			startTime %= 60 * 60 * 24;
+			sb.append(String.format("%1$02d:", startTime / (60 * 60)));
+			startTime %= 60 * 60;
+		}
+		// minutes:seconds
+		sb.append(String.format("%1$02d:%2$02d", startTime / 60, startTime % 60));
+		return sb.toString();
 	}
 
 	/* called from the activity on broadcast receipt, or startup */
