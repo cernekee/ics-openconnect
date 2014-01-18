@@ -12,10 +12,13 @@ files.
 
 Changelog: see [doc/CHANGES.txt](doc/CHANGES.txt)
 
-## Downloads
+## Downloads and support
 
-Binary APK files are available at [F-Droid](https://f-droid.org/repository/browse/?fdid=app.openconnect).
-No registration is required.
+Official releases are posted in the [XDA thread](http://forum.xda-developers.com/showthread.php?t=2616121).
+
+Binary APK files are also available at [F-Droid](https://f-droid.org/repository/browse/?fdid=app.openconnect).
+
+No registration is required to download from XDA or F-Droid.
 
 ## Screenshots
 
