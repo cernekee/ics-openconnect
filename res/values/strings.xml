@@ -265,6 +265,9 @@
     <string name="state_tcp_connect">Connecting (TCP)</string>
     <string name="state_auth_failed">Authentication failed</string>
     <string name="state_nonetwork">Waiting for usable network</string>
+    <string name="error_connection_failed">Connection failed</string>
+    <string name="error_invalid_hostname">Invalid hostname \'%1$s\'</string>
+    <string name="error_cant_connect">Error connecting to host \'%1$s\'. See log for details.</string>
     <string name="oneway_bytecount">%1$s/s %2$s</string>
     <string name="statusline_bytecount">↓%2$s/s %1$s - ↑%4$s/s %3$s</string>
     <string name="notifcation_title_notconnect">Not connected</string>

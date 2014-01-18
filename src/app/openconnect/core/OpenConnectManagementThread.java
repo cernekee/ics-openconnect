@@ -47,6 +47,7 @@ import com.stericson.RootTools.execution.CommandCapture;
 import com.stericson.RootTools.execution.Shell;
 
 import app.openconnect.AuthFormHandler;
+import app.openconnect.R;
 import app.openconnect.VpnProfile;
 
 public class OpenConnectManagementThread implements Runnable, OpenVPNManagement {
@@ -376,6 +377,17 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mOpenVPNService.setIPInfo(ip, mOC.getHostname());
 	}
 
+	private void errorAlert(String message) {
+		mOpenVPNService.promptUser(new ErrorDialog(mPrefs,
+				mContext.getString(R.string.error_connection_failed),
+				message));
+	}
+
+	private void errorAlert() {
+		// general (unspecified) connection failure
+		errorAlert(mContext.getString(R.string.error_cant_connect, mOC.getHostname()));
+	}
+
 	private boolean runVPN() {
 		AssetExtractor.extractAll(mContext);
 
@@ -387,15 +399,18 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mFilesDir = mContext.getFilesDir().getPath();
 		mCacheDir = mContext.getCacheDir().getPath();
 
-		if (setPreferences() == false)
+		if (setPreferences() == false) {
 			return false;
+		}
 
 		if (mOC.parseURL(mServerAddr) != 0) {
 			log("Error parsing server address");
+			errorAlert(mContext.getString(R.string.error_invalid_hostname, mServerAddr));
 			return false;
 		}
 		if (mOC.obtainCookie() != 0) {
 			log("Error obtaining cookie");
+			errorAlert();
 			return false;
 		}
 
@@ -404,6 +419,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		setState(STATE_AUTHENTICATED);
 		if (mOC.makeCSTPConnection() != 0) {
 			log("Error establishing CSTP connection");
+			errorAlert();
 			return false;
 		}
 
@@ -420,6 +436,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		if (pfd == null || mOC.setupTunFD(pfd.getFd()) != 0) {
 			log("Error setting up tunnel fd");
+			errorAlert();
 			return false;
 		}
 		setState(STATE_CONNECTED);
