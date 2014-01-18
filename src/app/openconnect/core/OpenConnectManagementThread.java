@@ -238,7 +238,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		if (prefData.equals("")) {
 			return null;
 		}
-		if (prefData.startsWith("[[INLINE]]")) {
+		if (prefData.startsWith(VpnProfile.INLINE_TAG)) {
 			prefData = prefData.substring(10);
 
 			path = mCacheDir + File.separator + prefName + ".tmp";

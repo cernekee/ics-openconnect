@@ -341,7 +341,7 @@ public class TokenImportActivity extends Activity {
 		if (resultCode == Activity.RESULT_OK) {
 			String s = data.getStringExtra(FileSelect.RESULT_DATA);
 			StringBuilder out = new StringBuilder();
-			if (s.startsWith("[[INLINE]]")) {
+			if (s.startsWith(VpnProfile.INLINE_TAG)) {
 				/*
 				 * Sanitize the input data to avoid messing up the UI too much, if the user
 				 * imports junk files

@@ -113,7 +113,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
 				pref.setSummary(lpref.getEntry());
 			} else {
 				/* for ShowTextPreference entries, hide the raw base64 cert data */
-				if (value.startsWith("[[INLINE]]")) {
+				if (value.startsWith(VpnProfile.INLINE_TAG)) {
 					pref.setSummary("[STORED]");
 				} else {
 					pref.setSummary(value);
