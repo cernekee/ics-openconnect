@@ -120,7 +120,7 @@ public class ExternalOpenVPNService extends Service {
 			List<APIVpnProfile> profiles = new LinkedList<APIVpnProfile>();
 
 			for(VpnProfile vp: ProfileManager.getProfiles())
-				profiles.add(new APIVpnProfile(vp.getUUIDString(),vp.mName,vp.mUserEditable));
+				profiles.add(new APIVpnProfile(vp.getUUIDString(),vp.mName,true));
 
 			return profiles;
 		}

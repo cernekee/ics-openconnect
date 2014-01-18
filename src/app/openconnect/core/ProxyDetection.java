@@ -41,7 +41,7 @@ public class ProxyDetection {
 	static SocketAddress detectProxy(VpnProfile vp) {
 		// Construct a new url with https as protocol
 		try {
-			URL url = new URL(String.format("https://%s:%s",vp.mServerName,vp.mServerPort));
+			URL url = new URL("http://localhost"); // FIXME
 			Proxy proxy = getFirstProxy(url);
 
 			if(proxy==null)
