@@ -8,6 +8,8 @@ Most of the Java code was derived from [OpenVPN for Android](https://play.google
 
 OpenConnect for Android is released under the GPLv2 license.  For more information see the COPYING and doc/LICENSE.txt files.
 
+Changelog: see [doc/CHANGES.txt](doc/CHANGES.txt)
+
 ## Downloads
 
 Binary APK files are available at [F-Droid](https://f-droid.org/repository/browse/?fdid=app.openconnect).

@@ -1,0 +1,22 @@
+v0.2 - 2014/01/18
+
+ - Allow SecurID token import via URI or text file
+
+ - Newly reworked "status" tab with uptime, error alerts, IP addresses,
+   etc.
+
+ - Fix a couple of bugs involving screen rotation / activity redraw on
+   the log window
+
+ - Prompt for hostname instead of profile name when adding a new VPN, to
+   help avoid "empty hostname" mistakes
+
+ - Numerous other UI improvements and fixes
+
+ - Remove "reconnect on boot" until it works properly
+
+ - Try to accommodate Linux CSD wrapper scripts starting with "#!/bin/bash"
+
+v0.1 - 2014/01/05
+
+ - Initial public release
