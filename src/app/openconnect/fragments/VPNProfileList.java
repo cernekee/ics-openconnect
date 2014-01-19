@@ -184,7 +184,7 @@ public class VPNProfileList extends ListFragment {
 		if (context != null) {
 			final EditText entry = new EditText(context);
 			entry.setSingleLine();
-			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setTitle(R.string.menu_add_profile);
