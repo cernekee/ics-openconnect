@@ -51,7 +51,6 @@ public class KeepAlive extends BroadcastReceiver {
 
 	private PendingIntent mPendingIntent;
 
-	private DatagramSocket mDNSSock;
 	private PowerManager.WakeLock mWakeLock;
 
 	private Handler mWorkerHandler;
@@ -103,34 +102,31 @@ public class KeepAlive extends BroadcastReceiver {
 		return q;
 	}
 
-	private boolean setupSocket() {
-		if (mDNSSock != null) {
-			return true;
-		}
+	private DatagramSocket openSocket() {
+		DatagramSocket sock;
 		try {
-			mDNSSock = new DatagramSocket();
-			mDNSSock.connect(InetAddress.getByName(mDNSServer), 53);
+			sock = new DatagramSocket();
+			sock.connect(InetAddress.getByName(mDNSServer), 53);
 		} catch (Exception e) {
 			Log.e(TAG, "KeepAlive: unexpected socket exception", e);
-			mDNSSock = null;
-			return false;
+			return null;
 		}
-		return true;
+		return sock;
 	}
 
-	private byte[] receiveDNSResponse(int timeoutMs) {
+	private byte[] receiveDNSResponse(DatagramSocket sock, int timeoutMs) {
 		byte data[] = new byte[1024];
 		DatagramPacket p = new DatagramPacket(data, 1024);
 		try {
-			mDNSSock.setSoTimeout(timeoutMs);
-			mDNSSock.receive(p);
+			sock.setSoTimeout(timeoutMs);
+			sock.receive(p);
 		} catch (IOException e) {
 			return null;
 		}
 		return data;
 	}
 
-	private boolean sendDNSQuery() {
+	private boolean sendDNSQuery(DatagramSocket sock) {
 		byte transID[] = new byte[2];
 		Random r = new Random();
 		transID[0] = (byte)r.nextInt(256);
@@ -138,7 +134,7 @@ public class KeepAlive extends BroadcastReceiver {
 
 		byte q[] = buildDNSQuery(transID, mDNSHost);
 		try {
-			mDNSSock.send(new DatagramPacket(q, q.length));
+			sock.send(new DatagramPacket(q, q.length));
 		} catch (IOException e) {
 			Log.w(TAG, "KeepAlive: error sending DNS request", e);
 			return false;
@@ -148,7 +144,7 @@ public class KeepAlive extends BroadcastReceiver {
 		boolean gotResponse = false;
 
 		while (true) {
-			byte data[] = receiveDNSResponse(timeoutMs);
+			byte data[] = receiveDNSResponse(sock, timeoutMs);
 			if (data == null) {
 				break;
 			}
@@ -181,7 +177,15 @@ public class KeepAlive extends BroadcastReceiver {
 			@Override
 			public void run() {
 				// DNS query runs on worker thread
-				final boolean result = setupSocket() && sendDNSQuery();
+				DatagramSocket sock = openSocket();
+				final boolean result;
+				if (sock != null) {
+					result = sendDNSQuery(sock);
+					sock.close();
+				} else {
+					result = false;
+				}
+
 				mMainHandler.post(new Runnable() {
 					@Override
 					public void run() {
@@ -243,9 +247,6 @@ public class KeepAlive extends BroadcastReceiver {
 					Looper.myLooper().quit();
 				}
 			});
-		}
-		if (mDNSSock != null) {
-			mDNSSock.close();
 		}
 	}
 };
