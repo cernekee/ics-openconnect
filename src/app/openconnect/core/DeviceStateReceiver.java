@@ -51,7 +51,7 @@ public class DeviceStateReceiver extends BroadcastReceiver {
         super();
         mManagement = management;
         mPauseOnScreenOff = prefs.getBoolean("screenoff", false);
-        mNetchangeReconnect = prefs.getBoolean("netchangereconnect", false);
+        mNetchangeReconnect = prefs.getBoolean("netchangereconnect", true);
     }
 
     private void updatePauseState() {
