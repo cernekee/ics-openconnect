@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 	private Tab mVpnListTab;
 	private Tab mSettingsTab;
 	private Tab mStatusTab;
-	private Tab mFaqtab;
+	private Tab mFaqTab;
 	private Tab mAboutTab;
 	private String mLastTab;
 	private boolean mTabsActive;
@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
 		mVpnListTab = mBar.newTab().setText(R.string.vpn_list_title);
 		mSettingsTab = mBar.newTab().setText(R.string.generalsettings);
 		mStatusTab = mBar.newTab().setText(R.string.status);
-		mFaqtab = mBar.newTab().setText(R.string.faq);
+		mFaqTab = mBar.newTab().setText(R.string.faq);
 		mAboutTab = mBar.newTab().setText(R.string.about);
 
 		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
 				GeneralSettings.class));
 		mStatusTab.setTabListener(new TabListener<StatusFragment>("status",
 				StatusFragment.class));
-		mFaqtab.setTabListener(new TabListener<FaqFragment>("faq",
+		mFaqTab.setTabListener(new TabListener<FaqFragment>("faq",
 				FaqFragment.class));
 		mAboutTab.setTabListener(new TabListener<AboutFragment>("about",
 				AboutFragment.class));
@@ -106,6 +106,7 @@ public class MainActivity extends Activity {
 			mBar.addTab(mVpnListTab);
 			mBar.addTab(mSettingsTab);
 			mBar.addTab(mStatusTab);
+			mBar.addTab(mFaqTab);
 			mBar.addTab(mAboutTab);
 
 			if ("profiles".equals(lastTab)) {
@@ -115,7 +116,7 @@ public class MainActivity extends Activity {
 			} else if ("status".equals(lastTab)) {
 				mBar.selectTab(mStatusTab);
 			} else if ("faq".equals(lastTab)) {
-				mBar.selectTab(mFaqtab);
+				mBar.selectTab(mFaqTab);
 			} else if ("about".equals(lastTab)) {
 				mBar.selectTab(mAboutTab);
 			}

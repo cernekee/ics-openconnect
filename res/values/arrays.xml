@@ -76,4 +76,37 @@
         <item>Connected</item>
         <item>Disconnected</item>
     </string-array>
+
+    <string-array name="faq_text">
+        <item>What is this app used for?</item>
+        <item>OpenConnect is used to access virtual private networks (VPNs) which utilize the Cisco AnyConnect SSL VPN protocol.  A typical use case might involve logging into your workplace remotely to check email after hours.\n\nIf in doubt, check with your I.T. administrator to see if a suitable service is available.</item>
+
+        <item>How do I get started?</item>
+        <item>In most cases, you\'ll just need to create a profile and enter the hostname of the VPN gateway.  The other fields in the profile are all optional.  If you were issued a P12 or PEM certificate file, you can copy it into /sdcard (or other external storage folder), then import it into the VPN profile.\n\nOnce you\'ve set up the profile, select the VPN entry and OpenConnect will attempt to establish a new session.</item>
+
+        <item>Will OpenConnect work with non-AnyConnect VPNs?</item>
+        <item>Unfortunately the software design is tied very closely to the AnyConnect requirements and the libopenconnect interfaces.  Therefore it only works with Cisco AnyConnect and ocserv gateways.</item>
+
+        <item>Will OpenConnect work with Cisco IPsec VPNs running on an ASA?</item>
+        <item>OpenConnect supports SSL VPN (CSTP + DTLS) only.</item>
+
+        <item>How do I import a SecurID software token?</item>
+        <item>If you have an URL that starts with \"com.rsa.securid.iphone://\" or \"http://127.0.0.1/securid/\" in your email, click on it and tell OpenConnect to add it to the desired VPN profile.  If you just have a raw token string, write it to a text file, copy it under /sdcard, click \"Token string\" in the VPN profile editor, then select the filename.\n\nIf you have an \"sdtid\" XML file, use the RSA Token Converter to generate an Android token, then paste it into a text file and import it from /sdcard.</item>
+
+        <item>How do I improve battery life while the VPN is up?</item>
+        <item>One option is to select \"Pause when asleep\" under Settings.  The downside is that VPN access will be temporarily stopped when the screen is off.  Also, ASA gateways sometimes get annoyed with constant reconnections and may prematurely terminate your session after a few days.\n\nAnother option is to contact your server administrator and request that they disable dead peer detection (DPD), increase the idle timeout to >1hr, and increase the keepalive interval to ~5min or so.</item>
+
+        <item>How do I use OpenConnect with AFWall+?</item>
+        <item>There are a few caveats to keep in mind when using an Android firewall with VPN:\n\n* If you run KitKat, use Android 4.4.2 or higher and AFWall 1.2.8 or higher.  Android 4.4 and 4.4.1 have a serious TCP MSS bug which causes stalled connections and/or poor performance.  AFWall &lt;=1.2.7 does not have the extra logic needed to handle the routing changes in KitKat.\n* Always allow traffic from the VPN app on all interfaces.  In particular, you should whitelist VPN traffic from OpenConnect, as OpenConnect sends DNS requests over the VPN interface every few minutes to help keep the connection from timing out.</item>
+
+        <item>Are any apps incompatible with VPN?</item>
+        <item>Apps which perform their own DNS resolution, such as Firefox, may have issues picking up the latest system DNS settings when connecting to the VPN.  This can be a problem if your system DNS servers are not accessible over the VPN\'s routes, or if you are trying to look up hostnames that do not have public (internet) DNS entries.</item>
+
+        <item>Under what circumstances will OpenConnect request root?</item>
+        <item>There are two root-only features shown under Settings; both are disabled by default.  One setting works around a ROM bug in CM9 which sets incorrect permissions on /dev/tun, preventing VpnService from passing traffic to the tunnel interface; the other setting loads tun.ko on ROMs that neglect to load it by default.\n\nBased on user feedback and testing, future releases may autodetect these conditions.</item>
+
+        <item>How do I send a problem report?</item>
+        <item>Navigate to Status -&gt; Show log window -&gt; (menu) -&gt; Send [log file].  Please be sure to furnish a complete, accurate description of the issue you are seeing, as the logs do not always show a smoking gun.</item>
+    </string-array>
+
 </resources>

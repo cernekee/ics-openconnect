@@ -1,6 +1,7 @@
 /*
  * Adapted from OpenVPN for Android
  * Copyright (c) 2012-2013, Arne Schwabe
+ * Copyright (c) 2014, Kevin Cernekee
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or
@@ -28,7 +29,7 @@ package app.openconnect.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,23 +41,20 @@ public class FaqFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
     		Bundle savedInstanceState) {
-    	View v= inflater.inflate(R.layout.faq, container, false);
-    	
-    	insertHtmlEntry(v,R.id.broken_images_faq,R.string.broken_images_faq);
-    	insertHtmlEntry(v,R.id.faq_howto,R.string.faq_howto);
-    	insertHtmlEntry(v, R.id.baterry_consumption, R.string.baterry_consumption);  
-    	insertHtmlEntry(v, R.id.faq_tethering, R.string.faq_tethering);
-		
+    	View v = inflater.inflate(R.layout.faq, container, false);
+
+    	String items[] = getResources().getStringArray(R.array.faq_text);
+    	StringBuilder html = new StringBuilder();
+    	for (int i = 0; i < items.length; i += 2) {
+    		String question = TextUtils.htmlEncode(items[i]).replace("\n", "<br>");
+    		String answer = TextUtils.htmlEncode(items[i + 1]).replace("\n", "<br>");
+    		html.append("<b>Q: " + question + "</b><br><br>");
+    		html.append("A: " + answer + "<br><br>");
+    	}
+
+    	TextView tv = (TextView)v.findViewById(R.id.faq_text);
+    	tv.setText(Html.fromHtml(html.toString()));
+
 		return v;
-		
-		
-
     }
-
-	private void insertHtmlEntry (View v, int viewId, int stringId) {
-		TextView faqitem = (TextView) v.findViewById(viewId);
-    	faqitem.setText(Html.fromHtml(getActivity().getString(stringId)));
-    	faqitem.setMovementMethod(LinkMovementMethod.getInstance());
-	}
-
 }
