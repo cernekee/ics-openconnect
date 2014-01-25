@@ -91,6 +91,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle b) {
+		super.onSaveInstanceState(b);
 		b.putString("active_tab", mLastTab);
 	}
 

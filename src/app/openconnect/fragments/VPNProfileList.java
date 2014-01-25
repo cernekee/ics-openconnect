@@ -68,6 +68,9 @@ public class VPNProfileList extends ListFragment {
 
 	private ArrayAdapter<VpnProfile> mArrayadapter;
 
+	private AlertDialog mDialog;
+	private EditText mDialogEntry;
+
 	private class VPNArrayAdapter extends ArrayAdapter<VpnProfile> {
 
 		public VPNArrayAdapter(Context context, int resource, int textViewResourceId) {
@@ -104,6 +107,30 @@ public class VPNProfileList extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		if (savedInstanceState != null) {
+			String s = savedInstanceState.getString("mDialogEntry");
+			if (s != null) {
+				onAddProfileClicked(s);
+			}
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (mDialog != null) {
+			mDialog.dismiss();
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+
+		if (mDialog != null) {
+			savedInstanceState.putString("mDialogEntry", mDialogEntry.getText().toString());
+		}
 	}
 
 	class MiniImageGetter implements ImageGetter {
@@ -172,46 +199,55 @@ public class VPNProfileList extends ListFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final int itemId = item.getItemId();
 		if (itemId == MENU_ADD_PROFILE) {
-			onAddProfileClicked();
+			onAddProfileClicked("");
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	private void onAddProfileClicked() {
+	private void onAddProfileClicked(String savedEntry) {
 		Context context = getActivity();
 		if (context != null) {
-			final EditText entry = new EditText(context);
-			entry.setSingleLine();
-			entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+			mDialogEntry = new EditText(context);
+			mDialogEntry.setSingleLine();
+			mDialogEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+			mDialogEntry.setText(savedEntry);
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setTitle(R.string.menu_add_profile);
 			builder.setMessage(R.string.add_profile_hostname_prompt);
-			builder.setView(entry);
+			builder.setView(mDialogEntry);
 
 			builder.setPositiveButton(android.R.string.ok,
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					editVPN(ProfileManager.create(entry.getText().toString()));
+					editVPN(ProfileManager.create(mDialogEntry.getText().toString()));
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
 
-			AlertDialog dialog = builder.create();
-			dialog.show();
+			mDialog = builder.create();
+
+			mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					mDialog = null;
+				}
+			});
+
+			mDialog.show();
 
 			// Block user from entering an empty hostname
 
-			final Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-			okButton.setEnabled(false);
+			final Button okButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+			okButton.setEnabled(!savedEntry.equals(""));
 
-			entry.addTextChangedListener(new TextWatcher() {
+			mDialogEntry.addTextChangedListener(new TextWatcher() {
 				@Override
 				public void afterTextChanged(Editable arg0) {
-					okButton.setEnabled(entry.getText().length() != 0);
+					okButton.setEnabled(mDialogEntry.getText().length() != 0);
 				}
 
 				@Override
