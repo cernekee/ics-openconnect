@@ -34,6 +34,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             tools:ignore="SelectableText" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faq_hint"
+            tools:ignore="SelectableText" />
+
     </LinearLayout>
 
 </LinearLayout>
