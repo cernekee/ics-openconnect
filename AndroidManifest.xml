@@ -172,6 +172,7 @@
                 <data android:pathPattern=".*.ovpn" />
             </intent-filter>
         </activity>
+	<!--
         <activity
             android:name=".LaunchVPN"
             android:label="@string/vpn_launch_title"
@@ -193,6 +194,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
+	-->
 
         <provider
             android:name=".FileProvider"
