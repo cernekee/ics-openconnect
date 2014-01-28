@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -336,6 +337,20 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return true;
 	}
 
+	private boolean getSubnetPref(ArrayList<String> subnets) {
+		for (String s : getStringPref("split_tunnel_networks").split("[,\\s]+")) {
+			if (s.equals("")) {
+				continue;
+			}
+			subnets.add(s);
+		}
+		if (subnets.isEmpty()) {
+			log("ROUTE: split tunnel list is empty; check your VPN settings");
+			return false;
+		}
+		return true;
+	}
+
 	private void setIPInfo(VpnService.Builder b) {
 		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
 		CIDRIP cdr;
@@ -357,30 +372,47 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		/* routing */
 
-		if (ip.splitIncludes.isEmpty()) {
-			b.addRoute("0.0.0.0", 0);
-			log("ROUTE: 0.0.0.0/0");
+		ArrayList<String> subnets = new ArrayList<String>(), dns = ip.DNS;
+		String domain = ip.domain;
+
+		if (getStringPref("split_tunnel_mode").equals("on_vpn_dns")) {
+			getSubnetPref(subnets);
+		} else if (getStringPref("split_tunnel_mode").equals("on_uplink_dns")) {
+			getSubnetPref(subnets);
+			dns = new ArrayList<String>();
+			domain = null;
 		} else {
-			for (String s : ip.splitIncludes) {
-				String ss[] = s.split("/");
-				cdr = new CIDRIP(ss[0], ss[1]);
+			subnets = ip.splitIncludes;
+			if (subnets.isEmpty()) {
+				b.addRoute("0.0.0.0", 0);
+				log("ROUTE: 0.0.0.0/0");
+			}
+		}
+
+		for (String s : subnets) {
+			try {
+				if (!s.contains("/")) {
+					cdr = new CIDRIP(s + "/32");
+				} else {
+					cdr = new CIDRIP(s);
+				}
 				b.addRoute(cdr.mIp, cdr.len);
 				log("ROUTE: " + cdr.mIp + "/" + cdr.len);
-			}
-			for (String s : ip.DNS) {
-				b.addRoute(s, 32);
+			} catch (Exception e) {
+				log("ROUTE: skipping invalid route '" + s + "'");
 			}
 		}
 
 		/* DNS */
 
-		for (String s : ip.DNS) {
+		for (String s : dns) {
 			b.addDnsServer(s);
+			b.addRoute(s, 32);
 			log("DNS: " + s);
 		}
-		if (ip.domain != null) {
-			b.addSearchDomain(ip.domain);
-			log("DOMAIN: " + ip.domain);
+		if (domain != null) {
+			b.addSearchDomain(domain);
+			log("DOMAIN: " + domain);
 		}
 
 		mOpenVPNService.setIPInfo(ip, mOC.getHostname());

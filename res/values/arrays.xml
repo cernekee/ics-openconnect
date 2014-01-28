@@ -67,6 +67,16 @@
         <item>mac-intel</item>
         <item>apple-ios</item>
     </string-array>
+    <string-array name="split_tunnel_mode_entries">
+        <item>Auto</item>
+        <item>On - DNS uses VPN</item>
+        <item>On - DNS uses uplink</item>
+    </string-array>
+    <string-array name="split_tunnel_mode_values">
+        <item>auto</item>
+        <item>on_vpn_dns</item>
+        <item>on_uplink_dns</item>
+    </string-array>
     <string-array name="connection_states">
         <item>Unknown</item>
         <item>Authenticating</item>

@@ -129,6 +129,14 @@ public class ConnectionEditorFragment extends PreferenceFragment
             }
         }
 
+        /* similarly, if split tunnel is "auto", ignore manually entered subnets */
+        if (key.equals("split_tunnel_mode")) {
+            pref = findPreference("split_tunnel_networks");
+            if (pref != null) {
+                pref.setEnabled(!value.equals("auto"));
+            }
+        }
+
         if (key.equals("profile_name")) {
         	((ConnectionEditorActivity)getActivity()).setProfileName(value);
         }

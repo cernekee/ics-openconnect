@@ -347,6 +347,9 @@
     <string name="batch_mode">Batch mode</string>
     <string name="reported_os">Reported OS</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
+    <string name="split_tunnel_mode">Split tunnel mode</string>
+    <string name="split_tunnel_networks">Split tunnel networks</string>
+    <string name="split_tunnel_networks_message">Enter a comma-separated list of subnets to route over the VPN link.  Example:\n\n192.168.22.0/24, 10.15.0.0/16</string>
     <string name="disable_username_caching">Disable credential caching</string>
     <string name="disable_username_caching_summary">Never cache login names, user groups, or passwords</string>
     <string name="disable_xml_post">Disable XML POST</string>

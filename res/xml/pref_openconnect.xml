@@ -40,6 +40,11 @@
             android:key="token_string"
             android:title="@string/token_string"
             android:defaultValue="" />
+        <CheckBoxPreference
+            android:key="disable_username_caching"
+            android:title="@string/disable_username_caching"
+            android:summary="@string/disable_username_caching_summary"
+            android:defaultValue="false" />
         <app.openconnect.ClearPasswordPreference
             android:key="clear_saved_passwords"
             android:title="@string/clear_saved_passwords"
@@ -70,11 +75,19 @@
             android:key="custom_csd_wrapper"
             android:title="@string/custom_csd_wrapper"
             android:defaultValue="" />
-        <CheckBoxPreference
-            android:key="disable_username_caching"
-            android:title="@string/disable_username_caching"
-            android:summary="@string/disable_username_caching_summary"
-            android:defaultValue="false" />
+        <ListPreference
+            android:key="split_tunnel_mode"
+            android:title="@string/split_tunnel_mode"
+            android:dialogTitle="@string/split_tunnel_mode"
+            android:entries="@array/split_tunnel_mode_entries"
+            android:entryValues="@array/split_tunnel_mode_values"
+            android:defaultValue="auto" />
+        <EditTextPreference
+            android:key="split_tunnel_networks"
+            android:title="@string/split_tunnel_networks"
+            android:dialogMessage="@string/split_tunnel_networks_message"
+            android:inputType="textUri|textMultiLine"
+            android:defaultValue="" />
         <CheckBoxPreference
             android:key="disable_xml_post"
             android:title="@string/disable_xml_post"
