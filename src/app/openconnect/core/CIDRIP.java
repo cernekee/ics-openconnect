@@ -30,10 +30,33 @@ import java.util.Locale;
 class CIDRIP{
 	String mIp;
 	int len;
-	
-	
-	public CIDRIP(String ip, String mask){
-		mIp=ip;
+
+	public CIDRIP(String combo) {
+		String ss[] = combo.split("/");
+
+		mIp = ss[0];
+		if (ss[1].matches("^[0-9]+$")) {
+			len = Integer.parseInt(ss[1]);
+		} else {
+			len = maskToLen(ss[1]);
+		}
+		if (len < 0 || len > 32) {
+			len = 32;
+		}
+		normalise();
+	}
+
+	public CIDRIP(String ip, String mask) {
+		mIp = ip;
+		len = maskToLen(mask);
+	}
+
+	public CIDRIP(String ip, int prefixLen) {
+		mIp = ip;
+		len = prefixLen;
+	}
+
+	private static int maskToLen(String mask) {
 		long netmask=getInt(mask);
 
 		// Add 33. bit to ensure the loop terminates
@@ -47,16 +70,12 @@ class CIDRIP{
 		// Check if rest of netmask is only 1s
 		if(netmask != (0x1ffffffffl >> lenZeros)) {
 			// Asume no CIDR, set /32
-			len=32;
+			return 32;
 		} else {
-			len =32 -lenZeros; 
+			return 32 - lenZeros; 
 		}
+	}
 
-	}
-	public CIDRIP(String address, int prefix_length) {
-		len = prefix_length;
-		mIp = address;
-	}
 	@Override
 	public String toString() {
 		return String.format(Locale.ENGLISH,"%s/%d",mIp,len);
