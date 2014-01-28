@@ -235,6 +235,12 @@ public class OpenVpnService extends VpnService {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
+		if (intent == null) {
+			Log.e(TAG, "OpenVpnService started with null intent");
+			stopSelf();
+			return START_NOT_STICKY;
+		}
+
 		String action = intent.getAction();
 		if (START_SERVICE.equals(action)) {
 			return START_NOT_STICKY;
