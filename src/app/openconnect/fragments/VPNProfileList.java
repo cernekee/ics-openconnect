@@ -56,6 +56,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import app.openconnect.AboutActivity;
 import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
@@ -64,7 +65,8 @@ import app.openconnect.core.ProfileManager;
 
 public class VPNProfileList extends ListFragment {
 
-	private static final int MENU_ADD_PROFILE = Menu.FIRST;
+	private static final int MENU_ADD_PROFILE = 1;
+	private static final int MENU_ABOUT = 2;
 
 	private ArrayAdapter<VpnProfile> mArrayadapter;
 
@@ -188,11 +190,14 @@ public class VPNProfileList extends ListFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(0, MENU_ADD_PROFILE, 0 , R.string.menu_add_profile)
-		.setIcon(android.R.drawable.ic_menu_add)
-		.setAlphabeticShortcut('a')
-		.setTitleCondensed(getActivity().getString(R.string.add))
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS |  MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menu.add(Menu.NONE, MENU_ADD_PROFILE, Menu.NONE, R.string.menu_add_profile)
+			.setIcon(android.R.drawable.ic_menu_add)
+			.setAlphabeticShortcut('a')
+			.setTitleCondensed(getActivity().getString(R.string.add))
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, "About OpenConnect")
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 	}
 
 	@Override
@@ -200,6 +205,10 @@ public class VPNProfileList extends ListFragment {
 		final int itemId = item.getItemId();
 		if (itemId == MENU_ADD_PROFILE) {
 			onAddProfileClicked("");
+			return true;
+		} else if (itemId == MENU_ABOUT) {
+			Intent intent = new Intent(getActivity(), AboutActivity.class);
+			startActivity(intent);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);

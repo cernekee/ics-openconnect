@@ -38,6 +38,8 @@
         <activity
             android:name=".ConnectionEditorActivity" />
         <activity
+            android:name=".AboutActivity" />
+        <activity
             android:name=".TokenImportActivity"
             android:exported="true" >
 

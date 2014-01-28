@@ -36,7 +36,6 @@ import android.os.Bundle;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
-import app.openconnect.fragments.AboutFragment;
 import app.openconnect.fragments.FaqFragment;
 import app.openconnect.fragments.GeneralSettings;
 import app.openconnect.fragments.StatusFragment;
@@ -51,7 +50,6 @@ public class MainActivity extends Activity {
 	private Tab mSettingsTab;
 	private Tab mStatusTab;
 	private Tab mFaqTab;
-	private Tab mAboutTab;
 	private String mLastTab;
 	private boolean mTabsActive;
 
@@ -75,7 +73,6 @@ public class MainActivity extends Activity {
 		mSettingsTab = mBar.newTab().setText(R.string.generalsettings);
 		mStatusTab = mBar.newTab().setText(R.string.status);
 		mFaqTab = mBar.newTab().setText(R.string.faq);
-		mAboutTab = mBar.newTab().setText(R.string.about);
 
 		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
 				VPNProfileList.class));
@@ -85,8 +82,6 @@ public class MainActivity extends Activity {
 				StatusFragment.class));
 		mFaqTab.setTabListener(new TabListener<FaqFragment>("faq",
 				FaqFragment.class));
-		mAboutTab.setTabListener(new TabListener<AboutFragment>("about",
-				AboutFragment.class));
 	}
 
 	@Override
@@ -108,7 +103,6 @@ public class MainActivity extends Activity {
 			mBar.addTab(mSettingsTab);
 			mBar.addTab(mStatusTab);
 			mBar.addTab(mFaqTab);
-			mBar.addTab(mAboutTab);
 
 			if ("profiles".equals(lastTab)) {
 				mBar.selectTab(mVpnListTab);
@@ -118,8 +112,6 @@ public class MainActivity extends Activity {
 				mBar.selectTab(mStatusTab);
 			} else if ("faq".equals(lastTab)) {
 				mBar.selectTab(mFaqTab);
-			} else if ("about".equals(lastTab)) {
-				mBar.selectTab(mAboutTab);
 			}
 
 			mTabsActive = true;
