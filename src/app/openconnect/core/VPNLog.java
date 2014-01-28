@@ -169,7 +169,7 @@ public class VPNLog {
 			s.close();
 			ret = 0;
 		} catch (FileNotFoundException e) {
-			Log.d(TAG, "file not found reading " + path, e);
+			Log.d(TAG, "file not found reading " + path);
 		} catch (IOException e) {
 			Log.w(TAG, "I/O error reading " + path, e);
 		} catch (ClassNotFoundException e) {
