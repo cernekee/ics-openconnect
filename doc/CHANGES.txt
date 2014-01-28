@@ -1,3 +1,16 @@
+v0.3 - UNRELEASED
+
+ - Fix "living dead" connections (can't pass data after reconnection due to
+   DTLS parameter mismatches)
+
+ - Fix KeepAlive socket errors on KitKat devices
+
+ - Add FAQ tab in response to user feedback
+
+ - Minor UI and documentation fixes
+
+ - Add split tunnel configuration options
+
 v0.2 - 2014/01/18
 
  - Allow SecurID token import via URI or text file
