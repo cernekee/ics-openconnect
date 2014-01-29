@@ -66,7 +66,9 @@ import app.openconnect.core.ProfileManager;
 public class VPNProfileList extends ListFragment {
 
 	private static final int MENU_ADD_PROFILE = 1;
-	private static final int MENU_ABOUT = 2;
+
+	private static final int MENU_SETTINGS = 10;
+	private static final int MENU_ABOUT = 11;
 
 	private ArrayAdapter<VpnProfile> mArrayadapter;
 
@@ -196,8 +198,17 @@ public class VPNProfileList extends ListFragment {
 			.setTitleCondensed(getActivity().getString(R.string.add))
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, "About OpenConnect")
+		menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.generalsettings)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.about_openconnect)
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+	}
+
+	private boolean startFragActivity(String fragName) {
+		Intent intent = new Intent(getActivity(), FragActivity.class);
+		intent.putExtra(FragActivity.EXTRA_FRAGMENT_NAME, fragName);
+		startActivity(intent);
+		return true;
 	}
 
 	@Override
@@ -207,10 +218,9 @@ public class VPNProfileList extends ListFragment {
 			onAddProfileClicked("");
 			return true;
 		} else if (itemId == MENU_ABOUT) {
-			Intent intent = new Intent(getActivity(), FragActivity.class);
-			intent.putExtra(FragActivity.EXTRA_FRAGMENT_NAME, "AboutFragment");
-			startActivity(intent);
-			return true;
+			return startFragActivity("AboutFragment");
+		} else if (itemId == MENU_SETTINGS) {
+			return startFragActivity("GeneralSettings");
 		} else {
 			return super.onOptionsItemSelected(item);
 		}

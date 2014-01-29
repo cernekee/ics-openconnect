@@ -23,6 +23,7 @@
     <string name="copyright_guicode">Source code and issue tracker available at http://code.google.com/p/ics-openvpn/</string>
     <string name="copyright_others">This program uses the following components; see the source code for full details on the licenses</string>
     <string name="about">About</string>
+    <string name="about_openconnect">About OpenConnect</string>
     <string name="vpn_list_title">Profiles</string>
     <string name="status">Status</string>
     <string name="vpn_type">Type</string>

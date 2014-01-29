@@ -37,7 +37,6 @@ import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
 import app.openconnect.fragments.FaqFragment;
-import app.openconnect.fragments.GeneralSettings;
 import app.openconnect.fragments.StatusFragment;
 import app.openconnect.fragments.VPNProfileList;
 
@@ -47,7 +46,6 @@ public class MainActivity extends Activity {
 
 	private ActionBar mBar;
 	private Tab mVpnListTab;
-	private Tab mSettingsTab;
 	private Tab mStatusTab;
 	private Tab mFaqTab;
 	private String mLastTab;
@@ -70,14 +68,11 @@ public class MainActivity extends Activity {
 		mBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mVpnListTab = mBar.newTab().setText(R.string.vpn_list_title);
-		mSettingsTab = mBar.newTab().setText(R.string.generalsettings);
 		mStatusTab = mBar.newTab().setText(R.string.status);
 		mFaqTab = mBar.newTab().setText(R.string.faq);
 
 		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
 				VPNProfileList.class));
-		mSettingsTab.setTabListener(new TabListener<GeneralSettings>("settings",
-				GeneralSettings.class));
 		mStatusTab.setTabListener(new TabListener<StatusFragment>("status",
 				StatusFragment.class));
 		mFaqTab.setTabListener(new TabListener<FaqFragment>("faq",
@@ -100,14 +95,11 @@ public class MainActivity extends Activity {
 			String lastTab = mLastTab;
 
 			mBar.addTab(mVpnListTab);
-			mBar.addTab(mSettingsTab);
 			mBar.addTab(mStatusTab);
 			mBar.addTab(mFaqTab);
 
 			if ("profiles".equals(lastTab)) {
 				mBar.selectTab(mVpnListTab);
-			} else if ("settings".equals(lastTab)) {
-				mBar.selectTab(mSettingsTab);
 			} else if ("status".equals(lastTab)) {
 				mBar.selectTab(mStatusTab);
 			} else if ("faq".equals(lastTab)) {
@@ -123,10 +115,8 @@ public class MainActivity extends Activity {
 
 		if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
 			mBar.addTab(mVpnListTab, 0);
-			mBar.addTab(mSettingsTab, 1);
 		} else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
 			mBar.removeTab(mVpnListTab);
-			mBar.removeTab(mSettingsTab);
 		}
 		mConnectionState = newState;
 	}
