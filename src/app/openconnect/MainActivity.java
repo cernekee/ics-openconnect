@@ -36,9 +36,7 @@ import android.os.Bundle;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
-import app.openconnect.fragments.FaqFragment;
-import app.openconnect.fragments.StatusFragment;
-import app.openconnect.fragments.VPNProfileList;
+import app.openconnect.fragments.*;
 
 public class MainActivity extends Activity {
 
@@ -47,6 +45,7 @@ public class MainActivity extends Activity {
 	private ActionBar mBar;
 	private Tab mVpnListTab;
 	private Tab mStatusTab;
+	private Tab mLogTab;
 	private Tab mFaqTab;
 	private String mLastTab;
 	private boolean mTabsActive;
@@ -69,12 +68,15 @@ public class MainActivity extends Activity {
 
 		mVpnListTab = mBar.newTab().setText(R.string.vpn_list_title);
 		mStatusTab = mBar.newTab().setText(R.string.status);
+		mLogTab = mBar.newTab().setText(R.string.log);
 		mFaqTab = mBar.newTab().setText(R.string.faq);
 
 		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
 				VPNProfileList.class));
 		mStatusTab.setTabListener(new TabListener<StatusFragment>("status",
 				StatusFragment.class));
+		mLogTab.setTabListener(new TabListener<LogFragment>("log",
+				LogFragment.class));
 		mFaqTab.setTabListener(new TabListener<FaqFragment>("faq",
 				FaqFragment.class));
 	}
@@ -96,12 +98,15 @@ public class MainActivity extends Activity {
 
 			mBar.addTab(mVpnListTab);
 			mBar.addTab(mStatusTab);
+			mBar.addTab(mLogTab);
 			mBar.addTab(mFaqTab);
 
 			if ("profiles".equals(lastTab)) {
 				mBar.selectTab(mVpnListTab);
 			} else if ("status".equals(lastTab)) {
 				mBar.selectTab(mStatusTab);
+			} else if ("log".equals(lastTab)) {
+				mBar.selectTab(mLogTab);
 			} else if ("faq".equals(lastTab)) {
 				mBar.selectTab(mFaqTab);
 			}
