@@ -26,12 +26,13 @@
 
 package app.openconnect;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
@@ -43,11 +44,11 @@ public class MainActivity extends Activity {
 	public static final String TAG = "OpenConnect";
 
 	private ActionBar mBar;
-	private Tab mVpnListTab;
-	private Tab mStatusTab;
-	private Tab mLogTab;
-	private Tab mFaqTab;
-	private String mLastTab;
+
+	private ArrayList<TabContainer> mTabList = new ArrayList<TabContainer>();
+
+	private TabContainer mConnectionTab;
+	private int mLastTab;
 	private boolean mTabsActive;
 
 	private int mConnectionState = OpenConnectManagementThread.STATE_DISCONNECTED;
@@ -60,31 +61,24 @@ public class MainActivity extends Activity {
 
 		mTabsActive = false;
 		if (savedInstanceState != null) {
-			mLastTab = savedInstanceState.getString("active_tab");
+			mLastTab = savedInstanceState.getInt("active_tab");
 		}
 
 		mBar = getActionBar();
 		mBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		mVpnListTab = mBar.newTab().setText(R.string.vpn_list_title);
-		mStatusTab = mBar.newTab().setText(R.string.status);
-		mLogTab = mBar.newTab().setText(R.string.log);
-		mFaqTab = mBar.newTab().setText(R.string.faq);
+		mTabList.add(new TabContainer(0, R.string.vpn_list_title, new VPNProfileList()));
+		mTabList.add(new TabContainer(1, R.string.status, new StatusFragment()));
+		mTabList.add(new TabContainer(2, R.string.log, new LogFragment()));
+		mTabList.add(new TabContainer(3, R.string.faq, new FaqFragment()));
 
-		mVpnListTab.setTabListener(new TabListener<VPNProfileList>("profiles",
-				VPNProfileList.class));
-		mStatusTab.setTabListener(new TabListener<StatusFragment>("status",
-				StatusFragment.class));
-		mLogTab.setTabListener(new TabListener<LogFragment>("log",
-				LogFragment.class));
-		mFaqTab.setTabListener(new TabListener<FaqFragment>("faq",
-				FaqFragment.class));
+		mConnectionTab = mTabList.get(0);
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle b) {
 		super.onSaveInstanceState(b);
-		b.putString("active_tab", mLastTab);
+		b.putInt("active_tab", mLastTab);
 	}
 
 	private void updateUI(OpenVpnService service) {
@@ -94,23 +88,13 @@ public class MainActivity extends Activity {
 
 		if (!mTabsActive) {
 			// NOTE: addTab may cause mLastTab to change, so cache the value here
-			String lastTab = mLastTab;
-
-			mBar.addTab(mVpnListTab);
-			mBar.addTab(mStatusTab);
-			mBar.addTab(mLogTab);
-			mBar.addTab(mFaqTab);
-
-			if ("profiles".equals(lastTab)) {
-				mBar.selectTab(mVpnListTab);
-			} else if ("status".equals(lastTab)) {
-				mBar.selectTab(mStatusTab);
-			} else if ("log".equals(lastTab)) {
-				mBar.selectTab(mLogTab);
-			} else if ("faq".equals(lastTab)) {
-				mBar.selectTab(mFaqTab);
+			int lastTab = mLastTab;
+			for (TabContainer tc : mTabList) {
+				mBar.addTab(tc.tab);
+				if (tc.idx == lastTab) {
+					mBar.selectTab(tc.tab);
+				}
 			}
-
 			mTabsActive = true;
 		}
 
@@ -119,9 +103,9 @@ public class MainActivity extends Activity {
 		}
 
 		if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			mBar.addTab(mVpnListTab, 0);
+			mBar.addTab(mConnectionTab.tab, 0);
 		} else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			mBar.removeTab(mVpnListTab);
+			mBar.removeTab(mConnectionTab.tab);
 		}
 		mConnectionState = newState;
 	}
@@ -145,57 +129,32 @@ public class MainActivity extends Activity {
 		super.onPause();
 	}
 
-	protected class TabListener<T extends Fragment> implements
-			ActionBar.TabListener {
+	protected class TabContainer implements ActionBar.TabListener {
 		private Fragment mFragment;
-		private String mTag;
-		private Class<T> mClass;
+		public Tab tab;
+		public int idx;
 
-		public TabListener(String tag, Class<T> clz) {
-			mTag = tag;
-			mClass = clz;
-
-			// Check to see if we already have a fragment for this tab, probably
-			// from a previously saved state. If so, deactivate it, because our
-			// initial state is that a tab isn't shown.
-			mFragment = getFragmentManager().findFragmentByTag(mTag);
-			if (mFragment != null && !mFragment.isDetached()) {
-				FragmentTransaction ft = getFragmentManager()
-						.beginTransaction();
-				ft.detach(mFragment);
-				ft.commit();
-			}
+		public TabContainer(int idx, int titleResId, Fragment frag) {
+			this.idx = idx;
+			this.mFragment = frag;
+			tab = getActionBar().newTab()
+					.setText(titleResId)
+					.setTabListener(this);
 		}
 
+		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			mLastTab = mTag;
-			if (mFragment == null) {
-				mFragment = Fragment.instantiate(MainActivity.this,
-						mClass.getName());
-				ft.add(android.R.id.content, mFragment, mTag);
-			} else {
-				ft.attach(mFragment);
-			}
+			mLastTab = idx;
+			ft.replace(android.R.id.content, mFragment);
 		}
 
+		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			if (mFragment != null) {
-				ft.detach(mFragment);
-			}
+			ft.remove(mFragment);
 		}
 
 		@Override
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-
 		}
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		System.out.println(data);
-
-	}
-
 }
