@@ -68,9 +68,8 @@ public class MainActivity extends Activity {
 		mBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mTabList.add(new TabContainer(0, R.string.vpn_list_title, new VPNProfileList()));
-		mTabList.add(new TabContainer(1, R.string.status, new StatusFragment()));
-		mTabList.add(new TabContainer(2, R.string.log, new LogFragment()));
-		mTabList.add(new TabContainer(3, R.string.faq, new FaqFragment()));
+		mTabList.add(new TabContainer(1, R.string.log, new LogFragment()));
+		mTabList.add(new TabContainer(2, R.string.faq, new FaqFragment()));
 
 		mConnectionTab = mTabList.get(0);
 	}
@@ -86,6 +85,15 @@ public class MainActivity extends Activity {
 
 		service.startActiveDialog(this);
 
+		if (mConnectionState != newState) {
+			if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
+				mConnectionTab.replace(R.string.vpn_list_title, new VPNProfileList());
+			} else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
+				mConnectionTab.replace(R.string.status, new StatusFragment());
+			}
+			mConnectionState = newState;
+		}
+
 		if (!mTabsActive) {
 			// NOTE: addTab may cause mLastTab to change, so cache the value here
 			int lastTab = mLastTab;
@@ -97,17 +105,6 @@ public class MainActivity extends Activity {
 			}
 			mTabsActive = true;
 		}
-
-		if (mConnectionState == newState) {
-			return;
-		}
-
-		if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			mBar.addTab(mConnectionTab.tab, 0);
-		} else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-			mBar.removeTab(mConnectionTab.tab);
-		}
-		mConnectionState = newState;
 	}
 
 	@Override
@@ -133,6 +130,18 @@ public class MainActivity extends Activity {
 		private Fragment mFragment;
 		public Tab tab;
 		public int idx;
+
+		public void replace(int titleResId, Fragment frag) {
+			getFragmentManager().beginTransaction().remove(mFragment).commit();
+			mFragment = frag;
+			tab.setText(titleResId);
+
+			if (idx == mLastTab) {
+				getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, mFragment)
+					.commit();
+			}
+		}
 
 		public TabContainer(int idx, int titleResId, Fragment frag) {
 			this.idx = idx;
