@@ -132,6 +132,8 @@ public class VPNProfileList extends ListFragment {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
+		// FIXME: This doesn't actually work, because our MainActivity creates new
+		// fragments if the activity is recreated
 		if (mDialog != null) {
 			savedInstanceState.putString("mDialogEntry", mDialogEntry.getText().toString());
 		}
