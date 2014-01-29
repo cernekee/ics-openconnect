@@ -208,6 +208,7 @@ public class VPNProfileList extends ListFragment {
 			return true;
 		} else if (itemId == MENU_ABOUT) {
 			Intent intent = new Intent(getActivity(), AboutActivity.class);
+			intent.putExtra(AboutActivity.EXTRA_FRAGMENT_NAME, "AboutFragment");
 			startActivity(intent);
 			return true;
 		} else {
