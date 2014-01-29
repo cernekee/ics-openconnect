@@ -61,7 +61,10 @@ import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
+import app.openconnect.core.OpenConnectManagementThread;
+import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.ProfileManager;
+import app.openconnect.core.VPNConnector;
 
 public class VPNProfileList extends ListFragment {
 
@@ -74,6 +77,9 @@ public class VPNProfileList extends ListFragment {
 
 	private AlertDialog mDialog;
 	private EditText mDialogEntry;
+	private Button mReconnectButton;
+
+	private VPNConnector mConn;
 
 	private class VPNArrayAdapter extends ArrayAdapter<VpnProfile> {
 
@@ -160,7 +166,7 @@ public class VPNProfileList extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.vpn_profile_list, container,false);
+		final View v = inflater.inflate(R.layout.vpn_profile_list, container,false);
 
 		TextView newvpntext = (TextView) v.findViewById(R.id.add_new_vpn_hint);
 		newvpntext.setText(Html.fromHtml(getString(R.string.add_new_vpn_hint),new MiniImageGetter(),null));
@@ -168,8 +174,36 @@ public class VPNProfileList extends ListFragment {
 		mArrayadapter = new VPNArrayAdapter(getActivity(), R.layout.vpn_list_item, R.id.vpn_item_title);
 		setListAdapter(mArrayadapter);
 
+		mReconnectButton = (Button)v.findViewById(R.id.reconnect_button);
+    	mReconnectButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (mConn.service.getConnectionState() ==
+						OpenConnectManagementThread.STATE_DISCONNECTED) {
+					mConn.service.startReconnectActivity(getActivity());
+				}
+			}
+    	});
+
+    	mConn = new VPNConnector(getActivity(), false) {
+			@Override
+			public void onUpdate(OpenVpnService service) {
+				String profileName = service.getReconnectName();
+				if (profileName != null) {
+					mReconnectButton.setText(getString(R.string.reconnect_to, profileName));
+					v.findViewById(R.id.reconnect_box).setVisibility(View.VISIBLE);
+				}
+			}
+    	};
+
 		return v;
 	}
+
+    @Override
+    public void onDestroyView() {
+    	mConn.unbind();
+    	super.onDestroyView();
+    }
 
 	class VpnProfileNameComperator implements Comparator<VpnProfile> {
 

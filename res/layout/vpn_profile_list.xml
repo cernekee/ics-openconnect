@@ -10,7 +10,29 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/reconnect_box"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+		android:visibility="gone" >
+
+        <View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:layout_marginTop="10dp"
+	    	android:layout_marginBottom="10dp"
+	    	android:background="@android:color/darker_gray"/>
+
+	    <Button
+	        android:id="@+id/reconnect_button"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" />
+
+	</LinearLayout>
 
     <LinearLayout
         android:id="@android:id/empty"
