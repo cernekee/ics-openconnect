@@ -38,7 +38,7 @@
         <activity
             android:name=".ConnectionEditorActivity" />
         <activity
-            android:name=".AboutActivity" />
+            android:name=".FragActivity" />
         <activity
             android:name=".TokenImportActivity"
             android:exported="true" >

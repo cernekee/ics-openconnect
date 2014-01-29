@@ -56,7 +56,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import app.openconnect.AboutActivity;
+import app.openconnect.FragActivity;
 import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
@@ -207,8 +207,8 @@ public class VPNProfileList extends ListFragment {
 			onAddProfileClicked("");
 			return true;
 		} else if (itemId == MENU_ABOUT) {
-			Intent intent = new Intent(getActivity(), AboutActivity.class);
-			intent.putExtra(AboutActivity.EXTRA_FRAGMENT_NAME, "AboutFragment");
+			Intent intent = new Intent(getActivity(), FragActivity.class);
+			intent.putExtra(FragActivity.EXTRA_FRAGMENT_NAME, "AboutFragment");
 			startActivity(intent);
 			return true;
 		} else {

@@ -29,7 +29,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 
-public class AboutActivity extends Activity {
+public class FragActivity extends Activity {
 
 	public static final String TAG = "OpenConnect";
 
@@ -50,7 +50,7 @@ public class AboutActivity extends Activity {
 				Log.e(TAG, "unable to create fragment", e);
 				finish();
 			}
-                }
+		}
     }
 
 }
