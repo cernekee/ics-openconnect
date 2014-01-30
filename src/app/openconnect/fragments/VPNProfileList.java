@@ -36,10 +36,8 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Html.ImageGetter;
@@ -330,11 +328,6 @@ public class VPNProfileList extends ListFragment {
 	private void startVPN(VpnProfile profile) {
 		Intent intent = new Intent(getActivity(), GrantPermissionsActivity.class);
 		String pkg = getActivity().getPackageName();
-
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sp.getBoolean("showlogwindow", false)) {
-			intent.putExtra(pkg + GrantPermissionsActivity.EXTRA_START_ACTIVITY, pkg + ".LogWindow");
-		}
 
 		intent.putExtra(pkg + GrantPermissionsActivity.EXTRA_UUID, profile.getUUID().toString());
 		intent.setAction(Intent.ACTION_MAIN);

@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
     <PreferenceCategory android:title="@string/appbehaviour">
 
-        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="showlogwindow"
-                android:summary="@string/show_log_summary"
-                android:title="@string/show_log_window"/>
-
-<!--
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="restartvpnonboot"
                 android:summary="@string/onbootrestartsummary"
                 android:title="@string/onbootrestart"/>
--->
 
-<!--
         <Preference
                 android:key="clearapi"
                 android:persistent="false"
                 android:title="Clear allowed external apps"/>
--->
     </PreferenceCategory>
+-->
 
     <PreferenceCategory android:title="@string/vpnbehaviour">
 <!--

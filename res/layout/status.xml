@@ -119,4 +119,8 @@
         android:text="@string/disconnect"
         android:visibility="invisible" />
 
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dip" />
+
 </LinearLayout>
