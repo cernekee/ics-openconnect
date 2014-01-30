@@ -44,6 +44,7 @@
     <string name="configure_the_vpn">Configure the VPN</string>
     <string name="menu_add_profile">Add Profile</string>
     <string name="add_profile_hostname_prompt">Enter the hostname, IP address, or URL:</string>
+    <string name="hostname_examples">Valid formats include:\nvpn.example.com (typical usage)\nvpn.example.com:443 (host:port)\nhttps://vpn.example.com/my-group-url</string>
     <string name="profilename">Profile Name</string>
     <string name="no_keystore_cert_selected">You must select a User certificate</string>
     <string name="no_error_found">No error found</string>

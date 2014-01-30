@@ -11,6 +11,7 @@
         <EditTextPreference
             android:key="server_address"
             android:title="@string/server_address"
+            android:dialogMessage="@string/add_profile_hostname_prompt"
             android:inputType="textUri"
             android:defaultValue="" />
         <app.openconnect.ShowTextPreference

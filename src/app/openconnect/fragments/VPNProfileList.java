@@ -41,7 +41,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Html.ImageGetter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -263,15 +262,15 @@ public class VPNProfileList extends ListFragment {
 	private void onAddProfileClicked(String savedEntry) {
 		Context context = getActivity();
 		if (context != null) {
-			mDialogEntry = new EditText(context);
-			mDialogEntry.setSingleLine();
-			mDialogEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+			View v = View.inflate(context, R.layout.add_new_vpn, null);
+
+			mDialogEntry = (EditText)v.findViewById(R.id.entry);
 			mDialogEntry.setText(savedEntry);
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setTitle(R.string.menu_add_profile);
-			builder.setMessage(R.string.add_profile_hostname_prompt);
-			builder.setView(mDialogEntry);
+			AlertDialog.Builder builder = new AlertDialog.Builder(context)
+				.setTitle(R.string.menu_add_profile)
+				.setMessage(R.string.add_profile_hostname_prompt)
+				.setView(v);
 
 			builder.setPositiveButton(android.R.string.ok,
 					new DialogInterface.OnClickListener() {
