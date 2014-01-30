@@ -63,7 +63,7 @@
     <string name="reconnect_to">Reconnect to %1$s</string>
     <string name="cancel_connection">Disconnect</string>
     <string name="cancel_connection_long">Disconnect VPN</string>
-    <string name="clear_log">clear log</string>
+    <string name="clear_log">Clear log</string>
     <string name="title_cancel">Cancel Confirmation</string>
     <string name="cancel_connection_query">Are you sure you want to disconnect?</string>
     <string name="remove_vpn">Remove VPN</string>
