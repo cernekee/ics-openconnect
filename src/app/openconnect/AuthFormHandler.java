@@ -368,8 +368,11 @@ public class AuthFormHandler extends UserDialog
 		super.onStart(context);
 		mContext = context;
 		isOK = false;
+
+		float scale = mContext.getResources().getDisplayMetrics().density;
 		LinearLayout v = new LinearLayout(mContext);
 		v.setOrientation(LinearLayout.VERTICAL);
+		v.setPadding((int)(14*scale), (int)(2*scale), (int)(10*scale), (int)(2*scale));
 
 		boolean hasPassword = false, allFilled = true, hasUserOptions = false;
 		String defval;
