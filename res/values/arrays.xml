@@ -116,7 +116,7 @@
         <item>There are two root-only features shown under Settings; both are disabled by default.  One setting works around a ROM bug in CM9 which sets incorrect permissions on /dev/tun, preventing VpnService from passing traffic to the tunnel interface; the other setting loads tun.ko on ROMs that neglect to load it by default.\n\nBased on user feedback and testing, future releases may autodetect these conditions.</item>
 
         <item>How do I send a problem report?</item>
-        <item>Navigate to Status -&gt; Show log window -&gt; (menu) -&gt; Send [log file].  Please be sure to furnish a complete, accurate description of the issue you are seeing, as the logs do not always show a smoking gun.</item>
+        <item>Navigate to Log -&gt; (menu) -&gt; Send log file.  Please be sure to furnish a complete, accurate description of the issue you are seeing, as the logs do not always show a smoking gun.</item>
     </string-array>
 
 </resources>
