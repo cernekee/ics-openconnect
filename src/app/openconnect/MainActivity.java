@@ -138,6 +138,7 @@ public class MainActivity extends Activity {
 
 			if (idx == mLastTab) {
 				getFragmentManager().beginTransaction()
+					.setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
 					.replace(android.R.id.content, mFragment)
 					.commit();
 			}
@@ -153,6 +154,16 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			if (mTabsActive) {
+				if (idx < mLastTab) {
+					ft.setCustomAnimations(R.animator.fragment_slide_right_enter,
+							R.animator.fragment_slide_right_exit);
+				} else if (idx > mLastTab) {
+					ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
+							R.animator.fragment_slide_left_exit);
+				}
+			}
+
 			mLastTab = idx;
 			ft.replace(android.R.id.content, mFragment);
 		}
