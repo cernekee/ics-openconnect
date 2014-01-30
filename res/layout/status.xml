@@ -113,16 +113,6 @@
             android:layout_weight="1" />
 
     <Button
-        android:id="@+id/log_window_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/show_log_window" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20sp" />
-
-    <Button
         android:id="@+id/disconnect_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -24,9 +24,7 @@
 
 package app.openconnect.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -35,7 +33,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import app.openconnect.LogWindow;
 import app.openconnect.R;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
@@ -46,7 +43,6 @@ public class StatusFragment extends Fragment {
 	private View mView;
 	private VPNConnector mConn;
 
-	private Button mLogButton;
 	private Button mDisconnectButton;
 
     @Override
@@ -55,16 +51,7 @@ public class StatusFragment extends Fragment {
     	super.onCreateView(inflater, container, savedInstanceState);
 
     	mView = inflater.inflate(R.layout.status, container, false);
-    	mLogButton = (Button)mView.findViewById(R.id.log_window_button);
     	mDisconnectButton = (Button)mView.findViewById(R.id.disconnect_button);
-
-    	mLogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Activity a = getActivity();
-				a.startActivity(new Intent(a, LogWindow.class));
-			}
-    	});
 
     	mDisconnectButton.setOnClickListener(new OnClickListener() {
 			@Override
