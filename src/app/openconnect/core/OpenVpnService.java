@@ -136,7 +136,6 @@ public class OpenVpnService extends VpnService {
 		if (mDeviceStateReceiver != null) {
 			this.unregisterReceiver(mDeviceStateReceiver);
 		}
-		mPrefs.edit().putString("service_mUUID", mUUID).apply();
 		mVPNLog.saveToFile(getCacheDir().getAbsolutePath() + "/logdata.ser");
 	}
 
@@ -253,6 +252,7 @@ public class OpenVpnService extends VpnService {
 		if (mUUID == null) {
 			return START_NOT_STICKY;
 		}
+		mPrefs.edit().putString("service_mUUID", mUUID).apply();
 
 		profile = ProfileManager.get(mUUID);
 		if (profile == null) {
