@@ -78,11 +78,6 @@
             </intent-filter>
 
             </activity>
-        <activity
-            android:name=".LogWindow"
-            android:allowTaskReparenting="true"
-            android:label="@string/openvpn_log"
-            android:launchMode="singleTask" />
         <activity android:name=".FileSelect" />
         <activity
             android:name=".MainActivity"
