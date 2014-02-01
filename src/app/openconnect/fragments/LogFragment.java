@@ -141,7 +141,7 @@ public class LogFragment extends ListFragment {
     			String title;
     			if (state == OpenConnectManagementThread.STATE_DISCONNECTED) {
     				title = getString(R.string.reconnect);
-    				mCancelButton.setIcon(android.R.drawable.ic_menu_rotate);
+    				mCancelButton.setIcon(R.drawable.ic_action_refresh);
 					mCancelButton.setVisible(service.getReconnectName() != null);
     				mDisconnected = true;
     			} else {
