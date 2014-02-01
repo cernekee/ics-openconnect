@@ -264,7 +264,7 @@ public class FileSelectionFragment extends ListFragment {
 				lastPositions.put(currentPath, position);
 				getDir(path.get(position));
 			} else {
-				new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
+				new AlertDialog.Builder(getActivity())
 				.setTitle("[" + file.getName() + "] " + getText(R.string.cant_read_folder))
 				.setPositiveButton("OK", null).show();
 			}
