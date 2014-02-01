@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,7 +74,12 @@ public class LogFragment extends ListFragment {
 	private void sendReport() {
 		String ver, dataText;
 
-		dataText = mConn.service.dumpLog();
+		dataText = "--------------------\n\n" +
+				"Android version: " + Build.VERSION.RELEASE + "\n" +
+				"Manufacturer: " + Build.MANUFACTURER + "\n" +
+				"Model: " + Build.MODEL + "\n" +
+				"Build: " + Build.DISPLAY + "\n\n" +
+				mConn.service.dumpLog();
 
 		try {
 			ver = mActivity.getPackageManager()
