@@ -157,12 +157,14 @@ public class OpenVpnService extends VpnService {
 		}
 	}
 
-	PendingIntent getLogPendingIntent() {
-		// Let the configure Button show the Log
+	private PendingIntent getConfigurePendingIntent() {
+		// Touching "Configure" on the system VPN dialog will summon MainActivity
 		Intent intent = new Intent(getBaseContext(), MainActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+		// FIXME: these flags don't actually take effect, so we get duplicate instances
+		// of MainActivity
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent startLW = PendingIntent.getActivity(this, 0, intent, 0);
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		return startLW;
 	}
 
@@ -280,7 +282,7 @@ public class OpenVpnService extends VpnService {
 	public Builder getVpnServiceBuilder() {
 		VpnService.Builder b = new VpnService.Builder();
 		b.setSession(profile.mName);
-		b.setConfigureIntent(getLogPendingIntent());
+		b.setConfigureIntent(getConfigurePendingIntent());
 		return b;
 	}
 
