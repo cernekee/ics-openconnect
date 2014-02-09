@@ -451,9 +451,9 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		}
 		int ret = mOC.obtainCookie();
 		if (ret < 0) {
-			log("Error obtaining cookie");
 			// don't pop up an alert if the user rejected the server cert
-			if (mRejectedCerts.isEmpty()) {
+			if (mRejectedCerts.isEmpty() && !mRequestDisconnect) {
+				log("Error obtaining cookie");
 				errorAlert();
 			}
 			return false;
@@ -466,8 +466,10 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		UserDialog.writeDeferredPrefs();
 		setState(STATE_AUTHENTICATED);
 		if (mOC.makeCSTPConnection() != 0) {
-			log("Error establishing CSTP connection");
-			errorAlert();
+			if (!mRequestDisconnect) {
+				log("Error establishing CSTP connection");
+				errorAlert();
+			}
 			return false;
 		}
 
