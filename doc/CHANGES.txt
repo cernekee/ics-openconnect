@@ -1,3 +1,14 @@
+v0.6 - 2014/02/09
+
+ - First release in Google Play Store
+
+ - Change to new "big O" launcher icon
+
+ - Avoid displaying error alerts if the user terminated the connection
+
+ - Try to make the libopenconnect build process more robust, and strip *.so
+   files to conserve space
+
 v0.5 - 2014/02/01
 
  - Fix "living dead" connections (can't pass data after reconnection due to
