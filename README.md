@@ -14,7 +14,7 @@ Changelog: see [doc/CHANGES.txt](doc/CHANGES.txt)
 
 ## Downloads and support
 
-Official releases are posted in the [XDA thread](http://forum.xda-developers.com/showthread.php?t=2616121).
+Official releases are posted in the [XDA thread](http://forum.xda-developers.com/showthread.php?t=2616121) and on [Google Play](https://play.google.com/store/apps/details?id=app.openconnect).
 
 Binary APK files are also available at [F-Droid](https://f-droid.org/repository/browse/?fdid=app.openconnect).
 
