@@ -60,11 +60,3 @@ These commands will build the binary components and copy them into libs/
     git submodule init
     git submodule update
     make -C external NDK=/opt/android-ndk-r9
-
-## Appendix
-
-This product includes software developed by the OpenSSL Project for use
-in the OpenSSL Toolkit (http://www.openssl.org/).
-
-This product includes cryptographic software written by Eric Young
-(eay@cryptsoft.com).
