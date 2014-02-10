@@ -58,7 +58,7 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	mkdir -p $*/openconnect
 	cp -a openconnect $*/
 	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(NDK) GCCVER=$(GCCVER)
-	cp -Lf $*/openconnect/android/*/openconnect/.libs/libopenconnect.so $@
+	cp -Lf $*/openconnect/android/*/out/lib/libopenconnect.so $@
 
 .openconnect-sources:
 	$(MAKE) -C openconnect/android sources
