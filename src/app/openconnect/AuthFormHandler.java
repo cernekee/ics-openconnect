@@ -62,8 +62,10 @@ public class AuthFormHandler extends UserDialog
 	private CheckBox savePassword = null;
 	private boolean noSave = false;
 	private String formPfx;
+
 	private int batchMode = BATCH_MODE_DISABLED;
 	private boolean mAuthgroupSet;
+	private boolean mAllFilled = true;
 
 	private TextView mFirstEmptyText;
 	private TextView mFirstText;
@@ -383,7 +385,7 @@ public class AuthFormHandler extends UserDialog
 		v.setOrientation(LinearLayout.VERTICAL);
 		v.setPadding((int)(14*scale), (int)(2*scale), (int)(10*scale), (int)(2*scale));
 
-		boolean hasPassword = false, allFilled = true, hasUserOptions = false;
+		boolean hasPassword = false, hasUserOptions = false;
 		String defval;
 
 		mFirstText = mFirstEmptyText = null;
@@ -401,7 +403,8 @@ public class AuthFormHandler extends UserDialog
 					if (opt.value != null && !opt.value.equals("")) {
 						defval = opt.value;
 					} else {
-						allFilled = false;
+						/* note that this gets remembered across redraws */
+						mAllFilled = false;
 					}
 				}
 				v.addView(newTextBlank(opt, defval));
@@ -440,7 +443,7 @@ public class AuthFormHandler extends UserDialog
 			return;
 		}
 
-		if ((batchMode == BATCH_MODE_EMPTY_ONLY && allFilled) ||
+		if ((batchMode == BATCH_MODE_EMPTY_ONLY && mAllFilled) ||
 			batchMode == BATCH_MODE_ENABLED || !hasUserOptions) {
 			saveAndStore();
 			finish(LibOpenConnect.OC_FORM_RESULT_OK);
