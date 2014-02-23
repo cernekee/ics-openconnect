@@ -65,6 +65,9 @@ public class AuthFormHandler extends UserDialog
 	private int batchMode = BATCH_MODE_DISABLED;
 	private boolean mAuthgroupSet;
 
+	private TextView mFirstEmptyText;
+	private TextView mFirstText;
+
 	private static final int BATCH_MODE_DISABLED = 0;
 	private static final int BATCH_MODE_EMPTY_ONLY = 1;
 	private static final int BATCH_MODE_ENABLED = 2;
@@ -189,10 +192,16 @@ public class AuthFormHandler extends UserDialog
 
 		TextView tv = new EditText(mContext);
 		tv.setLayoutParams(fillWidth);
-		if (defval != null) {
-			tv.setText(defval);
-		} else if (opt.value != null) {
-			tv.setText(opt.value);
+		if (defval == null) {
+			defval = opt.value != null ? opt.value : "";
+		}
+		tv.setText(defval);
+
+		if (mFirstEmptyText == null && defval.equals("")) {
+			mFirstEmptyText = tv;
+		}
+		if (mFirstText == null) {
+			mFirstText = tv;
 		}
 
 		int baseType = (opt.flags & LibOpenConnect.OC_FORM_OPT_NUMERIC) != 0 ?
@@ -377,6 +386,7 @@ public class AuthFormHandler extends UserDialog
 		boolean hasPassword = false, allFilled = true, hasUserOptions = false;
 		String defval;
 
+		mFirstText = mFirstEmptyText = null;
 		for (LibOpenConnect.FormOpt opt : mForm.opts) {
 			if ((opt.flags & LibOpenConnect.OC_FORM_OPT_IGNORE) != 0) {
 				continue;
@@ -445,6 +455,12 @@ public class AuthFormHandler extends UserDialog
 				.create();
 		mAlert.setOnDismissListener(h);
 		mAlert.show();
+
+		TextView focus = mFirstEmptyText != null ? mFirstEmptyText : mFirstText;
+		if (focus != null) {
+			focus.append("");
+			focus.requestFocus();
+		}
 	}
 
 	public void onStop(Context context) {
