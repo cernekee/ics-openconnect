@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Koppla från VPN</string>
   <string name="clear_log">rensa loggen</string>
   <string name="title_cancel">Avbryt bekräftelse</string>
-  <string name="cancel_connection_query">Koppla från det anslutna VPN/Avbryt anslutningen?</string>
   <string name="remove_vpn">Ta bort VPN</string>
   <string name="check_remote_tlscert">Kontrollerar om servern använder ett certifikat med TLS server tillägg (--remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">Förvänta TLS servercertifikat</string>
@@ -172,7 +171,6 @@
   <string name="extracahint">CA certifikat hämtas vanligtvis från Android Keystore. Ange ett separat certifikat om du får verifieringsfel på certifikatet.</string>
   <string name="select_file">Välj</string>
   <string name="keychain_nocacert">Inget CA certifikat returnerades från Android Keystore. Autenticering kommer troligen att misslyckas.</string>
-  <string name="show_log_summary">Visar loggfönstret vid anslutning. Loggfönstret kan alltid nås från statusgardinen.</string>
   <string name="show_log_window">Visa loggfönstret</string>
   <string name="mobile_info">Kör på %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Fel vid signering med Android keystore nyckeln %1$s: %2$s</string>
@@ -197,7 +195,6 @@
   <string name="use_system_proxy">Använd system proxy</string>
   <string name="use_system_proxy_summary">Använda systemkonfigurationen för HTTP/HTTPS proxy för att ansluta.</string>
   <string name="donatewithpaypal">Du kan &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;donera via PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect återansluter VPN om den var aktiv vid avstängning/omstart. Läs FAQ om anslutningsvarning innan du använder detta alternativ.</string>
   <string name="onbootrestart">Återanslut vid omstart</string>
   <string name="ignore">Ignorera</string>
   <string name="restart">Starta om</string>
@@ -209,7 +206,6 @@
   <string name="no_vpn_profiles_defined">Inga VPN-profiler har definierats.</string>
   <string name="add_new_vpn_hint">Använd &lt;img src=\"ic_menu_add\"/&gt; ikonen för att lägga till en ny VPN</string>
   <string name="vpn_import_hint">Använd &lt;img src=\"ic_menu_archive\"/&gt; ikonen för att importera en befintlig (.ovpn eller .conf) profil från ditt sd-kort.</string>
-  <string name="faq_hint">Tänk på att titta i FAQ\'n. Där finns en snabbstartguide.</string>
   <string name="faq_routing_title">Konfiguration för rutter/gränssnitt</string>
   <string name="faq_routing">Rutt och gränssnitts konfiguration görs inte via det traditionella ifconfig/route-kommandot utan med hjälp av VPNService API. Detta resulterar i en anorlunda ruttkonfiguration än på andra operativsystem. Konfigurationen består endast av IP-nummret för tunnel gränssnittet och de nätverk som ska ruttas över gränssnittet. Speciellt behövs ingen särskild peer partner adress eller gateway-adress. Särskilda rutter för att nå VPN-servern (tillagda exempelvis när du använder omdirigering-gateway) behövs inte heller. Applikationen kommer konsekvent att ignorera dessa inställningar när du importerar en konfiguration. Appen säkerställer med hjälp av VPNService API att anslutningen till servern inte ruttas via VPN-tunneln. Eftersom endast specificering av nätverk som ska skickas via tunneln stöds så stöds inte extra rutter som inte pekar på tunneln heller. (t.ex. rutten x.x.x.x y.y.y.y net_gateway). Loggfönstret visar den aktuella konfigurationen för VPNService under upprättandet av en anslutning. </string>
   <string name="persisttun_summary">Fall inte tillbaka till ingen VPN-anslutning när OpenConnect återansluter.</string>

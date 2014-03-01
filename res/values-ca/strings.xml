@@ -40,7 +40,6 @@
   <string name="cancel_connection">Desconecta</string>
   <string name="clear_log">Neteja el registre</string>
   <string name="title_cancel">Cancela la confirmació</string>
-  <string name="cancel_connection_query">Desconcta la conexió VPN/cancela l\'intent de conexió?</string>
   <string name="remove_vpn">Eliminar VPN</string>
   <string name="dns">DNS</string>
   <string name="dns1_summary">Servidor DNS a utilitzar.</string>

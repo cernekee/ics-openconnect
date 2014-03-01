@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Deconectați VPN</string>
   <string name="clear_log">Golire jurnal</string>
   <string name="title_cancel">Anulare confirmare</string>
-  <string name="cancel_connection_query">Deconectaţi VPN-ul conectat/anulaţi încercarea de conectare?</string>
   <string name="remove_vpn">Elimina VPN</string>
   <string name="check_remote_tlscert">Verifică dacă serverul utilizează un certificat cu extensii TLS Server (--remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">Aşteptă certificat de server TLS</string>
@@ -172,7 +171,6 @@
   <string name="extracahint">Certificatul CA este în mod normal returnat de Android Keystore. Specificaţi un certificat separat dacă observaţi erori de verificare a certificatului.</string>
   <string name="select_file">Selectare</string>
   <string name="keychain_nocacert">Nici un certificat CA nu a fost returnat la citirea din keystore-ul Android. Autentificarea probabil va eşua.</string>
-  <string name="show_log_summary">Afişează fereastra jurnal la conectare. Fereastra jurnal poate fi accesată oricând din statusul notificare.</string>
   <string name="show_log_window">Arată fereastra Jurnal</string>
   <string name="mobile_info">Rulează pe %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Eroare semnare cu Android keystore key %1$s: %2$s</string>
@@ -197,7 +195,6 @@
   <string name="use_system_proxy">Foloseşte proxy sistem</string>
   <string name="use_system_proxy_summary">Foloseşte configurarea sistem pentru proxy HTTP/HTTPS folosit la conectare.</string>
   <string name="donatewithpaypal">Puteţi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;dona prin PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect va reconecta un VPN dacă a fost activ la reboot/shutdown. Citiţi avertizarea la Conexiune din FAQ înainte de a folosi această funcţie.</string>
   <string name="onbootrestart">Reconectarea la reboot</string>
   <string name="ignore">Ignora</string>
   <string name="restart">Restart</string>
@@ -209,7 +206,6 @@
   <string name="no_vpn_profiles_defined">nici un profil VPN definit.</string>
   <string name="add_new_vpn_hint">Folosiţi icoana  &lt;img src=\"ic_menu_add\"/&gt; pentru a adăuga un nou VPN</string>
   <string name="vpn_import_hint">Folosiţi icoana &lt;img src=\"ic_menu_archive\"/&gt; pentru a importa un profil existent (.ovpn sau .conf) de pe cardul sd.</string>
-  <string name="faq_hint">Verificaţi şi FAQ. Acolo este ghid rapid de utilizare.</string>
   <string name="faq_routing_title">Configurare Rutare/Interfaţă</string>
   <string name="faq_routing">Configurarea rutării şi a interfeţei nu se face folosind comenzile ifconfig/route tradiţionale ci se foloseşte API-ul VPNService. Astfel rezultă o configurarea a rutării diferită ca în cazul altor OS-uri. Configurarea constă doar în interfaţa IP tunel şi a reţelelor ce trebuie rutate prin ea. În mod special nu este necesară o adresă partener sau adresă gateway. Nu sunt necesare nici rutele speciale pentr a ajunge la serverul VPN (de exemplu cu un gateway de redirectare)  Aplicaţia va ignora astfel aceste setări la importarea unei configurări. Aplicaţia se asigură cu API-ul VPNService că nu se rutează prin tunel conexiunea cu care se ajunge la server. Deoarece este suportată doar specificarea reţelelelor ce trebuiesc rutate prin tunel rutele extra ce nu pointează către tunel nu sunt suportate. (e.g. route x.x.x.x y.y.y.y net_gateway). Fereastra jurnal arată configurarea curentă a VPNService la stabilirea unei conexiuni. </string>
   <string name="persisttun_summary">Nu reveni la nici o conexiune VPN câtă vreme OpenConnect se reconectează.</string>
@@ -274,7 +270,6 @@
   <string name="no_external_app_allowed">Nici o aplicaţie nu are permisiunea de a folosi API-ul extern</string>
   <string name="allowed_apps">Aplicaţii permise: %s</string>
   <string name="clearappsdialog">Şterge lista aplicaţilor permise?\nLista curentă a aplicaţilor ce au permisiune:\n\n%s</string>
-  <string name="screenoff_summary">\"Suspendă VPN atunci când ecranul este oprit şi au fost transferaţi mai puţin de 64 kB în 60s. Când \"Tun persistent\" este activat suspendarea conexiunii VPN va lăsa aparatul dvs. FĂRĂ conexiune la reţea. Fără opţiunea \"Tun persistent\" aparatul nu va beneficia de conexiune/protecţie VPN.</string>
   <string name="screenoff_title">Suspendă conexiunea VPN după închiderea ecranului</string>
   <string name="screenoff_pause">Se suspendă conexiunea în starea ecran oprit: mai puţin de %1$s în %2$s</string>
   <string name="screen_nopersistenttun">Atenție: TUN persistent nu este activat pentru acest VPN. Traficul va utiliza conexiunea Internet normala atunci când ecranul este oprit.</string>

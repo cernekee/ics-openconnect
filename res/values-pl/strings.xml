@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Rozłącz VPN</string>
   <string name="clear_log">Wyczyść log</string>
   <string name="title_cancel">Anuluj potwierdzenie</string>
-  <string name="cancel_connection_query">Odłącz podłączone VPN / zrezygnować z próby połączenia?</string>
   <string name="remove_vpn">Usuń VPN</string>
   <string name="tls_key_auth">Włącza uwierzytelnianie kluczem TLS</string>
   <string name="tls_auth_file">Plik TLS</string>
@@ -148,7 +147,6 @@
   <string name="use_system_proxy">Użyj proxy systemowego</string>
   <string name="use_system_proxy_summary">Użyj konfiguracji systemowej dla HTTP/HTTPS proxy w celu połączenia.</string>
   <string name="donatewithpaypal">Możesz &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;wspomóc przez PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect połączy VPN jeśli był aktywny przy restarcie/zamknięciu systemu. Proszę przeczytać FAQ ostrzeżenia połączenia przez użyciem tej opcji.</string>
   <string name="onbootrestart">Połącz przy reboocie</string>
   <string name="ignore">Ignoruj</string>
   <string name="restart">Restartuj</string>
@@ -214,7 +212,6 @@
   <string name="no_external_app_allowed">Żadna aplikacja nie ma pozwolenia do używania zewnętrznego API</string>
   <string name="allowed_apps">Dozwolone aplikacje: %s</string>
   <string name="clearappsdialog">Wyczyścić listę dozwolonych aplikacji?\nObecna lista dozwolonych aplikacji:\n\n%s</string>
-  <string name="screenoff_summary">\"Wstrzymaj VPN kiedy wyświetlacz jest wyłączony i mniej niż 64kB danych przetransmitowano w 60s. Kiedy opcja \"Persistent Tun\" jest włączona wstrzymanie VPN zostawi twoje urządzenie bez połączenia. Bez opcji \"Persistent Tun\" urządzenie nie będzie miało połączenia/ochrony VPN.</string>
   <string name="screenoff_title">Wstrzymaj połączenie VPN po wyłączeniu wyświetlacza</string>
   <string name="screenoff_pause">Wstrzymanie połączenia na wyłączonym ekranie: w mniej niż %1$s na %2$ss</string>
   <string name="screen_nopersistenttun">Ostrzeżenie. Persistent tun nie włączone dla tego VPN. Połączenie będzie generować ruch normalnego połączenia przy wyłączonym ekranie.</string>

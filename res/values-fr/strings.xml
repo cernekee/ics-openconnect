@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Déconnecter le VPN</string>
   <string name="clear_log">"Effacer les logs"</string>
   <string name="title_cancel">"Annuler la confirmation"</string>
-  <string name="cancel_connection_query">"Déconnecter le VPN connecté / annuler la tentative de connexion ?"</string>
   <string name="remove_vpn">"Retirer le VPN"</string>
   <string name="check_remote_tlscert_title">Attendre un certificat de serveur TLS</string>
   <string name="remote_tlscn_check_title">"Vérification du certificat de l\'hôte"</string>
@@ -168,7 +167,6 @@
   <string name="extracahint">"Le certificat CA est généralement renvoyé par le gestionnaire de clés Android. Spécifiez un certificat distinct si vous obtenez des erreurs de vérification de certificat."</string>
   <string name="select_file">"Sélectionner"</string>
   <string name="keychain_nocacert">"Aucun certificat CA renvoyée lors de la lecture depuis le gestionnaire de clés. L\'authentification échouera probablement."</string>
-  <string name="show_log_summary">"Affiche la fenêtre de log à la connexion. Cette fenêtre peut toujours être consultée à partir de la notification d\'état."</string>
   <string name="show_log_window">"Afficher la fenêtre de log"</string>
   <string name="mobile_info">"Fonctionnant sur %1$s (%2$s) %3$s , Android API %4$d"</string>
   <string name="error_rsa_sign">"Erreur de signature de la clé %1$s : %2$s par le gestionnaire d\'Android"</string>
@@ -194,7 +192,6 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="use_system_proxy">"Utiliser le proxy système"</string>
   <string name="use_system_proxy_summary">"Utiliser la configuration générale du système pour que les proxy HTTP / HTTPS se connectent."</string>
   <string name="donatewithpaypal">"Vous pouvez faire un &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;cmd=_s-xclick\"&gt;don avec PayPal&lt;/ a&gt; "</string>
-  <string name="onbootrestartsummary">"Reconnecter OpenConnect automatiquement si une connexion était active lors de l\'extinction/redémarrage de l\'appareil. Veuillez lire l\'avertissement de connexion dans la FAQ avant d\'utiliser cette option."</string>
   <string name="onbootrestart">"Connexion automatique au redémarrage"</string>
   <string name="ignore">"Ignorer"</string>
   <string name="restart">"Redémarrer"</string>
@@ -206,7 +203,6 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="no_vpn_profiles_defined">"Pas de profils VPN définis."</string>
   <string name="add_new_vpn_hint">"Utilisez l\'icône &lt;img src=\"ic_menu_add\"/ pour ajouter un nouveau VPN"</string>
   <string name="vpn_import_hint">"Utilisez l\'icône &lt;img src=\"ic_menu_archive\"/&gt; pour importer un fichier profil (.opvpn ou  .conf) de votre carte SD."</string>
-  <string name="faq_hint">"Veillez également à consulter la FAQ. Il s\'y trouve un guide de démarrage rapide."</string>
   <string name="faq_routing_title">"Redirections / Configuration de l\'interface"</string>
   <string name="persisttun_summary">Ne pas couper la connexion VPN lors de la reconnexion d\'OpenConnect.</string>
   <string name="persistent_tun_title">Persistance de l\'interface TUN</string>

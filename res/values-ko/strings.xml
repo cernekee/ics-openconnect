@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">VPN 연결 끊기</string>
   <string name="clear_log">로그 지우기</string>
   <string name="title_cancel">취소 확인</string>
-  <string name="cancel_connection_query">연결된 VPN 끊기/연결시도 취소?</string>
   <string name="remove_vpn">VPN 제거</string>
   <string name="check_remote_tlscert">서버가 TLS 서버 확장을 포함한 인증서를 사용하는지 여부 확인 (--remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">TLS 서버 인증서 바람</string>
@@ -172,7 +171,6 @@
   <string name="extracahint">CA 인증서는 일반적으로 안드로이드 Keystore에 있는것을 사용합니다. 인증서 오류 발생시 벌도의 인증서를 지정하세요.</string>
   <string name="select_file">선택</string>
   <string name="keychain_nocacert">안드로이드 keystore에서 CA 인증서를 찾지 못했습니다. Auhtentication은 실패할 것 입니다.</string>
-  <string name="show_log_summary">연결시 로그 윈도우를 보여드립니다. 로그 윈도우는 항상 notification status에서 접근이 가능합니다.</string>
   <string name="show_log_window">로그 윈도우 보기</string>
   <string name="mobile_info">%1$s (%2$s) %3$s, 안드로이드 API %4$d 에서 실행</string>
   <string name="error_rsa_sign">안드로이드 keystore 키 %1$s: %2$s과 싸이닝 오류</string>
@@ -197,7 +195,6 @@
   <string name="use_system_proxy">시스템 프록시를 사용</string>
   <string name="use_system_proxy_summary">연결시 전 시스템 설정에 있는 HTTP/HTTPS 프록시를 사용합니다.</string>
   <string name="donatewithpaypal">당신은 &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;PayPal을 사용하여 기부할 수 있습니다.&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect은 시스템 재부팅/종료에 활성화 되었으면 VPN을 다시 연결합니다. 이 옵션을 사용 하기 전에 연결 경고 FAQ를 읽어 보시기 바랍니다.</string>
   <string name="onbootrestart">재부팅시 다시 연결</string>
   <string name="ignore">무시</string>
   <string name="restart">다시 시작</string>
@@ -209,7 +206,6 @@
   <string name="no_vpn_profiles_defined">VPN 프로파일이 정의 않됐습니다.</string>
   <string name="add_new_vpn_hint">이 &lt;img src=\"ic_menu_add\"/&gt; 아이콘을 사용하여 VPN을 추가 하세요</string>
   <string name="vpn_import_hint">이 &lt;img src=\"ic_menu_archive\"/&gt; 아이콘을 사용하여 귀하의 sdcard에서 기존 (.ovpn 또는 .conf) 프로파일을 가져오세요.</string>
-  <string name="faq_hint">꼭 FAQ를 확인 하세요. 빠른 시작 가이드가 있습니다.</string>
   <string name="faq_routing_title">라우팅/인터페이스 설정</string>
   <string name="faq_routing">라우팅과 인터페이스 구성은 ifconfig/route 명령어를 사용하지 않고 VPNService API를 사용합니다. 그 결과 다른 OS들과는 다른 라우팅 구성을 합니다. 구성에는 터널 인터페이스 IP와 그 인터페이스를 통해 전달 해야 하는 네트워크로만 이루어 집니다. 특히 피어 파트너 주소 또는 게이트웨이 주소가 요구되지 않습니다. VPN 서버를 위한 특별한 경로(예를 들어 redirect-gateway를 사용할때 추가되는 것)도 필요하지 않습니다. 프로그램에서는 구성을 가져올 때 이렇나 설정을 무시합니다. 앱은 VPNService API와 함께 서버와의 연결을 VPN 터널을 통해 라우팅 되지 않도록 합니다. 터널을 통해 라우팅되는 네트워크만 지정이 가능함으로 터널을 향하지 않는 추가 라우트는 지원하지 않습니다. (예: route x.x.x.x y.y.y.y net_gateway). 로그 창에는 연결 시 VPNService의 현재 구성을 보여 줍니다.</string>
   <string name="persisttun_summary">OpenConnect을 다시 연결 하는 경우 VPN 연결 없음으로 표기하지 마십시오.</string>
@@ -274,7 +270,6 @@
   <string name="no_external_app_allowed">어떤 응용 프로그램도 외부 API를 사용할 수 없습니다</string>
   <string name="allowed_apps">허용된 앱: %s</string>
   <string name="clearappsdialog">허용된 외부 앱의 목록을 삭제하겠습니까?\n현재 허용된 외부 앱:\n\n%s</string>
-  <string name="screenoff_summary">\"화면이 꺼져있을때 60초동안 64kB 미만의 데이터가 전송되면 VPN 일시정지. \"Persistent Tun\" 옵션이 활성화되어 있으면 VPN 일시 정지시 당신의 장비는 네트워크가 끊어 집니다. \"Persistent Tun\" 옵션이 없는 경우 장비는 VPN 연결/보호를 잃습니다.  </string>
   <string name="screenoff_title">화면 꺼짐 후 VPN 연결 일시 정지</string>
   <string name="screenoff_pause">화면이 꺼진 상태에서 일시 중지: %2$ss에서 %1$s 미만</string>
   <string name="screen_nopersistenttun">경고: 이 VPN은 persistent tun이 비활성화 되어있습니다. 화면이 꺼졌을 때 트래픽은 터널을 사용하지 않고 인터넷을 바로 사용합니다.</string>

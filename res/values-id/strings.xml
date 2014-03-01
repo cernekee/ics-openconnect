@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Memutuskan sambungan VPN</string>
   <string name="clear_log">Bersihkan catatan</string>
   <string name="title_cancel">Batal Konfirmasi</string>
-  <string name="cancel_connection_query">Putuskan sambungan VPN/Batalkan usaha menyambungkan VPN?</string>
   <string name="remove_vpn">Singkirkan VPN</string>
   <string name="check_remote_tlscert">Memeriksa apakah server menggunakan sertifikat dengan ekstensi TLS Server (--server remote-cert-tls)</string>
   <string name="check_remote_tlscert_title">Mengharapkan sertifikat server TLS</string>
@@ -173,7 +172,6 @@
   <string name="extracahint">Sertifikat CA biasanya kembali dari Android Keystore. Tentukan sertifikat terpisah jika Anda mendapatkan kesalahan verifikasi sertifikat.</string>
   <string name="select_file">Pilih</string>
   <string name="keychain_nocacert">Tidak ada sertifikat CA yang didapat saat membaca dari Android Keystore. Otentifikasi mungkin gagal</string>
-  <string name="show_log_summary">Tampilkan jendela catatan saat terkoneksi. Jendela catatan juga dapat diakses melalui status notifikasi</string>
   <string name="show_log_window">Tampilkan jendela catatan</string>
   <string name="mobile_info">Berjalan di %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Kesalahan masuk dengan kunci Android keystore %1$s: %2$s</string>
@@ -198,7 +196,6 @@
   <string name="use_system_proxy">Gunakan sistem proxy</string>
   <string name="use_system_proxy_summary">Gunakan konfigurasi lebih luas untuk menyambung system melalui proxy HTTP/HTTPS</string>
   <string name="donatewithpaypal">Anda dapat melakukan donasi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;dengan PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect akan menyambung kembali VPN jika VPN aktif pada saat sistem reboot/shutdown. Silakan baca FAQ tentang peringatan sambungan sebelum menggunakan pilihan ini.</string>
   <string name="onbootrestart">Koneksi ulang saat perangkat dihidupkan kembali</string>
   <string name="ignore">Abaikan</string>
   <string name="restart">Restart</string>
@@ -210,7 +207,6 @@
   <string name="no_vpn_profiles_defined">Tak ada profil VPN yang didefinisikan.</string>
   <string name="add_new_vpn_hint">Gunakan ikon &lt; img src = \"ic_menu_add\" / &gt; untuk menambah VPN baru</string>
   <string name="vpn_import_hint">Gunakan ikon &lt; img src = \"ic_menu_archive\" / &gt; untuk mengimpor profil (.ovpn atau .conf) yang ada dari sdcard Anda.</string>
-  <string name="faq_hint">Pastikan untuk juga memeriksa FAQ. Ada petunjuk untuk memudahkan anda.</string>
   <string name="faq_routing_title">Konfigurasi rute\antarmuka</string>
   <string name="faq_routing">Konfigurasi routing dan antar muka tidak dibuat memakai ifconfig/route tradisional tapi memaka API VPNservice. Menyebabkan konfigurasi routing yang berbeda di OS berbeda. Konfigurasi hanya terdiri dari IP milik tunnel antarmuka dan jaringan yang seharusnya dirutekan melalui antarmuka ini. Terlebih tidak ada alamat gateway atau peer rekanan yang dibutuhkan. Rute khusus untuk menjangkau server VPN (untu contoh tambahkan saat memakai redirect-gateway) juga tak diperlukan. Aplikasi akan mengabaikan seting ini saat mengimpor sebuah konfigurasi. Aplikasi memastikan dengan API VPNService bahwa koneksi menuju server tidak dirutekan melalui tunnel VPN. Dengan hanya menentukan jaringan dirutekan melalu tunnel, rute lainnya yang tidak ditentukan melalui tunnel juga tak dapat didukung. (e.g. route x.x.x.x y.y.y.y net_gateway). Jendela catatan menunjukkan konfigurasi terkini VPNService sejak menyediakan layanan koneksi.</string>
   <string name="persisttun_summary">Jangan kembali ke status tidak ada koneksi VPN ketika OpenConnect mencoba terhubung kembali.</string>
@@ -275,7 +271,6 @@
   <string name="no_external_app_allowed">App tidak diizinkan untuk menggunakan API eksternal</string>
   <string name="allowed_apps">apps yang diijinkan : %s</string>
   <string name="clearappsdialog">Hapus daftar aplikasi eksternal yang dibolehkan? \nDaftar apps yang dibolehkan terkini:\n\n%s </string>
-  <string name="screenoff_summary">\"Pause VPN ketika layar off dan data yang ditransfer dalam 60 detik kurang dari 64kB. Ketika opsi \"Persistent Tun\" diaktifkan, memberhentikan VPN akan membuat perangkat Anda tidak memiliki koneksi jaringan. Jika tidak memakai \"Persistent Tun\" maka perangkat akan menampilkan Tidak ada koneksi VPN.</string>
   <string name="screenoff_title">Sambungan VPN jeda setelah layar mati</string>
   <string name="screenoff_pause">Hentikan sambungan dalam kondisi layar mati: kurang dari %1$s dalam %2$ss</string>
   <string name="screen_nopersistenttun">Peringatan: Pemaksaan tun tidak diaktifkan untuk VPN ini. Lalu lintas akan menggunakan koneksi Internet normal ketika layar dimatikan.</string>

@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Відключити VPN</string>
   <string name="clear_log">очистити журнал</string>
   <string name="title_cancel">Підтвердження скасування</string>
-  <string name="cancel_connection_query">Відключення активних VPN/скасувати спробу підключення?</string>
   <string name="remove_vpn">Видалити VPN</string>
   <string name="check_remote_tlscert">Перевіряє, чи є сервер використовує сертифікат з сервера TLS розширень (--remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">Очікувати TLS сертифікат сервера</string>
@@ -172,7 +171,6 @@
   <string name="extracahint">Сертифікат СА звичайно повертається з сховища ключів Андроїд. Вкажіть окремий сертифікат, якщо ви отримали помилки при перевірці сертифікату.</string>
   <string name="select_file">Вибрати</string>
   <string name="keychain_nocacert">Не вдалося отримати СА сертифікат при читанні із сховища ключів Андроїд. Автентифікація не вдалася.</string>
-  <string name="show_log_summary">Показати вікно журналу при з\'єднанні. Вікно журналу може бути завжди дрступним у панелі сповіщень.</string>
   <string name="show_log_window">Показати вікно журналу</string>
   <string name="mobile_info">Працює на %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Помилка підпису з використанням ключа із сховища Андроїд %1$s: %2$s</string>
@@ -197,7 +195,6 @@
   <string name="use_system_proxy">Використовувати системний проксі</string>
   <string name="use_system_proxy_summary">Використовувати системну конфігурацію HTTP/HTTPS проксі для з\'єднання.</string>
   <string name="donatewithpaypal">Ви можете &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;пожертвувати через PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect буде перепідключатися, якщо він був активний в момент вимикання/перезавантаження. Будь ласка, прочитайте ЧаП перед тим, як використовувати цей параметр.</string>
   <string name="onbootrestart">Перепідключати при перезавантаженні</string>
   <string name="ignore">Ігнорувати</string>
   <string name="restart">Перезапустити</string>
@@ -209,7 +206,6 @@
   <string name="no_vpn_profiles_defined">VPN профіль не визначено.</string>
   <string name="add_new_vpn_hint">Використовуйте &lt;img src=\"ic_menu_add\"/&gt; піктограму для додання нової VPN</string>
   <string name="vpn_import_hint">Використовуйте &lt;img src=\"ic_menu_archive\"/&gt; піктограму для імпорту існуючого (.ovpn or .conf) профілю з вашої карти пам\'яті.</string>
-  <string name="faq_hint">Не забудьте заглянути у ЧаП. Там також є короткий посібник.</string>
   <string name="faq_routing_title">Конфігурація маршрутизації/інтерфейсу</string>
   <string name="faq_routing">Маршрутизація та інтерфейс конфігурації не були зроблені через традиційну команду ifconfig, але за допомогою VPNService API. Це призводить до різних маршрутизацій конфігурації ніж на інших операційних систем. Конфігурація складається тільки з IP інтерфейс тунелю і мереж, що має бути перенаправлено на цей інтерфейс. Необхідно особливо немає рівний партнер адреса або адреса шлюзу. Спеціальні маршрути, щоб дістатися до сервера VPN (наприклад, додані при використанні перенаправлення шлюз) або не потрібні. Отже ігнорувати ці параметри під час імпортування конфігурації. Програма гарантує з VPNService API, що підключення до сервера не прямує через VPN-тунель. Оскільки єдині вказані мережі прямують через тунель підтримуються додаткові маршрути без вказання тунелю, який не може бути підтриманий. (наприклад маршруту x.x.x.x y.y.y.y net_gateway). Журнал windows показує поточну конфігурацію VPNService після встановлення з\'єднання. </string>
   <string name="persisttun_summary">Не повертатися до жодного VPN з\'єднання, коли OpenConnect перепідключається.</string>
@@ -274,7 +270,6 @@
   <string name="no_external_app_allowed">Не дозволяється використовувати зовнішнє API</string>
   <string name="allowed_apps">Дозволенi додатки: %s</string>
   <string name="clearappsdialog">Очистити список дозволених зовнішніх програм \nПоточний список дозволених програм:\n\n%s</string>
-  <string name="screenoff_summary">&quot;Пауза VPN, коли екран вимкнений і менш ніж 64 Кб переданих даних за 60с. Коли  „Постійний тун“ увімкнений пауза VPN залишить ваш пристрій без відсутності мережевого підключення. Без параметра „Постійний тун“ пристрій не буде мати ніякого VPN підключення / захисту.</string>
   <string name="screenoff_title">Пауза VPN з\'єднання після вимкнення екрану</string>
   <string name="screenoff_pause">Призупинення зв\'язку в екрані вимкненого стану: менше %1$s у %2$sс.</string>
   <string name="screen_nopersistenttun">Попередження: Постійний тут не увімкнений для цього VPN. Трафік буде використовувати звичайне інтернет-з\'єднання, коли екран вимкнений.</string>

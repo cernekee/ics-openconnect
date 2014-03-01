@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Disconnettere VPN</string>
   <string name="clear_log">Cancella registro</string>
   <string name="title_cancel">Conferma l\'annullamento</string>
-  <string name="cancel_connection_query">Disconnetti la VPN in uso/annulli il tentativo di connessione?</string>
   <string name="remove_vpn">Rimuovi VPN</string>
   <string name="remote_tlscn_check_summary">Controlla il soggetto DN del certificato del server remoto</string>
   <string name="remote_tlscn_check_title">Verifica il certificato dell\'Host</string>
@@ -169,7 +168,6 @@ Effettuata la lettura del file di configurazione</string>
   <string name="extracahint">Il certificato della CA è solitamente prelevato dal Keystore di Android. Indica un certificato differente se si generano errori di verifica del certificato.</string>
   <string name="select_file">Selezionare</string>
   <string name="keychain_nocacert">Nessun certificato della CA è stato prelevato dal Keystore di Android. E\' probabile che l\'autenticazione fallisca.</string>
-  <string name="show_log_summary">Mostra la finestra dei log della connessione. Si può sempre accedere alla finestra dei log tramite la barra delle notifiche.</string>
   <string name="show_log_window">Visualizza la finestra dei log</string>
   <string name="mobile_info">In esecuzione su %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Errore di firma con la chiave %1$s: %2$s del Keystore di Android.</string>
@@ -193,7 +191,6 @@ Effettuata la lettura del file di configurazione</string>
   <string name="use_system_proxy">Utilizza il proxy di sistema</string>
   <string name="use_system_proxy_summary">Utilizza la configurazione generale del sistema relativa ai proxy HTTP/HTTPS per connettersi.</string>
   <string name="donatewithpaypal">Puoi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;donare tramite PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect is riconnetterà alla VPN se era in funzione durante un riavvio od un spegnimento dell\'apparecchio. Leggi con attenzione le FAQ con gli avvertimenti sulla connessione prima di scegliere questa opzione.</string>
   <string name="onbootrestart">Riconnetti al riavvio</string>
   <string name="ignore">Ignora</string>
   <string name="restart">Riavvia</string>
@@ -205,7 +202,6 @@ Effettuata la lettura del file di configurazione</string>
   <string name="no_vpn_profiles_defined">Nessun profilo VPN definito.</string>
   <string name="add_new_vpn_hint">Usa l\'icona &lt;img src=\"ic_menu_add\"/&gt; per aggiungere una nuova VPN</string>
   <string name="vpn_import_hint">Usa l\'icona &lt;img src=\"ic_menu_archive\"/&gt; per importare il profilo (.ovpn o .conf) dalla tua scheda SD.</string>
-  <string name="faq_hint">Si raccomanda di leggere anche le FAQ. C\'è anche una guida rapida.</string>
   <string name="faq_routing_title">Configurazione dei reindirizzamenti e dell\'interfaccia</string>
   <string name="persisttun_summary">Non passa allo stato di \"Nessuna connessione VPN\" quando OpenConnect sta eseguendo un tentativo di riconnessione.</string>
   <string name="persistent_tun_title">tun persistente</string>

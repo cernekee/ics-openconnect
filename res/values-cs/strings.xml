@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">Odpojit VPN</string>
   <string name="clear_log">vymazat log</string>
   <string name="title_cancel">Zrušit potvrzení</string>
-  <string name="cancel_connection_query">Odpojit/Zrušit připojování?</string>
   <string name="remove_vpn">Odstranit VPN</string>
   <string name="check_remote_tlscert">Kontrolovat, zda server používá certifikát s rozšířením TLS Server (- remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">Očekávat TLS certifikát serveru</string>
@@ -172,7 +171,6 @@
   <string name="extracahint">CA certifikát je obvykle získán z Androidího úložiště. Zadej samostatný certifikát, pokud dostáváš chybu při verifikaci.</string>
   <string name="select_file">Vyber</string>
   <string name="keychain_nocacert">Žádný CA certifikát nebyl získán z úložiště, autentikace pravděpodobně selže.</string>
-  <string name="show_log_summary">Zobrazit okno s logem při připojování. okno lze vždy otevřít z notifikace.</string>
   <string name="show_log_window">Zobrazit okno s logem</string>
   <string name="mobile_info">Spuštěno na %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Chyba při podepisování klíčem %1$s: %2$s</string>
@@ -197,7 +195,6 @@
   <string name="use_system_proxy">Použít systémovou proxy</string>
   <string name="use_system_proxy_summary">K připojení použít systémové nastavení pro HTTP/HTTPS.</string>
   <string name="donatewithpaypal">K přispění můžeš využít &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect se opětovně připojí k VPN, pokud byla aktivní před vypnutím/restartem systému. Přečti si oddíl o varování před připojením než použiješ tuto možnost.</string>
   <string name="onbootrestart">Znovu připoj po restartu</string>
   <string name="ignore">Ignorovat</string>
   <string name="restart">Restartovat</string>
@@ -209,7 +206,6 @@
   <string name="no_vpn_profiles_defined">není definován VPN profil.</string>
   <string name="add_new_vpn_hint">Použij ikonu &lt;img src=\"ic_menu_add\"/&gt; k přidání nové VPN</string>
   <string name="vpn_import_hint">Použij ikonu &lt;img src=\"ic_menu_archive\"/&gt; k imporu existujícího (.ovpn nebo .conf) profilu z SD karty.</string>
-  <string name="faq_hint">Ujisti se, že jsi si pročetl FAQ. Je zde nápověda pro rychlý start.</string>
   <string name="faq_routing_title">Nastavení směrování/rozhraní</string>
   <string name="faq_routing">Konfigurace směrování a rozhraní není pomocí tradičního příkazu ifconfig/route, ale pomocí rozhraní VPNService API. To má za následek jinou konfiguraci směrování než na jiných operačních systémech. Konfigurace tvoří pouze IP tunelového rozhraní a sítě, které by měly být směrované přes toto rozhraní. Zejména žádná adresa druhé strany nebo adresa brány není zapotřebí. Ani nejsou potřeba speciální trasy k VPN serveru (například při používání přesměrování). Aplikace bude následně ignorovat toto nastavení při importu konfigurace. Aplikace s VPNService API zajišťuje, že připojení k serveru není směrováno přes VPN tunel. Vzhledem k tomu, že pouze specifické sítě mají být směrovány přes tunel, není podporováno směrování některých cest mimo tunel (např. route x.x.x.x y.y.y.y net_gateway). Aktuální konfigurace VPNService při navazování spojení je zobrazeno v logovacím okně.</string>
   <string name="persisttun_summary">Nevracej se ke spojení mimo VPN, zatímco se OpenConnect připojuje.</string>
@@ -274,7 +270,6 @@
   <string name="no_external_app_allowed">Žádné aplikaci není povoleno použít externí API</string>
   <string name="allowed_apps">Povolené aplikace: %s</string>
   <string name="clearappsdialog">Vyčistit seznam povolených aplikací?\nSoučasný seznam povolených aplikací:\n\n%s</string>
-  <string name="screenoff_summary">\"Pozastavit VPN, pokud je obrazovka vypnutá a za posledních 60 vteřin se přeneslo méně než 64 kB. Pokud je volba \"Trvalé TUN\" povolena, pozastavení VPN dostane zařízení do stavu BEZ konektivity. Bez \"Trvalé TUN\" možnosti nebude mít zařízení VPN připojení (ochranu).</string>
   <string name="screenoff_title">Pozastavit VPN připojení při vypnutí obrazovky</string>
   <string name="screenoff_pause">Pozastavit připojení při vypnuté obrazovce: méně než %1$s za %2$s vteřin</string>
   <string name="screen_nopersistenttun">Varování: \"Trvalý TUN\" není pro tuto VPN povolen. Provoz použije při vypnuté obrazovce normální internetové připojení.</string>

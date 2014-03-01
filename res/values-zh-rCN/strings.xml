@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">断开连接</string>
   <string name="clear_log">清除日志</string>
   <string name="title_cancel">取消确认</string>
-  <string name="cancel_connection_query">断开已连接的 VPN / 取消连接尝试？</string>
   <string name="remove_vpn">删除 VPN</string>
   <string name="check_remote_tlscert">检查服务器是否使用 TLS 服务器证书</string>
   <string name="check_remote_tlscert_title">除了 TLS 服务器</string>
@@ -174,7 +173,6 @@
   <string name="extracahint">Android 密钥库通常会自带 CA 证书。如果您获取的证书发生验证错误，请单独指定一个证书。</string>
   <string name="select_file">选择</string>
   <string name="keychain_nocacert">在 Android 密钥库中未找到任何 CA 证书。可能验证失败。</string>
-  <string name="show_log_summary">连接时显示日志窗口。日志窗口可始终从通知栏访问。</string>
   <string name="show_log_window">显示日志窗口</string>
   <string name="mobile_info">运行 %1$s （ %2$s ） %3$s ，Android API %4$d</string>
   <string name="error_rsa_sign">与 Android 密钥库 %1$s 签名时出错： %2$s</string>
@@ -200,7 +198,6 @@
   <string name="use_system_proxy">使用系统代理</string>
   <string name="use_system_proxy_summary">使用系统设置连接 HTTP/HTTPS 代理服务器。</string>
   <string name="donatewithpaypal">您可以 &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt; 通过 PayPal 捐助&lt;/a&gt;</string>
-  <string name="onbootrestartsummary">OpenConnect 将会在重启后自动重新连接 VPN。请在启用该选项前先阅读连接警告的常见问题解答。</string>
   <string name="onbootrestart">重启时重新连接</string>
   <string name="ignore">忽略</string>
   <string name="restart">重启</string>
@@ -212,7 +209,6 @@
   <string name="no_vpn_profiles_defined">没有定义 VPN 配置文件</string>
   <string name="add_new_vpn_hint">点击 &lt;img src=\"ic_menu_add\"/&gt; 图标添加新的 VPN 配置</string>
   <string name="vpn_import_hint">使用 &lt;img src=\"ic_menu_archive\"/&gt; 图标导入存储卡中已有的配置文件(.ovpn 或 .conf)。</string>
-  <string name="faq_hint">请确保阅读常见问题解答。这是一个快速向导。</string>
   <string name="faq_routing_title">路由/接口配置</string>
   <string name="faq_routing">路由表不是使用传统的 ifconfig 或 route 命令来设置的，而是通过 Android 的 VPN 服务的接口来进行设置的，所以路由的设置方法和在其他系统上的有些不同。设置中只需要包含通过隧道设备的 IP 地址以及网络，节点 IP 地址以及网关地址都不需要，指定通往 VPN 服务器的路由信息也不需要。OpenConnect for Android 会忽略配置文件中的这些设置。Android 的 VPN 服务接口保证了通往 VPN 服务器的流量不会被转发到隧道设备上。VPN 支持将通往特定网络的流量转发到隧道上，但不支持不要将通往指定网络的流量转发到隧道接口上（例：route x.x.x.x y.y.y.y net_gateway）。在日志窗口中的“显示连接信息”菜单内可以查看到当前由 Android 的 VPN 服务提供的网络配置信息。</string>
   <string name="persisttun_summary">当 OpenConnect 重连时，也一直使用 VPN 连接。</string>

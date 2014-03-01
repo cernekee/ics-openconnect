@@ -56,7 +56,6 @@
   <string name="cancel_connection_long">VPN verbinding verbreken</string>
   <string name="clear_log">logboek wissen</string>
   <string name="title_cancel">Annuleer bevestiging</string>
-  <string name="cancel_connection_query">Sluit de verbonden VPN af/annuleer de verbindingspoging?</string>
   <string name="remove_vpn">VPN wissen</string>
   <string name="check_remote_tlscert_title">Verwacht TLS server-certificaat</string>
   <string name="remote_tlscn_check_summary">Controleert de externe server certificaathouder</string>

@@ -57,7 +57,6 @@
   <string name="cancel_connection_long">VPN Verbindung trennen</string>
   <string name="clear_log">Log löschen.</string>
   <string name="title_cancel">Trennungsbestätigung</string>
-  <string name="cancel_connection_query">Möchten Sie das VPN trennen bzw. den Verbindungsversuch abbrechen?</string>
   <string name="remove_vpn">VPN löschen</string>
   <string name="check_remote_tlscert">Überprüfe, ob der Server ein Zertifikat mit TLS-Servererweiterungen verwendet (--remote-cert-tls server)</string>
   <string name="check_remote_tlscert_title">TLS-Serverzertifikat erwarten</string>
@@ -173,7 +172,6 @@
   <string name="extracahint">Das CA Zertifikat wird meist aus dem Zertifikatsspeicher automatisch ausgewählt. Sollte dies nicht funktionieren und Sie Verifizierungsprobleme erhalten(self signed certificate), wählen Sie manuell ein Zertifikat aus.</string>
   <string name="select_file">Auswählen</string>
   <string name="keychain_nocacert">Beim Abfragen des Android KeyStore wurde kein CA Zertifikat zurückgegeben. Überprüfen des Serverzertifikat wird wahrscheinlich fehlschlagen. Geben Sie manuell ein CA Zertifikat an.</string>
-  <string name="show_log_summary">Zeigt das Status Log, wenn ein VPN verbunden wird. Das Status log kann immer über die Benachrichtigung aufgerufen werden.</string>
   <string name="show_log_window">Zeige Log</string>
   <string name="mobile_info">Modell %1$s (%2$s) %3$s, Android API %4$d</string>
   <string name="error_rsa_sign">Fehler beim Zugriff auf den Android Keystore %1$s: %2$s</string>
@@ -198,7 +196,6 @@
   <string name="use_system_proxy">Benutze System Proxys</string>
   <string name="use_system_proxy_summary">Benutze die System weiten Einstellungen für HTTP/HTTPS Proxys beim Verbinden.</string>
   <string name="donatewithpaypal">&lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;Spenden mit PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenConnect wird bei einem Neustart des Telefon das beim herunterfahren/neu starten aktive VPN wieder verbinden. Bitte lesen Sie die FAQ \"Warnung beim Verbinden\" FAQ bevor Sie diese Option verwenden.</string>
   <string name="onbootrestart">Nach Neustart verbinden</string>
   <string name="ignore">Ignorieren</string>
   <string name="restart">Neu verbinden</string>
@@ -210,7 +207,6 @@
   <string name="no_vpn_profiles_defined">Keine VPN Profile definiert.</string>
   <string name="add_new_vpn_hint">Benutzen Sie &lt;img src=\"ic_menu_add\"/&gt; um ein neues VPN anzulegen</string>
   <string name="vpn_import_hint">Benutzen Sie &lt;img src=\"ic_menu_archive\"/&gt; um ein vorhandenes (.ovpn oder .conf) Profil von Ihrer SD Karte zu importieren</string>
-  <string name="faq_hint">Lesen Sie auch die FAQ. Dort befindet sich eine Schnellstart Anleitung</string>
   <string name="faq_routing_title">Routing/Netzwerk Konfiguration</string>
   <string name="faq_routing">In dieser Anwendung wird die Routing und Netzwerkkonfiguration nicht mit den traditionellen ifconfig/route Kommandos konfiguriert sondern mittels der VPNService API. Diese erwartet eine Tunnel IP Adresse und die Netzwerke, die über den Tunnel geroutet werden sollen. Insbesondere wird keine Gateway oder Peer IP Adresse benötigt. Die Anwendung ignoriert diese daher auch beim Import. Dass die Verbindung zum VPN Server nicht über den Tunnel geroutet wird, wird auch über die VPNService API sichergestellt ohne dass hierfür spezielle Routen nötig sind. Da nur Netzwerke, die über den Tunnel geroutet werden sollen, angeben werden können, ist es nicht möglich andere Routen zu unterstützen (z.B. route x.x.x.x y.y.y.y net_gateway)\"</string>
   <string name="persisttun_summary">Verhindere Zurückfallen auf nicht VPN Verbindungen während OpenConnect neu verbindet.</string>
@@ -275,7 +271,6 @@
   <string name="no_external_app_allowed">Keine App für die Verwendung der API freigegeben</string>
   <string name="allowed_apps">Freigegebene Apps: %s</string>
   <string name="clearappsdialog">Liste der freigegeben externen Apps löschen? \nAktuelle Liste der freigegebenen Apps:\n\n%s</string>
-  <string name="screenoff_summary">Pausiert das VPN, wenn der Bildschirm aus ist und weniger als 64 kB in 60 Sekunden übertragen wurden. Falls die Option \"Persistentes tun Device\" ausgewählt wird durch das Pausieren des VPNs das Gerät KEINE Netzwerkverbindung haben. Ohne die \"Persistentes tun Device\" Option, benutzt das Gerät die normal (ungesicherte) Internetverbindung, wenn das VPN pausiert wird.</string>
   <string name="screenoff_title">Bei ausgeschalteten Bildschirm VPN Verbindung pausieren</string>
   <string name="screenoff_pause">Pausiere VPN Verbindung da weniger als %1$s in %2$ss.</string>
   <string name="screen_nopersistenttun">Warnung: Persistentes tun Device für dieses VPN nicht aktiviert. Der Netzwerkverkehr nutzt die normale Internet Verbindung, wenn der Bildschirm aus ist.</string>
