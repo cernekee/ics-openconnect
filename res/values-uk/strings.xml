@@ -167,7 +167,7 @@
   <string name="netchange_summary">Вмикання цього параметру примусить перепідключитися, якщо стан мережі змінився (напр. Wi-Fi/мобільний інтернет)</string>
   <string name="netchange">Перепідключатися при зміні мережі</string>
   <string name="cert_from_keystore">Отримано сертифікат \'%s\' з сховища ключів</string>
-  <string name="netstatus">Статус мережі: %s</string>
+  <string name="netstatus">Статус мережі:</string>
   <string name="extracahint">Сертифікат СА звичайно повертається з сховища ключів Андроїд. Вкажіть окремий сертифікат, якщо ви отримали помилки при перевірці сертифікату.</string>
   <string name="select_file">Вибрати</string>
   <string name="keychain_nocacert">Не вдалося отримати СА сертифікат при читанні із сховища ключів Андроїд. Автентифікація не вдалася.</string>

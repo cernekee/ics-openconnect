@@ -166,7 +166,7 @@
   <string name="netchange_summary">Turning this option on will force a reconnect if the network state is changed (e.g. WiFi to/from mobile)</string>
   <string name="netchange">Reconectar en cambio de red</string>
   <string name="cert_from_keystore">Conseguido el certificado de \'%s\' de almacén de claves</string>
-  <string name="netstatus">Estado de la red: %s</string>
+  <string name="netstatus">Estado de la red:</string>
   <string name="extracahint">El certificado de la CA usualmente es recuperado del almacén de claves de Android. Especifique un certificado diferente si obtiene errores de verificación de certificado.</string>
   <string name="select_file">Seleccionar</string>
   <string name="keychain_nocacert">No se obtuvo ningún certificado de CA al leer el almacén de claves de Android. La autenticación probablemente fallará.</string>

@@ -163,7 +163,7 @@
   <string name="netchange_summary">"L\'activation de cette option forcera l\'appareil à se reconnecter si l\'état du réseau change (ex.: WIFI/Mobile)"</string>
   <string name="netchange">"Reconnexion lors de changement du réseau"</string>
   <string name="cert_from_keystore">"Certificat \'%s\' obtenu"</string>
-  <string name="netstatus">"État du réseau: %s"</string>
+  <string name="netstatus">"État du réseau:"</string>
   <string name="extracahint">"Le certificat CA est généralement renvoyé par le gestionnaire de clés Android. Spécifiez un certificat distinct si vous obtenez des erreurs de vérification de certificat."</string>
   <string name="select_file">"Sélectionner"</string>
   <string name="keychain_nocacert">"Aucun certificat CA renvoyée lors de la lecture depuis le gestionnaire de clés. L\'authentification échouera probablement."</string>

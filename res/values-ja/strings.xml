@@ -170,7 +170,7 @@ SDカード上のデータは本質的に無防備です。すべてのアプリ
   <string name="netchange_summary">この設定を有効にすると、ネットワークの状態変化時(WiFi／モバイル)に再接続を行います。</string>
   <string name="netchange">ネットワーク変化時に再接続</string>
   <string name="cert_from_keystore">\'%s\'の証明書をキーストアから読み出し</string>
-  <string name="netstatus">ネットワーク状態： %s</string>
+  <string name="netstatus">ネットワーク状態：</string>
   <string name="extracahint">認証局証明書（CA cert）は、通常、Android のキーストアから返されます。証明書の検証でエラーになる場合は、個別の証明書を指定します。</string>
   <string name="select_file">選択</string>
   <string name="keychain_nocacert">認証局証明書（CA Cert）がAndroidのキーストアから取得できませんでした。認証はおそらく失敗します。</string>

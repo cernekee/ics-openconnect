@@ -97,7 +97,7 @@
   <string name="edit_profile_title">Rediger \"%s\"</string>
   <string name="building_configration">Lager konfigurasjon…</string>
   <string name="netchange">Koble til på nytt ved nettverks endring</string>
-  <string name="netstatus">Nettverksstatus: %s</string>
+  <string name="netstatus">Nettverksstatus:</string>
   <string name="select_file">Velg</string>
   <string name="show_log_window">Vis logg-vindu</string>
   <string name="mobile_info">Kjører på %1$s (%2$s) %3$s, Android API %4$d</string>

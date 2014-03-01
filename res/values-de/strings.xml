@@ -168,7 +168,7 @@
   <string name="netchange_summary">Aktivieren dieser Option zwingt OpenConnect dazu, beim Wechsel des Netzwerkes (WLAN zu Mobilfunk und umgekehrt), neu zu verbinden</string>
   <string name="netchange">Netzwerkänderungen beachten</string>
   <string name="cert_from_keystore">Zertifikat (KeyStore): \'%s\' </string>
-  <string name="netstatus">Netzwerkstatus: %s</string>
+  <string name="netstatus">Netzwerkstatus:</string>
   <string name="extracahint">Das CA Zertifikat wird meist aus dem Zertifikatsspeicher automatisch ausgewählt. Sollte dies nicht funktionieren und Sie Verifizierungsprobleme erhalten(self signed certificate), wählen Sie manuell ein Zertifikat aus.</string>
   <string name="select_file">Auswählen</string>
   <string name="keychain_nocacert">Beim Abfragen des Android KeyStore wurde kein CA Zertifikat zurückgegeben. Überprüfen des Serverzertifikat wird wahrscheinlich fehlschlagen. Geben Sie manuell ein CA Zertifikat an.</string>

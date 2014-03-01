@@ -164,7 +164,7 @@ Effettuata la lettura del file di configurazione</string>
   <string name="netchange_summary">Selezionando questa opzione verrà forzata una riconnessione se lo stato della rete cambia (da WIFI a cellulare e viceversa)</string>
   <string name="netchange">Riconnetti in caso cambi la rete</string>
   <string name="cert_from_keystore">Ottenuto il certificato \'%s\' dal Keystore</string>
-  <string name="netstatus">Stato della rete: %s</string>
+  <string name="netstatus">Stato della rete:</string>
   <string name="extracahint">Il certificato della CA è solitamente prelevato dal Keystore di Android. Indica un certificato differente se si generano errori di verifica del certificato.</string>
   <string name="select_file">Selezionare</string>
   <string name="keychain_nocacert">Nessun certificato della CA è stato prelevato dal Keystore di Android. E\' probabile che l\'autenticazione fallisca.</string>

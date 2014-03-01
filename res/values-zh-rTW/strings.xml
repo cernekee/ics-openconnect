@@ -135,7 +135,7 @@
   <string name="building_configration">正在生成設定檔…</string>
   <string name="netchange_summary">當網絡狀況變更時強制重新連接(例如從WiFi變成手機網絡，反之亦然)</string>
   <string name="netchange">網絡異動時重新連接</string>
-  <string name="netstatus">網絡狀態: %s</string>
+  <string name="netstatus">網絡狀態:</string>
   <string name="select_file">選擇</string>
   <string name="show_log_window">顯示記錄視窗</string>
   <string name="mobile_info">於 %1$s (%2$s) %3$s 上運行, Android API 版本: %4$d</string>

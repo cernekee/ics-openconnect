@@ -95,7 +95,7 @@
   <string name="edit_profile_title">Editant \"%s\"</string>
   <string name="building_configration">Construint la configuració…</string>
   <string name="netchange">Reconecta al canviar de xarxa</string>
-  <string name="netstatus">Estat de la xarxa %s</string>
+  <string name="netstatus">Estat de la xarxa:</string>
   <string name="select_file">Selecciona</string>
   <string name="show_log_window">Mostra la finestra de registre</string>
   <string name="translationby">Traducció al catala per Sergi Almacellas 

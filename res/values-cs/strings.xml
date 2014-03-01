@@ -167,7 +167,7 @@
   <string name="netchange_summary">Zapnutím této volby bude vynuceno opětovné připojení, pokud se změní stav sítě (např. z WiFi na mobilní síť a zpět)</string>
   <string name="netchange">Opětovně připojit při změně sítě</string>
   <string name="cert_from_keystore">Získán certifikát \'%s\' z úložiště</string>
-  <string name="netstatus">Stav sítě: %s</string>
+  <string name="netstatus">Stav sítě:</string>
   <string name="extracahint">CA certifikát je obvykle získán z Androidího úložiště. Zadej samostatný certifikát, pokud dostáváš chybu při verifikaci.</string>
   <string name="select_file">Vyber</string>
   <string name="keychain_nocacert">Žádný CA certifikát nebyl získán z úložiště, autentikace pravděpodobně selže.</string>

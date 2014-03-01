@@ -169,7 +169,7 @@
   <string name="netchange_summary">启用该选项以在网络变化(例如从蜂窝数据到 WiFi)时强制重新连接</string>
   <string name="netchange">当转换网络时重新连接</string>
   <string name="cert_from_keystore">从密钥库中获取证书 \'%s\'</string>
-  <string name="netstatus">网络状态： %s</string>
+  <string name="netstatus">网络状态：</string>
   <string name="extracahint">Android 密钥库通常会自带 CA 证书。如果您获取的证书发生验证错误，请单独指定一个证书。</string>
   <string name="select_file">选择</string>
   <string name="keychain_nocacert">在 Android 密钥库中未找到任何 CA 证书。可能验证失败。</string>

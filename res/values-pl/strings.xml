@@ -127,7 +127,7 @@
   <string name="building_configration">Tworzenie konfiguracji...</string>
   <string name="netchange_summary">Włączenie tej opcji spowoduje ponowne połączenie jeśli stan sieci się zmienił (np. z WiFi na GSM)</string>
   <string name="netchange">Połącz ponownie przy zmianie sieci</string>
-  <string name="netstatus">Status sieci: %s</string>
+  <string name="netstatus">Status sieci:</string>
   <string name="select_file">Wybierz</string>
   <string name="show_log_window">Pokaż okno loga</string>
   <string name="faq_system_dialogs_title">Ostrzeżenie połączeń oraz dźwięki powiadomień</string>

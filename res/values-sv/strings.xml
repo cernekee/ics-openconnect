@@ -167,7 +167,7 @@
   <string name="netchange_summary">Aktivering av detta alternativ kommer att tvinga en återanslutning om nätverksanslutningen ändras (t.ex. WiFi &lt;-> mobildata)</string>
   <string name="netchange">Återanslut vid förändring av nätverksanslutning</string>
   <string name="cert_from_keystore">Hämtade certifikat \'%s\' från Keystore</string>
-  <string name="netstatus">Nätverksstatus: %s</string>
+  <string name="netstatus">Nätverksstatus:</string>
   <string name="extracahint">CA certifikat hämtas vanligtvis från Android Keystore. Ange ett separat certifikat om du får verifieringsfel på certifikatet.</string>
   <string name="select_file">Välj</string>
   <string name="keychain_nocacert">Inget CA certifikat returnerades från Android Keystore. Autenticering kommer troligen att misslyckas.</string>

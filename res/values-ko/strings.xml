@@ -167,7 +167,7 @@
   <string name="netchange_summary">이 기능을 사용하면 네트워크 상태 변환시 강제로 재접속을 합니다 (예. WIFI 로/에서 모바일)</string>
   <string name="netchange">네트워크 변화시 재접속</string>
   <string name="cert_from_keystore">Keystore에서 인증서 \'%s\'  받음</string>
-  <string name="netstatus">네트워크 상태: %s</string>
+  <string name="netstatus">네트워크 상태:</string>
   <string name="extracahint">CA 인증서는 일반적으로 안드로이드 Keystore에 있는것을 사용합니다. 인증서 오류 발생시 벌도의 인증서를 지정하세요.</string>
   <string name="select_file">선택</string>
   <string name="keychain_nocacert">안드로이드 keystore에서 CA 인증서를 찾지 못했습니다. Auhtentication은 실패할 것 입니다.</string>

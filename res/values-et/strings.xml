@@ -168,7 +168,7 @@
   <string name="netchange_summary">Selle valiku aktiveerimine kutsub esile VPN uuestiühendumise kui võrgu olek muutub (nt. WIFI peale/pealt mobiilile)</string>
   <string name="netchange">Uuestiühendus võrgu oleku muutumisel</string>
   <string name="cert_from_keystore">Saadud sertifikaat \'%s\' võtmehoidlast</string>
-  <string name="netstatus">Võrgu olek: %s</string>
+  <string name="netstatus">Võrgu olek:</string>
   <string name="extracahint">CA sertifikaat saadakse tavaliselt Androidi võtmehoidlast. Kui sertifikaadi kontrollimisel esineb probleeme, siis määrake palun sertifikaat ise.</string>
   <string name="select_file">Vali</string>
   <string name="keychain_nocacert">Androidi võtmehoidlast lugemine ei andnud ühtegi CA sertifikaati. Suure tõenäosusega autentimine ebaõnnestub.</string>

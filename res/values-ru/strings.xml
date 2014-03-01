@@ -167,7 +167,7 @@
   <string name="netchange_summary">Включение этого параметра заставит переподключиться, если состояние сети изменения (WIFI с мобильного)</string>
   <string name="netchange">Переподключение при изменении сети</string>
   <string name="cert_from_keystore">Получен сертификат \'%s\' из хранилища ключей</string>
-  <string name="netstatus">Статус сети: %s</string>
+  <string name="netstatus">Статус сети:</string>
   <string name="extracahint">Сертификат CA обычно возвращается из хранилища Android Keystore. Укажите отдельный сертификат, если у вас возникли ошибки при проверке сертификата.</string>
   <string name="select_file">Выбрать</string>
   <string name="keychain_nocacert">Не удалось получить CA из хранилища ключей Android. Аутентификация не удалась.</string>
