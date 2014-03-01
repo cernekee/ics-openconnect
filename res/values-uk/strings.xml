@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Введіть адресу IPv4/маску в CIDR форматі (напр., 1.2.3.4/24)</string>
   <string name="ipv4_address">IPv4-адреса</string>
   <string name="ipv6_address">IPv6-адреса</string>
-  <string name="custom_option_warning">Введіть додаткові параметри OpenVPN. Використовуйте цю можливість з великою обережністю. Якщо ви вважаєте, що відсутній важливий параметр, то зв\'яжіться з автором</string>
+  <string name="custom_option_warning">Введіть додаткові параметри OpenConnect. Використовуйте цю можливість з великою обережністю. Якщо ви вважаєте, що відсутній важливий параметр, то зв\'яжіться з автором</string>
   <string name="auth_username">Ім\'я користувача</string>
   <string name="auth_pwquery">Пароль</string>
   <string name="static_keys_info">Для статичної конфігурації ключі авторизації TLS будуть використовуватися як статичні ключі</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Помилка при розборі адреси IPv4</string>
   <string name="custom_route_format_error">Помилка аналізу налаштованих маршрутів</string>
   <string name="pw_query_hint">(залиште порожнім для запиту на вимогу)</string>
-  <string name="vpn_shortcut">Ярлик OpenVPN</string>
+  <string name="vpn_shortcut">Ярлик OpenConnect</string>
   <string name="vpn_launch_title">Підключення до VPN</string>
   <string name="shortcut_profile_notfound">Профіль, вказаний у ярлику, не знайдено</string>
   <string name="random_host_prefix">Випадковий префікс вузла</string>
@@ -63,7 +63,7 @@
   <string name="check_remote_tlscert_title">Очікувати TLS сертифікат сервера</string>
   <string name="remote_tlscn_check_summary">Перевірка DN об\'єкта віддаленого сертифіката</string>
   <string name="remote_tlscn_check_title">Перевірка імені вузла сертифікату</string>
-  <string name="enter_tlscn_dialog">Перемикач способу перевірки DN сертифікату (eg C = DE, L = Paderborn, OU = Avian IP Carriers, CN = openvpn.blinkt.de) \n \nМожливо значення: повний DN, RDN (для прикладу openvpn.blinkt.de) або тільки преффікс RDN для перевірки. \n \nПрі використанні преффікса RDN, наприклад \"Server\", значення будуть \"Server-1\", \"Server-2\" і т.д. \n \nПрі порожньому текстовому полі перевірка проводитиметься по імені хоста. \n \nДля подробиць дивіться керівництво для OpenVPN 2.3.1 +, розділ-verify-x509-name</string>
+  <string name="enter_tlscn_dialog">Перемикач способу перевірки DN сертифікату (eg C = DE, L = Paderborn, OU = Avian IP Carriers, CN = openvpn.blinkt.de) \n \nМожливо значення: повний DN, RDN (для прикладу openvpn.blinkt.de) або тільки преффікс RDN для перевірки. \n \nПрі використанні преффікса RDN, наприклад \"Server\", значення будуть \"Server-1\", \"Server-2\" і т.д. \n \nПрі порожньому текстовому полі перевірка проводитиметься по імені хоста. \n \nДля подробиць дивіться керівництво для OpenConnect 2.3.1 +, розділ-verify-x509-name</string>
   <string name="enter_tlscn_title">Об\'єкт віддаленого сертифіката</string>
   <string name="tls_key_auth">Увімкнути автентифікацію по TLS ключу</string>
   <string name="tls_auth_file">Файл авторизації TLS</string>
@@ -100,14 +100,14 @@
   <string name="dns_server_info">DNS-сервер: %1$s, Домен: %2$s</string>
   <string name="routes_info">Маршрути: %s</string>
   <string name="routes_info6">Маршрути IPv6: %s</string>
-  <string name="ip_not_cidr">Отримано інформацію інтерфейсу %1$s і %2$s, друга адреса є віддаленою адресою каналу. Використовується мережева маска /32 для локальної IP-адреси. Режим, встановлений OpenVPN: \"%3$s\".</string>
+  <string name="ip_not_cidr">Отримано інформацію інтерфейсу %1$s і %2$s, друга адреса є віддаленою адресою каналу. Використовується мережева маска /32 для локальної IP-адреси. Режим, встановлений OpenConnect: \"%3$s\".</string>
   <string name="route_not_cidr">Неможливо використовувати вирази %1$s і %2$s як маршрут за стандартом CIDR. використовується /32 як маска підмережі.</string>
   <string name="route_not_netip">Виправлено маршрут з %1$s/%2$s на %3$s/%2$s</string>
   <string name="keychain_access">Не можна отримати доступ до сховища ключів та сертифікатів Андроїд. Це можливо  спричинено оновлення прошивки або відновленням резервної копії програми чи її налаштувань. Будь ласка, відредагуйте профіль VPN та заново виберіть сертифікат у основних параметрах для створення доступу до сертифікату.</string>
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Надіслати файл журналу</string>
   <string name="send">Надіслати</string>
-  <string name="ics_openvpn_log_file">ICS OpenVPN файл журналу</string>
+  <string name="ics_openvpn_log_file">ICS OpenConnect файл журналу</string>
   <string name="copied_entry">Скопійовано запис журналу до буферу обміну</string>
   <string name="tap_mode">TAP режим</string>
   <string name="faq_tap_mode">TAP режим не можливий в VPN API без рут. З цієї причини цей додаток не може надати підтримку TAP</string>
@@ -117,11 +117,11 @@
   <string name="copying_log_entries">Копіювання записів журналу</string>
   <string name="faq_copying">Для копіювання одного запису журналу натисніть і утримуйте цей запис. Щоб скопіювати/надіслати увесь журнал використовуйте параметр Надіслати журнал. Використовуйте апаратну кнопку меню, якщо ви не бачите у графічному інтерфейсі.</string>
   <string name="faq_shortcut">Ярлик для запуску</string>
-  <string name="faq_howto_shortcut">Ви можете розмістити ярлик для запуску OpenVPN на робочому столі. Залежно від програми домашнього екрану ви можете додати ярлик або віджет.</string>
+  <string name="faq_howto_shortcut">Ви можете розмістити ярлик для запуску OpenConnect на робочому столі. Залежно від програми домашнього екрану ви можете додати ярлик або віджет.</string>
   <string name="no_vpn_support_image">Ваша прошивка не підтримує VPNService API, вибачте :(</string>
   <string name="encryption">Шифрування</string>
   <string name="cipher_dialog_title">Введіть метод шифрування</string>
-  <string name="auth_dialog_message">Введіть the authentication digest для OpenVPN. Залиште порожнім для використання стандартних значень.</string>
+  <string name="auth_dialog_message">Введіть the authentication digest для OpenConnect. Залиште порожнім для використання стандартних значень.</string>
   <string name="settings_auth">Автентифікація/Шифрування</string>
   <string name="file_explorer_tab">Провідник файлів</string>
   <string name="inline_file_tab">Вбудований файл</string>
@@ -142,7 +142,7 @@
   <string name="no_bind">Нема локальної прив\'язки</string>
   <string name="import_configuration_file">Імпорт файлу конфігурації</string>
   <string name="faq_security_title">Вимоги до безпеки</string>
-  <string name="faq_security">"Так як OpenVPN чутливий до безпеки, то будуть розумними кілька зауважень щодо захисту. Всі дані на sd карті по суті не захищені. Кожний додаток може прочитати їх (наприклад ця програма не вимагає спеціальних привілеїв на sd карту). Дані цього додатка можуть бути прочитані тільки ним самим. При використанні опції імпорту для cacert/cert/key в діалоговому вікні файла, дані зберігаються в VPN профілі. VPN профілі доступні тільки цьому додатку. (Потім не забудьте видалити копії на sd карті). Незважаючи на те, що дані доступні тільки цьому додатку, вони все ще незашифровані. Шляхом отримання прав суперкористувача (root) на телефоні або іншими хитрощами можливо витягти дані. Також збережені паролі зберігаються в звичайному текстовому вигляді. Наполегливо рекомендується pkcs12 файли імпортувати в android сховище ключів. "</string>
+  <string name="faq_security">"Так як OpenConnect чутливий до безпеки, то будуть розумними кілька зауважень щодо захисту. Всі дані на sd карті по суті не захищені. Кожний додаток може прочитати їх (наприклад ця програма не вимагає спеціальних привілеїв на sd карту). Дані цього додатка можуть бути прочитані тільки ним самим. При використанні опції імпорту для cacert/cert/key в діалоговому вікні файла, дані зберігаються в VPN профілі. VPN профілі доступні тільки цьому додатку. (Потім не забудьте видалити копії на sd карті). Незважаючи на те, що дані доступні тільки цьому додатку, вони все ще незашифровані. Шляхом отримання прав суперкористувача (root) на телефоні або іншими хитрощами можливо витягти дані. Також збережені паролі зберігаються в звичайному текстовому вигляді. Наполегливо рекомендується pkcs12 файли імпортувати в android сховище ключів. "</string>
   <string name="import_vpn">Імпорт</string>
   <string name="broken_image_cert_title">Помилка показу вибору сертифіката</string>
   <string name="broken_image_cert">Відбулася помилка при спробі виклику системного діалогу вибору сертифікатів Android 4.0 + Цього не повинно було статися на стандартній прошивці. Можливо у вашій прошивці зіпсовано сховище сертифікатів</string>
@@ -160,9 +160,9 @@
   <string name="tls_authentication">Аутентифікація TLS</string>
   <string name="generated_config">Згенерована конфігурація</string>
   <string name="generalsettings">Параметри</string>
-  <string name="owner_fix_summary">Спробуйте змінити власника для /dev/tun. Деякі прошивки CM9 вимагають цього для коректної роботи API OpenVPN. Потрібний root.</string>
+  <string name="owner_fix_summary">Спробуйте змінити власника для /dev/tun. Деякі прошивки CM9 вимагають цього для коректної роботи API OpenConnect. Потрібний root.</string>
   <string name="owner_fix">Виправити власника /dev/tun</string>
-  <string name="generated_config_summary">Показує згенерований файл конфігурації OpenVPN</string>
+  <string name="generated_config_summary">Показує згенерований файл конфігурації OpenConnect</string>
   <string name="edit_profile_title">Редагується \"%s\"</string>
   <string name="building_configration">Побудова конфігурації…</string>
   <string name="netchange_summary">Вмикання цього параметру примусить перепідключитися, якщо стан мережі змінився (напр. Wi-Fi/мобільний інтернет)</string>
@@ -182,7 +182,7 @@
   <string name="ipdns">IP-адреса та DNS</string>
   <string name="basic">Основне</string>
   <string name="routing">Маршрутизація</string>
-  <string name="obscure">Приховані параметри OpenVPN. Зазвичай не потрібні.</string>
+  <string name="obscure">Приховані параметри OpenConnect. Зазвичай не потрібні.</string>
   <string name="advanced">Додатково</string>
   <string name="export_config_title">ICS Openvpn конфігурація</string>
   <string name="warn_no_dns">Жодний DNS сервер не використовується. Дозвіл імен може не працювати. Розгляньте питання про створення користувацьких серверів DNS. Зверніть увагу, що Android буде продовжувати використовувати налаштування проксі-сервера, вказаного для вашого мобільного / Wi-Fi з\'єднання, коли не задано DNS сервери.</string>
@@ -197,7 +197,7 @@
   <string name="use_system_proxy">Використовувати системний проксі</string>
   <string name="use_system_proxy_summary">Використовувати системну конфігурацію HTTP/HTTPS проксі для з\'єднання.</string>
   <string name="donatewithpaypal">Ви можете &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;пожертвувати через PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN буде перепідключатися, якщо він був активний в момент вимикання/перезавантаження. Будь ласка, прочитайте ЧаП перед тим, як використовувати цей параметр.</string>
+  <string name="onbootrestartsummary">OpenConnect буде перепідключатися, якщо він був активний в момент вимикання/перезавантаження. Будь ласка, прочитайте ЧаП перед тим, як використовувати цей параметр.</string>
   <string name="onbootrestart">Перепідключати при перезавантаженні</string>
   <string name="ignore">Ігнорувати</string>
   <string name="restart">Перезапустити</string>
@@ -212,22 +212,22 @@
   <string name="faq_hint">Не забудьте заглянути у ЧаП. Там також є короткий посібник.</string>
   <string name="faq_routing_title">Конфігурація маршрутизації/інтерфейсу</string>
   <string name="faq_routing">Маршрутизація та інтерфейс конфігурації не були зроблені через традиційну команду ifconfig, але за допомогою VPNService API. Це призводить до різних маршрутизацій конфігурації ніж на інших операційних систем. Конфігурація складається тільки з IP інтерфейс тунелю і мереж, що має бути перенаправлено на цей інтерфейс. Необхідно особливо немає рівний партнер адреса або адреса шлюзу. Спеціальні маршрути, щоб дістатися до сервера VPN (наприклад, додані при використанні перенаправлення шлюз) або не потрібні. Отже ігнорувати ці параметри під час імпортування конфігурації. Програма гарантує з VPNService API, що підключення до сервера не прямує через VPN-тунель. Оскільки єдині вказані мережі прямують через тунель підтримуються додаткові маршрути без вказання тунелю, який не може бути підтриманий. (наприклад маршруту x.x.x.x y.y.y.y net_gateway). Журнал windows показує поточну конфігурацію VPNService після встановлення з\'єднання. </string>
-  <string name="persisttun_summary">Не повертатися до жодного VPN з\'єднання, коли OpenVPN перепідключається.</string>
+  <string name="persisttun_summary">Не повертатися до жодного VPN з\'єднання, коли OpenConnect перепідключається.</string>
   <string name="persistent_tun_title">Стійкість tun</string>
-  <string name="openvpn_log">Журнал OpenVPN</string>
-  <string name="import_config">Імпорт конфігурації OpenVPN</string>
+  <string name="openvpn_log">Журнал OpenConnect</string>
+  <string name="import_config">Імпорт конфігурації OpenConnect</string>
   <string name="battery_consumption_title">Споживання акумулятора</string>
-  <string name="baterry_consumption">У моїх особистих тестах основна причина високого споживання батареї OpenVPN є підтримуючі пакети. Більшість OpenVPN сервера мають директиви конфігурації, як \"залишайся в живих 10 60\", які перекладаються як підтримуючий пакет від клієнта до сервера і від сервера до клієнта кожні десять секунд. &lt;p&gt; Хоча ці пакети є невеликими і не використовують багато трафіку, вони тримають мережі мобільного радіозв\'язку зайнятими і збільшвють споживання енергії. (Див. також &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;Радіо State Machine | Android Developers &lt;/a&gt;) &lt;p&gt; Цей параметр надсилання пакетів не може бути змінений на клієнті. Тільки системний адміністратор OpenVPN може змінити настройки. &lt;p&gt; На жаль, використання цього параметру більше 60 секунд з UDP має проблеми з деякими шлюзами NAT, які закінчуються стан підключення після короткого тайм-ауту (60 с в моїх тестах). Використання TCP з довгими затримками працює, але має проблему TCP над TCP. (Див. &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt; Чому TCP над TCP є поганим середовищем&lt;/a&gt;)</string>
+  <string name="baterry_consumption">У моїх особистих тестах основна причина високого споживання батареї OpenConnect є підтримуючі пакети. Більшість OpenConnect сервера мають директиви конфігурації, як \"залишайся в живих 10 60\", які перекладаються як підтримуючий пакет від клієнта до сервера і від сервера до клієнта кожні десять секунд. &lt;p&gt; Хоча ці пакети є невеликими і не використовують багато трафіку, вони тримають мережі мобільного радіозв\'язку зайнятими і збільшвють споживання енергії. (Див. також &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;Радіо State Machine | Android Developers &lt;/a&gt;) &lt;p&gt; Цей параметр надсилання пакетів не може бути змінений на клієнті. Тільки системний адміністратор OpenConnect може змінити настройки. &lt;p&gt; На жаль, використання цього параметру більше 60 секунд з UDP має проблеми з деякими шлюзами NAT, які закінчуються стан підключення після короткого тайм-ауту (60 с в моїх тестах). Використання TCP з довгими затримками працює, але має проблему TCP над TCP. (Див. &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt; Чому TCP над TCP є поганим середовищем&lt;/a&gt;)</string>
   <string name="faq_tethering">Функція транзитного з\'єднання на Android (через WiFi, USB або Bluetooth) та VPNService API (використовуване цією програмою) не працюють разом. Детальніше в &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\"&gt; Issue 34 &lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN і тетерінг</string>
   <string name="connection_retries">Спроб підключення</string>
   <string name="reconnection_settings">Налаштування перепідключення</string>
   <string name="connectretrymessage">Кількість секунд очікування між спробами підключення.</string>
   <string name="connectretrywait">Секунд між підключеннями</string>
-  <string name="minidump_generated">OpenVPN впав несподівано. Будь ласка, розгляньте використання параметру \"Надіслати Мінідамп\" в головному меню</string>
+  <string name="minidump_generated">OpenConnect впав несподівано. Будь ласка, розгляньте використання параметру \"Надіслати Мінідамп\" в головному меню</string>
   <string name="send_minidump">Надіслати мінідамп розробнику</string>
   <string name="send_minidump_summary">Відправляє налагоджувальну інформацію розробнику про останнє аварійне завершення</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Підключення</string>
@@ -269,7 +269,7 @@
   <string name="tls_remote_deprecated">tls-remote (ЗАСТАРІЛЕ)</string>
   <string name="help_translate">Ви можете допомогти в перекладі, відвідавши http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s спроб контролювати %2$s</string>
-  <string name="remote_warning">Продовжуючи, ви даєте дозвіл на застосування повного контролю OpenVPN для Android і щоб перехоплювати всі мережевого трафіку. <b>Не приймайте, тільки якщо ви не довіряєте програмі.</b> В іншому випадку ви ризикуєте мати скомпрометовані шкідливим програмним забезпеченням дані.\"</string>
+  <string name="remote_warning">Продовжуючи, ви даєте дозвіл на застосування повного контролю OpenConnect для Android і щоб перехоплювати всі мережевого трафіку. <b>Не приймайте, тільки якщо ви не довіряєте програмі.</b> В іншому випадку ви ризикуєте мати скомпрометовані шкідливим програмним забезпеченням дані.\"</string>
   <string name="remote_trust">Я довіряю цьому додатку.</string>
   <string name="no_external_app_allowed">Не дозволяється використовувати зовнішнє API</string>
   <string name="allowed_apps">Дозволенi додатки: %s</string>

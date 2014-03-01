@@ -29,7 +29,7 @@
   <string name="ipv4_dialog_title">以CIDR格式輸入IPv4地址/遮罩(例如 1.2.3.4/24)</string>
   <string name="ipv4_address">IPv4地址</string>
   <string name="ipv6_address">IPv6地址</string>
-  <string name="custom_option_warning">使用自訂的OpenVPN選項，請加倍緊慎。請注意因Android API限制，很多與Tun相關的OpenVPN設定皆無法正常使用。如果你認為我們遺忘了重要的OpenVPN選項，請向作者反映。</string>
+  <string name="custom_option_warning">使用自訂的OpenConnect選項，請加倍緊慎。請注意因Android API限制，很多與Tun相關的OpenConnect設定皆無法正常使用。如果你認為我們遺忘了重要的OpenConnect選項，請向作者反映。</string>
   <string name="auth_username">用戶名稱</string>
   <string name="auth_pwquery">密碼</string>
   <string name="configure_the_vpn">設定VPN</string>
@@ -42,7 +42,7 @@
   <string name="config_error_found">設定中含有錯誤</string>
   <string name="ipv4_format_error">解析IPv4地址時發生錯誤</string>
   <string name="custom_route_format_error">解析自訂路由時發生錯誤</string>
-  <string name="vpn_shortcut">OpenVPN捷徑</string>
+  <string name="vpn_shortcut">OpenConnect捷徑</string>
   <string name="vpn_launch_title">連接到VPN</string>
   <string name="shortcut_profile_notfound">在快捷方式找不到指定的設定檔</string>
   <string name="random_host_prefix">隨機主機名稱字首</string>
@@ -91,7 +91,7 @@
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">分享記錄檔</string>
   <string name="send">分享</string>
-  <string name="ics_openvpn_log_file">ICS OpenVPN 記錄檔</string>
+  <string name="ics_openvpn_log_file">ICS OpenConnect 記錄檔</string>
   <string name="copied_entry">已將記錄複製到剪貼簿</string>
   <string name="tap_mode">Tap模式</string>
   <string name="faq_tap_mode">Android內置的VPN API並不支援Tap介面，故此本程序並不支援Tap模式。</string>
@@ -144,7 +144,7 @@
   <string name="ipdns">IP和DNS</string>
   <string name="basic">基本</string>
   <string name="routing">路由</string>
-  <string name="obscure">鮮為人知的OpenVPN設定，一般情況下不需要派上用場。</string>
+  <string name="obscure">鮮為人知的OpenConnect設定，一般情況下不需要派上用場。</string>
   <string name="advanced">進階</string>
   <string name="export_config_title">ICS Openvpn 設定</string>
   <string name="warn_no_dns">沒有任何DNS伺服器可用，可能無法進行網域名稱解析。請考慮設置自訂的DNS伺服器</string>
@@ -164,13 +164,13 @@
   <string name="configuration_changed">設定已變更</string>
   <string name="faq_duplicate_notification_title">重複的通知</string>
   <string name="faq_routing_title">路由/網絡介面 設定</string>
-  <string name="openvpn_log">OpenVPN 運作記錄</string>
-  <string name="import_config">匯入 OpenVPN 配置</string>
+  <string name="openvpn_log">OpenConnect 運作記錄</string>
+  <string name="import_config">匯入 OpenConnect 配置</string>
   <string name="battery_consumption_title">電池消耗</string>
   <string name="vpn_tethering_title">VPN與可攜式無線基地台</string>
   <string name="connection_retries">連線重試次數</string>
   <string name="connectretrymessage">嘗試重新連線之間的等待秒數</string>
   <string name="connectretrywait">重新連接間隔時間</string>
-  <string name="minidump_generated">OpenVPN非預期地崩潰，你或者會考慮在主選單下傳送Minidump給開發人員。</string>
+  <string name="minidump_generated">OpenConnect非預期地崩潰，你或者會考慮在主選單下傳送Minidump給開發人員。</string>
   <string name="send_minidump">向開發人員傳送Minidump</string>
 </resources>

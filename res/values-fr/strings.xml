@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">"Saisissez l\'adresse IPv4 / masque de réseau au format CIDR (ex.: 1.2.3.4/24)"</string>
   <string name="ipv4_address">"Adresse IPv4"</string>
   <string name="ipv6_address">"Adresse IPv6"</string>
-  <string name="custom_option_warning">"Entrez les options d\'OpenVPN personnalisés. A manipuler avec le plus grand soin. A noter également que de nombreux paramètres Tun d\'OpenVPN ne sont pas pris en charge à cause de la conception de \"VPNSettings\". Si vous pensez qu\'une option importante manque, veuillez contacter l\'auteur"</string>
+  <string name="custom_option_warning">"Entrez les options d\'OpenConnect personnalisés. A manipuler avec le plus grand soin. A noter également que de nombreux paramètres Tun d\'OpenConnect ne sont pas pris en charge à cause de la conception de \"VPNSettings\". Si vous pensez qu\'une option importante manque, veuillez contacter l\'auteur"</string>
   <string name="auth_username">"Nom d\'utilisateur"</string>
   <string name="auth_pwquery">"Mot de passe"</string>
   <string name="static_keys_info">"Pour la configuration statique, des clés d\'authentification TLS seront utilisés comme des clés statiques."</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">"Impossible d\'analyser l\'adresse IPv4"</string>
   <string name="custom_route_format_error">"Impossible d\'analyser les règles de redirection personnalisés"</string>
   <string name="pw_query_hint">"Laissez vide pour définir si nécessaire"</string>
-  <string name="vpn_shortcut">"Raccourci OpenVPN"</string>
+  <string name="vpn_shortcut">"Raccourci OpenConnect"</string>
   <string name="vpn_launch_title">"Se connecter au VPN"</string>
   <string name="shortcut_profile_notfound">"Profil spécifié dans raccourci introuvable"</string>
   <string name="random_host_prefix">"Préfixe de l\'hôte au hasard"</string>
@@ -96,14 +96,14 @@
   <string name="dns_server_info">Serveur DNS: %1$s, Domaine: %2$s</string>
   <string name="routes_info">"Routes: %s"</string>
   <string name="routes_info6">"Routes IPv6: %s"</string>
-  <string name="ip_not_cidr">"Informations récupérées de l\'interface: %1$s et %2$s , en supposant que la seconde adresse est l\'adresse peer du réseau distant. Utilisation du masque de réseau /32 pour l\'IP locale. Mode donné par OpenVPN: \"%3$s\"."</string>
+  <string name="ip_not_cidr">"Informations récupérées de l\'interface: %1$s et %2$s , en supposant que la seconde adresse est l\'adresse peer du réseau distant. Utilisation du masque de réseau /32 pour l\'IP locale. Mode donné par OpenConnect: \"%3$s\"."</string>
   <string name="route_not_cidr">"Ne peut pas donner un sens à %1$s et %2$s comme routage IP avec masque réseau de type CIDR, en utilisant /32 comme masque de réseau."</string>
   <string name="route_not_netip">"Règle de redirection corrigée: %1$s / %2$s en %3$s / %2$s"</string>
   <string name="keychain_access">\"Impossible d\'accéder aux certificats \"Android Keychain\". (Peut être causé par une mise à jour du firmware ou par une restauration d\'une sauvegarde des paramètres de l\'application). Veuillez modifier le profil VPN et sélectionnez de nouveau le certificat dans les réglages de base pour recréer l\'autorisation d\'accéder au certificat.\".</string>
   <string name="version_info">"%1$s %2$s"</string>
   <string name="send_logfile">"Envoyer le fichier de log"</string>
   <string name="send">"Envoyer"</string>
-  <string name="ics_openvpn_log_file">"Fichier de log OpenVPN ICS"</string>
+  <string name="ics_openvpn_log_file">"Fichier de log OpenConnect ICS"</string>
   <string name="copied_entry">"Entrée du log copiée"</string>
   <string name="tap_mode">"Mode TAP"</string>
   <string name="faq_tap_mode">"Le mode TAP est indisponible avec l\'API non root VPN. Par conséquent, cette application ne peut pas supporter TAP"</string>
@@ -113,11 +113,11 @@
   <string name="copying_log_entries">"Copie des entrées du log"</string>
   <string name="faq_copying">"Pour copier une seule entrée du log restez appuyé sur celle-ci. Pour copier ou envoyer le log au complet utilisez l\'option \"Envoi du Log\". Utilisez le bouton matériel s\'il n\'est pas visible."</string>
   <string name="faq_shortcut">"Raccourci pour démarrer"</string>
-  <string name="faq_howto_shortcut">Vous pouvez placer un raccourci pour démarrer OpenVPN sur l\'écran d\'accueil. En fonction du programme gérant votre écran d\'accueil, vous devez soit ajouter un raccourci, soit un widget.</string>
+  <string name="faq_howto_shortcut">Vous pouvez placer un raccourci pour démarrer OpenConnect sur l\'écran d\'accueil. En fonction du programme gérant votre écran d\'accueil, vous devez soit ajouter un raccourci, soit un widget.</string>
   <string name="no_vpn_support_image">"Votre ROM ne prend pas en charge l\'API VPNService, désolé :("</string>
   <string name="encryption">"Cryptage"</string>
   <string name="cipher_dialog_title">"Entrez la méthode de cryptage"</string>
-  <string name="auth_dialog_message">Entrer le digest à utiliser par OpenVPN pour l\'authentification. Laisser vide pour utiliser l\'algorithme par défaut.</string>
+  <string name="auth_dialog_message">Entrer le digest à utiliser par OpenConnect pour l\'authentification. Laisser vide pour utiliser l\'algorithme par défaut.</string>
   <string name="settings_auth">"Authentification / Cryptage"</string>
   <string name="file_explorer_tab">"Explorateur de fichiers"</string>
   <string name="inline_file_tab">"Fichier personnalisé"</string>
@@ -138,7 +138,7 @@
   <string name="no_bind">"Aucune liaison locale"</string>
   <string name="import_configuration_file">"Importer un fichier de configuration"</string>
   <string name="faq_security_title">"Considérations de sécurité"</string>
-  <string name="faq_security">"La stratégie de sécurité d\'OpenVPN amène quelque remarques concernant la sécurité des données saisies. En général, toutes les informations stockées sur la carte SD ne sont pas sécurisées. Toute application peut en obtenir l\'accès (par exemple, ce programme ne requiert aucun droit particulier d\'accès à la carte SD). Dans le cas de ce programme, il est le seul à avoir accès à ces données. En utilisant l\'option d\'importation pour les CaCert/Cert/Key, les données sont stockées dans le porfile VPN. Ce dernier est seulement accessible à cette application. Ainsi, veuillez ne pas oublier de supprimer les copies sur la carte SD après importation. Car, même si l\'application en a l\'exclusivité, les données ne sont pas pour autant cryptées. En \"rootant\" l\'appareil ou par d\'autres exploits il est toujours possible d\'accéder à ces informations. A titre d\'exemple, les mots de passe sont stockés en clair. Pour les fichiers de type Pkfcs12, il est fortement recommandé que vous les importiez dans le gestionnaire de clées d\'Android."</string>
+  <string name="faq_security">"La stratégie de sécurité d\'OpenConnect amène quelque remarques concernant la sécurité des données saisies. En général, toutes les informations stockées sur la carte SD ne sont pas sécurisées. Toute application peut en obtenir l\'accès (par exemple, ce programme ne requiert aucun droit particulier d\'accès à la carte SD). Dans le cas de ce programme, il est le seul à avoir accès à ces données. En utilisant l\'option d\'importation pour les CaCert/Cert/Key, les données sont stockées dans le porfile VPN. Ce dernier est seulement accessible à cette application. Ainsi, veuillez ne pas oublier de supprimer les copies sur la carte SD après importation. Car, même si l\'application en a l\'exclusivité, les données ne sont pas pour autant cryptées. En \"rootant\" l\'appareil ou par d\'autres exploits il est toujours possible d\'accéder à ces informations. A titre d\'exemple, les mots de passe sont stockés en clair. Pour les fichiers de type Pkfcs12, il est fortement recommandé que vous les importiez dans le gestionnaire de clées d\'Android."</string>
   <string name="import_vpn">"Importer"</string>
   <string name="broken_image_cert_title">"Erreur d\'affichage certificat sélectionné"</string>
   <string name="broken_image_cert">"Exception en essayant d\'afficher le dialogue de sélection du certification d\'Android 4.0+. Ceci ne devrait pas se produire car c\'est une des fonctionnalités de base de ce système. Il est donc possible que votre ROM ne supporte pas le stockage de certfiicats."</string>
@@ -158,7 +158,7 @@
   <string name="generalsettings">Paramètres</string>
   <string name="owner_fix_summary">"Tente de définir le propriétaire de /dev/tun. Certaines ROMs CM9 en ont besoin pour faire fonctionner l\'API VPNService. Nécessite les droits root."</string>
   <string name="owner_fix">"Corriger le propriétaire de /dev/tun"</string>
-  <string name="generated_config_summary">"Affiche le fichier de configuration OpenVPN généré"</string>
+  <string name="generated_config_summary">"Affiche le fichier de configuration OpenConnect généré"</string>
   <string name="edit_profile_title">"Modification \"%s\""</string>
   <string name="building_configration">"Création de la configuration…"</string>
   <string name="netchange_summary">"L\'activation de cette option forcera l\'appareil à se reconnecter si l\'état du réseau change (ex.: WIFI/Mobile)"</string>
@@ -179,9 +179,9 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="ipdns">"IP et DNS"</string>
   <string name="basic">"Base"</string>
   <string name="routing">"Redirection de ports"</string>
-  <string name="obscure">"Réglages OpenVPN avancés"</string>
+  <string name="obscure">"Réglages OpenConnect avancés"</string>
   <string name="advanced">"Avancé"</string>
-  <string name="export_config_title">"Configuration ICS OpenVPN "</string>
+  <string name="export_config_title">"Configuration ICS OpenConnect "</string>
   <string name="warn_no_dns">Aucun serveur DNS utilisé. La résolution de noms de domaines peut ne pas fonctionner. Envisager d\'ajouter des serveurs DNS personnalisés. Veuillez également noter que Android va continuer à utiliser vos paramètres de proxy spécifiés pour votre connexion Wi-Fi/mobile lorsque aucun serveur DNS n\'est défini.</string>
   <string name="dns_add_error">"Impossible d\'ajouter le serveur DNS \"%1$s\", rejetés par le système: %2$s"</string>
   <string name="faq_howto">"&lt;p&gt;Obtenez une configuration fonctionnelle (testé sur un ordinateur ou téléchargé depuis le site de votre fournisseur/entreprise)&lt;/p&gt;&lt;p&gt;S\'il s\'agit d\'un seul fichier avec aucun fichier Pem/Pks12 supplémentaire, vous pouvez vous envoyer celui par mail et l\'ouvrir directement. Si vous avez plusieurs fichiers de configuration, mettez les sur votre carte SD.&lt;/p&gt;&lt;p&gt;Cliquez sur la pièce jointe de votre e-mail / Utilisez l\'icône du dossier dans la liste des VPN pour importer le fichier de configuration.&lt;/p&gt;&lt;p&gt;Si des erreurs concernant des fichiers manquants apparaissent, veuillez mettre les fichiers manquant sur la carte SD.&lt;/p&gt;&lt;p&gt;Cliquez sur l\'icône \"enregistrer\" pour ajouter le profil VPN importé à la liste.&lt;/p&gt;&lt;p&gt;Connectez le VPN en cliquant sur son nom dans cette liste.&lt;/p&gt;&lt;p&gt;Si vous rencontrez des erreurs ou des avertissements, veuillez lire ce qu\'il y a d\'écrit dans le log pour les corriger.&lt;/p&gt; "</string>
@@ -194,7 +194,7 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="use_system_proxy">"Utiliser le proxy système"</string>
   <string name="use_system_proxy_summary">"Utiliser la configuration générale du système pour que les proxy HTTP / HTTPS se connectent."</string>
   <string name="donatewithpaypal">"Vous pouvez faire un &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;cmd=_s-xclick\"&gt;don avec PayPal&lt;/ a&gt; "</string>
-  <string name="onbootrestartsummary">"Reconnecter OpenVPN automatiquement si une connexion était active lors de l\'extinction/redémarrage de l\'appareil. Veuillez lire l\'avertissement de connexion dans la FAQ avant d\'utiliser cette option."</string>
+  <string name="onbootrestartsummary">"Reconnecter OpenConnect automatiquement si une connexion était active lors de l\'extinction/redémarrage de l\'appareil. Veuillez lire l\'avertissement de connexion dans la FAQ avant d\'utiliser cette option."</string>
   <string name="onbootrestart">"Connexion automatique au redémarrage"</string>
   <string name="ignore">"Ignorer"</string>
   <string name="restart">"Redémarrer"</string>
@@ -208,10 +208,10 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="vpn_import_hint">"Utilisez l\'icône &lt;img src=\"ic_menu_archive\"/&gt; pour importer un fichier profil (.opvpn ou  .conf) de votre carte SD."</string>
   <string name="faq_hint">"Veillez également à consulter la FAQ. Il s\'y trouve un guide de démarrage rapide."</string>
   <string name="faq_routing_title">"Redirections / Configuration de l\'interface"</string>
-  <string name="persisttun_summary">Ne pas couper la connexion VPN lors de la reconnexion d\'OpenVPN.</string>
+  <string name="persisttun_summary">Ne pas couper la connexion VPN lors de la reconnexion d\'OpenConnect.</string>
   <string name="persistent_tun_title">Persistance de l\'interface TUN</string>
-  <string name="openvpn_log">Log OpenVPN</string>
-  <string name="import_config">"Importer une configuration OpenVPN"</string>
+  <string name="openvpn_log">Log OpenConnect</string>
+  <string name="import_config">"Importer une configuration OpenConnect"</string>
   <string name="battery_consumption_title">"Consommation de la batterie"</string>
   <string name="faq_tethering">La fonctionnalité de Tethering Android (sur WiFi, USB ou Bluetooth) et l\'API VPNService (utilisé par ce programme) ne fonctionnent pas ensemble. Pour plus de détails, voir la &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\" &gt; page #34 &lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN et Tethering</string>
@@ -219,10 +219,10 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="reconnection_settings">"Paramètres de reconnexion"</string>
   <string name="connectretrymessage">"Nombre de secondes d\'attente entre chaque tentative de connexion."</string>
   <string name="connectretrywait">"Temps, en secondes, entre deux connexions"</string>
-  <string name="minidump_generated">OpenVPN s\'est écrasé de façon inattendue. S\'il vous plaît, envisagez d\'utiliser l\'option de Minidump depuis le menu principal</string>
+  <string name="minidump_generated">OpenConnect s\'est écrasé de façon inattendue. S\'il vous plaît, envisagez d\'utiliser l\'option de Minidump depuis le menu principal</string>
   <string name="send_minidump">Envoyer le Minidump au développeur</string>
   <string name="send_minidump_summary">Envoyer les informations de débogage à propos du dernier accident au développeur</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Connexion</string>
@@ -263,7 +263,7 @@ Sur certaines images, cette notification joue un son.\nAndroid à introduit ces 
   <string name="tls_remote_deprecated">tl-remote (OBSOLETE)</string>
   <string name="help_translate">Vous pouvez aider à traduire en visitant http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s essais de controler %2$s</string>
-  <string name="remote_warning">En continuant vous donnerez la permission a l\'application de contrôler complètement OpenVPN pour Android et d\'intercepter tout le trafic réseau. <b> N\'acceptez que si vous faite confiance à l\'application. </b> Sinon vous vous exposez au risque de voir vos données compromises par une application malicieuse.</string>
+  <string name="remote_warning">En continuant vous donnerez la permission a l\'application de contrôler complètement OpenConnect pour Android et d\'intercepter tout le trafic réseau. <b> N\'acceptez que si vous faite confiance à l\'application. </b> Sinon vous vous exposez au risque de voir vos données compromises par une application malicieuse.</string>
   <string name="remote_trust">Faire confiance à cette application.</string>
   <string name="no_external_app_allowed">Aucune appli. autorisée pour utiliser l\'API externe</string>
   <string name="allowed_apps">Applications autorisées: %s</string>

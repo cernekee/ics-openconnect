@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Masukkan IPv4 Address/Netmask dalam format CIDR (contoh: 1.2.3.4/24)</string>
   <string name="ipv4_address">Alamat IPv4</string>
   <string name="ipv6_address">Alamat IPv6</string>
-  <string name="custom_option_warning">Masukan seting openvpn. Gunakan dengan hati-hati. Harap dicatat, TUN yanng terkait seting OpenVPN tidak didukung oleh VPNsettings. Jika anda berpikir ada hal penting belum tersedia, hubungi pembuatnya</string>
+  <string name="custom_option_warning">Masukan seting openvpn. Gunakan dengan hati-hati. Harap dicatat, TUN yanng terkait seting OpenConnect tidak didukung oleh VPNsettings. Jika anda berpikir ada hal penting belum tersedia, hubungi pembuatnya</string>
   <string name="auth_username">Nama Penguna</string>
   <string name="auth_pwquery">Password</string>
   <string name="static_keys_info">Untuk konfigurasi statis, kunci otentifikasi TLS akan digunakan sebagai kunci konfigurasi statis</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Gagal menganalisa alamat IPV4</string>
   <string name="custom_route_format_error">Gagal menganalisa rute buatan</string>
   <string name="pw_query_hint">(biarkan kosong untuk antrian permintaan)</string>
-  <string name="vpn_shortcut">Jalan Pintas OpenVPN</string>
+  <string name="vpn_shortcut">Jalan Pintas OpenConnect</string>
   <string name="vpn_launch_title">Hubungkan VPN</string>
   <string name="shortcut_profile_notfound">Profil di shrotcut tidak ada</string>
   <string name="random_host_prefix">Acak awalan Host </string>
@@ -63,7 +63,7 @@
   <string name="check_remote_tlscert_title">Mengharapkan sertifikat server TLS</string>
   <string name="remote_tlscn_check_summary">Memeriksa sertifikat Remote Server Subjek DN</string>
   <string name="remote_tlscn_check_title">Cek nama sertifikat Host</string>
-  <string name="enter_tlscn_dialog">Tentukan nilai ynag digunakan untuk memverifikasi sertifikat remote DN (misal C=nama perusahaan, L=Kota lokasi, OU=nama departemen perusahaan, CN=openvpn.blinkt.de. Tentukan DN atau RDN yang lengkap (dalam contoh : openvpn.blinkt.de) atau sebuah awalan RDN untuk verifikasi. Saat memakai RDN awalan \"server\" cocok dengan \"server-1\" dan \"server-2\". Mengosongkan field akan membuat RDN diperiksa dengan nama host server. Lebih jelasnya lihat OpenVPN 2.3.1 manpage di bagian -verify-x509-name</string>
+  <string name="enter_tlscn_dialog">Tentukan nilai ynag digunakan untuk memverifikasi sertifikat remote DN (misal C=nama perusahaan, L=Kota lokasi, OU=nama departemen perusahaan, CN=openvpn.blinkt.de. Tentukan DN atau RDN yang lengkap (dalam contoh : openvpn.blinkt.de) atau sebuah awalan RDN untuk verifikasi. Saat memakai RDN awalan \"server\" cocok dengan \"server-1\" dan \"server-2\". Mengosongkan field akan membuat RDN diperiksa dengan nama host server. Lebih jelasnya lihat OpenConnect 2.3.1 manpage di bagian -verify-x509-name</string>
   <string name="enter_tlscn_title">Subyek sertifikat remote</string>
   <string name="tls_key_auth">Aktifkan otentifikasi kunci TLS</string>
   <string name="tls_auth_file">Berkas otintikasi TLS</string>
@@ -88,7 +88,7 @@
   <string name="float_summary">Ijinkan paket terotentifikasi dari semua IP</string>
   <string name="float_title">Ijinkan server mengambang</string>
   <string name="custom_options_title">Pilihan buatan</string>
-  <string name="edit_vpn">Ubah seting OpenVPN</string>
+  <string name="edit_vpn">Ubah seting OpenConnect</string>
   <string name="remove_vpn_query">Hapus profil \'%s\'?</string>
   <string name="tun_error_helpful">Pada beberapa setelan manual gambar ICS izin pada/dev/tun mungkin salah, atau modul tun mungkin hilang sepenuhnya. Untuk gambar CM9, coba perbaiki pilihan kepemilikannya di bawah pengaturan umum</string>
   <string name="tun_open_error">Gagal membuka layanan antarmuka TUN</string>
@@ -100,14 +100,14 @@
   <string name="dns_server_info">DNS Server: %1$s, Domain: %2$s</string>
   <string name="routes_info">Rute: %s</string>
   <string name="routes_info6">Rute IPv6: %s</string>
-  <string name="ip_not_cidr">Memilki informasi antarmuka %1$s dan %2$s, asumsi alamat kedua adalah alamat remote. Menggunakan netmask /32 untuk IP lokal. Mode yang diberikan oleh OpenVPN adalah \"%3$s\".</string>
+  <string name="ip_not_cidr">Memilki informasi antarmuka %1$s dan %2$s, asumsi alamat kedua adalah alamat remote. Menggunakan netmask /32 untuk IP lokal. Mode yang diberikan oleh OpenConnect adalah \"%3$s\".</string>
   <string name="route_not_cidr">Tidak masuk akal membuat %1$s dan %2$s sebagai rute IP dengan netmask CIDR, Gunakan /32 sebagai netmask.</string>
   <string name="route_not_netip">rute yang diperbaiki %1$s/%2$s hingga %3$s/%2$s</string>
   <string name="keychain_access">Tidak dapat mengakses sertifikat Keychain Android. Dapat disebabkan karena upgrade firmware atau pengembalian backup pengaturan app. Mohon ubah VPN, dan pilih ulang sertifikat berbasis pengaturan dasar agar izin mengakses sertifikat dapat dibuat ulang.</string>
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Kirim berkas catatan</string>
   <string name="send">Kirim</string>
-  <string name="ics_openvpn_log_file">Berkas catatan ICS OpenVPN</string>
+  <string name="ics_openvpn_log_file">Berkas catatan ICS OpenConnect</string>
   <string name="copied_entry">Salin catatan masuk ke clipboard</string>
   <string name="tap_mode">Mode TAP</string>
   <string name="faq_tap_mode">Mode TAP tidak diijinkan tanpa VPN API non admin/root. Karena itu aplikasi ini tidak dapat memberikan dukungan mode TAP</string>
@@ -117,12 +117,12 @@
   <string name="copying_log_entries">Menyalin catatan</string>
   <string name="faq_copying">Untuk menyalin satu catatan masuk, Tekan dan tahan di catatan masuk. Untuk meyanlin\mengirim seluruh catatan, gunakan opsi Kirim Log. Gunakan tombol perangkat keras jika tidak terlihat di GUI.</string>
   <string name="faq_shortcut">Jalan pintas memulai</string>
-  <string name="faq_howto_shortcut">Anda dapat menempatkan jalan pintas untuk memulai OpenVPN pada desktop Anda. Tergantung pada program homescreen Anda, Anda harus menambahkan jalan pintas atau widget.</string>
+  <string name="faq_howto_shortcut">Anda dapat menempatkan jalan pintas untuk memulai OpenConnect pada desktop Anda. Tergantung pada program homescreen Anda, Anda harus menambahkan jalan pintas atau widget.</string>
   <string name="no_vpn_support_image">Gambar Anda tidak mendukung VPNService API, maaf:(</string>
   <string name="encryption">Enkripsi</string>
   <string name="cipher_dialog_title">Masukkan metode enkripsi</string>
-  <string name="chipher_dialog_message">Masukkan sandi enkripsi algoritma yang digunakan oleh OpenVPN. Biarkan kosong untuk menggunakan sandi default.</string>
-  <string name="auth_dialog_message">Masukkan digest otentikasi yang digunakan OpenVPN. Biarkan kosong untuk menggunakan standar digest.</string>
+  <string name="chipher_dialog_message">Masukkan sandi enkripsi algoritma yang digunakan oleh OpenConnect. Biarkan kosong untuk menggunakan sandi default.</string>
+  <string name="auth_dialog_message">Masukkan digest otentikasi yang digunakan OpenConnect. Biarkan kosong untuk menggunakan standar digest.</string>
   <string name="settings_auth">Otentikasi/Enkripsi</string>
   <string name="file_explorer_tab">Penjelajah berkas</string>
   <string name="inline_file_tab">Inline File</string>
@@ -143,7 +143,7 @@
   <string name="no_bind">Tidak ada ikatan lokal</string>
   <string name="import_configuration_file">Ambil berkas konfigurasi</string>
   <string name="faq_security_title">Pertimbangan Keamanan</string>
-  <string name="faq_security">"Karena OpenVPN adalah sensitif pada isu keamanan, beberapa catatan tentang keamanan dianggap perlu. Semua data pada sdcard pada dasarnya tidak aman. Setiap app dapat membaca (misalnya program ini tidak perlu hak khusus untuk membaca sd-card). Data dari aplikasi ini hanya dapat dibaca oleh aplikasi itu sendiri. Dengan menggunakan opsi impor untuk cacert/cert/kunci dalam file dialog data yang disimpan dalam profil VPN. Profil VPN hanya dapat diakses oleh aplikasi ini. (Jangan lupa untuk menghapus salinan pada sd-card setelah itu). Bahkan meskipun dapat diakses hanya dengan aplikasi ini data masih tidak terenkripsi. Dengan melakukan rooting atau eksploitasi lainnya maka memungkinkan mengambil data. Sandi-sandi (passwords) juga tersimpan dalam teks biasa. Berkas pkcs12 sangat dianjurkan Anda mengimpornya ke android keystore."</string>
+  <string name="faq_security">"Karena OpenConnect adalah sensitif pada isu keamanan, beberapa catatan tentang keamanan dianggap perlu. Semua data pada sdcard pada dasarnya tidak aman. Setiap app dapat membaca (misalnya program ini tidak perlu hak khusus untuk membaca sd-card). Data dari aplikasi ini hanya dapat dibaca oleh aplikasi itu sendiri. Dengan menggunakan opsi impor untuk cacert/cert/kunci dalam file dialog data yang disimpan dalam profil VPN. Profil VPN hanya dapat diakses oleh aplikasi ini. (Jangan lupa untuk menghapus salinan pada sd-card setelah itu). Bahkan meskipun dapat diakses hanya dengan aplikasi ini data masih tidak terenkripsi. Dengan melakukan rooting atau eksploitasi lainnya maka memungkinkan mengambil data. Sandi-sandi (passwords) juga tersimpan dalam teks biasa. Berkas pkcs12 sangat dianjurkan Anda mengimpornya ke android keystore."</string>
   <string name="import_vpn">Impor</string>
   <string name="broken_image_cert_title">Kesalahan menampilkan sertifikat</string>
   <string name="broken_image_cert">Mendapat pesan kesalahan saat berusaha menampilkan layar pemilihan sertifikat Android 4.0+. Ini seharusnya tidak terjadi karena ini fitur standar Android 4.0 +. Mungkin ROM Android anda yang mengurus penyimpanan sertifikat rusak</string>
@@ -163,7 +163,7 @@
   <string name="generalsettings">Pengaturan</string>
   <string name="owner_fix_summary">Mencoba menetapkan pemilik /dev/tun ke sistem. Beberapa gambar CM9 memerlukan ini untuk membuat API VPNService bekerja. Memerlukan akses Root.</string>
   <string name="owner_fix">Perbaiki kepemilikan /dev/tun</string>
-  <string name="generated_config_summary">Tunjukkan berkas konfigurasi OpenVPN yang dibuat</string>
+  <string name="generated_config_summary">Tunjukkan berkas konfigurasi OpenConnect yang dibuat</string>
   <string name="edit_profile_title">Mengubah \"%s\"</string>
   <string name="building_configration">Membuat konfigurasi…</string>
   <string name="netchange_summary">Menyalakan pilihan ini akan memaksa menyambung kembali jika keadaan jaringan berubah (misalnya WiFi dari mobile)</string>
@@ -183,7 +183,7 @@
   <string name="ipdns">IP dan  DNS</string>
   <string name="basic">Dasar</string>
   <string name="routing">Rute</string>
-  <string name="obscure">Mengaburkan pengaturan OpenVPN. Biasanya tidak diperlukan.</string>
+  <string name="obscure">Mengaburkan pengaturan OpenConnect. Biasanya tidak diperlukan.</string>
   <string name="advanced">Lanjutan</string>
   <string name="export_config_title">Konfigurasi ICS Openvpn</string>
   <string name="warn_no_dns">Tidak DNS server yang digunakan. Name Resolution mungkin akan gagal bekerja. Pertimbangkan pengaturan server DNS. Harap dicatat Android akan terus memakai pengaturan proxy untuk koneksi mobile/wifi saat tidak ada server DNS diatur.</string>
@@ -198,7 +198,7 @@
   <string name="use_system_proxy">Gunakan sistem proxy</string>
   <string name="use_system_proxy_summary">Gunakan konfigurasi lebih luas untuk menyambung system melalui proxy HTTP/HTTPS</string>
   <string name="donatewithpaypal">Anda dapat melakukan donasi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;dengan PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN akan menyambung kembali VPN jika VPN aktif pada saat sistem reboot/shutdown. Silakan baca FAQ tentang peringatan sambungan sebelum menggunakan pilihan ini.</string>
+  <string name="onbootrestartsummary">OpenConnect akan menyambung kembali VPN jika VPN aktif pada saat sistem reboot/shutdown. Silakan baca FAQ tentang peringatan sambungan sebelum menggunakan pilihan ini.</string>
   <string name="onbootrestart">Koneksi ulang saat perangkat dihidupkan kembali</string>
   <string name="ignore">Abaikan</string>
   <string name="restart">Restart</string>
@@ -206,29 +206,29 @@
   <string name="configuration_changed">Konfigurasi berubah</string>
   <string name="log_no_last_vpn">Tak bisa menentukan profil terhubung terakhir untuk diubah</string>
   <string name="faq_duplicate_notification_title">Pemberitahuan berganda</string>
-  <string name="faq_duplicate_notification">Jika Android kekurangan sistem memori (RAM), aplikasi dan layanan yang tidak diperlukan pada saat itu akan dihapus dari memori aktif. Sambungan VPN yang sedang aktif juga ditutup. Untuk memastikan bahwa sambungan/OpenVPN tetap berjalan, OpenVPN diberikan prioritas yang lebih tinggi. Untuk menjalankan dengan prioritas lebih tinggi, aplikasi harus menampilkan pemberitahuan. Ikon pemberitahuan dijalankan oleh sistem seperti dijelaskan dalam FAQ entri sebelumnya. Ini tidak dihitung sebagai pemberitahuan app yang berjalan dengan prioritas lebih tinggi.</string>
+  <string name="faq_duplicate_notification">Jika Android kekurangan sistem memori (RAM), aplikasi dan layanan yang tidak diperlukan pada saat itu akan dihapus dari memori aktif. Sambungan VPN yang sedang aktif juga ditutup. Untuk memastikan bahwa sambungan/OpenConnect tetap berjalan, OpenConnect diberikan prioritas yang lebih tinggi. Untuk menjalankan dengan prioritas lebih tinggi, aplikasi harus menampilkan pemberitahuan. Ikon pemberitahuan dijalankan oleh sistem seperti dijelaskan dalam FAQ entri sebelumnya. Ini tidak dihitung sebagai pemberitahuan app yang berjalan dengan prioritas lebih tinggi.</string>
   <string name="no_vpn_profiles_defined">Tak ada profil VPN yang didefinisikan.</string>
   <string name="add_new_vpn_hint">Gunakan ikon &lt; img src = \"ic_menu_add\" / &gt; untuk menambah VPN baru</string>
   <string name="vpn_import_hint">Gunakan ikon &lt; img src = \"ic_menu_archive\" / &gt; untuk mengimpor profil (.ovpn atau .conf) yang ada dari sdcard Anda.</string>
   <string name="faq_hint">Pastikan untuk juga memeriksa FAQ. Ada petunjuk untuk memudahkan anda.</string>
   <string name="faq_routing_title">Konfigurasi rute\antarmuka</string>
   <string name="faq_routing">Konfigurasi routing dan antar muka tidak dibuat memakai ifconfig/route tradisional tapi memaka API VPNservice. Menyebabkan konfigurasi routing yang berbeda di OS berbeda. Konfigurasi hanya terdiri dari IP milik tunnel antarmuka dan jaringan yang seharusnya dirutekan melalui antarmuka ini. Terlebih tidak ada alamat gateway atau peer rekanan yang dibutuhkan. Rute khusus untuk menjangkau server VPN (untu contoh tambahkan saat memakai redirect-gateway) juga tak diperlukan. Aplikasi akan mengabaikan seting ini saat mengimpor sebuah konfigurasi. Aplikasi memastikan dengan API VPNService bahwa koneksi menuju server tidak dirutekan melalui tunnel VPN. Dengan hanya menentukan jaringan dirutekan melalu tunnel, rute lainnya yang tidak ditentukan melalui tunnel juga tak dapat didukung. (e.g. route x.x.x.x y.y.y.y net_gateway). Jendela catatan menunjukkan konfigurasi terkini VPNService sejak menyediakan layanan koneksi.</string>
-  <string name="persisttun_summary">Jangan kembali ke status tidak ada koneksi VPN ketika OpenVPN mencoba terhubung kembali.</string>
+  <string name="persisttun_summary">Jangan kembali ke status tidak ada koneksi VPN ketika OpenConnect mencoba terhubung kembali.</string>
   <string name="persistent_tun_title">Paksa mode TUN</string>
-  <string name="openvpn_log">Catatan OpenVPN</string>
+  <string name="openvpn_log">Catatan OpenConnect</string>
   <string name="import_config">Ambil konfigurasi VPN</string>
   <string name="battery_consumption_title">Konsumsi baterai</string>
-  <string name="baterry_consumption">Berdasarkan tes pribadi, alasan utama tingginya konsumsi baterai oleh OpenVPN adalah paket keepalive. Sebagian besar server OpenVPN memiliki parameter konfigurasi seperti \'keepalive 10 60\' yang membuat klien dan server bertukar paket keepalive setiap 10 detik. &lt;p&gt; Dengan kecilnya paket ini dan tidak memakai trafik terlalu banyak, mereka menjaga jaringan radio mobile tetap sibuk dan meningkatkan konsumsi energi.  (See also &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt; Seting keepalive ini tidak bisa dirubah di klien. Hanya Admin sistem OpenVPN yang dapat merubah seting ini. &lt;p&gt;  Sayangnya membuat keepalive lebih besar dari 60 detik tanpa UDP dapat membuat beberapa gateway NAT memutus koneksi karena anggapan tidak ada aktifitas pada periode tertentu (timeout). Memakai TCP dengan waktu timeout lebih lama dapat bekerja, tapi membuat tunnel TCP di jalur TCP menyebabkan koneksi yang buruk dan tingginya angka kehilangan paket data ((See &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt;Why TCP Over TCP Is A Bad Idea&lt;/a&gt;)</string>
+  <string name="baterry_consumption">Berdasarkan tes pribadi, alasan utama tingginya konsumsi baterai oleh OpenConnect adalah paket keepalive. Sebagian besar server OpenConnect memiliki parameter konfigurasi seperti \'keepalive 10 60\' yang membuat klien dan server bertukar paket keepalive setiap 10 detik. &lt;p&gt; Dengan kecilnya paket ini dan tidak memakai trafik terlalu banyak, mereka menjaga jaringan radio mobile tetap sibuk dan meningkatkan konsumsi energi.  (See also &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt; Seting keepalive ini tidak bisa dirubah di klien. Hanya Admin sistem OpenConnect yang dapat merubah seting ini. &lt;p&gt;  Sayangnya membuat keepalive lebih besar dari 60 detik tanpa UDP dapat membuat beberapa gateway NAT memutus koneksi karena anggapan tidak ada aktifitas pada periode tertentu (timeout). Memakai TCP dengan waktu timeout lebih lama dapat bekerja, tapi membuat tunnel TCP di jalur TCP menyebabkan koneksi yang buruk dan tingginya angka kehilangan paket data ((See &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt;Why TCP Over TCP Is A Bad Idea&lt;/a&gt;)</string>
   <string name="faq_tethering">Fitur penggandengan Android (melalui WiFi, USB atau Bluetooth) dan API VPNService (digunakan oleh program ini) tidak bekerja bersama-sama. Untuk keterangan lanjut lihat &lt; href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\" &gt; mengeluarkan #34 &lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN dan penarikan</string>
   <string name="connection_retries">Mengulang koneksi</string>
   <string name="reconnection_settings">Pengaturan rekoneksi</string>
   <string name="connectretrymessage">Jumlah detik untuk menunggu antar usaha koneksi</string>
   <string name="connectretrywait">Detik antar koneksi</string>
-  <string name="minidump_generated">OpenVPN crash tak terduga. Silakan mempertimbangkan mengirim menggunakan pilihan Minidump di Menu Utama</string>
+  <string name="minidump_generated">OpenConnect crash tak terduga. Silakan mempertimbangkan mengirim menggunakan pilihan Minidump di Menu Utama</string>
   <string name="send_minidump">Mengirim MiniDump untuk pengembang</string>
   <string name="send_minidump_summary">Mengirim informasi debug tentang kegagalan aplikasi yang terakhir ke pengembang</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Menghubungkan</string>
@@ -270,7 +270,7 @@
   <string name="tls_remote_deprecated">TLS-remote (DEPRECATED)</string>
   <string name="help_translate">Anda dapat membantu menerjemahkan dengan mengunjungi http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s berusaha mengendalikan %2$s</string>
-  <string name="remote_warning">Dengan melanjutkan, Anda memberi izin aplikasi untuk sepenuhnya mengontrol OpenVPN untuk Android dan untuk mencegat semua lalu lintas jaringan. <b>Jangan terima kecuali Anda mempercayai aplikasi.</b> Jika tidak, data Anda beresiko diambil oleh perangkat lunak jahat.\"</string>
+  <string name="remote_warning">Dengan melanjutkan, Anda memberi izin aplikasi untuk sepenuhnya mengontrol OpenConnect untuk Android dan untuk mencegat semua lalu lintas jaringan. <b>Jangan terima kecuali Anda mempercayai aplikasi.</b> Jika tidak, data Anda beresiko diambil oleh perangkat lunak jahat.\"</string>
   <string name="remote_trust">Saya percaya aplikasi ini.</string>
   <string name="no_external_app_allowed">App tidak diizinkan untuk menggunakan API eksternal</string>
   <string name="allowed_apps">apps yang diijinkan : %s</string>

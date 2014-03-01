@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Introduzca la dirección/máscara de red IPv4 en formato CIDR (por ejemplo, 1.2.3.4/24)</string>
   <string name="ipv4_address">Dirección IPv4</string>
   <string name="ipv6_address">Dirección IPv6</string>
-  <string name="custom_option_warning">Introduzca las opciones personalizadas de OpenVPN. Úselas con mucho cuidado. Además, tenga en cuenta que muchas de las configuraciones de OpenVPN relacionadas con tun no pueden ser soportadas por el diseño de VPNSettings. Si cree que falta una función importante, contacte al autor</string>
+  <string name="custom_option_warning">Introduzca las opciones personalizadas de OpenConnect. Úselas con mucho cuidado. Además, tenga en cuenta que muchas de las configuraciones de OpenConnect relacionadas con tun no pueden ser soportadas por el diseño de VPNSettings. Si cree que falta una función importante, contacte al autor</string>
   <string name="auth_username">Nombre de usuario</string>
   <string name="auth_pwquery">Contraseña</string>
   <string name="static_keys_info">Para la configuración estática las claves de autenticación TLS se utilizaran como claves estáticas</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Error al analizar la dirección IPv4</string>
   <string name="custom_route_format_error">Error al analizar las rutas personalizadas</string>
   <string name="pw_query_hint">(Deje en blanco para consultar sobre demanda)</string>
-  <string name="vpn_shortcut">Acceso directo de OpenVPN</string>
+  <string name="vpn_shortcut">Acceso directo de OpenConnect</string>
   <string name="vpn_launch_title">Conectar a VPN</string>
   <string name="shortcut_profile_notfound">Perfil especificado en el acceso directo no encontrado</string>
   <string name="random_host_prefix">Prefijo aleatorio de Host</string>
@@ -63,7 +63,7 @@
   <string name="check_remote_tlscert_title">Espere certificado de servidor TLS</string>
   <string name="remote_tlscn_check_summary">Checar el sujeto del DN del Certificado del Servidor Remoto</string>
   <string name="remote_tlscn_check_title">Comprobación del certificado de nombre de host</string>
-  <string name="enter_tlscn_dialog">Especifica el chequeo usado para verificar el DN del certificado remoto (ej. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nEspecifica el DN completo o el RDN (openvpn.blinkt.de en el ejemplo) o un prefijo RDN para la verificación.\n\nCuando se usa un prefijo RDN como \"Server\" este coincide también con \"Server-1\" y \"Server-2\"\n\nDejando el campo de texto vacío verificara el RDN contra el nombre host del servidor.\n\nPara más detalles ve la página de manual (manpage) de OpenVPN 2.3.1+ en --verify-x509-name</string>
+  <string name="enter_tlscn_dialog">Especifica el chequeo usado para verificar el DN del certificado remoto (ej. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nEspecifica el DN completo o el RDN (openvpn.blinkt.de en el ejemplo) o un prefijo RDN para la verificación.\n\nCuando se usa un prefijo RDN como \"Server\" este coincide también con \"Server-1\" y \"Server-2\"\n\nDejando el campo de texto vacío verificara el RDN contra el nombre host del servidor.\n\nPara más detalles ve la página de manual (manpage) de OpenConnect 2.3.1+ en --verify-x509-name</string>
   <string name="enter_tlscn_title">Sujeto del Certificado Remoto</string>
   <string name="tls_key_auth">habilita la autenticación de clave TLS</string>
   <string name="tls_auth_file">Archivo de autenticación TLS</string>
@@ -100,14 +100,14 @@
   <string name="dns_server_info">Servidor DNS : %1$s, Dominio: %2$s</string>
   <string name="routes_info">Rutas: %s</string>
   <string name="routes_info6">Rutas IPv6: %s</string>
-  <string name="ip_not_cidr">Información de la interfaz obtenida %1$s and %2$s, asumiendo que la segunda dirección es una dirección equivalente del remoto. Usando una máscara de red /32 para la IP local. El modo dado por OpenVPN es \"%3$s\".</string>
+  <string name="ip_not_cidr">Información de la interfaz obtenida %1$s and %2$s, asumiendo que la segunda dirección es una dirección equivalente del remoto. Usando una máscara de red /32 para la IP local. El modo dado por OpenConnect es \"%3$s\".</string>
   <string name="route_not_cidr">No tienen sentido %1$s y %2$s como ruta IP con máscara de red CIDR, usando /32 como máscara de red.</string>
   <string name="route_not_netip">Ruta conectada de %1$s/%2$s a %3$s/%2$s</string>
   <string name="keychain_access">No se puede acceder a los certificados de Android. Puede ser causado por una actualización de firmware o por restaurar una copia de seguridad de la aplicación/configuración de la aplicación. Por favor edite la VPN y vuelva a seleccionar el certificado bajo meltdownajustes básicos para recrear los permisos para acceder al certificado.</string>
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Enviar el archivo de registro</string>
   <string name="send">Enviar</string>
-  <string name="ics_openvpn_log_file">Archivo de registro de OpenVPN de ICS</string>
+  <string name="ics_openvpn_log_file">Archivo de registro de OpenConnect de ICS</string>
   <string name="copied_entry">Entrada de registro copiada al Portapapeles</string>
   <string name="tap_mode">Modo Tap</string>
   <string name="faq_tap_mode">El Modo tap no es posible sin la API VPN de root. Por lo tanto la aplicacion no puede dar soporte a tap</string>
@@ -117,11 +117,11 @@
   <string name="copying_log_entries">Copiar las entradas del registro</string>
   <string name="faq_copying">Para copiar una sola entrada de registro presione y mantenga pulsado sobre la entrada del registro. Para copiar y enviar el registro completo use la opción Enviar registro. Utilice el botón fisico de menú si no visible en la interfaz.</string>
   <string name="faq_shortcut">Acceso directo para iniciar</string>
-  <string name="faq_howto_shortcut">Puede colocar un acceso directo para iniciar OpenVPN desde el escritorio. Dependiendo del launcher tiene que añadir un acceso directo o un widget.</string>
+  <string name="faq_howto_shortcut">Puede colocar un acceso directo para iniciar OpenConnect desde el escritorio. Dependiendo del launcher tiene que añadir un acceso directo o un widget.</string>
   <string name="no_vpn_support_image">Su imagen no es compatible con la API de VPNService, lo siento :(</string>
   <string name="encryption">Cifrado</string>
   <string name="cipher_dialog_title">Especifique el método de cifrado</string>
-  <string name="auth_dialog_message">Introduce la autenticacion digest usada por OpenVPN. Deja en blanco para usar el digest predeterminado.</string>
+  <string name="auth_dialog_message">Introduce la autenticacion digest usada por OpenConnect. Deja en blanco para usar el digest predeterminado.</string>
   <string name="settings_auth">Autenticación/Cifrado</string>
   <string name="file_explorer_tab">Administrador de archivos</string>
   <string name="inline_file_tab">Archivo en línea</string>
@@ -142,7 +142,7 @@
   <string name="no_bind">Ningún enlace local</string>
   <string name="import_configuration_file">Importar archivo de configuracion</string>
   <string name="faq_security_title">Consideraciones de seguridad</string>
-  <string name="faq_security">"Como OpenVPN es sensible a la seguridad, son razonables algunas notas acerca de seguridad. Todos los datos en la tarjeta SD son inherentemente inseguros. Cualquier aplicación puede leerla (por ejemplo, esta aplicación no requiere ningún permiso especial sobre la tarjeta SD). Los datos de esta aplicación sólo pueden ser leidos por la misma aplicación. Al utilizar la opción importar para el certificado de la CA/certificado/llave, en la ventana de diálogo para selección de archivos, los datos se almacenan en el perfil de la VPN. Los perfiles de VPN sólo son accesibles por esta aplicación. (No olvide después borrar las copias de la tarjeta SD). Aunque sólo sea accesible por esta aplicación, los datos aún están sin encriptar. Al acceder el dispositivo portátil como root u otro medio, es posible recuperar estos datos. Las contraseñas guardadas son almacenadas también en texto plano. Para archivos pkcs12 es muy recomendable que los importe al repositorio de llaves de Android."</string>
+  <string name="faq_security">"Como OpenConnect es sensible a la seguridad, son razonables algunas notas acerca de seguridad. Todos los datos en la tarjeta SD son inherentemente inseguros. Cualquier aplicación puede leerla (por ejemplo, esta aplicación no requiere ningún permiso especial sobre la tarjeta SD). Los datos de esta aplicación sólo pueden ser leidos por la misma aplicación. Al utilizar la opción importar para el certificado de la CA/certificado/llave, en la ventana de diálogo para selección de archivos, los datos se almacenan en el perfil de la VPN. Los perfiles de VPN sólo son accesibles por esta aplicación. (No olvide después borrar las copias de la tarjeta SD). Aunque sólo sea accesible por esta aplicación, los datos aún están sin encriptar. Al acceder el dispositivo portátil como root u otro medio, es posible recuperar estos datos. Las contraseñas guardadas son almacenadas también en texto plano. Para archivos pkcs12 es muy recomendable que los importe al repositorio de llaves de Android."</string>
   <string name="import_vpn">Importar</string>
   <string name="broken_image_cert_title">Error mostrando la seleccion de certificados</string>
   <string name="broken_image_cert">Se obtuvo una excepción al intentar mostrar el diálogo de selección de certificado de Android 4.0+. Esto nunca debería ocurrir por ser una funcionalidad estándar de Android 4.0+. Quizás el respaldo ROM para almacenamiento de certificados de su Android está arruinado</string>
@@ -161,7 +161,7 @@
   <string name="generalsettings">Preferencias</string>
   <string name="owner_fix_summary">Intenta establecer el propietario de /dev/tun a system. Algunas imágenes de CM9 lo necesitan hacer funcionar la API de VPNService. Requiere permisos root.</string>
   <string name="owner_fix">Arreglar la propiedad de /dev/tun</string>
-  <string name="generated_config_summary">Muestra el archivo de configuración OpenVPN generado</string>
+  <string name="generated_config_summary">Muestra el archivo de configuración OpenConnect generado</string>
   <string name="edit_profile_title">Editando \"%s\"</string>
   <string name="building_configration">Construyendo configuracion…</string>
   <string name="netchange_summary">Turning this option on will force a reconnect if the network state is changed (e.g. WiFi to/from mobile)</string>
@@ -181,7 +181,7 @@
   <string name="ipdns">IP y DNS</string>
   <string name="basic">Básico</string>
   <string name="routing">Enrutamiento</string>
-  <string name="obscure">Configuraciones oscuras de OpenVPN. Normalmente no se necesitan.</string>
+  <string name="obscure">Configuraciones oscuras de OpenConnect. Normalmente no se necesitan.</string>
   <string name="advanced">Avanzado</string>
   <string name="export_config_title">Configuracion Openvpn de ICS</string>
   <string name="warn_no_dns">No hay servidores DNS a utilizar. La Resolución de nombres puede no funcionar. Considere configurar servidores DNS personalizados. Tenga en cuenta que Android sigue usando la configuración de proxy especificada para su conexión móvil/Wi-Fi cuando no hay servidores DNS establecidos.</string>
@@ -196,7 +196,7 @@
   <string name="use_system_proxy">Usar el proxy del sistema</string>
   <string name="use_system_proxy_summary">Utilice la configuración del sistema para los proxies HTTP/HTTPS a conectar.</string>
   <string name="donatewithpaypal">Usted puede &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;donar con PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN volvera a conectar a una VPN si estaba activa en el apagado/reinicio del sistema. Por favor lea la P+F de advertencia de conexión antes de usar esta opción.</string>
+  <string name="onbootrestartsummary">OpenConnect volvera a conectar a una VPN si estaba activa en el apagado/reinicio del sistema. Por favor lea la P+F de advertencia de conexión antes de usar esta opción.</string>
   <string name="onbootrestart">Vuelva a conectar al reiniciar</string>
   <string name="ignore">Ignorar</string>
   <string name="restart">Reiniciar</string>
@@ -204,16 +204,16 @@
   <string name="configuration_changed">Configuración cambiada</string>
   <string name="log_no_last_vpn">No se pudo determinar el último perfil conectado para editar</string>
   <string name="faq_duplicate_notification_title">Notificaciones duplicadas</string>
-  <string name="faq_duplicate_notification">Si Android está bajo presión de memoria del sistema (RAM), las aplicaciones y servicios que no estén siendo usados en el momento son removidos de la memoria activa. Esto termina una conexión VPN en marcha. Para asegurarse que la conexión/OpenVPN sobreviva el servicio tiene que ejecutarse con prioridad alta. Para ejecutarse con prioridad alta la aplicación debe de mostrar una notificación. El icono de notificación de llave es impuesto por el sistema como se describió en la entrada de FAQ anterior. Esta con cuenta como notificación de la aplicación con el propósito de ejecutarse con prioridad alta.</string>
+  <string name="faq_duplicate_notification">Si Android está bajo presión de memoria del sistema (RAM), las aplicaciones y servicios que no estén siendo usados en el momento son removidos de la memoria activa. Esto termina una conexión VPN en marcha. Para asegurarse que la conexión/OpenConnect sobreviva el servicio tiene que ejecutarse con prioridad alta. Para ejecutarse con prioridad alta la aplicación debe de mostrar una notificación. El icono de notificación de llave es impuesto por el sistema como se describió en la entrada de FAQ anterior. Esta con cuenta como notificación de la aplicación con el propósito de ejecutarse con prioridad alta.</string>
   <string name="no_vpn_profiles_defined">No hay perfiles VPN definidos.</string>
   <string name="add_new_vpn_hint">Use el icono &lt;img src=\"ic_menu_add\"/&gt; para agregar una nueva VPN</string>
   <string name="vpn_import_hint">Use el icono &lt;img src=\"ic_menu_archive\"/&gt; para importar un perfil existente (.ovpn or .conf) de tu tarjeta.</string>
   <string name="faq_hint">Asegúrese de checar también las preguntas frecuentes. Hay una guía de inicio rápido.</string>
   <string name="faq_routing_title">Configuración de enrutamiento o interfaz</string>
-  <string name="persisttun_summary">No regresar a modo sin conexión VPN cuando OpenVPN esta volviendose a conectar.</string>
+  <string name="persisttun_summary">No regresar a modo sin conexión VPN cuando OpenConnect esta volviendose a conectar.</string>
   <string name="persistent_tun_title">Tun persistente</string>
-  <string name="openvpn_log">Registro de OpenVPN</string>
-  <string name="import_config">Importar configuración de OpenVPN</string>
+  <string name="openvpn_log">Registro de OpenConnect</string>
+  <string name="import_config">Importar configuración de OpenConnect</string>
   <string name="battery_consumption_title">Consumo de batería</string>
   <string name="faq_tethering">La funcionalidad de Tethering de Android (sobre WiFi, USB o Bluetooth) y la API del servicio de VPN (utilizada por esta aplicación) no pueden trabajar juntas. Para más detalles vea el &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\"&gt;problema #34&lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN y Tethering</string>
@@ -221,10 +221,10 @@
   <string name="reconnection_settings">Configuración de reconexión</string>
   <string name="connectretrymessage">Número de segundos de espera entre intentos de conexión.</string>
   <string name="connectretrywait">Segundos entre las conexiones</string>
-  <string name="minidump_generated">OpenVPN falló inesperadamente. Por favor considere usar la opción envío de minivolcado en el menú principal</string>
+  <string name="minidump_generated">OpenConnect falló inesperadamente. Por favor considere usar la opción envío de minivolcado en el menú principal</string>
   <string name="send_minidump">Enviar minivolcado al desarrollador</string>
   <string name="send_minidump_summary">Enviar información de depuración sobre último fallo al desarrollador</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Conectando</string>
@@ -266,7 +266,7 @@
   <string name="tls_remote_deprecated">tls-remote (OBSOLETO)</string>
   <string name="help_translate">Tu puedes ayudar traduciendo visitando http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s intentos de controlar %2$s</string>
-  <string name="remote_warning">Para continuar debe permitir a OpenVPN para Android controlar e interceptar todo el tráfico de red. <b> No acepte a menos que confíe en esta aplicación. </b> De lo contrario, usted puede correr el riesgo de comprometer sus datos ante software malicioso.\"</string>
+  <string name="remote_warning">Para continuar debe permitir a OpenConnect para Android controlar e interceptar todo el tráfico de red. <b> No acepte a menos que confíe en esta aplicación. </b> De lo contrario, usted puede correr el riesgo de comprometer sus datos ante software malicioso.\"</string>
   <string name="remote_trust">Confío en esta aplicación.</string>
   <string name="no_external_app_allowed">La aplicación no permite usar API externo</string>
   <string name="allowed_apps">Aplicaciones autorizadas: %s</string>

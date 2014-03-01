@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Wprowadź adres IPv4 w formacie CIDR (np. 1.2.3.4/24)</string>
   <string name="ipv4_address">Adres IPv4</string>
   <string name="ipv6_address">Adres IPv6</string>
-  <string name="custom_option_warning">Wprowadź ustawienia niestandardowe OpenVPN. Używać z rozwagą. Należy również pamiętać, że wiele ustawień związanych z tun OpenVPN nie jest obsługiwana przez projekt VPNSettings. Jeśli uważasz, że brakuje ważnych opcji skontaktuj się z autorem</string>
+  <string name="custom_option_warning">Wprowadź ustawienia niestandardowe OpenConnect. Używać z rozwagą. Należy również pamiętać, że wiele ustawień związanych z tun OpenConnect nie jest obsługiwana przez projekt VPNSettings. Jeśli uważasz, że brakuje ważnych opcji skontaktuj się z autorem</string>
   <string name="auth_username">Nazwa użytkownika</string>
   <string name="auth_pwquery">Hasło</string>
   <string name="static_keys_info">W konfiguracji statycznej klucze uwierzytelniania TLS zostaną wykorzystane jako statyczne klucze</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Błąd parsowania adresu IPv4</string>
   <string name="custom_route_format_error">Błąd parsowania niestandardowych tras</string>
   <string name="pw_query_hint">(Pozostaw puste, aby wywołać na żądanie)</string>
-  <string name="vpn_shortcut">Skrót OpenVPN</string>
+  <string name="vpn_shortcut">Skrót OpenConnect</string>
   <string name="vpn_launch_title">Połącz się z siecią VPN</string>
   <string name="shortcut_profile_notfound">Nie odnaleziono profilu określonego w skrócie</string>
   <string name="random_host_prefix">Losowy prefiks hosta</string>
@@ -123,7 +123,7 @@
   <string name="file_icon">plik ikony</string>
   <string name="tls_authentication">Uwierzytelnianie TLS</string>
   <string name="generalsettings">Ustawienia</string>
-  <string name="generated_config_summary">Pokazuje wygenerowany plik konfiguracji OpenVPN</string>
+  <string name="generated_config_summary">Pokazuje wygenerowany plik konfiguracji OpenConnect</string>
   <string name="edit_profile_title">Edycja \"%s\"</string>
   <string name="building_configration">Tworzenie konfiguracji...</string>
   <string name="netchange_summary">Włączenie tej opcji spowoduje ponowne połączenie jeśli stan sieci się zmienił (np. z WiFi na GSM)</string>
@@ -148,7 +148,7 @@
   <string name="use_system_proxy">Użyj proxy systemowego</string>
   <string name="use_system_proxy_summary">Użyj konfiguracji systemowej dla HTTP/HTTPS proxy w celu połączenia.</string>
   <string name="donatewithpaypal">Możesz &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;wspomóc przez PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN połączy VPN jeśli był aktywny przy restarcie/zamknięciu systemu. Proszę przeczytać FAQ ostrzeżenia połączenia przez użyciem tej opcji.</string>
+  <string name="onbootrestartsummary">OpenConnect połączy VPN jeśli był aktywny przy restarcie/zamknięciu systemu. Proszę przeczytać FAQ ostrzeżenia połączenia przez użyciem tej opcji.</string>
   <string name="onbootrestart">Połącz przy reboocie</string>
   <string name="ignore">Ignoruj</string>
   <string name="restart">Restartuj</string>
@@ -159,17 +159,17 @@
   <string name="no_vpn_profiles_defined">Nie zdefiniowano żadnego profilu.</string>
   <string name="faq_routing_title">Konfiguracja trasy/interfejsu</string>
   <string name="persistent_tun_title">Persistent tun</string>
-  <string name="openvpn_log">Log OpenVPN</string>
-  <string name="import_config">Importuj konfigurację OpenVPN</string>
+  <string name="openvpn_log">Log OpenConnect</string>
+  <string name="import_config">Importuj konfigurację OpenConnect</string>
   <string name="battery_consumption_title">Zużycie baterii</string>
   <string name="connection_retries">Próby połączenia</string>
   <string name="reconnection_settings">Ustawienia ponownego połączenia</string>
   <string name="connectretrymessage">Liczba sekund oczekiwania między próbami połączenia.</string>
   <string name="connectretrywait">Sekundy pomiędzy połączeniami</string>
-  <string name="minidump_generated">OpenVPN niespodziewanie uległ awarii. Proszę rozważ użycie opcji wyślij Minidump w głównym menu</string>
+  <string name="minidump_generated">OpenConnect niespodziewanie uległ awarii. Proszę rozważ użycie opcji wyślij Minidump w głównym menu</string>
   <string name="send_minidump">Wyślij minidump do autora</string>
   <string name="send_minidump_summary">Wysyłam informacje debuggera o ostatniej awarii aplikacji do twórcy</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s-%2$s</string>
   <string name="session_ipv6string">%1$s-%3$s,%2$s</string>
   <string name="state_connecting">Łączę</string>
@@ -209,7 +209,7 @@
   <string name="tls_remote_deprecated">tls-remote (PRZESTARZAŁE)</string>
   <string name="help_translate">Możesz pomóc w tłumaczeniu odwiedzająć http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s próby kontroli %2$s</string>
-  <string name="remote_warning">Akceptując, dajesz aplikacji uprawnienia do pełnego kontrolowania przez OpenVPN całego ruchu sieciowego. <b>Nie akceptuj, jeżeli nie ufasz aplikacji w pełni. </b> W przeciwnym razie istnieje ryzyko przejęcia danych przez złośliwe oprogramowanie. </string>
+  <string name="remote_warning">Akceptując, dajesz aplikacji uprawnienia do pełnego kontrolowania przez OpenConnect całego ruchu sieciowego. <b>Nie akceptuj, jeżeli nie ufasz aplikacji w pełni. </b> W przeciwnym razie istnieje ryzyko przejęcia danych przez złośliwe oprogramowanie. </string>
   <string name="remote_trust">Ufam tej aplikacji.</string>
   <string name="no_external_app_allowed">Żadna aplikacja nie ma pozwolenia do używania zewnętrznego API</string>
   <string name="allowed_apps">Dozwolone aplikacje: %s</string>

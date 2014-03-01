@@ -32,7 +32,7 @@
   <string name="profilename">Nom del perfil</string>
   <string name="no_error_found">No s\'ha trobat cap error</string>
   <string name="config_error_found">S\'ha trobat un error a la configuració</string>
-  <string name="vpn_shortcut">Acces directe de OpenVPN</string>
+  <string name="vpn_shortcut">Acces directe de OpenConnect</string>
   <string name="vpn_launch_title">Conecta a la VPN</string>
   <string name="shortcut_profile_notfound">No s\'ha trobat el perfil especificat a l\'accès directe</string>
   <string name="random_host_prefix">Prefix aleatoria del host</string>
@@ -58,7 +58,7 @@
   <string name="routes_info6">Rutes IPv6: %s</string>
   <string name="send_logfile">Envia el fitxer de registre</string>
   <string name="send">Envia</string>
-  <string name="ics_openvpn_log_file">Fitxer de registre de ICS OpenVPN</string>
+  <string name="ics_openvpn_log_file">Fitxer de registre de ICS OpenConnect</string>
   <string name="copied_entry">S\'ha copiat l\'entrada al porta-retalls</string>
   <string name="tap_mode">Mode Tap</string>
   <string name="faq_tap_mode">No es pot utiltizar el mode tap amb la api no rootejada. L\'aplicació no suporta tap</string>
@@ -92,7 +92,7 @@
   <string name="tls_authentication">Autentificació TLS</string>
   <string name="generated_config">Configuració generada</string>
   <string name="owner_fix">Corregir els permisos de /dev/tun</string>
-  <string name="generated_config_summary">Mostra el fitxer de configuració d\'OpenVPN generat</string>
+  <string name="generated_config_summary">Mostra el fitxer de configuració d\'OpenConnect generat</string>
   <string name="edit_profile_title">Editant \"%s\"</string>
   <string name="building_configration">Construint la configuració…</string>
   <string name="netchange">Reconecta al canviar de xarxa</string>
@@ -116,7 +116,7 @@
   <string name="faq_duplicate_notification_title">Notificacions duplicades</string>
   <string name="no_vpn_profiles_defined">No s\'han definit cap perfil.</string>
   <string name="faq_routing_title">Configuració del Ruting/Interficies</string>
-  <string name="openvpn_log">Registre OpenVPN</string>
-  <string name="import_config">Importa la configuració OpenVPN</string>
+  <string name="openvpn_log">Registre OpenConnect</string>
+  <string name="import_config">Importa la configuració OpenConnect</string>
   <string name="battery_consumption_title">Consum de la bateria</string>
 </resources>

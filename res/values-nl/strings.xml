@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Voer een IPv4 Adres/Netmask in met het CIDR Formaat (v.b. 1.2.3.4/24)</string>
   <string name="ipv4_address">IPv4 Adres</string>
   <string name="ipv6_address">IPv4 Adres</string>
-  <string name="custom_option_warning">Geavanceerde OpenVPN opties. Veel van de tun gerelateerde OpenVPN instellingen worden niet ondersteund. Als u denkt dat een belangrijke optie ontbreekt, neem dan contact op met de auteur.</string>
+  <string name="custom_option_warning">Geavanceerde OpenConnect opties. Veel van de tun gerelateerde OpenConnect instellingen worden niet ondersteund. Als u denkt dat een belangrijke optie ontbreekt, neem dan contact op met de auteur.</string>
   <string name="auth_username">Gebruikersnaam</string>
   <string name="auth_pwquery">wachtwoord</string>
   <string name="static_keys_info">Voor de statische configuratie worden de TLS Auth keys als statische sleutels gebruikt</string>

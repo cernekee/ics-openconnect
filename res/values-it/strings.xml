@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Inserire l\'indirizzo IPv4 e la maschera di rete in formato CIDR (ad esempio 1.2.3.4/24)</string>
   <string name="ipv4_address">Indirizzo IPv4</string>
   <string name="ipv6_address">Indirizzo IPv6</string>
-  <string name="custom_option_warning">Inserire le opzioni personalizzate di OpenVPN. Usare con cautela. Si ricorda che molte delle impostazioni relative a OpenVPN non sono attualmente supportate da questo progetto. Se ritiene che manchi un\'opzione indispensabile, contatta l\'autore</string>
+  <string name="custom_option_warning">Inserire le opzioni personalizzate di OpenConnect. Usare con cautela. Si ricorda che molte delle impostazioni relative a OpenConnect non sono attualmente supportate da questo progetto. Se ritiene che manchi un\'opzione indispensabile, contatta l\'autore</string>
   <string name="auth_username">Utente</string>
   <string name="auth_pwquery">Password</string>
   <string name="static_keys_info">Per la configurazione statica le chiavi di autorizzazione TLS saranno usate come chiavi statiche</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Impossibile analizzare l\'indirizzo IPv4</string>
   <string name="custom_route_format_error">Errore durante la lettura delle regole di reindirizzamento (routing)</string>
   <string name="pw_query_hint">(non compilare perché venga sempre richiesto)</string>
-  <string name="vpn_shortcut">Collegamento a OpenVPN</string>
+  <string name="vpn_shortcut">Collegamento a OpenConnect</string>
   <string name="vpn_launch_title">Connetti alla VPN</string>
   <string name="shortcut_profile_notfound">Profilo indicato nel collegamento non trovato</string>
   <string name="random_host_prefix">Prefisso Host casuale</string>
@@ -61,7 +61,7 @@
   <string name="remove_vpn">Rimuovi VPN</string>
   <string name="remote_tlscn_check_summary">Controlla il soggetto DN del certificato del server remoto</string>
   <string name="remote_tlscn_check_title">Verifica il certificato dell\'Host</string>
-  <string name="enter_tlscn_dialog">Specifica il controllo da effettuare per verificare il certificato DN remoto  (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nPer verifica specifica il DN o RDN completo (nell\'esempio openvpn.blinkt.de) oppure un prefisso RDN.\n\nQuando usi un prefisso RDN \"Server\" è valido per \"Server-1\" e \"Server-2\"\n\nLasciando la casella vuota verrà controllato l\'RDN con l\'hostname del server.\n\nPer maggiori informazioni consulta la manpage di OpenVPN 2.3.1+ sotto la voce  —verify-x509-name</string>
+  <string name="enter_tlscn_dialog">Specifica il controllo da effettuare per verificare il certificato DN remoto  (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nPer verifica specifica il DN o RDN completo (nell\'esempio openvpn.blinkt.de) oppure un prefisso RDN.\n\nQuando usi un prefisso RDN \"Server\" è valido per \"Server-1\" e \"Server-2\"\n\nLasciando la casella vuota verrà controllato l\'RDN con l\'hostname del server.\n\nPer maggiori informazioni consulta la manpage di OpenConnect 2.3.1+ sotto la voce  —verify-x509-name</string>
   <string name="enter_tlscn_title">Soggetto del certificato remoto</string>
   <string name="tls_key_auth">Abilita l\'autenticazione tramite TLS</string>
   <string name="tls_auth_file">File di autenticazione TLS</string>
@@ -98,14 +98,14 @@
   <string name="dns_server_info">DNS Server: %1$s, Dominio: %2$s</string>
   <string name="routes_info">Instradamenti (route): %s</string>
   <string name="routes_info6">Instradamenti (route) IPv6: %s</string>
-  <string name="ip_not_cidr">Ottenute le informazioni sulle interfacce %1$s e %2$s, assumendo che il secondo indirizzo sia il peer remoto. Utilizzata la maschera /32 per l\'IP locale. La modalità impostata da OpenVPN è \"%3$s\".</string>
+  <string name="ip_not_cidr">Ottenute le informazioni sulle interfacce %1$s e %2$s, assumendo che il secondo indirizzo sia il peer remoto. Utilizzata la maschera /32 per l\'IP locale. La modalità impostata da OpenConnect è \"%3$s\".</string>
   <string name="route_not_cidr">Impossibile utilizzare %1$s e %2$s come reindirizzamenti IP con la maschera CIDR, è stata quindi usata la maschera /32.</string>
   <string name="route_not_netip">Instradamento %1$s/%2$s corretto con %3$s/%2$s</string>
   <string name="keychain_access">Impossibile accedere ai certificati della Keychain di Android (può essere causato da un aggiornamento del firmware o dal ripristino di un backup dell\'applicazione o delle sue impostazioni). E\' necessario modificare le impostazioni della VPN e riselezionare il certificato nelle impostazioni principali per ricreare i permessi di accesso al certificato.</string>
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Invia il file di log</string>
   <string name="send">Invia</string>
-  <string name="ics_openvpn_log_file">File log di OpenVPN ICS</string>
+  <string name="ics_openvpn_log_file">File log di OpenConnect ICS</string>
   <string name="copied_entry">Voce di registro copiata negli appunti</string>
   <string name="tap_mode">Modalità TAP</string>
   <string name="faq_tap_mode">La modalità TAP non è disponibile con le VPN API non root</string>
@@ -119,7 +119,7 @@ Usa il tasto hardware Menù se non è visibile nella GUI.</string>
   <string name="no_vpn_support_image">La tua immagine non è supportata dal VPNService API, mi dispiace :(</string>
   <string name="encryption">Crittografia</string>
   <string name="cipher_dialog_title">Inserire il metodo di crittografia</string>
-  <string name="auth_dialog_message">Inserisci l\'algoritmo di cifratura digest usato da OpenVPN. Lascia bianco per usare quello di default.</string>
+  <string name="auth_dialog_message">Inserisci l\'algoritmo di cifratura digest usato da OpenConnect. Lascia bianco per usare quello di default.</string>
   <string name="settings_auth">Autenticazione/crittografia</string>
   <string name="file_explorer_tab">Esplora risorse</string>
   <string name="inline_file_tab">Blocco note</string>
@@ -140,7 +140,7 @@ Effettuata la lettura del file di configurazione</string>
   <string name="no_bind">Niente local binding</string>
   <string name="import_configuration_file">Importa file di configurazione</string>
   <string name="faq_security_title">Considerazioni sulla sicurezza</string>
-  <string name="faq_security">"Dato che si usa OpenVPN per motivi di sicurezza, si riportano alcune note su quanto la sicurezza sia sensibile. Tutti i dati memorizzati sulla scheda SD sono intrinsecamente insicuri. Qualunque programma può leggerli (ad esempio a questo programma non sono richiesti speciali diritti per accedere alla scheda SD). I dati di questo programma invece possono essere letti solo dal programma stesso. Utilizzando l\'opzione di importazione di cacert/cert/key nelle impostazioni, i dati vengono memorizzati nel profilo della VPN. I profili delle VPN sono accessibili solo da questo programma (non bisogna però dimenticarsi di eliminare le copie dei certificati sulla scheda SD dopo questa operazione). Tuttavia anche se accessibili solamente da questo programma, i dati vengono memorizzati senza alcuna crittografia. E\' possibile pertanto mediante rooting o altre procedure recuperare tali dati. Anche le password salvate vengono memorizzate in chiaro. Si raccomanda caldamente di importare i file pkcs12 nel keystore di Android."</string>
+  <string name="faq_security">"Dato che si usa OpenConnect per motivi di sicurezza, si riportano alcune note su quanto la sicurezza sia sensibile. Tutti i dati memorizzati sulla scheda SD sono intrinsecamente insicuri. Qualunque programma può leggerli (ad esempio a questo programma non sono richiesti speciali diritti per accedere alla scheda SD). I dati di questo programma invece possono essere letti solo dal programma stesso. Utilizzando l\'opzione di importazione di cacert/cert/key nelle impostazioni, i dati vengono memorizzati nel profilo della VPN. I profili delle VPN sono accessibili solo da questo programma (non bisogna però dimenticarsi di eliminare le copie dei certificati sulla scheda SD dopo questa operazione). Tuttavia anche se accessibili solamente da questo programma, i dati vengono memorizzati senza alcuna crittografia. E\' possibile pertanto mediante rooting o altre procedure recuperare tali dati. Anche le password salvate vengono memorizzate in chiaro. Si raccomanda caldamente di importare i file pkcs12 nel keystore di Android."</string>
   <string name="import_vpn">Importa</string>
   <string name="broken_image_cert_title">Errore nel mostrare il certificato selezionato</string>
   <string name="broken_image_cert">Si è incappati in una eccezione tentando di visualizzare la finestra di selezione dei certificati di Android 4.0+. Questo non dovrebbe mai accadere dato che questa è una caratteristica standard di Android 4.0+. Forse il supporto al salvataggio dei certificati del tuo firmware di Android è corrotto.</string>
@@ -159,7 +159,7 @@ Effettuata la lettura del file di configurazione</string>
   <string name="generalsettings">Impostazioni</string>
   <string name="owner_fix_summary">Tenta di impostare system come proprietario di /dev/tun. Alcuni firmware CM9 necessitano di questa impostazione affinché le API del servizio VPN funzionino. E\' necessario essere root.</string>
   <string name="owner_fix">Correggi i diritti su /dev/tun</string>
-  <string name="generated_config_summary">Mostra il file di configurazione di OpenVPN generato</string>
+  <string name="generated_config_summary">Mostra il file di configurazione di OpenConnect generato</string>
   <string name="edit_profile_title">Modifica \"%s\"</string>
   <string name="building_configration">Configurazione in corso…</string>
   <string name="netchange_summary">Selezionando questa opzione verrà forzata una riconnessione se lo stato della rete cambia (da WIFI a cellulare e viceversa)</string>
@@ -179,9 +179,9 @@ Effettuata la lettura del file di configurazione</string>
   <string name="ipdns">IP e DNS</string>
   <string name="basic">Principali</string>
   <string name="routing">Instradamento (routing)</string>
-  <string name="obscure">Impostazioni avanzate di OpenVPN. Normalmente non necessarie.</string>
+  <string name="obscure">Impostazioni avanzate di OpenConnect. Normalmente non necessarie.</string>
   <string name="advanced">Avanzate</string>
-  <string name="export_config_title">Configurazione OpenVPN ICS</string>
+  <string name="export_config_title">Configurazione OpenConnect ICS</string>
   <string name="dns_add_error">Impossibile aggiungere il server DNS \"%1$s\", respinto dal sistema: %2$s</string>
   <string name="faq_howto">&lt;p&gt;Ottieni una configurazione funzionante (testata sul tuo computer o fornita dal tuo provider o dalla tua ditta).&lt;/p&gt;&lt;p&gt;Se si tratta di un singolo file senza ulteriori file tipo pem/pkcs12, puoi spedire il file a te stesso via email ed aprire l\'allegato. Se hai più file, salvali sulla scheda SD.&lt;/p&gt;&lt;p&gt;Clicca sull\'allegato dell\'email oppure utilizza l\'icona della cartella nell\'elenco delle VPN per importare il file di configurazione.&lt;/p&gt;&lt;p&gt;Se compaiono degli errori relativi a file non trovati, copia i file mancanti sulla tua scheda SD.&lt;/p&gt;&lt;p&gt;Clicca sull\'icona di salvataggio per aggiungere la VPN importata nell\'elenco delle tue VPN.&lt;/p&gt;&lt;p&gt;Connettiti alla VPN cliccando sul nome della VPN.&lt;/p&gt;&lt;p&gt;Se compaiono degli errori o degli avvertimenti nei log, si consiglia di non ignorarli, ma di cercare delle soluzioni.&lt;/p&gt; </string>
   <string name="faq_howto_title">Guida rapida</string>
@@ -193,7 +193,7 @@ Effettuata la lettura del file di configurazione</string>
   <string name="use_system_proxy">Utilizza il proxy di sistema</string>
   <string name="use_system_proxy_summary">Utilizza la configurazione generale del sistema relativa ai proxy HTTP/HTTPS per connettersi.</string>
   <string name="donatewithpaypal">Puoi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;donare tramite PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN is riconnetterà alla VPN se era in funzione durante un riavvio od un spegnimento dell\'apparecchio. Leggi con attenzione le FAQ con gli avvertimenti sulla connessione prima di scegliere questa opzione.</string>
+  <string name="onbootrestartsummary">OpenConnect is riconnetterà alla VPN se era in funzione durante un riavvio od un spegnimento dell\'apparecchio. Leggi con attenzione le FAQ con gli avvertimenti sulla connessione prima di scegliere questa opzione.</string>
   <string name="onbootrestart">Riconnetti al riavvio</string>
   <string name="ignore">Ignora</string>
   <string name="restart">Riavvia</string>
@@ -201,16 +201,16 @@ Effettuata la lettura del file di configurazione</string>
   <string name="configuration_changed">Configurazione modificata</string>
   <string name="log_no_last_vpn">Impossibile determinare l\'ultimo profilo con cui ci si è connessi per poterlo modificare</string>
   <string name="faq_duplicate_notification_title">Doppie notifiche</string>
-  <string name="faq_duplicate_notification">Normalmente, se la memoria di sistema (RAM) di Android è insufficiente, i programmi ed i servizi che non sono in quel momento necessari vengono rimossi dalla memoria attiva. Se ciò avvenisse, la connessione VPN in corso verrebbe terminata. Per far sì che la conessione OpenVPN resti in funzione, il servizio viene eseguito in priorità alta e per questo motivo appare un\'icona permanente nella barra delle notifiche. L\'icona di notifica a forma di chiave è invece imposta dal sistema come descritto nella precedente voce delle FAQ e non serve ad eseguire il programma con priorità alta.</string>
+  <string name="faq_duplicate_notification">Normalmente, se la memoria di sistema (RAM) di Android è insufficiente, i programmi ed i servizi che non sono in quel momento necessari vengono rimossi dalla memoria attiva. Se ciò avvenisse, la connessione VPN in corso verrebbe terminata. Per far sì che la conessione OpenConnect resti in funzione, il servizio viene eseguito in priorità alta e per questo motivo appare un\'icona permanente nella barra delle notifiche. L\'icona di notifica a forma di chiave è invece imposta dal sistema come descritto nella precedente voce delle FAQ e non serve ad eseguire il programma con priorità alta.</string>
   <string name="no_vpn_profiles_defined">Nessun profilo VPN definito.</string>
   <string name="add_new_vpn_hint">Usa l\'icona &lt;img src=\"ic_menu_add\"/&gt; per aggiungere una nuova VPN</string>
   <string name="vpn_import_hint">Usa l\'icona &lt;img src=\"ic_menu_archive\"/&gt; per importare il profilo (.ovpn o .conf) dalla tua scheda SD.</string>
   <string name="faq_hint">Si raccomanda di leggere anche le FAQ. C\'è anche una guida rapida.</string>
   <string name="faq_routing_title">Configurazione dei reindirizzamenti e dell\'interfaccia</string>
-  <string name="persisttun_summary">Non passa allo stato di \"Nessuna connessione VPN\" quando OpenVPN sta eseguendo un tentativo di riconnessione.</string>
+  <string name="persisttun_summary">Non passa allo stato di \"Nessuna connessione VPN\" quando OpenConnect sta eseguendo un tentativo di riconnessione.</string>
   <string name="persistent_tun_title">tun persistente</string>
-  <string name="openvpn_log">Log di OpenVPN</string>
-  <string name="import_config">Importa configurazione OpenVPN</string>
+  <string name="openvpn_log">Log di OpenConnect</string>
+  <string name="import_config">Importa configurazione OpenConnect</string>
   <string name="battery_consumption_title">Consumo della batteria</string>
   <string name="faq_tethering">Il Tethering di Android (via WiFi, USB o Bluetooth) e le API del servizio VPN (utilizzate da questo programma) non possono funzionare contemporaneamente. Per maggiori informazioni, vedi &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\"&gt;il problema #34&lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN e Tethering</string>
@@ -218,10 +218,10 @@ Effettuata la lettura del file di configurazione</string>
   <string name="reconnection_settings">Impostazioni di riconnessione</string>
   <string name="connectretrymessage">Numero di secondi di attesa tra i tentativi di connessione.</string>
   <string name="connectretrywait">Secondi tra le connessioni</string>
-  <string name="minidump_generated">OpenVPN si è arrestato in modo imprevisto. Ti consigliamo di attivare l\'opzione Invia Minidump nel menu principale.</string>
+  <string name="minidump_generated">OpenConnect si è arrestato in modo imprevisto. Ti consigliamo di attivare l\'opzione Invia Minidump nel menu principale.</string>
   <string name="send_minidump">Invia Minidump allo sviluppatore</string>
   <string name="send_minidump_summary">Invia informazioni di debug riguardanti l\'ultimo crash allo sviluppatore</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Connessione in corso</string>

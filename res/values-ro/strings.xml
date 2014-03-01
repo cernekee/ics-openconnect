@@ -30,7 +30,7 @@
   <string name="ipv4_dialog_title">Introduceţi adresa IPv4/Netmask în format CIDR (de exemplu, 1.2.3.4/24)</string>
   <string name="ipv4_address">Adresă IPv4</string>
   <string name="ipv6_address">Adresă IPv6</string>
-  <string name="custom_option_warning">Introduceţi opţiuni particularizate OpenVPN. Folosiţi cu atenţie. De asemenea, reţineţi că multe dintre opţiunile legate de OpenVPN tun nu sunt suportate de VPNSettings. Dacă lipseşte o opţiune importantă contactaţi autorul</string>
+  <string name="custom_option_warning">Introduceţi opţiuni particularizate OpenConnect. Folosiţi cu atenţie. De asemenea, reţineţi că multe dintre opţiunile legate de OpenConnect tun nu sunt suportate de VPNSettings. Dacă lipseşte o opţiune importantă contactaţi autorul</string>
   <string name="auth_username">Utilizator</string>
   <string name="auth_pwquery">Parola</string>
   <string name="static_keys_info">Pentru configurarea statică Cheile TLS Auth vor fi utilizate ca şi chei statice</string>
@@ -45,7 +45,7 @@
   <string name="ipv4_format_error">Eroare parsare adresă IPv4</string>
   <string name="custom_route_format_error">Eroare parsare rute particularizate</string>
   <string name="pw_query_hint">(lăsaţi necompletat pentru a interoagre la cerere)</string>
-  <string name="vpn_shortcut">Scurtătură OpenVPN</string>
+  <string name="vpn_shortcut">Scurtătură OpenConnect</string>
   <string name="vpn_launch_title">Conectare la VPN</string>
   <string name="shortcut_profile_notfound">Profilul specificat în comanda rapidă nu a fost găsit</string>
   <string name="random_host_prefix">Prefix host aleator</string>
@@ -63,7 +63,7 @@
   <string name="check_remote_tlscert_title">Aşteptă certificat de server TLS</string>
   <string name="remote_tlscn_check_summary">Verifică Remote Server Certificate Subject DN</string>
   <string name="remote_tlscn_check_title">Verficare hostname certificat</string>
-  <string name="enter_tlscn_dialog">Specifică verificarea ce va fi utilizată pentru certificatul DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecifică DN complet sau RDN (openvpn.blinkt.de in exemplu) sau un prefix RDN pentru verificare.\n\nCând folosiți prefix RDN \"Server\" face match si cu \"Server-1\" și \"Server-2\"\n\nDacă lăsați câmpul gol se va verifica RDN contra hostaname-ul serverului.\n\nPentru mai multe detalii verificați manualul OpenVPN 2.3.1+ la —verify-x509-name</string>
+  <string name="enter_tlscn_dialog">Specifică verificarea ce va fi utilizată pentru certificatul DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecifică DN complet sau RDN (openvpn.blinkt.de in exemplu) sau un prefix RDN pentru verificare.\n\nCând folosiți prefix RDN \"Server\" face match si cu \"Server-1\" și \"Server-2\"\n\nDacă lăsați câmpul gol se va verifica RDN contra hostaname-ul serverului.\n\nPentru mai multe detalii verificați manualul OpenConnect 2.3.1+ la —verify-x509-name</string>
   <string name="enter_tlscn_title">Subiect certificat remote</string>
   <string name="tls_key_auth">Activează autentificarea cu cheie TLS</string>
   <string name="tls_auth_file">Fişier TLS Auth</string>
@@ -100,14 +100,14 @@
   <string name="dns_server_info">Server DNS: %1$s, Domeniu: %2$s</string>
   <string name="routes_info">Rute: %s</string>
   <string name="routes_info6">Rute IPv6: %s</string>
-  <string name="ip_not_cidr">S-au primit informaţiile despre interfaţă %1$s şi %2$s, presupun că a doua adresă este adresa peer a serverlui remote. Folosesc netmask /32 pentru IP local. Modul dat de OpenVPN este \"%3$s\".</string>
+  <string name="ip_not_cidr">S-au primit informaţiile despre interfaţă %1$s şi %2$s, presupun că a doua adresă este adresa peer a serverlui remote. Folosesc netmask /32 pentru IP local. Modul dat de OpenConnect este \"%3$s\".</string>
   <string name="route_not_cidr">Nu se poate interpreta %1$s şi %2$s ca rute IP cu netmask CIDR, folosesc /32 ca netmask.</string>
   <string name="route_not_netip">Am corectat ruta %1$s/%2$s ca %3$s/%2$s</string>
   <string name="keychain_access">Imposibil de accesat Keychain cu certificate al Android. Acest lucur poate fi cauzat de un upgrade de firmware sau de restaurarea unei copii de siguranţă a setărilor app/app. Editaţi din nou VPN-ul si reselectaţi certificatul la \"setări de bază\" pentru a recreea permisiile de a accesa certificatul.</string>
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Trimite fişier jurnal</string>
   <string name="send">Trimite</string>
-  <string name="ics_openvpn_log_file">Fişier jurnal OpenVPN ICS</string>
+  <string name="ics_openvpn_log_file">Fişier jurnal OpenConnect ICS</string>
   <string name="copied_entry">Linia din log s-a copiat in clip board</string>
   <string name="tap_mode">Mod Tap</string>
   <string name="faq_tap_mode">Modul Tap nu este posibil folosind API-ul VPN non root. Astfel această aplicaţie nu poate oferi suport tap</string>
@@ -117,11 +117,11 @@
   <string name="copying_log_entries">Copiere linii jurnal</string>
   <string name="faq_copying">Pentru a copia o singură linie din jurnal apăsaţi şi menţineţi apăsat pe acea linie. Pentru a copia/trimite întreg jurnalul folosiţi opţiunea Trimite Jurnal. Folosiţi butonul de meniu hardware dacă nu este vizibil în GUI.</string>
   <string name="faq_shortcut">Shortcut pornire</string>
-  <string name="faq_howto_shortcut">Puteţi plasa o scurtătură pe desktop pentru a lansa OpenVPN. În funcţie de programul homescreen trebuie să adăugaţi fie o scurtătură fie un widget.</string>
+  <string name="faq_howto_shortcut">Puteţi plasa o scurtătură pe desktop pentru a lansa OpenConnect. În funcţie de programul homescreen trebuie să adăugaţi fie o scurtătură fie un widget.</string>
   <string name="no_vpn_support_image">Imaginea dvs. nu suportă API-ul VPNService, îmi pare rău :(</string>
   <string name="encryption">Criptare</string>
   <string name="cipher_dialog_title">Alegeţi metoda de criptare</string>
-  <string name="auth_dialog_message">Introduceţi autentificarea digest ce este folosită de OpenVPN. Lăsaţi gol pentru digest predefinit.</string>
+  <string name="auth_dialog_message">Introduceţi autentificarea digest ce este folosită de OpenConnect. Lăsaţi gol pentru digest predefinit.</string>
   <string name="settings_auth">Autentificare/criptare</string>
   <string name="file_explorer_tab">File Explorer</string>
   <string name="inline_file_tab">Fişier inline</string>
@@ -142,7 +142,7 @@
   <string name="no_bind">Fără binding local</string>
   <string name="import_configuration_file">Import fişier de configurare</string>
   <string name="faq_security_title">Considerente de securitate</string>
-  <string name="faq_security">"Deoarece OpenVPN are implicaţii de securitate este bine să facem câteva menţiuni. Toate datele de pe cardul sd sunt inerent nesecurizate. Orice aplicaţie le poate citi (de exemplu acest program nu are nevoie de drepturi speciale pentru sd). Datele acestei aplicaţii pot fi citite doar de aplicaţia însăşi. Dacă folosiţi funcţia import pentru cacert/cert/key în dialogul de import fişiere datele sunt stocate în profilul VPN. Profilele VPN sunt accesibile doar de această aplicaţie. (Nu uitaţi să ştergeţi copiile de pe cardul sd după aceea). Chiar dacă sunt accesibile doar de această aplicaţie datele sunt necriptate. Folosind root sau alte exploit-uri datele ar putea fi extrase. Parolele salvate sunt stocate de asemenea în clar. Pentru fişiere pkcs12 este recomandat să le importaţi în keystore-ul android."</string>
+  <string name="faq_security">"Deoarece OpenConnect are implicaţii de securitate este bine să facem câteva menţiuni. Toate datele de pe cardul sd sunt inerent nesecurizate. Orice aplicaţie le poate citi (de exemplu acest program nu are nevoie de drepturi speciale pentru sd). Datele acestei aplicaţii pot fi citite doar de aplicaţia însăşi. Dacă folosiţi funcţia import pentru cacert/cert/key în dialogul de import fişiere datele sunt stocate în profilul VPN. Profilele VPN sunt accesibile doar de această aplicaţie. (Nu uitaţi să ştergeţi copiile de pe cardul sd după aceea). Chiar dacă sunt accesibile doar de această aplicaţie datele sunt necriptate. Folosind root sau alte exploit-uri datele ar putea fi extrase. Parolele salvate sunt stocate de asemenea în clar. Pentru fişiere pkcs12 este recomandat să le importaţi în keystore-ul android."</string>
   <string name="import_vpn">Import</string>
   <string name="broken_image_cert_title">Eroare la afişarea selecţiei de certificat</string>
   <string name="broken_image_cert">Excepţie la afişarea dialogului Android 4.0+ de selecţie a certificatului. Acest lucru nu ar trebui să se întâmple deoarece este o funcţie standard Android 4.0+. Poate ROM-ul dvs. Android are suportul de stocare a certificatelor defect</string>
@@ -162,7 +162,7 @@
   <string name="generalsettings">Setări</string>
   <string name="owner_fix_summary">Încearcă să seteze owner-ul /dev/tun ca sistem. Unele imagini CM9 au nevoie de asta pentru a permite API-ului VPNService să funcţioneze. Are nevoie de root.</string>
   <string name="owner_fix">Repară drepturi /dev/tun</string>
-  <string name="generated_config_summary">Afişează fişierul de configurare OpenVPN generat</string>
+  <string name="generated_config_summary">Afişează fişierul de configurare OpenConnect generat</string>
   <string name="edit_profile_title">Editare \"%s\"</string>
   <string name="building_configration">Se generează configurarea…</string>
   <string name="netchange_summary">Activând această opţiune forţaţi o reconectare dacă se schimbă starea de reţea (e.g. WiFi la/de la mobil)</string>
@@ -182,7 +182,7 @@
   <string name="ipdns">IP şi DNS</string>
   <string name="basic">Basic</string>
   <string name="routing">Rutare</string>
-  <string name="obscure">Setări obscure pentru OpenVPN. În mod normal nu sunt necesare.</string>
+  <string name="obscure">Setări obscure pentru OpenConnect. În mod normal nu sunt necesare.</string>
   <string name="advanced">Avansate</string>
   <string name="export_config_title">Configurare Openvpn ICS</string>
   <string name="warn_no_dns">Nici un server DNS utilizat. Rezolvarea de nume poate să nu funcționeze. Luați în considerare stabilirea unor servere DNS personalizate. Vă rugăm, de asemenea, rețineți că Android va continua să utilizeze setările proxy specificate pentru conexiunea mobilă/Wi-Fi atunci când nu sunt stabilite servere DNS.</string>
@@ -197,7 +197,7 @@
   <string name="use_system_proxy">Foloseşte proxy sistem</string>
   <string name="use_system_proxy_summary">Foloseşte configurarea sistem pentru proxy HTTP/HTTPS folosit la conectare.</string>
   <string name="donatewithpaypal">Puteţi &lt;a href=\"https://www.paypal.com/cgi-bin/webscr?hosted_button_id=R2M6ZP9AF25LS&amp;amp;cmd=_s-xclick\"&gt;dona prin PayPal&lt;/a&gt; </string>
-  <string name="onbootrestartsummary">OpenVPN va reconecta un VPN dacă a fost activ la reboot/shutdown. Citiţi avertizarea la Conexiune din FAQ înainte de a folosi această funcţie.</string>
+  <string name="onbootrestartsummary">OpenConnect va reconecta un VPN dacă a fost activ la reboot/shutdown. Citiţi avertizarea la Conexiune din FAQ înainte de a folosi această funcţie.</string>
   <string name="onbootrestart">Reconectarea la reboot</string>
   <string name="ignore">Ignora</string>
   <string name="restart">Restart</string>
@@ -205,29 +205,29 @@
   <string name="configuration_changed">Configuraţie schimbată</string>
   <string name="log_no_last_vpn">Nu se poate determina ultimul profil conectat pentru editare</string>
   <string name="faq_duplicate_notification_title">Duplichează notificări</string>
-  <string name="faq_duplicate_notification">Dacă Android are puţină memorie (RAM) disponibilă va închide aplicaţii şi servicii ce nu sunt necesare pe moment. Acest lucru va închide o conexiune VPN activă. Pentru a asigura că acest fapt nu se întâmplă şi conexiunea/OpenVPN supravieţuieşte serviciul rulează cu prioritate ridicată. Pentru a rula cu prioritate ridicată aplicaţia trebuie să afişeze o notificare. Icoana cheie de notificare este impusă de sistem după cum s-a descris în raspunsul FAQ anterior. Nu se socoteşte ca notificare a aplicaţiei în scopul de a rula cu prioritate ridicată.</string>
+  <string name="faq_duplicate_notification">Dacă Android are puţină memorie (RAM) disponibilă va închide aplicaţii şi servicii ce nu sunt necesare pe moment. Acest lucru va închide o conexiune VPN activă. Pentru a asigura că acest fapt nu se întâmplă şi conexiunea/OpenConnect supravieţuieşte serviciul rulează cu prioritate ridicată. Pentru a rula cu prioritate ridicată aplicaţia trebuie să afişeze o notificare. Icoana cheie de notificare este impusă de sistem după cum s-a descris în raspunsul FAQ anterior. Nu se socoteşte ca notificare a aplicaţiei în scopul de a rula cu prioritate ridicată.</string>
   <string name="no_vpn_profiles_defined">nici un profil VPN definit.</string>
   <string name="add_new_vpn_hint">Folosiţi icoana  &lt;img src=\"ic_menu_add\"/&gt; pentru a adăuga un nou VPN</string>
   <string name="vpn_import_hint">Folosiţi icoana &lt;img src=\"ic_menu_archive\"/&gt; pentru a importa un profil existent (.ovpn sau .conf) de pe cardul sd.</string>
   <string name="faq_hint">Verificaţi şi FAQ. Acolo este ghid rapid de utilizare.</string>
   <string name="faq_routing_title">Configurare Rutare/Interfaţă</string>
   <string name="faq_routing">Configurarea rutării şi a interfeţei nu se face folosind comenzile ifconfig/route tradiţionale ci se foloseşte API-ul VPNService. Astfel rezultă o configurarea a rutării diferită ca în cazul altor OS-uri. Configurarea constă doar în interfaţa IP tunel şi a reţelelor ce trebuie rutate prin ea. În mod special nu este necesară o adresă partener sau adresă gateway. Nu sunt necesare nici rutele speciale pentr a ajunge la serverul VPN (de exemplu cu un gateway de redirectare)  Aplicaţia va ignora astfel aceste setări la importarea unei configurări. Aplicaţia se asigură cu API-ul VPNService că nu se rutează prin tunel conexiunea cu care se ajunge la server. Deoarece este suportată doar specificarea reţelelelor ce trebuiesc rutate prin tunel rutele extra ce nu pointează către tunel nu sunt suportate. (e.g. route x.x.x.x y.y.y.y net_gateway). Fereastra jurnal arată configurarea curentă a VPNService la stabilirea unei conexiuni. </string>
-  <string name="persisttun_summary">Nu reveni la nici o conexiune VPN câtă vreme OpenVPN se reconectează.</string>
+  <string name="persisttun_summary">Nu reveni la nici o conexiune VPN câtă vreme OpenConnect se reconectează.</string>
   <string name="persistent_tun_title">Tun persistent</string>
-  <string name="openvpn_log">jurnal OpenVPN</string>
-  <string name="import_config">Import configurare OpenVPN</string>
+  <string name="openvpn_log">jurnal OpenConnect</string>
+  <string name="import_config">Import configurare OpenConnect</string>
   <string name="battery_consumption_title">Consum baterie</string>
-  <string name="baterry_consumption">În cadrul testelor mele personale principalul motiv pentru consumul ridicat de baterie al OpenVPN sunt pachetele keepalive. Majoritatea serverelor OpenVPN au în configurare o directivă cum ar fi \'keepalive 10 60\' ce face ca şi clientul să schimbe cu serverul pachete keepalive  la fiecare 10 secunde.&lt;p&gt; Chiar dacă aceste pachete sunt mici şi nu folosesc trafic, ele menţin radioul mobil activ şi cresc consumul de energie. (Citiţi şi &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt;Această setare keepalive nu poate fi schimbată de client. Doar administratorul serverului OpenVPN o poate schimba.&lt;p&gt; Din păcate o valoare mai mare de 60 de secunde a keepalive cu UDP poate face ca unele gateway-uri NAT să termine conexiunea după un timp scurt. Folosind TCP cu valori lungi de keepalive funcţionează dar rularea unui tunel TCP peste o conexiune TCP funcţionează foarte slab în cazul conexiunilor cu pierderi mari de pachete. (Citiţi &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt;Why TCP Over TCP Is A Bad Ide&lt;/a&gt;)</string>
+  <string name="baterry_consumption">În cadrul testelor mele personale principalul motiv pentru consumul ridicat de baterie al OpenConnect sunt pachetele keepalive. Majoritatea serverelor OpenConnect au în configurare o directivă cum ar fi \'keepalive 10 60\' ce face ca şi clientul să schimbe cu serverul pachete keepalive  la fiecare 10 secunde.&lt;p&gt; Chiar dacă aceste pachete sunt mici şi nu folosesc trafic, ele menţin radioul mobil activ şi cresc consumul de energie. (Citiţi şi &lt;a href=\"http://developer.android.com/training/efficient-downloads/efficient-network-access.html#RadioStateMachine\"&gt;The Radio State Machine | Android Developers&lt;/a&gt;) &lt;p&gt;Această setare keepalive nu poate fi schimbată de client. Doar administratorul serverului OpenConnect o poate schimba.&lt;p&gt; Din păcate o valoare mai mare de 60 de secunde a keepalive cu UDP poate face ca unele gateway-uri NAT să termine conexiunea după un timp scurt. Folosind TCP cu valori lungi de keepalive funcţionează dar rularea unui tunel TCP peste o conexiune TCP funcţionează foarte slab în cazul conexiunilor cu pierderi mari de pachete. (Citiţi &lt;a href=\"http://sites.inka.de/bigred/devel/tcp-tcp.html\"&gt;Why TCP Over TCP Is A Bad Ide&lt;/a&gt;)</string>
   <string name="faq_tethering">Funcţia Android Tether (folosind WiFi, USB sau Bluetooth) şi API-ul VPNService (folosit de acest program) nu funcţionează împreună. Pentru mai multe detalii vizitaţi &lt;a href=\"http://code.google.com/p/ics-openvpn/issues/detail?id=34\"&gt;issue #34&lt;/a&gt;</string>
   <string name="vpn_tethering_title">VPN şi Tethering</string>
   <string name="connection_retries">Reîncercări conectare</string>
   <string name="reconnection_settings">Setările de reconectare</string>
   <string name="connectretrymessage">Numărul de secunde între încercările de conectare.</string>
   <string name="connectretrywait">Secunde între conexiuni</string>
-  <string name="minidump_generated">OpenVPN sa oprit în mod neaşteptat. Vă rugăm să consideraţi opţiunea de trimitere a unui Minidump din meniul principal</string>
+  <string name="minidump_generated">OpenConnect sa oprit în mod neaşteptat. Vă rugăm să consideraţi opţiunea de trimitere a unui Minidump din meniul principal</string>
   <string name="send_minidump">Trimite Minidump la dezvoltator</string>
   <string name="send_minidump_summary">Trimite informații de depanare despre ultimul crash la dezvoltator</string>
-  <string name="notifcation_title">OpenVPN - %s</string>
+  <string name="notifcation_title">OpenConnect - %s</string>
   <string name="session_ipv4string">%1$s - %2$s</string>
   <string name="session_ipv6string">%1$s - %3$s, %2$s</string>
   <string name="state_connecting">Se conectează</string>
@@ -269,7 +269,7 @@
   <string name="tls_remote_deprecated">tls-remote (ÎNVECHIT)</string>
   <string name="help_translate">Puteţi ajuta la traducere vizitând http://crowdin.net/project/ics-openvpn/invite</string>
   <string name="prompt">%1$s încercări de a controla %2$s</string>
-  <string name="remote_warning">Continuând, daţi permisiunea aplicaţiei de a controla complet OpenVPN pentru Android și de a intercepta tot traficul de rețea. <b>Nu acceptaţi decât dacă aveți încredere în aplicație</b> În caz contrar, riscaţi să aveţi datele compromise de software maliţios.\"</string>
+  <string name="remote_warning">Continuând, daţi permisiunea aplicaţiei de a controla complet OpenConnect pentru Android și de a intercepta tot traficul de rețea. <b>Nu acceptaţi decât dacă aveți încredere în aplicație</b> În caz contrar, riscaţi să aveţi datele compromise de software maliţios.\"</string>
   <string name="remote_trust">Am încredere în această aplicaţie.</string>
   <string name="no_external_app_allowed">Nici o aplicaţie nu are permisiunea de a folosi API-ul extern</string>
   <string name="allowed_apps">Aplicaţii permise: %s</string>

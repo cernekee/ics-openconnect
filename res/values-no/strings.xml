@@ -32,7 +32,7 @@
   <string name="profilename">Profilnavn</string>
   <string name="no_error_found">Ingen feil funnet</string>
   <string name="config_error_found">Feil i konfigurasjonen</string>
-  <string name="vpn_shortcut">OpenVPN snarvei</string>
+  <string name="vpn_shortcut">OpenConnect snarvei</string>
   <string name="vpn_launch_title">Koble til VPN</string>
   <string name="random_host_prefix">Tilfeldig vert prefiks</string>
   <string name="custom_config_title">Aktiver egendefinerte valg</string>
@@ -57,7 +57,7 @@
   <string name="version_info">%1$s %2$s</string>
   <string name="send_logfile">Send loggfilen</string>
   <string name="send">Send</string>
-  <string name="ics_openvpn_log_file">ICS OpenVPN loggfil</string>
+  <string name="ics_openvpn_log_file">ICS OpenConnect loggfil</string>
   <string name="tap_mode">Tap modus</string>
   <string name="faq">FAQ</string>
   <string name="copying_log_entries">Kopier loggoppføringer</string>
@@ -122,8 +122,8 @@
   <string name="faq_duplicate_notification_title">Kopier varsler</string>
   <string name="no_vpn_profiles_defined">Ingen VPN-profiler er definert.</string>
   <string name="faq_routing_title">Ruting/grensesnitt-konfigurasjon</string>
-  <string name="persisttun_summary">Ikke gå tilbake til ingen VPN-tilkoblingen mens OpenVPN kobler til på nytt.</string>
-  <string name="openvpn_log">OpenVPN Logg</string>
-  <string name="import_config">Importer OpenVPN konfigurasjon</string>
+  <string name="persisttun_summary">Ikke gå tilbake til ingen VPN-tilkoblingen mens OpenConnect kobler til på nytt.</string>
+  <string name="openvpn_log">OpenConnect Logg</string>
+  <string name="import_config">Importer OpenConnect konfigurasjon</string>
   <string name="battery_consumption_title">Batteriforbruk</string>
 </resources>
