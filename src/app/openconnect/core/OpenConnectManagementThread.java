@@ -351,6 +351,55 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return true;
 	}
 
+	private void addDefaultRoutes(VpnService.Builder b, LibOpenConnect.IPInfo ip, ArrayList<String> subnets) {
+		boolean ip4def = true, ip6def = true;
+
+		for (String s : subnets) {
+			if (s.contains(":")) {
+				ip6def = false;
+			} else {
+				ip4def = false;
+			}
+		}
+
+		if (ip4def && ip.addr != null) {
+			b.addRoute("0.0.0.0", 0);
+			log("ROUTE: 0.0.0.0/0");
+		}
+
+		if (ip6def && ip.netmask6 != null) {
+			b.addRoute("::", 0);
+			log("ROUTE: ::/0");
+		}
+	}
+
+	private void addSubnetRoutes(VpnService.Builder b, LibOpenConnect.IPInfo ip, ArrayList<String> subnets) {
+		for (String s : subnets) {
+			try {
+				if (s.contains(":")) {
+					String ss[] = s.split("/");
+					if (ss.length == 1) {
+						b.addRoute(ss[0], 128);
+					} else {
+						b.addRoute(ss[0], Integer.parseInt(ss[1]));
+					}
+					log("ROUTE: " + s);
+				} else {
+					CIDRIP cdr;
+					if (!s.contains("/")) {
+						cdr = new CIDRIP(s + "/32");
+					} else {
+						cdr = new CIDRIP(s);
+					}
+					b.addRoute(cdr.mIp, cdr.len);
+					log("ROUTE: " + cdr.mIp + "/" + cdr.len);
+				}
+			} catch (Exception e) {
+				log("ROUTE: skipping invalid route '" + s + "'");
+			}
+		}
+	}
+
 	private void setIPInfo(VpnService.Builder b) {
 		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
 		CIDRIP cdr;
@@ -386,31 +435,15 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			domain = null;
 		} else {
 			subnets = ip.splitIncludes;
-			if (subnets.isEmpty()) {
-				b.addRoute("0.0.0.0", 0);
-				log("ROUTE: 0.0.0.0/0");
-			}
+			addDefaultRoutes(b, ip, subnets);
 		}
-
-		for (String s : subnets) {
-			try {
-				if (!s.contains("/")) {
-					cdr = new CIDRIP(s + "/32");
-				} else {
-					cdr = new CIDRIP(s);
-				}
-				b.addRoute(cdr.mIp, cdr.len);
-				log("ROUTE: " + cdr.mIp + "/" + cdr.len);
-			} catch (Exception e) {
-				log("ROUTE: skipping invalid route '" + s + "'");
-			}
-		}
+		addSubnetRoutes(b, ip, subnets);
 
 		/* DNS */
 
 		for (String s : dns) {
 			b.addDnsServer(s);
-			b.addRoute(s, 32);
+			b.addRoute(s, s.contains(":") ? 128 : 32);
 			log("DNS: " + s);
 		}
 		if (domain != null) {
