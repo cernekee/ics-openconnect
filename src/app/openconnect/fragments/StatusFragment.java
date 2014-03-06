@@ -112,7 +112,7 @@ public class StatusFragment extends Fragment {
 					OpenVpnService.humanReadableByteCount(mConn.deltaStats.rxBytes, true),
 					OpenVpnService.humanReadableByteCount(mConn.newStats.rxBytes, false)));
 
-			writeStatusField(R.id.local_ip, R.string.local_ip, service.ipInfo.addr);
+			writeStatusField(R.id.local_ip, R.string.local_ip, service.friendlyIp);
 			writeStatusField(R.id.server_name, R.string.server_name, service.serverName);
 
 		} else {

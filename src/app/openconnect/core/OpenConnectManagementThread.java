@@ -362,10 +362,13 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			b.addAddress(cdr.mIp, cdr.len);
 			log("IPv4: " + cdr.mIp + "/" + cdr.len);
 		}
-		if (ip.addr6 != null && ip.netmask6 != null) {
-			int netmask = Integer.parseInt(ip.netmask6);
-			b.addAddress(ip.addr6, netmask);
-			log("IPv6: " + ip.addr6 + "/" + netmask);
+		if (ip.netmask6 != null) {
+			String ss[] = ip.netmask6.split("/");
+			if (ss.length == 2) {
+				int netmask = Integer.parseInt(ss[1]);
+				b.addAddress(ss[0], netmask);
+				log("IPv6: " + ip.netmask6);
+			}
 		}
 		b.setMtu(ip.MTU);
 		log("MTU: " + ip.MTU);
