@@ -88,7 +88,9 @@ $(ARCH_STOKEN_TARGETS) : %/libstoken.so : arch-toolchain-% stoken/configure
 	cd $*/build-stoken && \
 		$(call set_build_env,$*) $(TOPDIR)/stoken/configure \
 			--prefix=/ --host=$(TRIPLET_$*) --disable-static \
-			--enable-shared --without-gtk
+			--enable-shared --without-gtk \
+			--with-java=$*/toolchain/sysroot/include \
+			--enable-jni-standalone
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install-strip \
 		DESTDIR=$(TOPDIR)/$*/out
