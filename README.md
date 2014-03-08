@@ -50,13 +50,14 @@ Logs of successful (and not-so-successful) builds can be found on this project's
 
 On the host side you'll need to install:
 
-* NDK r9, nominally under /opt/android-ndk-r9
+* NDK r9d, nominally under /opt/android-ndk-r9d
 * Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
 * autoconf, automake, and libtool
 * javac 1.6 and git in your $PATH
 
 These commands will build the binary components and copy them into libs/
+and assets/raw/
 
     git submodule init
     git submodule update
-    make -C external NDK=/opt/android-ndk-r9
+    make -C external NDK=/opt/android-ndk-r9d

@@ -1,4 +1,4 @@
-NDK := /opt/android-ndk-r9
+NDK := /opt/android-ndk-r9d
 GCCVER := 4.8
 
 LIBS := ../libs

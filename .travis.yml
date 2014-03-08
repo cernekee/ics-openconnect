@@ -13,11 +13,11 @@ before_install:
     - export COMPONENTS=build-tools-18.1.0,android-18,sysimg-18,extra-android-support
     - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
     - source ~/.android-sdk-installer/env
-    - curl -L http://dl.google.com/android/ndk/android-ndk-r9-linux-x86_64.tar.bz2 > ndk.tar.bz2
+    - curl -L http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86_64.tar.bz2 > ndk.tar.bz2
     - sudo tar -C /opt -jxf ndk.tar.bz2
     - android update project -p . -s
 
 script:
     - rm -rf libs/*.jar libs/armeabi assets/raw/armeabi
-    - make -C external NDK=/opt/android-ndk-r9 ARCH_LIST=arm
+    - make -C external NDK=/opt/android-ndk-r9d ARCH_LIST=arm
     - ant debug
