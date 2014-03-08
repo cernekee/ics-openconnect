@@ -135,5 +135,5 @@ refresh:
 			"external: Sync with openconnect rev $$rev"
 	$(MAKE) clean
 	$(MAKE) install
-	git checkout -f $(ASSETS)
-	git commit $(LIBS) -sm "libs: Sync with latest openconnect sources"
+	git commit -sm "libs: Sync with latest openconnect sources" \
+		$(LIBS)/openconnect*.jar $(LIBS)/*/libopenconnect*.so
