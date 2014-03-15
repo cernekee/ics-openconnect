@@ -35,8 +35,10 @@ INSTALL_JAR_TARGETS := $(addprefix install-jar-,$(JAR_LIST))
 CURL_VER := 7.34.0
 
 TOPDIR := $(shell pwd)
+
+get_sysroot = $(TOPDIR)/$(1)/toolchain/sysroot/usr
 set_build_env = PATH=$(TOPDIR)/$(1)/toolchain/bin:$$PATH \
-	PKG_CONFIG_LIBDIR=$(TOPDIR)/$(1)/toolchain/sysroot/usr/lib/pkgconfig
+	PKG_CONFIG_LIBDIR=$(call get_sysroot,$(1))/lib/pkgconfig
 
 .PHONY: install
 install: $(INSTALL_ARCH_TARGETS) $(INSTALL_JAR_TARGETS)
@@ -89,8 +91,9 @@ $(ARCH_STOKEN_TARGETS) : %/libstoken.so : arch-toolchain-% stoken/configure
 		$(call set_build_env,$*) $(TOPDIR)/stoken/configure \
 			--prefix=/ --host=$(TRIPLET_$*) --disable-static \
 			--enable-shared --without-gtk \
-			--with-java=$*/toolchain/sysroot/include \
-			--enable-jni-standalone
+			--with-java=$(call get_sysroot,$*)/include \
+			--enable-jni-standalone \
+			LDFLAGS="-Wl,--strip-debug"
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install-strip \
 		DESTDIR=$(TOPDIR)/$*/out
