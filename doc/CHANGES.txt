@@ -1,3 +1,15 @@
+v0.8 - UNRELEASED
+
+ - Fix hangs after reconnect if DTLS is disabled
+
+ - Fix incorrect storage of PKCS#12 certificates
+
+ - Remove unnecessary passphrase prompts on unencrypted certificates
+
+ - Add a workaround for ASA certificate request quirks
+
+ - Fix FC when attempting to import an OpenVPN profile
+
 v0.7 - 2014/03/08
 
  - Update GnuTLS to address CVE-2014-0092
