@@ -164,6 +164,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
 					Intent startFC = new Intent(getActivity(), FileSelect.class);
 					startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
 					startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
+					startFC.putExtra(FileSelect.DO_BASE64_ENCODE, true);
 
 					startActivityForResult(startFC, idx);
 					return false;

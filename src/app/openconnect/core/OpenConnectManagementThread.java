@@ -41,6 +41,7 @@ import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 import org.infradead.libopenconnect.LibOpenConnect;
 
@@ -252,16 +253,36 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			prefData = prefData.substring(10);
 
 			path = mCacheDir + File.separator + prefName + ".tmp";
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
 
-			/* Allow reuse of standard x86 Linux CSD scripts */
-			if (rewriteShell(prefData)) {
-				writer.write("#!/system/bin/sh\n");
+			FileOutputStream fos = new FileOutputStream(path);
+			byte data[] = null;
+
+			try {
+				data = Base64.decode(prefData, Base64.DEFAULT);
+
+				try {
+					/* Allow reuse of standard x86 Linux CSD scripts */
+					if (rewriteShell(new String(data))) {
+						fos.write("#!/system/bin/sh\n".getBytes());
+					}
+				} catch (Exception e) {
+					/* in case we're trying to pattern-match a binary blob */
+				}
+				fos.write(data);
+				fos.close();
+			} catch (IllegalArgumentException e) {
+				/* legacy profiles didn't use base64 encoding */
+				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
+
+				if (rewriteShell(prefData)) {
+					writer.write("#!/system/bin/sh\n");
+				}
+				writer.write(prefData);
+				writer.close();
+			} catch (IOException e) {
+				log("PREF: I/O exception writing " + prefName);
+				return null;
 			}
-
-			writer.write(prefData);
-			writer.close();
-
 			log("PREF: wrote out " + path);
 		} else {
 			path = prefData;
