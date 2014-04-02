@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!--  Keep the order the same as the TYPE_ constants in VPNProfile -->
+    <!--  Keep the order the same as the TYPE_ constants in VPNProfile -->
     <string-array name="vpn_types">
         <item>Certificates</item>
         <item>PKCS12 File</item>
@@ -92,7 +92,10 @@
         <item>OpenConnect is used to access virtual private networks (VPNs) which utilize the Cisco AnyConnect SSL VPN protocol.  A typical use case might involve logging into your workplace remotely to check email after hours.\n\nIf in doubt, check with your I.T. administrator to see if a suitable service is available.</item>
 
         <item>How do I get started?</item>
-        <item>In most cases, you\'ll just need to create a profile and enter the hostname of the VPN gateway.  The other fields in the profile are all optional.  If you were issued a P12 or PEM certificate file, you can copy it into /sdcard (or other external storage folder), then import it into the VPN profile.\n\nOnce you\'ve set up the profile, select the VPN entry and OpenConnect will attempt to establish a new session.</item>
+        <item>In most cases, you\'ll just need to create a profile and enter the hostname of the VPN gateway.  The other fields in the profile are all optional.  Once you\'ve set up the profile, select the VPN entry and OpenConnect will attempt to establish a new session.</item>
+
+        <item>How do I authenticate using an SSL client certificate?</item>
+        <item>Copy your certificate files to Android\'s external storage directory (nominally /sdcard or the Downloads folder), then edit the VPN profile and make the following changes:\n\nP12 or PFX file: select \"User certificate\", pick the file from the list, then touch \"select\".  Leave \"Private key\" blank.\n\nSingle PEM/CRT/CER file: same as above.\n\nSeparate PEM/CRT/CER and KEY files: populate \"User certificate\" with the certificate file, and \"Private key\" with the key file.\n\nWhen finished, delete the certificate files from external storage so they cannot be stolen by other apps.</item>
 
         <item>Will OpenConnect work with non-AnyConnect VPNs?</item>
         <item>Unfortunately the software design is tied very closely to the AnyConnect requirements and the libopenconnect interfaces.  Therefore it only works with Cisco AnyConnect and ocserv gateways.</item>
@@ -102,6 +105,9 @@
 
         <item>How do I import a SecurID software token?</item>
         <item>If you have an URL that starts with \"com.rsa.securid.iphone://\" or \"http://127.0.0.1/securid/\" in your email, click on it and tell OpenConnect to add it to the desired VPN profile.  If you just have a raw token string, write it to a text file, copy it under /sdcard, click \"Token string\" in the VPN profile editor, then select the filename.\n\nIf you have an \"sdtid\" XML file, use the RSA Token Converter to generate an Android token, then paste it into a text file and import it from /sdcard.</item>
+
+        <item>Is it possible to skip all login prompts when connecting?</item>
+        <item>If you have saved your username, password, or other credentials, or if you are using SecurID or certificate authentication, you can try enabling \"Batch Mode\" in the VPN profile to skip the login dialogs.  If you need to change your saved password later or have trouble connecting, just disable batch mode.</item>
 
         <item>How do I improve battery life while the VPN is up?</item>
         <item>One option is to select \"Pause when asleep\" under Settings.  The downside is that VPN access will be temporarily stopped when the screen is off.  Also, ASA gateways sometimes get annoyed with constant reconnections and may prematurely terminate your session after a few days.\n\nAnother option is to contact your server administrator and request that they disable dead peer detection (DPD), increase the idle timeout to >1hr, and increase the keepalive interval to ~5min or so.</item>
