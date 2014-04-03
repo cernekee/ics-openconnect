@@ -1,4 +1,4 @@
-v0.8 - UNRELEASED
+v0.8 - 2014/04/02
 
  - Fix hangs after reconnect if DTLS is disabled
 
