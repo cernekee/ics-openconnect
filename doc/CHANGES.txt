@@ -1,3 +1,8 @@
+v0.81 - 2014/04/06
+
+ - Fix potential issue recognizing certificates stored in VPN profiles
+   created with <= v0.7
+
 v0.8 - 2014/04/02
 
  - Fix hangs after reconnect if DTLS is disabled
