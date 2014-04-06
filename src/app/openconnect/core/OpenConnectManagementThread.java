@@ -242,6 +242,16 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return true;
 	}
 
+	private byte[] decodeBase64(String in)
+			throws IllegalArgumentException {
+		// android.util.Base64.Decoder.process() only validates the padding, so it
+		// cannot be relied upon to distinguish real base64 from e.g. a PEM cert string
+		if (!in.matches("^[A-Za-z0-9+/=\\n]+$")) {
+			throw new IllegalArgumentException("invalid chars");
+		}
+		return Base64.decode(in, Base64.DEFAULT);
+	}
+
 	private String prefToTempFile(String prefName, boolean isExecutable) throws IOException {
 		String prefData = getStringPref(prefName);
 		String path;
@@ -258,7 +268,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			byte data[] = null;
 
 			try {
-				data = Base64.decode(prefData, Base64.DEFAULT);
+				data = decodeBase64(prefData);
 
 				try {
 					/* Allow reuse of standard x86 Linux CSD scripts */
