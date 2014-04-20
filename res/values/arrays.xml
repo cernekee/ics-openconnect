@@ -104,7 +104,7 @@
         <item>OpenConnect supports SSL VPN (CSTP + DTLS) only.</item>
 
         <item>How do I import a SecurID software token?</item>
-        <item>If you have an URL that starts with \"com.rsa.securid.iphone://\" or \"http://127.0.0.1/securid/\" in your email, click on it and tell OpenConnect to add it to the desired VPN profile.  If you just have a raw token string, write it to a text file, copy it under /sdcard, click \"Token string\" in the VPN profile editor, then select the filename.\n\nIf you have an \"sdtid\" XML file, use the RSA Token Converter to generate an Android token, then paste it into a text file and import it from /sdcard.</item>
+        <item>If you have an URL that starts with \"com.rsa.securid.iphone://\" or \"http://127.0.0.1/securid/\" in your email, click on it and tell OpenConnect to add it to the desired VPN profile.  If you just have a raw token string then write it to a text file, copy it under /sdcard, click \"Token string\" in the VPN profile editor, then select the filename.\n\nIf you have an \"sdtid\" XML file, copy it to /sdcard and then import it.</item>
 
         <item>Is it possible to skip all login prompts when connecting?</item>
         <item>If you have saved your username, password, or other credentials, or if you are using SecurID or certificate authentication, you can try enabling \"Batch Mode\" in the VPN profile to skip the login dialogs.  If you need to change your saved password later or have trouble connecting, just disable batch mode.</item>
