@@ -65,14 +65,6 @@ public class TokenImportActivity extends Activity {
         Intent intent = getIntent();
         mUUID = intent.getStringExtra(EXTRA_UUID);
 
-        // We will have a URI string iff the user clicked on a recognized link from another
-        // application, e.g. http://127.0.0.1/securid/ctf?ctfData=279158828...
-        Uri URI = intent.getData();
-        String intentImport = null;
-        if (URI != null) {
-        	intentImport = URI.toString();
-        }
-
         if (savedInstanceState != null) {
         	mTokenString = savedInstanceState.getString("mTokenString", null);
         	mTokenDevID = savedInstanceState.getString("mTokenDevID", null);
@@ -94,10 +86,20 @@ public class TokenImportActivity extends Activity {
 
         if (mScreen == SCREEN_UNKNOWN) {
         	// initial entry into TokenImportActivity - figure out how we were called
-        	if (intentImport != null) {
-        		mTokenString = intentImport;
-        		validateToken();
-        		return;
+
+            Uri URI = intent.getData();
+        	if (URI != null) {
+        		if (URI.getScheme().equals("file")) {
+        			// User clicked on an sdtid file
+        			readFromFile(URI.getPath());
+        			return;
+        		} else {
+                    // We will have a URI string iff the user clicked on a recognized link from another
+                    // application, e.g. http://127.0.0.1/securid/ctf?ctfData=279158828...
+	        		mTokenString = URI.toString();
+	        		validateToken();
+	        		return;
+        		}
         	} else {
         		if (mProfile != null) {
         			mTokenString = mProfile.mPrefs.getString("token_string", "");
@@ -343,6 +345,17 @@ public class TokenImportActivity extends Activity {
 			return false;
 		}
 
+		s = s.trim();
+		if (s.startsWith("<?xml ")) {
+			mTokenString = s;
+			if (validateToken() == false) {
+				/* go back to square one */
+				mTokenString = null;
+				return false;
+			}
+			return true;
+		}
+
 		/*
 		 * Sanitize the input data to avoid messing up the UI too much, if the user
 		 * imports junk files
@@ -394,18 +407,18 @@ public class TokenImportActivity extends Activity {
 		}
     }
 
-    private void validateToken() {
+    private boolean validateToken() {
     	// No validation on TOTP tokens
     	if (!mIsSecurid || (mProfile != null && mTokenString.equals(""))) {
     		saveToken();
-    		return;
+    		return true;
     	}
 
     	if (mStoken.importString(mTokenString) != LibStoken.SUCCESS) {
 			Log.i(TAG, "rejecting invalid token string");
     		updateScreen(SCREEN_ENTER_TOKEN);
     		setAlert(ALERT_BAD_TOKEN);
-    		return;
+    		return false;
     	}
 		if (mStoken.isDevIDRequired() || mStoken.isPassRequired()) {
 			updateScreen(SCREEN_UNLOCK_TOKEN);
@@ -418,8 +431,10 @@ public class TokenImportActivity extends Activity {
 				Log.w(TAG, "error processing NON-encrypted seed");
 	    		updateScreen(SCREEN_ENTER_TOKEN);
 	    		setAlert(ALERT_BAD_TOKEN);
+	    		return false;
 			}
 		}
+		return true;
     }
 
     private void decryptToken() {

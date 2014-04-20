@@ -77,6 +77,17 @@
                 <data android:scheme="com.rsa.securid.iphone" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.sdtid" />
+            </intent-filter>
+
             </activity>
         <activity android:name=".FileSelect" />
         <activity
