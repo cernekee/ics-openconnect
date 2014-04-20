@@ -29,11 +29,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
@@ -140,23 +142,37 @@ public class AssetExtractor {
 		return extractAll(ctx, 0, null);
 	}
 
-	public static String readString(Context ctx, String name) {
+	private static String readAndClose(Reader reader)
+			throws UnsupportedEncodingException, IOException {
 		StringWriter sw = new StringWriter();
-		InputStream in;
-		try {
-			in = ctx.getAssets().open(name);
-	    	char[] buffer = new char[BUFLEN];
-	    	Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    	char[] buffer = new char[BUFLEN];
 
-	    	while (true) {
-	    		int len = reader.read(buffer);
-	    		if (len == -1) {
-	    			break;
-	    		}
-	    		sw.write(buffer, 0, len);
-	    	}
-	    	in.close();
-	    	return sw.toString();
+    	while (true) {
+    		int len = reader.read(buffer);
+    		if (len == -1) {
+    			break;
+    		}
+    		sw.write(buffer, 0, len);
+    	}
+		reader.close();
+    	return sw.toString();
+	}
+
+	public static String readString(Context ctx, String name) {
+		try {
+			InputStream in = ctx.getAssets().open(name);
+	    	Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+			return readAndClose(reader);
+		} catch (IOException e) {
+			Log.e(TAG, "AssetExtractor: readString exception", e);
+		}
+		return null;
+	}
+
+	public static String readStringFromFile(String filename) {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			return readAndClose(reader);
 		} catch (IOException e) {
 			Log.e(TAG, "AssetExtractor: readString exception", e);
 		}
