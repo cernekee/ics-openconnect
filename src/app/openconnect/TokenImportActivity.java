@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import app.openconnect.core.AssetExtractor;
 import app.openconnect.core.ProfileManager;
 import org.stoken.LibStoken;
 
@@ -146,7 +147,7 @@ public class TokenImportActivity extends Activity {
 			public void onClick(View v) {
 				Intent startFC = new Intent(TokenImportActivity.this, FileSelect.class);
 				startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
-				startFC.putExtra(FileSelect.FORCE_INLINE_SELECTION, true);
+				startFC.putExtra(FileSelect.NO_INLINE_SELECTION, true);
 				startActivityForResult(startFC, 0);
 			}
 		});
@@ -334,27 +335,38 @@ public class TokenImportActivity extends Activity {
     	}
     }
 
+    private boolean readFromFile(String filename) {
+		StringBuilder out = new StringBuilder();
+
+		String s = AssetExtractor.readStringFromFile(filename);
+		if (s == null || s.length() == 0) {
+			return false;
+		}
+
+		/*
+		 * Sanitize the input data to avoid messing up the UI too much, if the user
+		 * imports junk files
+		 */
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c >= 32 && c <= 126 && i < 128) {
+				out.append(c);
+			}
+		}
+		mTokenString = out.toString();
+		updateScreen(SCREEN_ENTER_TOKEN);
+		return true;
+    }
+
     /* Called if we used FileSelect to import a token from a file */
 	@Override
 	public void onActivityResult(int idx, int resultCode, Intent data) {
 		super.onActivityResult(idx, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
-			String s = data.getStringExtra(FileSelect.RESULT_DATA);
-			StringBuilder out = new StringBuilder();
-			if (s.startsWith(VpnProfile.INLINE_TAG)) {
-				/*
-				 * Sanitize the input data to avoid messing up the UI too much, if the user
-				 * imports junk files
-				 */
-				for (int i = 10; i < s.length(); i++) {
-					char c = s.charAt(i);
-					if (c >= 32 && c <= 126 && i < 128) {
-						out.append(c);
-					}
-				}
-				mTokenString = out.toString();
-			}
+			readFromFile(data.getStringExtra(FileSelect.RESULT_DATA));
+			return;
 		}
+		/* User canceled */
 		updateScreen(SCREEN_ENTER_TOKEN);
 	}
 
