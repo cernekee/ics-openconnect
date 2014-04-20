@@ -543,6 +543,7 @@ public class TokenImportActivity extends Activity {
     	mAlert = builder.show();
     }
 
+    @Override
     protected void onDestroy() {
     	super.onDestroy();
     	setAlert(ALERT_NONE);
