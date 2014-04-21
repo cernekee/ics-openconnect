@@ -29,7 +29,7 @@
     <string name="securid_parse_error">Unable to parse the SecurID token string in this profile.</string>
     <string name="securid_internal_error">Unable to access the VPN profile.  Please file a bug report with the author.</string>
     <string name="securid_encrypted">This profile\'s SecurID token string is encrypted. Try re-importing it.</string>
-    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copy">Copy</string>
     <string name="next_tokencode">Next tokencode:</string>
     <string name="using_pin">Using PIN:</string>
     <string name="token_sn">Token S/N:</string>
@@ -37,6 +37,7 @@
     <string name="gmt">Current time (GMT):</string>
     <string name="dev_id">SecurID device ID:</string>
     <string name="enter_pin">Enter PIN:</string>
+    <string name="new_pin">New PIN</string>
     <string name="skip">Skip</string>
     <string name="vpn_list_title">Profiles</string>
     <string name="status">Status</string>
@@ -133,7 +134,7 @@
     <string name="send">Send</string>
     <string name="enter_problem">ENTER PROBLEM DESCRIPTION HERE:</string>
     <string name="ics_openvpn_log_file">ICS OpenConnect log file</string>
-    <string name="copied_entry">Copied.</string>
+    <string name="copied_entry">Copied to clipboard.</string>
     <string name="tap_mode">Tap Mode</string>
     <string name="faq_tap_mode">Tap Mode is not possible with the non root VPN API. Therefore this application cannot provide tap support</string>
     <string name="tap_faq2">Again? Are you kidding? No, tap mode is really not supported and sending more mail asking if it will be supported will not help.</string>
