@@ -68,7 +68,8 @@ public class VPNProfileList extends ListFragment {
 	private static final int MENU_ADD_PROFILE = 1;
 
 	private static final int MENU_SETTINGS = 10;
-	private static final int MENU_ABOUT = 11;
+	private static final int MENU_SECURID = 11;
+	private static final int MENU_ABOUT = 20;
 
 	private ArrayAdapter<VpnProfile> mArrayadapter;
 
@@ -233,6 +234,8 @@ public class VPNProfileList extends ListFragment {
 
 		menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.generalsettings)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		menu.add(Menu.NONE, MENU_SECURID, Menu.NONE, R.string.securid_info)
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.about_openconnect)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 	}
@@ -252,6 +255,8 @@ public class VPNProfileList extends ListFragment {
 			return true;
 		} else if (itemId == MENU_ABOUT) {
 			return startFragActivity("AboutFragment");
+		} else if (itemId == MENU_SECURID) {
+			return startFragActivity("TokenParentFragment");
 		} else if (itemId == MENU_SETTINGS) {
 			return startFragActivity("GeneralSettings");
 		} else {
