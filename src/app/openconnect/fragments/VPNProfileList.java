@@ -53,7 +53,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import app.openconnect.FragActivity;
 import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
@@ -68,11 +67,8 @@ public class VPNProfileList extends ListFragment {
 
 	private static final int MENU_ADD_PROFILE = 1;
 
-	private static final int MENU_SETTINGS = 10;
-	private static final int MENU_SECURID = 11;
-	private static final int MENU_ABOUT = 20;
-
 	private ArrayAdapter<VpnProfile> mArrayadapter;
+	private CommonMenu mDropdown;
 
 	private AlertDialog mDialog;
 	private EditText mDialogEntry;
@@ -223,20 +219,7 @@ public class VPNProfileList extends ListFragment {
 			.setAlphabeticShortcut('a')
 			.setTitleCondensed(getActivity().getString(R.string.add))
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-		menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.generalsettings)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		menu.add(Menu.NONE, MENU_SECURID, Menu.NONE, R.string.securid_info)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.about_openconnect)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-	}
-
-	private boolean startFragActivity(String fragName) {
-		Intent intent = new Intent(getActivity(), FragActivity.class);
-		intent.putExtra(FragActivity.EXTRA_FRAGMENT_NAME, fragName);
-		startActivity(intent);
-		return true;
+		mDropdown = new CommonMenu(getActivity(), menu, false);
 	}
 
 	@Override
@@ -245,12 +228,8 @@ public class VPNProfileList extends ListFragment {
 		if (itemId == MENU_ADD_PROFILE) {
 			onAddProfileClicked("");
 			return true;
-		} else if (itemId == MENU_ABOUT) {
-			return startFragActivity("AboutFragment");
-		} else if (itemId == MENU_SECURID) {
-			return startFragActivity("TokenParentFragment");
-		} else if (itemId == MENU_SETTINGS) {
-			return startFragActivity("GeneralSettings");
+		} else if (mDropdown.onOptionsItemSelected(item)) {
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
