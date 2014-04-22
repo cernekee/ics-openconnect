@@ -255,7 +255,8 @@ public class TokenDiagFragment extends Fragment {
 
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
-		writeStatusField(R.id.gmt, R.string.gmt, df.format(now.getTime()));
+		String gmt = df.format(now.getTime()).replaceAll(" GMT.*", "");
+		writeStatusField(R.id.gmt, R.string.gmt, gmt);
 
     	mLastUpdate = now;
     	mHandler.postDelayed(mRunnable, 500);
