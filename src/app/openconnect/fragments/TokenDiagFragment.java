@@ -171,8 +171,19 @@ public class TokenDiagFragment extends Fragment {
 		});
 
 		/* static fields */
-		writeStatusField(R.id.token_sn, R.string.token_sn, getString(R.string.unknown));
-		writeStatusField(R.id.exp_date, R.string.exp_date, getString(R.string.unknown));
+		LibStoken.StokenInfo info = mStoken.getInfo();
+
+		writeStatusField(R.id.token_sn, R.string.token_sn, info.serial);
+
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		long exp = info.unixExpDate * 1000;
+
+		/* show field in red if expiration is <= 2 weeks away */
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, 14);
+		writeStatusField(R.id.exp_date, R.string.exp_date, df.format(exp), cal.getTimeInMillis() >= exp);
+
+		/* TODO */
 		writeStatusField(R.id.dev_id, R.string.dev_id, getString(R.string.unknown));
 	}
 
