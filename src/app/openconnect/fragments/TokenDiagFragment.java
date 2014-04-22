@@ -124,10 +124,24 @@ public class TokenDiagFragment extends Fragment {
 		return 0;
 	}
 
-    private void writeStatusField(int id, int header_res, String value) {
-    	String html = "<b>" + getString(header_res) + "</b><br>" + value;
+    private void writeStatusField(int id, int header_res, String value, boolean warn) {
+    	/* NOTE: "value" is unescaped. Html.escapeValue() requires API level 16 */
+    	String html = "<b>" + getString(header_res) + "</b><br>";
+    	if (warn) {
+    		/*
+    		 * No CSS.  See:
+    		 * http://commonsware.com/blog/Android/2010/05/26/html-tags-supported-by-textview.html
+    		 */
+    		html += "<font color=\"red\"><b>" + value + "</b></font>";
+    	} else {
+    		html += value;
+    	}
     	TextView tv = (TextView)mView.findViewById(id);
     	tv.setText(Html.fromHtml(html));
+    }
+
+    private void writeStatusField(int id, int header_res, String value) {
+    	writeStatusField(id, header_res, value, false);
     }
 
 	private void populateView(View v) {
@@ -238,18 +252,20 @@ public class TokenDiagFragment extends Fragment {
 
     private void setPin(String s) {
     	int res;
+    	boolean warn = false;
 
     	mPin = s;
 		if (!mNeedsPin) {
 			res = R.string.not_required;
 		} else if (s == null || !mStoken.checkPIN(s)) {
 			mPin = null;
+			warn = true;
 			res = R.string.no;
 		} else {
 			res = R.string.yes;
 		}
 
-		writeStatusField(R.id.using_pin, R.string.using_pin, getString(res));
+		writeStatusField(R.id.using_pin, R.string.using_pin, getString(res), warn);
 		FragCache.put(mUUID, EXTRA_PIN, mPin);
 		mLastUpdate = null;
     }
