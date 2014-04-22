@@ -35,6 +35,7 @@ public class CommonMenu {
 
 	private static final int MENU_SETTINGS = 15;
 	private static final int MENU_SECURID = 20;
+	private static final int MENU_FEEDBACK = 25;
 	private static final int MENU_ABOUT = 30;
 
 	private Context mContext;
@@ -46,6 +47,8 @@ public class CommonMenu {
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		}
 		menu.add(Menu.NONE, MENU_SECURID, Menu.NONE, R.string.securid_info)
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		menu.add(Menu.NONE, MENU_FEEDBACK, Menu.NONE, R.string.send_feedback)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.about_openconnect)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -64,6 +67,8 @@ public class CommonMenu {
 			return startFragActivity("AboutFragment");
 		} else if (itemId == MENU_SECURID) {
 			return startFragActivity("TokenParentFragment");
+		} else if (itemId == MENU_FEEDBACK) {
+			return startFragActivity("FeedbackFragment");
 		} else if (itemId == MENU_SETTINGS) {
 			return startFragActivity("GeneralSettings");
 		} else {

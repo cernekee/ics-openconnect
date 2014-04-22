@@ -24,6 +24,11 @@
     <string name="copyright_others">This program uses the following components; see the source code for full details on the licenses</string>
     <string name="about">About</string>
     <string name="securid_info">SecurID info</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="feedback_plea">Taking a few seconds to rate an app is very important for the developer.  It allows us to continually improve the experience, and helps other users decide whether an app is right for them. How about telling us what you think?</string>
+    <string name="i_love_it">I love it</string>
+    <string name="needs_work">Needs work</string>
+    <string name="maybe_later">Maybe later</string>
     <string name="about_openconnect">About OpenConnect</string>
     <string name="securid_none_defined">None of your VPN profiles have a SecurID token string set.\n\nTo add one, import an \"sdtid\" file or click on a \"http://127.0.0.1/securid\" URL from your email.  See the FAQ for more information.</string>
     <string name="securid_parse_error">Unable to parse the SecurID token string in this profile.</string>

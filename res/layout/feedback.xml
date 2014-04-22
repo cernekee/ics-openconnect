@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dip" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_plea" />
+
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dip" />
+
+    <Button
+        android:id="@+id/i_love_it"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/i_love_it" />
+
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dip" />
+
+    <Button
+        android:id="@+id/needs_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/needs_work" />
+
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dip" />
+
+    <Button
+        android:id="@+id/maybe_later"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/maybe_later" />
+
+</LinearLayout>
