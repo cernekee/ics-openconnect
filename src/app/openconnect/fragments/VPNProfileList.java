@@ -58,6 +58,7 @@ import app.openconnect.ConnectionEditorActivity;
 import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
+import app.openconnect.core.FragCache;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.ProfileManager;
@@ -115,31 +116,17 @@ public class VPNProfileList extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		if (savedInstanceState != null) {
-			String s = savedInstanceState.getString("mDialogEntry");
-			if (s != null) {
-				onAddProfileClicked(s);
-			}
-		}
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onPause() {
+		super.onPause();
 		if (mDialog != null) {
+			FragCache.put("VPNProfileList", "mDialogEntry", mDialogEntry.getText().toString());
 			mDialog.dismiss();
-		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		super.onSaveInstanceState(savedInstanceState);
-
-		// FIXME: This doesn't actually work, because our MainActivity creates new
-		// fragments if the activity is recreated
-		if (mDialog != null) {
-			savedInstanceState.putString("mDialogEntry", mDialogEntry.getText().toString());
+			mDialog = null;
+		} else {
+			FragCache.put("VPNProfileList", "mDialogEntry", null);
 		}
 	}
 
@@ -222,6 +209,11 @@ public class VPNProfileList extends ListFragment {
 
 		mArrayadapter.clear();
 		mArrayadapter.addAll(allvpn);
+
+		String s = FragCache.get("VPNProfileList", "mDialogEntry");
+		if (s != null) {
+			onAddProfileClicked(s);
+		}
 	}
 
 	@Override
