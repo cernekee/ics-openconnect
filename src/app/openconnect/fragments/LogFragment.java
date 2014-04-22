@@ -62,6 +62,7 @@ public class LogFragment extends ListFragment {
 
 	private VPNConnector mConn;
 
+	private CommonMenu mDropdown;
     private MenuItem mCancelButton;
     private boolean mDisconnected;
 
@@ -126,6 +127,8 @@ public class LogFragment extends ListFragment {
         	sendReport();
 		} else if(item.getItemId() == R.id.toggle_time) {
 			mLogAdapter.setTimeFormat(VPNLog.TIME_FORMAT_TOGGLE);
+		} else if(mDropdown.onOptionsItemSelected(item)) {
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 
@@ -134,6 +137,7 @@ public class LogFragment extends ListFragment {
     @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.logmenu, menu);
+		mDropdown = new CommonMenu(getActivity(), menu, true);
 		mCancelButton = menu.findItem(R.id.cancel);
 		if (mConn != null) {
 			updateUI(mConn.service);

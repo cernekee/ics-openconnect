@@ -28,6 +28,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -43,6 +46,7 @@ public class StatusFragment extends Fragment {
 	private View mView;
 	private VPNConnector mConn;
 
+	private CommonMenu mDropdown;
 	private Button mDisconnectButton;
 
     @Override
@@ -74,6 +78,26 @@ public class StatusFragment extends Fragment {
 
     	return mView;
     }
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		mDropdown = new CommonMenu(getActivity(), menu, true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDropdown.onOptionsItemSelected(item)) {
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
     @Override
     public void onDestroyView() {
