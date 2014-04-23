@@ -252,7 +252,12 @@ public class VPNProfileList extends ListFragment {
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					editVPN(ProfileManager.create(mDialogEntry.getText().toString()));
+					String name = mDialogEntry.getText().toString();
+
+					mDialog.dismiss();
+					mDialog = null;
+
+					editVPN(ProfileManager.create(name));
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
