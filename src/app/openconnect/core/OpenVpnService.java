@@ -44,6 +44,7 @@ import app.openconnect.R;
 import app.openconnect.VpnProfile;
 import app.openconnect.api.GrantPermissionsActivity;
 import app.openconnect.core.VPNLog.LogArrayAdapter;
+import app.openconnect.fragments.FeedbackFragment;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -385,6 +386,7 @@ public class OpenVpnService extends VpnService {
 				if (mConnectionState == OpenConnectManagementThread.STATE_CONNECTED &&
 						mKeepAlive == null) {
 					registerKeepAlive();
+					FeedbackFragment.recordUse(getApplicationContext(), true);
 				}
 			}
 		});

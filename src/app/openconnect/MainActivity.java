@@ -72,6 +72,9 @@ public class MainActivity extends Activity {
 		mTabList.add(new TabContainer(2, R.string.faq, new FaqFragment()));
 
 		mConnectionTab = mTabList.get(0);
+
+		FeedbackFragment.recordUse(this, false);
+		FeedbackFragment.feedbackNag(this);
 	}
 
 	@Override
