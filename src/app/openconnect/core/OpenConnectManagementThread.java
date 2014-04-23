@@ -266,9 +266,11 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 			FileOutputStream fos = new FileOutputStream(path);
 			byte data[] = null;
+			int bytes = 0;
 
 			try {
 				data = decodeBase64(prefData);
+				bytes = data.length;
 
 				try {
 					/* Allow reuse of standard x86 Linux CSD scripts */
@@ -289,11 +291,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				}
 				writer.write(prefData);
 				writer.close();
+				bytes = prefData.length();
 			} catch (IOException e) {
 				log("PREF: I/O exception writing " + prefName);
 				return null;
 			}
-			log("PREF: wrote out " + path);
+			log("PREF: wrote out " + path + " (" + bytes + ")");
 		} else {
 			path = prefData;
 			log("PREF: using existing file " + path);
