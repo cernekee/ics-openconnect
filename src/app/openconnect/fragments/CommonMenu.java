@@ -42,10 +42,8 @@ public class CommonMenu {
 
 	public CommonMenu(Context ctx, Menu menu, boolean isConnected) {
 		mContext = ctx;
-		if (!isConnected) {
-			menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.generalsettings)
-				.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		}
+		menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.generalsettings)
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_SECURID, Menu.NONE, R.string.securid_info)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_FEEDBACK, Menu.NONE, R.string.send_feedback)
