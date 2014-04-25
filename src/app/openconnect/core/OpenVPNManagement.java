@@ -42,4 +42,6 @@ public interface OpenVPNManagement {
 
 	boolean stopVPN();
 
+	void prefChanged();
+
 }

@@ -86,6 +86,7 @@ public class DeviceStateReceiver extends BroadcastReceiver {
     	String s = intent.getAction();
 
     	if (PREF_CHANGED.equals(s)) {
+    		mManagement.prefChanged();
     		readPrefs();
             networkStateChange(context);
     	} else if (ConnectivityManager.CONNECTIVITY_ACTION.equals(s)) {
