@@ -500,7 +500,9 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	}
 
 	private boolean runVPN() {
-		AssetExtractor.extractAll(mContext);
+		if (!AssetExtractor.extractAll(mContext)) {
+			log("Error extracting assets");
+		}
 
 		setState(STATE_CONNECTING);
 		synchronized (mMainloopLock) {

@@ -110,6 +110,10 @@ public class AssetExtractor {
 			ZipFile zf = new ZipFile(ctx.getPackageCodePath());
 			for (Enumeration<?> e = zf.entries(); e.hasMoreElements(); ) {
 				ZipEntry ze = (ZipEntry)e.nextElement();
+				if (ze.isDirectory()) {
+					continue;
+				}
+
 				String fname = ze.getName();
 
 				for (String prefix : patterns) {
