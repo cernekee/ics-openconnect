@@ -28,6 +28,7 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -73,7 +74,11 @@ public class FeedbackFragment extends Fragment {
 				recordNag(act);
 
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(marketURI));
-				startActivity(i);
+				try {
+					startActivity(i);
+				} catch (ActivityNotFoundException e) {
+					/* not all devices have a handler for market:// URIs registered */
+				}
 				act.finish();
 			}
     	});
@@ -97,7 +102,11 @@ public class FeedbackFragment extends Fragment {
 						ver + " - Needs Improvement!");
 				i.setType("plain/text");
 
-				startActivity(i);
+				try {
+					startActivity(i);
+				} catch (ActivityNotFoundException e) {
+					/* this probably never happens */
+				}
 				act.finish();
 			}
     	});
