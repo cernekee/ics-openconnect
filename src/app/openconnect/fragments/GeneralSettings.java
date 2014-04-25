@@ -26,20 +26,24 @@
 package app.openconnect.fragments;
 import java.io.File;
 
+import android.Manifest.permission;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import app.openconnect.R;
 import app.openconnect.api.ExternalAppDatabase;
+import app.openconnect.core.DeviceStateReceiver;
 
 public class GeneralSettings extends PreferenceFragment implements OnPreferenceClickListener, OnClickListener {
 
@@ -58,6 +62,19 @@ public class GeneralSettings extends PreferenceFragment implements OnPreferenceC
 			loadtun.setEnabled(false);
 
 		mExtapp = new ExternalAppDatabase(getActivity());
+
+		for (String s : new String[] { "netchangereconnect", "screenoff", "trace_log" }) {
+			findPreference(s).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference arg0, Object arg1) {
+					android.util.Log.i("OpenConnect", "sending broadcast");
+					Intent intent = new Intent(DeviceStateReceiver.PREF_CHANGED);
+					getActivity().sendBroadcast(intent, permission.ACCESS_NETWORK_STATE);
+					return true;
+				}
+			});
+		}
+
 		/*
 		Preference clearapi = findPreference("clearapi");
 		clearapi.setOnPreferenceClickListener(this);
