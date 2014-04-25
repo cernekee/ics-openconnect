@@ -174,6 +174,7 @@ public class OpenVpnService extends VpnService {
 		// Registers BroadcastReceiver to track network connection changes.
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		filter.addAction(DeviceStateReceiver.PREF_CHANGED);
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		filter.addAction(Intent.ACTION_SCREEN_ON);
 		mDeviceStateReceiver = new DeviceStateReceiver(management, mPrefs);

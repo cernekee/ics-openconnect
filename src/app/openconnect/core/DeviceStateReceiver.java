@@ -37,7 +37,11 @@ public class DeviceStateReceiver extends BroadcastReceiver {
 
 	public static final String TAG = "OpenConnect";
 
+	public static final String PREF_CHANGED = "app.openconnect.PREF_CHANGED";
+
     private OpenVPNManagement mManagement;
+
+    private SharedPreferences mPrefs;
     private boolean mPauseOnScreenOff;
     private boolean mNetchangeReconnect;
 
@@ -50,8 +54,13 @@ public class DeviceStateReceiver extends BroadcastReceiver {
     public DeviceStateReceiver(OpenVPNManagement management, SharedPreferences prefs) {
         super();
         mManagement = management;
-        mPauseOnScreenOff = prefs.getBoolean("screenoff", false);
-        mNetchangeReconnect = prefs.getBoolean("netchangereconnect", true);
+        mPrefs = prefs;
+        readPrefs();
+    }
+
+    private void readPrefs() {
+        mPauseOnScreenOff = mPrefs.getBoolean("screenoff", false);
+        mNetchangeReconnect = mPrefs.getBoolean("netchangereconnect", true);
     }
 
     private void updatePauseState() {
@@ -74,17 +83,22 @@ public class DeviceStateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+    	String s = intent.getAction();
+
+    	if (PREF_CHANGED.equals(s)) {
+    		readPrefs();
             networkStateChange(context);
-        } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+    	} else if (ConnectivityManager.CONNECTIVITY_ACTION.equals(s)) {
+            networkStateChange(context);
+        } else if (Intent.ACTION_SCREEN_OFF.equals(s)) {
         	mScreenOff = true;
-        } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+        } else if (Intent.ACTION_SCREEN_ON.equals(s)) {
         	mScreenOff = false;
         }
         updatePauseState();
     }
 
-    public void networkStateChange(Context context) {
+    private void networkStateChange(Context context) {
         ConnectivityManager conn = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conn.getActiveNetworkInfo();
