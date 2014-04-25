@@ -364,11 +364,17 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return false;
 		}
 
-		if (mAppPrefs.getBoolean("trace_log", false)) {
-			mOC.setLogLevel(LibOpenConnect.PRG_TRACE);
-		}
+		prefChanged();
 
 		return true;
+	}
+
+	private void updateLogLevel() {
+		if (mAppPrefs.getBoolean("trace_log", false)) {
+			mOC.setLogLevel(LibOpenConnect.PRG_TRACE);
+		} else {
+			mOC.setLogLevel(LibOpenConnect.PRG_DEBUG);
+		}
 	}
 
 	private boolean getSubnetPref(ArrayList<String> subnets) {
@@ -653,4 +659,9 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			mOpenVPNService.setStats(null);
 		}
 	}
+
+	public void prefChanged() {
+		updateLogLevel();
+	}
+
 }
