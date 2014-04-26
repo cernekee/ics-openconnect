@@ -42,6 +42,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -125,8 +126,8 @@ public class TokenDiagFragment extends Fragment {
 	}
 
     private void writeStatusField(int id, int header_res, String value, boolean warn) {
-    	/* NOTE: "value" is unescaped. Html.escapeValue() requires API level 16 */
-    	String html = "<b>" + getString(header_res) + "</b><br>";
+    	String html = "<b>" + TextUtils.htmlEncode(getString(header_res)) + "</b><br>";
+    	value = TextUtils.htmlEncode(value);
     	if (warn) {
     		/*
     		 * No CSS.  See:
