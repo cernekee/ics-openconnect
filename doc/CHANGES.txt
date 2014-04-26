@@ -1,3 +1,14 @@
+v0.9 - 2014/04/26
+
+ - Add new "Send feedback" screen
+
+ - Add new "SecurID info" screen for RSA soft token users
+
+ - Allow changing settings and using other menu options (about, SecurID,
+   send feedback, etc.) while connected
+
+ - Update FAQ and provide some links to relevant XDA posts
+
 v0.81 - 2014/04/06
 
  - Fix potential issue recognizing certificates stored in VPN profiles

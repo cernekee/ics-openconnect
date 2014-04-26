@@ -3,7 +3,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="app.openconnect"
-    android:versionCode="901"
+    android:versionCode="909"
     android:versionName="0.9" >
 
     <uses-permission android:name="android.permission.INTERNET" />
