@@ -26,17 +26,45 @@
 
 package app.openconnect.fragments;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebView;
 import app.openconnect.R;
+import app.openconnect.core.AssetExtractor;
 
 public class FaqFragment extends Fragment  {
+
+	private String htmlEncode(String in) {
+		in = TextUtils.htmlEncode(in).replace("\n", "<br>");
+
+		// match markdown-formatted links: [link text](http://foo.bar.com)
+		// replace with: <a href="http://foo.bar.com">link text</a>
+		StringBuilder out = new StringBuilder();
+		Pattern p = Pattern.compile("\\[(.+?)\\]\\((\\S+)\\)");
+		Matcher m;
+
+		while (true) {
+			m = p.matcher(in);
+			if (!m.find()) {
+				break;
+			}
+			out.append(in.substring(0, m.start()));
+			out.append("<a href=\"" + m.group(2) + "\">");
+			out.append(m.group(1));
+			out.append("</a>");
+			in = in.substring(m.end());
+		}
+
+		out.append(in);
+		return out.toString();
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,15 +73,19 @@ public class FaqFragment extends Fragment  {
 
     	String items[] = getResources().getStringArray(R.array.faq_text);
     	StringBuilder html = new StringBuilder();
-    	for (int i = 0; i < items.length; i += 2) {
-    		String question = TextUtils.htmlEncode(items[i]).replace("\n", "<br>");
-    		String answer = TextUtils.htmlEncode(items[i + 1]).replace("\n", "<br>");
-    		html.append("<b>Q: " + question + "</b><br><br>");
-    		html.append("A: " + answer + "<br><br>");
-    	}
+    	html.append(AssetExtractor.readString(getActivity(), "header.html"));
 
-    	TextView tv = (TextView)v.findViewById(R.id.faq_text);
-    	tv.setText(Html.fromHtml(html.toString()));
+    	for (int i = 0; i < items.length; i += 2) {
+    		html.append("<b>Q: " + htmlEncode(items[i]) + "</b><br><br>");
+    		html.append("A: " + htmlEncode(items[i + 1]) + "<br><br>");
+    	}
+    	html.append(AssetExtractor.readString(getActivity(), "footer.html"));
+
+    	WebView contents = (WebView)v.findViewById(R.id.faq_text);
+    	contents.loadDataWithBaseURL("file:///android_asset/", html.toString(), null, null, null);
+
+    	// setting this through CSS breaks the gradient background
+    	contents.setBackgroundColor(0);
 
 		return v;
     }

@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/stdpadding"
     android:paddingRight="@dimen/stdpadding" >
 
-    <TextView
+    <WebView
     	android:id="@+id/faq_text"
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content" />
