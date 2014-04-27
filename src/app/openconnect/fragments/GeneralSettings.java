@@ -67,7 +67,6 @@ public class GeneralSettings extends PreferenceFragment implements OnPreferenceC
 			findPreference(s).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				@Override
 				public boolean onPreferenceChange(Preference arg0, Object arg1) {
-					android.util.Log.i("OpenConnect", "sending broadcast");
 					Intent intent = new Intent(DeviceStateReceiver.PREF_CHANGED);
 					getActivity().sendBroadcast(intent, permission.ACCESS_NETWORK_STATE);
 					return true;

@@ -395,7 +395,6 @@ public class OpenVpnService extends VpnService {
 
 	public void updateActivityRefcount(int num) {
 		mActivityConnections += num;
-		Log.d(TAG, "service: " + mActivityConnections + " UI connections");
 		updateNotification();
 	}
 
