@@ -164,8 +164,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		public int onProcessAuthForm(LibOpenConnect.AuthForm authForm) {
 			log("CALLBACK: onProcessAuthForm");
-			setState(STATE_USER_PROMPT);
+			if (authForm.error != null) {
+				log("AUTH: error '" + authForm.error + "'");
+			}
+			if (authForm.message != null) {
+				log("AUTH: message '" + authForm.message + "'");
+			}
 
+			setState(STATE_USER_PROMPT);
 			AuthFormHandler h = new AuthFormHandler(mPrefs, authForm, mAuthgroupSet, mLastFormDigest);
 
 			Integer response = (Integer)mOpenVPNService.promptUser(h);
