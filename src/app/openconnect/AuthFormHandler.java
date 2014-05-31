@@ -350,7 +350,7 @@ public class AuthFormHandler extends UserDialog
 		if (setAuthgroup()) {
 			return LibOpenConnect.OC_FORM_RESULT_NEWGROUP;
 		}
-		if (batchMode == BATCH_MODE_DISABLED) {
+		if (batchMode != BATCH_MODE_EMPTY_ONLY && batchMode != BATCH_MODE_ENABLED) {
 			return null;
 		}
 
