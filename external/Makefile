@@ -22,7 +22,6 @@ JAR_LIST := openconnect-wrapper.jar stoken-wrapper.jar
 PKG_LIST := curl
 
 ARCH_TARGETS := $(addprefix arch-,$(ARCH_LIST))
-ARCH_TOOLCHAIN_SYMLINKS := $(addprefix arch-toolchain-,$(ARCH_LIST))
 
 ARCH_CURL_TARGETS := $(addsuffix /curl,$(ARCH_LIST))
 ARCH_STOKEN_TARGETS := $(addsuffix /libstoken.so,$(ARCH_LIST))
@@ -68,7 +67,7 @@ curl/configure:
 	tar -C curl --strip 1 -jxf dist/curl-$(CURL_VER).tar.bz2
 	touch $@
 
-$(ARCH_CURL_TARGETS) : %/curl : arch-toolchain-% curl/configure
+$(ARCH_CURL_TARGETS) : %/curl : %/toolchain/.installed curl/configure
 	mkdir -p $*/build-curl $*/out
 	cd $*/build-curl && \
 		$(call set_build_env,$*) $(TOPDIR)/curl/configure \
@@ -85,7 +84,7 @@ stoken/configure:
 	cd stoken && bash autogen.sh
 	touch $@
 
-$(ARCH_STOKEN_TARGETS) : %/libstoken.so : arch-toolchain-% stoken/configure
+$(ARCH_STOKEN_TARGETS) : %/libstoken.so : %/toolchain/.installed stoken/configure
 	mkdir -p $*/build-stoken $*/out
 	cd $*/build-stoken && \
 		$(call set_build_env,$*) $(TOPDIR)/stoken/configure \
@@ -113,11 +112,8 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 # use openconnect to run make-standalone-toolchain.sh and install
 # GnuTLS/libtomcrypt into the sysroot for us
 $(ARCH_TOOLCHAIN_TARGETS) : %/toolchain/.installed : %/libopenconnect.so
-	ln -s openconnect/android/$(TRIPLET_$*)/toolchain $*/
+	ln -sf openconnect/android/$(TRIPLET_$*)/toolchain $*/
 	touch $@
-
-.PHONY: $(ARCH_TOOLCHAIN_SYMLINKS)
-$(ARCH_TOOLCHAIN_SYMLINKS) : arch-toolchain-% : %/toolchain/.installed
 
 openconnect-wrapper.jar:
 	cd openconnect/java && ant
