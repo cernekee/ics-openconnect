@@ -334,6 +334,7 @@ public class AuthFormHandler extends UserDialog
 		LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
 		if (authgroup.equals(selected.name)) {
 			// already good to go
+			opt.value = authgroup;
 			return false;
 		}
 		for (LibOpenConnect.FormChoice ch : opt.choices) {
