@@ -1,3 +1,11 @@
+v0.91 - UNRELEASED
+
+ - Fix bugs involving saved authgroups
+
+ - Fix batch mode error handling
+
+ - Update to GnuTLS 3.2.15 to fix GNUTLS-SA-2014-3 / CVE-2014-3466
+
 v0.9 - 2014/04/26
 
  - Add new "Send feedback" screen
