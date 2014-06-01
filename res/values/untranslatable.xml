@@ -18,7 +18,6 @@
     <string name="lzo" translatable="false">LZO</string>
     <string name="openssl" translatable="false">OpenSSL</string>
     <string name="unknown_state" translatable="false">Unknown state</string>
-    <string name="permission_description">Allows another app to control OpenVPN</string>
     <string name="bouncy_castle" translatable="false">Bouncy Castle Crypto APIs</string>
     <string name="copyright_bouncycastle" translatable="false">Copyright © 2000–2012 The Legion Of The Bouncy Castle (http://www.bouncycastle.org)</string>
 
