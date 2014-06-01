@@ -1,4 +1,4 @@
-v0.91 - UNRELEASED
+v0.91 - 2014/06/01
 
  - Fix bugs involving saved authgroups
 
