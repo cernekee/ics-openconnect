@@ -33,9 +33,6 @@
         android:supportsRtl="true"
         android:name="app.openconnect.Application" >
         <activity
-            android:name=".VPNPreferences"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".ConnectionEditorActivity" />
         <activity
             android:name=".FragActivity" />
