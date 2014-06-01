@@ -321,18 +321,18 @@ public class AuthFormHandler extends UserDialog
 
 	// If the user had saved a preferred authgroup, submit a NEWGROUP request before rendering the form
 	public boolean setAuthgroup() {
-		String authgroup = getStringPref("authgroup");
-
-		if (mAuthgroupSet || authgroup.equals("")) {
-			return false;
-		}
-
 		LibOpenConnect.FormOpt opt = mForm.authgroupOpt;
 		if (opt == null) {
 			return false;
 		}
+
+		String authgroup = getStringPref("authgroup");
+		if (authgroup.equals("")) {
+			return false;
+		}
+
 		LibOpenConnect.FormChoice selected = opt.choices.get(mForm.authgroupSelection);
-		if (authgroup.equals(selected.name)) {
+		if (mAuthgroupSet || authgroup.equals(selected.name)) {
 			// already good to go
 			opt.value = authgroup;
 			return false;
@@ -369,6 +369,12 @@ public class AuthFormHandler extends UserDialog
 					return null;
 				}
 				opt.value = defval;
+				break;
+			case LibOpenConnect.OC_FORM_OPT_SELECT:
+				if (opt.value == null) {
+					return null;
+				}
+				break;
 			}
 		}
 		return LibOpenConnect.OC_FORM_RESULT_OK;
