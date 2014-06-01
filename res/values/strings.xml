@@ -18,6 +18,7 @@
     <string name="i_love_it">I love it</string>
     <string name="needs_work">Needs work</string>
     <string name="maybe_later">Maybe later</string>
+    <string name="help_with_translations">Help with translations</string>
     <string name="about_openconnect">About OpenConnect</string>
     <string name="securid_none_defined">None of your VPN profiles have a SecurID token string set.\n\nTo add one, import an \"sdtid\" file or click on a \"http://127.0.0.1/securid\" URL from your email.  See the FAQ for more information.</string>
     <string name="securid_parse_error">Unable to parse the SecurID token string in this profile.</string>
