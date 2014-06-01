@@ -6,14 +6,12 @@
     <string name="permission_description">Allows another app to control OpenConnect</string>
     <string name="location">Location</string>
     <string name="cant_read_folder">Unable to read directory</string>
-    <string name="select">Select</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="no_data">No Data</string>
     <string name="client_certificate_title">Client Certificate</string>
-    <string name="no_certificate">You must select a certificate</string>
     <string name="securid_info">SecurID info</string>
     <string name="send_feedback">Send feedback</string>
     <string name="feedback_plea">Taking a few seconds to rate an app is very important for the developer.  It allows us to continually improve the experience, and helps other users decide whether an app is right for them. How about telling us what you think?</string>
@@ -49,7 +47,6 @@
     <string name="reconnect_to">Reconnect to %1$s</string>
     <string name="clear_log">Clear log</string>
     <string name="remove_vpn">Remove VPN</string>
-    <string name="enter_tlscn_dialog">Specify the check used to verify the remote certificate DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecify the complete DN or the RDN (openvpn.blinkt.de in the example) or an RDN prefix for verification.\n\nWhen using RDN prefix \"Server\" matches \"Server-1\" and \"Server-2\"\n\nLeaving the text field empty will check the RDN against the server hostname.\n\nFor more details see the OpenConnect 2.3.1+ manpage under —verify-x509-name</string>
     <string name="remove_vpn_query">Remove the VPN Profile \'%s\'?</string>
     <string name="clear">Clear</string>
     <string name="send_logfile">Send log file</string>
@@ -63,8 +60,6 @@
     <string name="error_importing_file">Error importing File</string>
     <string name="import_error_message">Could not import File from filesystem</string>
     <string name="inline_file_data">[[Inline file data]]</string>
-    <string name="add_profile">add Profile</string>
-    <string name="import_vpn">Import</string>
     <string name="speed_waiting">Waiting for state message…</string>
     <string name="file_icon">file icon</string>
     <string name="generalsettings">Settings</string>
@@ -85,7 +80,6 @@
     <string name="setting_loadtun">Load tun module</string>
     <string name="trace_log_summary">Increase logging verbosity for debugging purposes. This will affect performance.</string>
     <string name="trace_log">Enable TRACE logging</string>
-    <string name="importpkcs12fromconfig">Import PKCS12 from configuration into Android Keystore</string>
     <string name="getproxy_error">Error getting proxy settings: %s</string>
     <string name="no_vpn_profiles_defined">No VPN profiles defined.</string>
     <string name="add_new_vpn_hint">Use the &lt;img src=\"ic_menu_add\"/&gt; icon to add a new VPN</string>
@@ -104,8 +98,6 @@
     <string name="toggle_timestamps">Toggle timestamps</string>
     <string name="make_selection_inline">Copy into profile</string>
     <string name="add">Add</string>
-    <string name="send_config">Send config file</string>
-    <string name="remotetlsnote">Your imported configuration used the old DEPRECATED tls-remote option which uses a different DN format.</string>
     <string name="prompt">%1$s attempts to control %2$s</string>
     <string name="remote_warning">By proceeding, you are giving the application permission to completely control OpenConnect for Android and to intercept all network traffic. <b> Do NOT accept unless you trust the application. </b> Otherwise, you run the risk of having your data compromised by malicious software."</string>
     <string name="remote_trust">I trust this application.</string>
