@@ -29,6 +29,7 @@ package app.openconnect.fragments;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -70,16 +71,21 @@ public class FaqFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
     		Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.faq, container, false);
+    	Activity act = getActivity();
 
     	String items[] = getResources().getStringArray(R.array.faq_text);
     	StringBuilder html = new StringBuilder();
-    	html.append(AssetExtractor.readString(getActivity(), "header.html"));
+    	html.append(AssetExtractor.readString(act, "header.html"));
+
+    	// "Q: " and "A: "
+    	String q_abbrev = act.getString(R.string.question_abbrev) + " ";
+    	String a_abbrev = act.getString(R.string.answer_abbrev) + " ";
 
     	for (int i = 0; i < items.length; i += 2) {
-    		html.append("<b>Q: " + htmlEncode(items[i]) + "</b><br><br>");
-    		html.append("A: " + htmlEncode(items[i + 1]) + "<br><br>");
+    		html.append("<b>" + q_abbrev + htmlEncode(items[i]) + "</b><br><br>");
+    		html.append(a_abbrev + htmlEncode(items[i + 1]) + "<br><br>");
     	}
-    	html.append(AssetExtractor.readString(getActivity(), "footer.html"));
+    	html.append(AssetExtractor.readString(act, "footer.html"));
 
     	WebView contents = (WebView)v.findViewById(R.id.faq_text);
     	contents.loadDataWithBaseURL("file:///android_asset/", html.toString(), null, null, null);
