@@ -1,2 +1,63 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources/>
+<resources>
+  <string-array name="software_token_entries">
+    <item>Deaktiviert</item>
+    <item>RSA SecurID</item>
+    <item>TOTP</item>
+  </string-array>
+  <string-array name="batch_mode_entries">
+    <item>Deaktiviert</item>
+    <item>Nur bei leeren Feldern nachfragen</item>
+    <item>Niemals nach Zugangskennungen fragen</item>
+  </string-array>
+  <string-array name="reported_os_entries">
+    <item>Android</item>
+    <item>Linux (32-bit)</item>
+    <item>Linux (64-bit)</item>
+    <item>Windows</item>
+    <item>Mac</item>
+    <item>iOS</item>
+  </string-array>
+  <string-array name="split_tunnel_mode_entries">
+    <item>Automatisch</item>
+    <item>An - DNS benutzt VPN</item>
+    <item>An - DNS benutzt ausgehende Verbindung</item>
+  </string-array>
+  <string-array name="connection_states">
+    <item>Unbekannt</item>
+    <item>Authentifizierung</item>
+    <item>Auf Benutzereingabe wartend</item>
+    <item>Authentifiziert</item>
+    <item>Verbindend</item>
+    <item>Verbunden</item>
+    <item>Getrennt</item>
+  </string-array>
+  <string-array name="faq_text">
+    <item>Wofür wird die Anwendung verwendet?</item>
+    <item>OpenConnect wird verwendet um Zugriff auf virtuelle private Netzwerke (VPNs), welche das Cisco AnyConnect SSL VPN Protokoll verwenden, zu erlangen. Ein typisches Einsatzszenario wäre, dass du dich von unterwegs aus auf deinen Arbeitsplatz einloggen willst um nach der Arbeit deine geschäftlichen E-Mails zu lesen.\n\nIm Zweifelsfall kontaktiere deinen IT Administrator um zu klären ob ein entsprechender Service verfügbar ist.</item>
+    <item>Wie lege ich los?</item>
+    <item>In den meisten Fällen ist es nur nötig ein Profil anzulegen und den Hostnamen des VPN Gateways einzutragen. Die anderen Felder im Profil sind alle optional und sollten nicht beachtet werden außer es besteht die Notwendigkeit diese zu ändern.\n\nSobald du das Profil aufgesetzt hast wählst du den VPN Eintrag an und OpenConnect wird versuchen eine neue Sitzung zu erstellen. Wenn dies fehlschlägt könnte dir der „Log\" Reiter hilfreiche Diagnoseinformationen liefern.</item>
+    <item>Wie authentifiziere ich mich mittels SSL Client Zertifikat?</item>
+    <item>Kopiere deine Zertifikatdateien auf Androids externes Speicherverzeichnis (normalerweise /sdcard oder der Downloads Ordner), editiere dann das VPN Profil und nehme nachfolgende Änderungen vor:\n\nP12 oder PFX Datei: Wähle „Benutzer Zertifikat\", wähle die Datei aus der Liste und berühre „Auswählen\". Lasse „Privater Schlüssel\" leer.\n\nEinzelne PEM/CRT/CER Datei: Siehe P12 oder PFX Datei.\n\nGetrennte PEM/CRT/CER und KEY Dateien: Fülle „Benutzer Zertifikat\" mit der Zertifikatdatei und „Privater Schlüssel\" mit der Schlüsseldatei.\n\nNachdem du fertig bist lösche die Zertifikatdateien vom externen Speicher, damit sie nicht von anderen Programmen missbraucht werden können.\n\nWenn du deine eigenen Schlüssel generierst (z.B. in Kombination mit einem eigenen ocserv Gateway) findest du einige grundlegende CA Einrichtungsanleitungen [hier](http://forum.xda-developers.com/showpost.php?p=52119253&amp;postcount=25).</item>
+    <item>Funktioniert OpenConnect mit nicht-AnyConnect VPNs?</item>
+    <item>Das Softwaredesign ist sehr nahe an den AnyConnect Voraussetzungen und der libopenconnect Schnittstelle orientiert.  Deshalb funktioniert es leider nur mit Cisco AnyConnect und ocserv Gateways.</item>
+    <item>Wird OpenConnect mit Cisco IPsec VPNs funktionieren welche auf einem ASA Cluster laufen?</item>
+    <item>OpenConnect unterstützt ausschließlich SSL VPN (CSTP + DTLS).</item>
+    <item>Wie importiere ich eine SecurID Software Schlüsselfolge?</item>
+    <item>Wenn du in deiner E-Mail eine URL hast die mit „com.rsa.securid.iphone://\" oder „http://127.0.0.1/securid/\" beginnt, klicke darauf und teile OpenConnect mit diese zu deinem gewünschten VPN Profil hinzuzufügen. Wenn du nur eine rohe Schlüsselfolge hast dann schreibe diese in eine Textdatei, kopiere sie nach /sdcard, klicke \"Schlüsselfolge\" im VPN Profileditor und wähle dann den Dateinamen.\n\nWenn du eine \"sdtid\" XML Datei hast, kopiere sie nach /sdcard und importiere sie anschließend.</item>
+    <item>Ist es möglich alle Nachfragen beim Login zu überspringen?</item>
+    <item>Wenn du deinen Benutzernamen, das Passwort, oder andere Zugangskennungen gespeichert hast, andernfalls, wenn du die SecurID or Zertifkatsauthentifizierung verwendest, kannst du versuchen den „Batch Modus\" im VPN Profil zu aktivieren um die Logindialoge zu überspringen. Wenn du dein gespeichertes Passwort im Nachhinein ändern musst oder du Probleme beim Verbinden haben solltest, so deaktiviere den Batch Modus einfach wieder.\n\nDer VPN Warnungsdialog ist eine Sicherheitsmaßnahme des Android Betriebssystems. Dieser kann nicht durch OpenConnect umgangen werden, außer wenn dein Gerät gerootet ist rooted, dann kannst du versuchen das Xposed Framework zu installieren und das Auto VPN Dialog Confirm Modul zu aktivieren. Eine Hinweise hierzu findest du [hier](http://forum.xda-developers.com/showpost.php?p=52037630&amp;postcount=21).\n\nAufgrund dieser notwendigen Benutzerinteraktionen ist es nicht immer möglich die VPN Verbindung im Hintergrund zuverlässig herzustellen. Daher wird momentan keine „start-on-boot\" Funktionalität angeboten.</item>
+    <item>Wie verbessere ich die Akkulaufzeit während VPN läuft?</item>
+    <item>Eine Möglichkeit besteht darin „Im Schlaf pausieren\" in den Einstellungen zu wählen. Der Nachteil ist, dass der VPN Zugang vorübergehen getrennt wird wenn der Bildschirm aus ist. Ferner fühlen sich ASA Gateways manchmal durch stetige Wiederverbindungen gestört und trennen ihre Sitzung nach einigen Tagen vorzeitig.\n\nEine weitere Möglichkeit ist es ihren Server Administrator zu kontaktieren und anzufragen, ob sie die dead peer detection (DPD) deaktivieren, den idle timeout auf &gt;1 Stunde erhöhen und das keepalive interval auf ~5 Minuten ändern.</item>
+    <item>Wie verwende ich OpenConnect in Verbindung mit AFWall+?</item>
+    <item>Hierbei gibt es einige Punkte die sie bei der Verwendung einer Android Firewall in Kombination mit VPN im Hinterkopf haben sollten:\n\n* Wenn du KitKat benutzt, verwende Android 4.4.2 oder höher und AFWall 1.2.8 oder höher. Android 4.4 und 4.4.1 haben einen schwerwiegenden TCP MSS Fehler, welcher aussetzende Verbindungen und/oder schlechte Performanz hervorruft. AFWall &lt;=1.2.7 hat nicht die notwendige Logik um sich verändernde Routen in KitKat zu berücksichtigen.\n* Erlaube Traffic von der VPN Anwendung immer auf allen Schnittstellen. Insbesondere solltest du den VPN Datenverkehr von OpenConnect auf die WhiteList setzen, da OpenConnect alle paar Minuten DNS Anfragen über die VPN Schnittstelle sendet, um dafür zu sorgen, dass die Verbindung nicht wegen Zeitüberschreitung getrennt wird.</item>
+    <item>Sind irgendwelche Anwendungen inkompatibel mit VPN?</item>
+    <item>Anwendungen welche ihre eigene DNS Auflösung durchführen, beispielsweise Firefox, könnten Probleme damit haben die aktuellen systemweiten DNS Einstellungen zu erkennen, wenn eine VPN Verbindung aufgebaut wird. Dies kann dann zum Problem werden wenn deine systemweiten DNS Server nicht über das VPN Routing ansprechbar sind oder wenn du versuchst Hostnamen anzusprechen, welche keinen öffentlichen (Internet) DNS Eintrag haben.</item>
+    <item>Unter welchen Umständen wird OpenConnect root Rechte verlangen?</item>
+    <item>Es gibt zwei Funktionen in den Einstellungen welche nur mit root Rechten funktionieren; beide sind standardmäßig deaktiviert. Die eine Einstellung umgeht einen Fehler in CM9 ROMs welcher falsche Berechtigungen auf /dev/tun setzt, was den VpnService daran hindert Datenverkehr an die Tunnel Schnittstelle weiter zu leiten; die andere Einstellung lädt tun.ko in ROMs die darauf verzichten dies standardmäßig zu tun.\n\nBasierend auf Rückmeldungen durch Benutzer und Test könnten zukünftige Versionen diese Umstände gegebenenfalls automatisch erkennen.</item>
+    <item>Wie sende ich einen Problembericht?</item>
+    <item>Navigiere zu Log -&gt; (Menü) -&gt; Logdatei senden. Bitte vergewissere dich eine vollständige und genaue Beschreibung der Fehler, welche dir aufgefallen sind, zu verfassen, da die Logdatei alleine uns sonst zum Hellsehen verdammt und unsere Glaskugel nicht die beste ist ;).</item>
+    <item>Wer hat hier so schlecht ins Deutsche übersetzt?!?</item>
+    <item>Dafür verantwortlich war Ingo „IZSkiSurfer\" Zansinger &lt;ingo@zansinger.de&gt;</item>
+  </string-array>
+</resources>
