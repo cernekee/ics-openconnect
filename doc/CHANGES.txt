@@ -1,3 +1,11 @@
+v0.95 - UNRELEASED
+
+ - Add German translations (thanks to Ingo Zansinger <ingo@zansinger.de>)
+
+ - Add Chinese translations
+
+ - Clean up a bunch of lint warnings and unused strings/files
+
 v0.91 - 2014/06/01
 
  - Fix bugs involving saved authgroups
