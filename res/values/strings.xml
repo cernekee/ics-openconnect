@@ -127,9 +127,9 @@
     <string name="token_string">Token string</string>
     <string name="enter_token_string">Enter token string:</string>
     <string name="token_string_examples_0">Valid formats include:</string>
-    <string name="token_string_examples_1">29624-04141-91521-01027-05321-47115-52307-30331-00256-47622-00007-44173-12504-44077-52716-73535-5</string>
-    <string name="token_string_examples_2">http://127.0.0.1/securid/ctf?ctfData=213797568467227240150540165305516771132574111177500436764173125710437026671675121</string>
-    <string name="token_string_examples_3">com.rsa.securid.iphone://ctf?ctfData=280670666747751343027701722017126407551472632305635574224173125614664606671656613</string>
+    <string name="token_string_examples_1" translatable="false">29624-04141-91521-01027-05321-47115-52307-30331-00256-47622-00007-44173-12504-44077-52716-73535-5</string>
+    <string name="token_string_examples_2" translatable="false">http://127.0.0.1/securid/ctf?ctfData=213797568467227240150540165305516771132574111177500436764173125710437026671675121</string>
+    <string name="token_string_examples_3" translatable="false">com.rsa.securid.iphone://ctf?ctfData=280670666747751343027701722017126407551472632305635574224173125614664606671656613</string>
     <string name="token_bad_string_title">Token string is not valid</string>
     <string name="token_bad_string_summary">The supplied string cannot be parsed.  Please check for errors and resubmit.</string>
     <string name="token_need_devid">This token is tied to a specific Device ID, usually found on the "About" screen in the RSA SecurID Software Token app.  Enter the Device ID here:</string>
