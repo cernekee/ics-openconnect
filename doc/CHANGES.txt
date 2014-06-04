@@ -1,5 +1,8 @@
 v0.95 - UNRELEASED
 
+ - Show the auth dialog <message> text in case it contains useful
+   information
+
  - Add German translations (thanks to Ingo Zansinger <ingo@zansinger.de>)
 
  - Add Chinese translations
