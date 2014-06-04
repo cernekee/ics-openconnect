@@ -464,6 +464,18 @@ public class AuthFormHandler extends UserDialog
 				.setNegativeButton(R.string.cancel, h)
 				.create();
 		mAlert.setOnDismissListener(h);
+
+		if (mForm.message != null) {
+			// Truncate long messages so they don't ruin the dialog
+			String s = mForm.message.trim();
+			if (s.length() > 128) {
+				s = s.substring(0, 128);
+			}
+			if (s.length() > 0) {
+				mAlert.setMessage(s);
+			}
+		}
+
 		mAlert.show();
 
 		TextView focus = mFirstEmptyText != null ? mFirstEmptyText : mFirstText;
