@@ -53,6 +53,8 @@
   <string name="enter_problem">在此输入问题的描述：</string>
   <string name="copied_entry">已复制到剪贴板。</string>
   <string name="faq">常见问题解答</string>
+  <string name="question_abbrev">问：</string>
+  <string name="answer_abbrev">答：</string>
   <string name="file_explorer_tab">文件资源管理器</string>
   <string name="inline_file_tab">内嵌文件</string>
   <string name="file_too_large">文件过大</string>
@@ -151,6 +153,12 @@
   <string name="disable_username_caching_summary">永远不要缓存登录名、用户群组或密码</string>
   <string name="disable_xml_post">禁用 XML POST</string>
   <string name="disable_xml_post_summary">使用旧的身份验证信号交换；可能无法在较新的服务器上获得成功</string>
+  <string name="require_pfs">要求 PFS</string>
+  <string name="require_pfs_summary">仅有协商式的密码才能与完全正向保密配套。如果服务器不支持 PFS，则连接将失败。</string>
+  <string name="dpd_override">覆盖 DPD 超时</string>
+  <string name="dpd_override_summary">使用自定义的端点失效检测超时来取代服务器默认值</string>
+  <string name="dpd_value">DPD 超时</string>
+  <string name="dpd_value_message">输入新的超时数值，以秒为单位。典型数值的范围从 30 到 600。</string>
   <string name="cert_warning_title">认证警告</string>
   <string name="cert_warning_message">来自 VPN 服务器 \"%1$s\" 的认证无法成功验证。原因：\"%2$s\" SHA1: %3$s 是否仍然连接？</string>
   <string name="cert_warning_just_once">仅只一次</string>

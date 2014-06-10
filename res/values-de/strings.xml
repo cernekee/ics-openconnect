@@ -153,6 +153,11 @@
   <string name="disable_username_caching_summary">Loginnamen, Benutzergruppen oder Passwörter nie speichern</string>
   <string name="disable_xml_post">XML POST deaktivieren</string>
   <string name="disable_xml_post_summary">Benutze die alte Authentifizierungsvermittlung; könnte auf neueren Servern fehlschlagen</string>
+  <string name="require_pfs">PFS benötigt</string>
+  <string name="dpd_override">Überschreibe DPD Timeout</string>
+  <string name="dpd_override_summary">Verwende ein anderes Dead Peer Detection Timeout als das vom Server standardmäßig vorgegebene.</string>
+  <string name="dpd_value">DPD Timeout</string>
+  <string name="dpd_value_message">Trage hier das neue Timeout in Sekunden ein. Typischer Wertebereich 30 bis 600.</string>
   <string name="cert_warning_title">Zertifikatwarnung</string>
   <string name="cert_warning_message">Das Zertifikat von VPN Server „%1$s“ konnte nicht verifiziert werden.\n\nGrund: „%2$s“\nSHA1: %3$s\n\nTrotzdem verbinden?</string>
   <string name="cert_warning_just_once">Nur diesmal</string>
