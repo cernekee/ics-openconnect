@@ -101,6 +101,7 @@ public class ProfileManager {
 	}
 
 	private static String makeProfName(String s, int index) {
+		String orig = s;
 		String suffix;
 
 		if (index > 0) {
@@ -117,7 +118,6 @@ public class ProfileManager {
 
 		// try to parse the hostname out of an URL
 		if (s.matches(".*/.*")) {
-			String orig = s;
 			if (!s.matches("https://.*")) {
 				s = "https://" + s;
 			}
@@ -146,7 +146,13 @@ public class ProfileManager {
 				i--;
 			}
 		}
-		return capitalize(ss[i - 1]) + suffix;
+
+		s = ss[i - 1];
+		if (s.length() < 2) {
+			return orig + suffix;
+		} else {
+			return capitalize(s) + suffix;
+		}
 	}
 
 	public synchronized static VpnProfile create(String hostname) {
