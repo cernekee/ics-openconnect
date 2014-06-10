@@ -27,6 +27,7 @@ package app.openconnect.core;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 import app.openconnect.VpnProfile;
@@ -34,6 +35,7 @@ import app.openconnect.VpnProfile;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -88,12 +90,74 @@ public class ProfileManager {
 		return PROFILE_PFX + uuid;
 	}
 
+	private static String capitalize(String in) {
+		if (in.length() <= 4) {
+			// These are almost always abbreviations
+			return in.toUpperCase(Locale.getDefault());
+		} else {
+			// Longer names -> capitalize first letter only
+			return Character.toUpperCase(in.charAt(0)) + in.substring(1);
+		}
+	}
+
+	private static String makeProfName(String s, int index) {
+		String suffix;
+
+		if (index > 0) {
+			suffix = " (" + index + ")";
+		} else {
+			suffix = "";
+		}
+
+		// leave IP addresses alone
+		if ((s.matches("[0-9.]+") && s.matches(".*\\..*")) ||
+			(s.matches("[0-9a-fA-F:]+") && s.matches(".*:.*"))) {
+			return s + suffix;
+		}
+
+		// try to parse the hostname out of an URL
+		if (s.matches(".*/.*")) {
+			String orig = s;
+			if (!s.matches("https://.*")) {
+				s = "https://" + s;
+			}
+
+			s = Uri.parse(s).getHost();
+			if (s == null || s.trim().equals("")) {
+				// failed
+				return orig + suffix;
+			}
+		}
+
+		String ss[] = s.split("\\.");
+		if (ss.length < 2) {
+			// unqualified hostname (or junk)
+			return capitalize(s) + suffix;
+		}
+
+		// Try to find the first private part of the FQDN.
+		// This should probably use something like the Apache Public Suffix List, but it's not
+		// worth the trouble right now.
+		int i = ss.length - 1;
+		if (ss[i].length() <= 2 && i > 1) {
+			// if the TLD looks like a country code, check for a public SLD like .co
+			String sld = ss[i - 1];
+			if (sld.length() <= 2 || sld.equals("com")) {
+				i--;
+			}
+		}
+		return capitalize(ss[i - 1]) + suffix;
+	}
+
 	public synchronized static VpnProfile create(String hostname) {
-		String profName = hostname;
+		String profName;
 
 		// generate a non-conflicting name if necessary
-		for (int i = 1; getProfileByName(profName) != null; i++) {
-			profName = hostname + " (" + i + ")";
+		for (int i = 0; ; i++) {
+			profName = makeProfName(hostname, i);
+			if (getProfileByName(profName) == null) {
+				break;
+			}
 		}
 
 		String uuid = UUID.randomUUID().toString();
@@ -106,8 +170,10 @@ public class ProfileManager {
 	}
 
 	public synchronized static VpnProfile getProfileByName(String name) {
+		String lower = name.toLowerCase(Locale.getDefault());
 		for (VpnProfile vpnp : mProfiles.values()) {
-			if(vpnp.getName().equals(name)) {
+			String vname = vpnp.getName().toLowerCase(Locale.getDefault());
+			if(vname.equals(lower)) {
 				return vpnp;
 			}
 		}
