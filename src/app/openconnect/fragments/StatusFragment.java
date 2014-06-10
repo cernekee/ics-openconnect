@@ -119,8 +119,13 @@ public class StatusFragment extends Fragment {
 
 			visibility = View.VISIBLE;
 
-			writeStatusField(R.id.connection_state, R.string.netstatus,
-					getString(R.string.state_connected_to, service.profile.getName()));
+			String s = getString(R.string.state_connected_to, service.profile.getName());
+			if (s.length() < 25) {
+				writeStatusField(R.id.connection_state, R.string.netstatus, s);
+			} else {
+				writeStatusField(R.id.connection_state, R.string.netstatus,
+					service.getConnectionStateName());
+			}
 			writeStatusField(R.id.connection_time, R.string.uptime,
 					OpenVpnService.formatElapsedTime(service.startTime.getTime()));
 
