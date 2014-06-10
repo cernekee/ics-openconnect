@@ -94,5 +94,22 @@
             android:title="@string/disable_xml_post"
             android:summary="@string/disable_xml_post_summary"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="require_pfs"
+            android:title="@string/require_pfs"
+            android:summary="@string/require_pfs_summary"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="dpd_override"
+            android:title="@string/dpd_override"
+            android:summary="@string/dpd_override_summary"
+            android:defaultValue="false" />
+        <EditTextPreference
+            android:key="dpd_value"
+            android:title="@string/dpd_value"
+            android:dependency="dpd_override"
+            android:dialogMessage="@string/dpd_value_message"
+            android:inputType="number"
+            android:defaultValue="" />
     </PreferenceCategory>
 </PreferenceScreen>

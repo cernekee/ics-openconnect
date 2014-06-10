@@ -355,6 +355,18 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mServerAddr = getStringPref("server_address");
 		mOC.setXMLPost(!getBoolPref("disable_xml_post"));
 		mOC.setReportedOS(getStringPref("reported_os"));
+		mOC.setPFS(getBoolPref("require_pfs"));
+
+		if (getBoolPref("dpd_override")) {
+			try {
+				int dpd = Integer.parseInt(getStringPref("dpd_value"));
+				if (dpd > 0) {
+					mOC.setDPD(dpd);
+				}
+			} catch (Exception e) {
+				log("DPD: bad dpd_value, ignoring");
+			}
+		}
 
 		s = getStringPref("software_token");
 		String token = getStringPref("token_string");

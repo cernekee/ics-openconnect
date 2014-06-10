@@ -158,6 +158,12 @@
     <string name="disable_username_caching_summary">Never cache login names, user groups, or passwords</string>
     <string name="disable_xml_post">Disable XML POST</string>
     <string name="disable_xml_post_summary">Use the old authentication handshake; may fail on newer servers</string>
+    <string name="require_pfs">Require PFS</string>
+    <string name="require_pfs_summary">Only negotiate cipher suites with Perfect Forward Secrecy.  If the server doesn\'t support PFS, the connection will fail.</string>
+    <string name="dpd_override">Override DPD timeout</string>
+    <string name="dpd_override_summary">Use a custom Dead Peer Detection timeout instead of the server default</string>
+    <string name="dpd_value">DPD timeout</string>
+    <string name="dpd_value_message">Enter the new timeout value, in seconds. Typical values range from 30 to 600.</string>
     <string name="cert_warning_title">Certificate warning</string>
     <string name="cert_warning_message">The certificate from VPN server \"%1$s\" failed verification.\n\nReason: \"%2$s\"\nSHA1: %3$s\n\nConnect anyway?</string>
     <string name="cert_warning_just_once">Just once</string>
