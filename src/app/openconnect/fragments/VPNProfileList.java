@@ -257,7 +257,10 @@ public class VPNProfileList extends ListFragment {
 					mDialog.dismiss();
 					mDialog = null;
 
-					editVPN(ProfileManager.create(name));
+					name = name.replaceAll("\\s", "");
+					if (!name.equals("")) {
+						editVPN(ProfileManager.create(name));
+					}
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
