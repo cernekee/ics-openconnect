@@ -1,4 +1,4 @@
-v0.95 - UNRELEASED
+v0.95 - 2014/06/14
 
  - Show the auth dialog <message> text in case it contains useful
    information
