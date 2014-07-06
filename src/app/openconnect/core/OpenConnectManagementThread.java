@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.VpnService;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -461,6 +462,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	private void setIPInfo(VpnService.Builder b) {
 		LibOpenConnect.IPInfo ip = mOC.getIPInfo();
 		CIDRIP cdr;
+		int minMtu = 576;
 
 		/* IP + MTU */
 
@@ -475,10 +477,26 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				int netmask = Integer.parseInt(ss[1]);
 				b.addAddress(ss[0], netmask);
 				log("IPv6: " + ip.netmask6);
+				/* RFC 2460 */
+				minMtu = 1280;
 			}
 		}
-		b.setMtu(ip.MTU);
-		log("MTU: " + ip.MTU);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			/*
+			 * KK 4.4.3 and 4.4.4 won't connect if MTU < 1280.  See:
+			 * https://code.google.com/p/android/issues/detail?id=70916
+			 */
+			minMtu = 1280;
+		}
+
+		if (ip.MTU < minMtu) {
+			b.setMtu(minMtu);
+			log("MTU: " + minMtu + " (forced)");
+		} else {
+			b.setMtu(ip.MTU);
+			log("MTU: " + ip.MTU);
+		}
 
 		/* routing */
 
