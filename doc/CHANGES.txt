@@ -1,3 +1,11 @@
+v0.96 - 2014/07/06
+
+ - Force a minimum MTU of 1280 on KK due to bugs in 4.4.3 and 4.4.4 ROMs:
+   https://code.google.com/p/android/issues/detail?id=70916
+
+ - Fix navigation anomalies (weird Back button behavior) seen after
+   re-entering OpenConnect from one of the Notifications
+
 v0.95 - 2014/06/14
 
  - Show the auth dialog <message> text in case it contains useful
