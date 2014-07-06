@@ -159,13 +159,13 @@ public class OpenVpnService extends VpnService {
 		}
 	}
 
-	private PendingIntent getConfigurePendingIntent() {
-		// Touching "Configure" on the system VPN dialog will summon MainActivity
+	private PendingIntent getMainActivityIntent() {
+		// Touching "Configure" on the system VPN dialog will restore the app
+		// (same as clicking the launcher icon)
 		Intent intent = new Intent(getBaseContext(), MainActivity.class);
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-		// FIXME: these flags don't actually take effect, so we get duplicate instances
-		// of MainActivity
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent startLW = PendingIntent.getActivity(this, 0, intent, 0);
 		return startLW;
 	}
@@ -285,7 +285,7 @@ public class OpenVpnService extends VpnService {
 	public Builder getVpnServiceBuilder() {
 		VpnService.Builder b = new VpnService.Builder();
 		b.setSession(profile.mName);
-		b.setConfigureIntent(getConfigurePendingIntent());
+		b.setConfigureIntent(getMainActivityIntent());
 		return b;
 	}
 
@@ -355,13 +355,8 @@ public class OpenVpnService extends VpnService {
 			Notification.Builder builder = new Notification.Builder(this)
 		            .setSmallIcon(R.drawable.ic_stat_vpn)
 		            .setContentTitle(getString(R.string.notification_input_needed))
-		            .setContentText(getString(R.string.notification_touch_here));
-
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent pend = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pend);
+		            .setContentText(getString(R.string.notification_touch_here))
+		            .setContentIntent(getMainActivityIntent());
 
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(NOTIFICATION_ID, builder.getNotification());
