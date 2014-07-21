@@ -54,7 +54,6 @@ public class ConnectionEditorFragment extends PreferenceFragment
 	VpnProfile mProfile;
 	String mUUID;
 
-    String fileSelectKeys[] = { "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
     HashMap<String,Integer> fileSelectMap = new HashMap<String,Integer>();
 
     private final int IDX_TOKEN_STRING = 65536;
@@ -72,13 +71,12 @@ public class ConnectionEditorFragment extends PreferenceFragment
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_openconnect);
+        setClickListeners();
 
         SharedPreferences sp = mPrefs.getSharedPreferences();
         for (Map.Entry<String,?> entry : sp.getAll().entrySet()) {
             updatePref(sp, entry.getKey());
         }
-
-        setClickListeners();
     }
 
     @Override
@@ -112,9 +110,9 @@ public class ConnectionEditorFragment extends PreferenceFragment
 				lpref.setValue(value);
 				pref.setSummary(lpref.getEntry());
 			} else {
-				/* for ShowTextPreference entries, hide the raw base64 cert data */
-				if (value.startsWith(VpnProfile.INLINE_TAG)) {
-					pref.setSummary("[STORED]");
+				/* for ShowTextPreference entries, hide the filename */
+				if (fileSelectMap.containsKey(key) && !value.equals("")) {
+					pref.setSummary(getString(R.string.stored));
 				} else {
 					pref.setSummary(value);
 				}
@@ -147,8 +145,8 @@ public class ConnectionEditorFragment extends PreferenceFragment
 	}
 
 	private void setClickListeners() {
-		for (int idx = 0; idx < fileSelectKeys.length; idx++) {
-			String key = fileSelectKeys[idx];
+		for (int idx = 0; idx < ProfileManager.fileSelectKeys.length; idx++) {
+			String key = ProfileManager.fileSelectKeys[idx];
 			Preference p = findPreference(key);
 			fileSelectMap.put(key, idx);
 
@@ -164,7 +162,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
 					Intent startFC = new Intent(getActivity(), FileSelect.class);
 					startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
 					startFC.putExtra(FileSelect.SHOW_CLEAR_BUTTON, true);
-					startFC.putExtra(FileSelect.DO_BASE64_ENCODE, true);
+					startFC.putExtra(FileSelect.NO_INLINE_SELECTION, true);
 
 					startActivityForResult(startFC, idx);
 					return false;
@@ -198,9 +196,17 @@ public class ConnectionEditorFragment extends PreferenceFragment
 			updatePref(prefs, "token_string");
 			updatePref(prefs, "software_token");
 		} else {
-			String key = fileSelectKeys[idx];
+			String path = data.getStringExtra(FileSelect.RESULT_DATA);
+			String key = ProfileManager.fileSelectKeys[idx];
 			ShowTextPreference p = (ShowTextPreference)findPreference(key);
-			p.setText(data.getStringExtra(FileSelect.RESULT_DATA));
+
+			if (path == null) {
+				ProfileManager.deleteFilePref(mProfile, key);
+			} else {
+				path = ProfileManager.storeFilePref(mProfile, key, path);
+			}
+
+			p.setText(path);
 			updatePref(prefs, key);
 		}
 	}

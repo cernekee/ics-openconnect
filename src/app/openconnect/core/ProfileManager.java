@@ -25,6 +25,8 @@
 package app.openconnect.core;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -41,6 +43,9 @@ import android.util.Log;
 
 public class ProfileManager {
 	public static final String TAG = "OpenConnect";
+
+	public static String fileSelectKeys[] =
+		{ "ca_certificate", "user_certificate", "private_key", "custom_csd_wrapper" };
 
 	private static final String PROFILE_PFX = "profile-";
 	private static HashMap<String,VpnProfile> mProfiles;
@@ -186,12 +191,59 @@ public class ProfileManager {
 		return null;
 	}
 
+	private static String getCertPath(VpnProfile profile, String key) {
+		return mContext.getFilesDir().getPath() + File.separator +
+				"cert-" + profile.getUUIDString() + "-" + key;
+	}
+
+	public synchronized static void deleteFilePref(VpnProfile profile, String key) {
+		String oldVal = profile.mPrefs.getString(key, null);
+		if (getCertPath(profile, key).equals(oldVal)) {
+			File f = new File(oldVal);
+			if (!f.delete()) {
+				Log.w(TAG, "error deleting " + oldVal);
+			}
+		}
+	}
+
+	public synchronized static String storeFilePref(VpnProfile profile, String key, String fromPath) {
+		String toPath = getCertPath(profile, key);
+
+		try {
+			FileInputStream in = new FileInputStream(fromPath);
+			FileOutputStream out = new FileOutputStream(toPath);
+			byte buffer[] = new byte[32768];
+
+			int len = in.read(buffer);
+			out.write(buffer, 0, len);
+
+			in.close();
+			out.close();
+
+			return toPath;
+		} catch (Exception e) {
+			Log.e(TAG, "error copying " + fromPath + " -> " + toPath, e);
+
+			try {
+				new File(toPath).delete();
+			} catch (Exception ee) {
+			}
+
+			return null;
+		}
+	}
+
 	public synchronized static boolean delete(String uuid) {
 		VpnProfile profile = get(uuid);
 		if (profile == null) {
 			Log.w(TAG, "error looking up profile " + uuid);
 			return false;
 		}
+
+		for (String key : fileSelectKeys) {
+			deleteFilePref(profile, key);
+		}
+
 		mProfiles.remove(uuid);
 
 		File f = new File(mContext.getApplicationInfo().dataDir + File.separator +

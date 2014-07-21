@@ -123,6 +123,7 @@
     <string name="authentication">Authentication</string>
     <string name="user_certificate">User certificate</string>
     <string name="private_key">Private key</string>
+    <string name="stored">[STORED]</string>
     <string name="software_token">Software token</string>
     <string name="token_string">Token string</string>
     <string name="enter_token_string">Enter token string:</string>
