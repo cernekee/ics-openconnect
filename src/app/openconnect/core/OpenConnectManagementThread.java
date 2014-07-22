@@ -305,8 +305,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			}
 			log("PREF: wrote out " + path + " (" + bytes + ")");
 		} else {
-			path = prefData;
-			log("PREF: using existing file " + path);
+			log("PREF: using existing file " + prefData);
+			if (prefData.startsWith("/")) {
+				path = prefData;
+			} else {
+				path = ProfileManager.getCertPath() + prefData;
+			}
 		}
 
 		if (isExecutable) {

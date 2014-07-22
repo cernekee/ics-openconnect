@@ -191,15 +191,18 @@ public class ProfileManager {
 		return null;
 	}
 
-	private static String getCertPath(VpnProfile profile, String key) {
-		return mContext.getFilesDir().getPath() + File.separator +
-				"cert-" + profile.getUUIDString() + "-" + key;
+	private static String getCertFilename(VpnProfile profile, String key) {
+		return 	"cert." + profile.getUUIDString() + "." + key;
+	}
+
+	public static String getCertPath() {
+		return mContext.getFilesDir().getPath() + File.separator;
 	}
 
 	public synchronized static void deleteFilePref(VpnProfile profile, String key) {
 		String oldVal = profile.mPrefs.getString(key, null);
-		if (getCertPath(profile, key).equals(oldVal)) {
-			File f = new File(oldVal);
+		if (getCertFilename(profile, key).equals(oldVal)) {
+			File f = new File(getCertPath() + oldVal);
 			if (!f.delete()) {
 				Log.w(TAG, "error deleting " + oldVal);
 			}
@@ -207,20 +210,23 @@ public class ProfileManager {
 	}
 
 	public synchronized static String storeFilePref(VpnProfile profile, String key, String fromPath) {
-		String toPath = getCertPath(profile, key);
+		String filename = getCertFilename(profile, key);
+		String toPath = getCertPath() + filename;
 
 		try {
 			FileInputStream in = new FileInputStream(fromPath);
-			FileOutputStream out = new FileOutputStream(toPath);
-			byte buffer[] = new byte[32768];
+			File outFile = new File(toPath);
+			FileOutputStream out = new FileOutputStream(outFile);
+			byte buffer[] = new byte[65536];
 
 			int len = in.read(buffer);
 			out.write(buffer, 0, len);
 
 			in.close();
 			out.close();
+			outFile.setExecutable(true);
 
-			return toPath;
+			return filename;
 		} catch (Exception e) {
 			Log.e(TAG, "error copying " + fromPath + " -> " + toPath, e);
 
