@@ -29,7 +29,6 @@ import org.acra.ACRAConfiguration;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 import app.openconnect.FragActivity;
@@ -40,10 +39,7 @@ public class CommonMenu {
 	private static final int MENU_SETTINGS = 15;
 	private static final int MENU_SECURID = 20;
 	private static final int MENU_REPORT_PROBLEM = 25;
-	private static final int MENU_TRANSLATE = 29;
 	private static final int MENU_ABOUT = 30;
-
-	private static final String translateURL = "https://www.transifex.com/projects/p/ics-openconnect/";
 
 	private Context mContext;
 
@@ -55,8 +51,6 @@ public class CommonMenu {
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_REPORT_PROBLEM, Menu.NONE, R.string.report_problem)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		menu.add(Menu.NONE, MENU_TRANSLATE, Menu.NONE, R.string.help_with_translations)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.about_openconnect)
 			.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 	}
@@ -64,12 +58,6 @@ public class CommonMenu {
 	private boolean startFragActivity(String fragName) {
 		Intent intent = new Intent(mContext, FragActivity.class);
 		intent.putExtra(FragActivity.EXTRA_FRAGMENT_NAME, fragName);
-		mContext.startActivity(intent);
-		return true;
-	}
-
-	private boolean startBrowserActivity(String URL) {
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
 		mContext.startActivity(intent);
 		return true;
 	}
@@ -93,8 +81,6 @@ public class CommonMenu {
 			return startFragActivity("AboutFragment");
 		} else if (itemId == MENU_SECURID) {
 			return startFragActivity("TokenParentFragment");
-		} else if (itemId == MENU_TRANSLATE) {
-			return startBrowserActivity(translateURL);
 		} else if (itemId == MENU_REPORT_PROBLEM) {
 			sendProblemReport();
 			return true;
