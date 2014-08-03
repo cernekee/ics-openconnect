@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="software_token_entries">
         <item>Disabled</item>
         <item>RSA SecurID</item>
@@ -10,6 +11,7 @@
         <item>securid</item>
         <item>totp</item>
     </string-array>
+
     <string-array name="batch_mode_entries">
         <item>Disabled</item>
         <item>Prompt for empty fields only</item>
@@ -20,6 +22,7 @@
         <item>empty_only</item>
         <item>enabled</item>
     </string-array>
+
     <string-array name="reported_os_entries">
         <item>Android</item>
         <item>Linux (32-bit)</item>
@@ -36,6 +39,7 @@
         <item>mac-intel</item>
         <item>apple-ios</item>
     </string-array>
+
     <string-array name="split_tunnel_mode_entries">
         <item>Auto</item>
         <item>On - DNS uses VPN</item>
@@ -46,6 +50,18 @@
         <item>on_vpn_dns</item>
         <item>on_uplink_dns</item>
     </string-array>
+
+    <string-array name="log_timestamp_entries" translatable="false">
+        <item>@string/timestamp_short</item>
+        <item>@string/timestamp_long</item>
+        <item>@string/timestamp_none</item>
+    </string-array>
+    <string-array name="log_timestamp_values" translatable="false">
+        <item>short</item>
+        <item>long</item>
+        <item>none</item>
+    </string-array>
+
     <string-array name="connection_states">
         <item>Unknown</item>
         <item>Authenticating</item>

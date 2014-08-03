@@ -52,6 +52,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/advanced">
+        <ListPreference
+            android:key="timestamp_format"
+            android:title="@string/timestamp_format"
+            android:dialogTitle="@string/timestamp_format"
+            android:entries="@array/log_timestamp_entries"
+            android:entryValues="@array/log_timestamp_values"
+            android:defaultValue="short" />
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="trace_log"

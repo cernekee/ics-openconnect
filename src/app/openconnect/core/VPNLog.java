@@ -45,10 +45,7 @@ public class VPNLog {
 
 	public static final String TAG = "OpenConnect";
 
-	public static final int TIME_FORMAT_TOGGLE = -1;
-	public static final int TIME_FORMAT_NONE = 0;
-	public static final int TIME_FORMAT_SHORT = 1;
-	public static final int TIME_FORMAT_LONG = 2;
+	public static final String DEFAULT_TIME_FORMAT = "short";
 
 	public static final int LEVEL_ERR = LibOpenConnect.PRG_ERR;
 	public static final int LEVEL_INFO = LibOpenConnect.PRG_INFO;
@@ -62,7 +59,7 @@ public class VPNLog {
 	public class LogArrayAdapter extends BaseAdapter {
 
 		private Context mContext;
-		private int mTimeFormat = TIME_FORMAT_LONG;
+		private String mTimeFormat = "short";
 
 		public LogArrayAdapter(Context context) {
 			mContext = context;
@@ -97,12 +94,8 @@ public class VPNLog {
 			return v;
 		}
 
-		public void setTimeFormat(int timeFormat) {
-			if (timeFormat == TIME_FORMAT_TOGGLE) {
-				mTimeFormat = (mTimeFormat + 1) % 3;
-			} else {
-				mTimeFormat = timeFormat;
-			}
+		public void setTimeFormat(String timeFormat) {
+			mTimeFormat = timeFormat;
 			notifyDataSetChanged();
 		}
 	};

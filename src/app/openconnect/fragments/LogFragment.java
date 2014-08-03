@@ -31,7 +31,9 @@ import android.app.ListFragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,8 +55,6 @@ import app.openconnect.core.VPNLog.LogArrayAdapter;
 
 public class LogFragment extends ListFragment {
 	public static final String TAG = "OpenConnect";
-
-	private static final String LOGTIMEFORMAT = "logtimeformat";
 
 	private VPNConnector mConn;
 
@@ -83,8 +83,6 @@ public class LogFragment extends ListFragment {
 				stopVPN();
 			}
             return true;
-		} else if(item.getItemId() == R.id.toggle_time) {
-			mLogAdapter.setTimeFormat(VPNLog.TIME_FORMAT_TOGGLE);
 		} else if(mDropdown.onOptionsItemSelected(item)) {
 			return true;
 		}
@@ -131,11 +129,12 @@ public class LogFragment extends ListFragment {
 
     		if (mLogAdapter == null) {
     			mLogAdapter = service.getArrayAdapter(mActivity);
-    			mLogAdapter.setTimeFormat(mActivity.getPreferences(0)
-    					.getInt(LOGTIMEFORMAT, VPNLog.TIME_FORMAT_LONG));
     			mLogView.setAdapter(mLogAdapter);
     			mLogView.setSelection(mLogAdapter.getCount());
     		}
+
+    		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    		mLogAdapter.setTimeFormat(prefs.getString("timestamp_format", VPNLog.DEFAULT_TIME_FORMAT));
     	}
     }
 
