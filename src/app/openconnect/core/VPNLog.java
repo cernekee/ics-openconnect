@@ -56,6 +56,8 @@ public class VPNLog {
 	private ArrayList<VPNLogItem> circ = new ArrayList<VPNLogItem>();
 	private LogArrayAdapter mArrayAdapter;
 
+	private static VPNLog mInstance;
+
 	public class LogArrayAdapter extends BaseAdapter {
 
 		private Context mContext;
@@ -100,6 +102,10 @@ public class VPNLog {
 		}
 	};
 
+	public VPNLog() {
+		VPNLog.mInstance = this;
+	}
+
 	private void updateAdapter() {
 		if (mArrayAdapter != null) {
 			mArrayAdapter.notifyDataSetChanged();
@@ -126,6 +132,16 @@ public class VPNLog {
 			ret.append(s.toString() + "\n");
 		}
 		return ret.toString();
+	}
+
+	// this is all kind of hacky but we can't expect ACRA to establish a service
+	// connection to dump the application log (especially post-crash)
+	public static String dumpLast() {
+		if (mInstance == null) {
+			return "";
+		} else {
+			return mInstance.dump();
+		}
 	}
 
 	public int saveToFile(String path) {
