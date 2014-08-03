@@ -74,7 +74,6 @@ public class MainActivity extends Activity {
 		mConnectionTab = mTabList.get(0);
 
 		FeedbackFragment.recordUse(this, false);
-		FeedbackFragment.feedbackNag(this);
 	}
 
 	@Override

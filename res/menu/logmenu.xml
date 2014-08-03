@@ -14,12 +14,6 @@
         android:titleCondensed="@string/clear"/>
     
     <item
-        android:id="@+id/send"
-        android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="never"
-        android:title="@string/send_logfile"
-        android:titleCondensed="@string/send"/>
-    <item
         android:id="@+id/toggle_time"
         android:alphabeticShortcut="t"
         android:icon="@drawable/ic_clock"
