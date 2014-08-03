@@ -24,12 +24,32 @@
 
 package app.openconnect;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import app.openconnect.core.FragCache;
 import app.openconnect.core.ProfileManager;
+
+@ReportsCrashes(
+		mode = ReportingInteractionMode.DIALOG,
+		resDialogText = R.string.crash_dialog_text,
+		resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
+
+		reportType = org.acra.sender.HttpSender.Type.JSON,
+		httpMethod = org.acra.sender.HttpSender.Method.PUT,
+		formUri = "https://kpc.cloudant.com/acra-openconnect/_design/acra-storage/_update/report",
+		formUriBasicAuthLogin="ineintlynnoveristimedesc",
+		formUriBasicAuthPassword="mUmkrQIOKd3HalLf5AQuyxpA",
+
+		formKey = ""
+)
 
 public class Application extends android.app.Application {
 
 	public void onCreate() {
+		super.onCreate();
+		ACRA.init(this);
 		System.loadLibrary("openconnect");
 		System.loadLibrary("stoken");
 		ProfileManager.init(getApplicationContext());

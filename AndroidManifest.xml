@@ -99,6 +99,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:theme="@android:style/Theme.Dialog"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true" />
+
         <service
             android:name="app.openconnect.core.OpenVpnService"
             android:permission="android.permission.BIND_VPN_SERVICE" >
