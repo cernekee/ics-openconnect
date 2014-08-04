@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -103,6 +104,40 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
     private void putStringPref(final String key, String value) {
     	mPrefs.edit().putString(key, value).commit();
+    }
+
+    private String formatTime(long in) {
+    	if (in <= 0) {
+    		return "NEVER";
+    	}
+    	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US);
+    	return df.format(in);
+    }
+
+    private void updateStatPref(final String key) {
+    	long count = mPrefs.getLong(key, 0) + 1;
+    	long now = System.currentTimeMillis();
+    	long first = mPrefs.getLong(key + "_first", now);
+
+    	SharedPreferences.Editor ed = mPrefs.edit();
+    	ed.putLong(key, count);
+    	ed.putLong(key + "_first", first);
+    	ed.putLong(key + "_prev", now);
+    	ed.apply();
+    }
+
+    private void logOneStat(final String key) {
+    	long count = mPrefs.getLong(key, 0);
+    	long first = mPrefs.getLong(key + "_first", 0);
+    	long prev = mPrefs.getLong(key + "_prev", 0);
+
+    	log("STAT: " + key + "=" + count + "; first=" + formatTime(first) + "; prev=" + formatTime(prev));
+    }
+
+    private void logStats() {
+    	logOneStat("attempt");
+    	logOneStat("connect");
+    	logOneStat("cancel");
     }
 
     private void log(String msg) {
@@ -206,6 +241,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	@Override
 	public void run() {
+		logStats();
+
 		try {
 			if (mAppPrefs.getBoolean("loadTunModule", false)) {
 				Shell.runRootCommand(new CommandCapture(0, "insmod /system/lib/modules/tun.ko"));
@@ -546,6 +583,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 	}
 
 	private boolean runVPN() {
+		updateStatPref("attempt");
+
 		if (!AssetExtractor.extractAll(mContext)) {
 			log("Error extracting assets");
 		}
@@ -573,10 +612,13 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			if (mRejectedCerts.isEmpty() && !mRequestDisconnect) {
 				log("Error obtaining cookie");
 				errorAlert();
+			} else {
+				updateStatPref("cancel");
 			}
 			return false;
 		} else if (ret > 0) {
 			log("User canceled auth dialog");
+			updateStatPref("cancel");
 			return false;
 		}
 
@@ -608,6 +650,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			return false;
 		}
 		setState(STATE_CONNECTED);
+		updateStatPref("connect");
 
 		mOC.setupDTLS(60);
 
