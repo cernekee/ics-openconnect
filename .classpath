@@ -8,5 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/openconnect-wrapper.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/stoken-wrapper.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/acra-4.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/XposedBridgeApi-54.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
