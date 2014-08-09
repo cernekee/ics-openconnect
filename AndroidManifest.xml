@@ -158,6 +158,17 @@
             </intent-filter>
         </receiver>
         -->
+
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Bypass Android VPN confirmation dialog" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
+
     </application>
 
 </manifest>
