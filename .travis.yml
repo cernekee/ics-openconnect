@@ -18,6 +18,6 @@ before_install:
     - android update project -p . -s
 
 script:
-    - rm -rf libs/*.jar libs/armeabi assets/raw/armeabi
+    - rm -rf libs/*-wrapper.jar libs/armeabi assets/raw/armeabi
     - make -C external NDK=/opt/android-ndk-r9d ARCH_LIST=arm
     - ant debug
