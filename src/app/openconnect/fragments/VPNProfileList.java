@@ -236,7 +236,7 @@ public class VPNProfileList extends ListFragment {
 	}
 
 	private void onAddProfileClicked(String savedEntry) {
-		Context context = getActivity();
+		final Context context = getActivity();
 		if (context != null) {
 			View v = View.inflate(context, R.layout.add_new_vpn, null);
 
@@ -259,6 +259,7 @@ public class VPNProfileList extends ListFragment {
 
 					name = name.replaceAll("\\s", "");
 					if (!name.equals("")) {
+						FeedbackFragment.recordProfileAdd(context);
 						editVPN(ProfileManager.create(name));
 					}
 				}

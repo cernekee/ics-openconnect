@@ -180,4 +180,9 @@ public class FeedbackFragment extends Fragment {
     	sp.edit().putLong("num_uses", numUses + 1).apply();
     }
 
+    public static void recordProfileAdd(Context ctx) {
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ctx);
+    	long count = sp.getLong("num_profiles_added", 0) + 1;
+    	sp.edit().putLong("num_profiles_added", count).apply();
+    }
 }
