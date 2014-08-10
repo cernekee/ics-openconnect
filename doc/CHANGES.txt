@@ -1,3 +1,14 @@
+v1.00 - 2014/08/10
+
+ - Fix problems storing >8kB certificates on some ROMs
+
+ - Clean up seldom-used menu items and move some options into General Settings
+   or About
+
+ - Integrate Xposed module for bypassing the VPN confirmation dialog
+
+ - Switch to ACRA for problem reporting
+
 v0.96 - 2014/07/06
 
  - Force a minimum MTU of 1280 on KK due to bugs in 4.4.3 and 4.4.4 ROMs:
