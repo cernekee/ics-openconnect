@@ -296,68 +296,107 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		return Base64.decode(in, Base64.DEFAULT);
 	}
 
+	private boolean setExecutable(String path) throws IOException {
+		File f = new File(path);
+		if (!f.exists()) {
+			log("PREF: file does not exist");
+			return false;
+		}
+		if (!f.setExecutable(true)) {
+			throw new IOException();
+		}
+		return true;
+	}
+
+	private int writeCertOrScript(String path, String prefData, boolean isExecutable)
+			throws IOException {
+		FileOutputStream fos = new FileOutputStream(path);
+		Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
+
+		if (isExecutable && rewriteShell(prefData)) {
+			writer.write("#!/system/bin/sh\n");
+		}
+		writer.write(prefData);
+		writer.close();
+
+		if (isExecutable) {
+			setExecutable(path);
+		}
+
+		return prefData.length();
+	}
+
+	private int inlineToTempFile(String path, String prefData, boolean isExecutable)
+			throws IOException {
+		byte data[] = null;
+		int bytes = 0;
+
+		try {
+			FileOutputStream fos = new FileOutputStream(path);
+			data = decodeBase64(prefData);
+			bytes = data.length;
+
+			try {
+				/* Allow reuse of standard x86 Linux CSD scripts */
+				if (isExecutable && rewriteShell(new String(data))) {
+					fos.write("#!/system/bin/sh\n".getBytes());
+				}
+			} catch (Exception e) {
+				/* in case we're trying to pattern-match a binary blob */
+			}
+			fos.write(data);
+			fos.close();
+
+			if (isExecutable) {
+				setExecutable(path);
+			}
+		} catch (IllegalArgumentException e) {
+			/* legacy profiles didn't use base64 encoding */
+			bytes = writeCertOrScript(path, prefData, isExecutable);
+		} catch (IOException e) {
+			return -1;
+		}
+		return bytes;
+	}
+
 	private String prefToTempFile(String prefName, boolean isExecutable) throws IOException {
 		String prefData = getStringPref(prefName);
-		String path;
+		String path = mCacheDir + File.separator + prefName + ".tmp";
 
 		if (prefData.equals("")) {
 			return null;
 		}
 		if (prefData.startsWith(VpnProfile.INLINE_TAG)) {
-			prefData = prefData.substring(10);
-
-			path = mCacheDir + File.separator + prefName + ".tmp";
-
-			FileOutputStream fos = new FileOutputStream(path);
-			byte data[] = null;
-			int bytes = 0;
-
-			try {
-				data = decodeBase64(prefData);
-				bytes = data.length;
-
-				try {
-					/* Allow reuse of standard x86 Linux CSD scripts */
-					if (rewriteShell(new String(data))) {
-						fos.write("#!/system/bin/sh\n".getBytes());
-					}
-				} catch (Exception e) {
-					/* in case we're trying to pattern-match a binary blob */
-				}
-				fos.write(data);
-				fos.close();
-			} catch (IllegalArgumentException e) {
-				/* legacy profiles didn't use base64 encoding */
-				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
-
-				if (rewriteShell(prefData)) {
-					writer.write("#!/system/bin/sh\n");
-				}
-				writer.write(prefData);
-				writer.close();
-				bytes = prefData.length();
-			} catch (IOException e) {
+			int bytes = inlineToTempFile(path, prefData.substring(10), isExecutable);
+			if (bytes < 0) {
 				log("PREF: I/O exception writing " + prefName);
 				return null;
+			} else {
+				log("PREF: wrote out " + path + " (" + bytes + ")");
 			}
-			log("PREF: wrote out " + path + " (" + bytes + ")");
 		} else {
+			String srcPath;
+
 			log("PREF: using existing file " + prefData);
 			if (prefData.startsWith("/")) {
-				path = prefData;
+				srcPath = prefData;
 			} else {
-				path = ProfileManager.getCertPath() + prefData;
+				srcPath = ProfileManager.getCertPath() + prefData;
 			}
-		}
 
-		if (isExecutable) {
-			File f = new File(path);
-			if (!f.exists()) {
-				log("PREF: file does not exist");
-				return null;
-			}
-			if (!f.setExecutable(true)) {
-				throw new IOException();
+			if (isExecutable) {
+				/* Make sure that "#!/system/bin/sh" gets prepended to CSD scripts, if needed */
+				String contents = AssetExtractor.readStringFromFile(srcPath);
+				if (contents == null) {
+					return null;
+				}
+				int bytes = writeCertOrScript(path, contents, true);
+				if (bytes < 0) {
+					log("PREF: I/O exception writing " + prefName);
+					return null;
+				} else {
+					log("PREF: wrote out " + path + " (" + bytes + ")");
+				}
 			}
 		}
 		return path;
