@@ -61,6 +61,9 @@
     <string name="problem_dialog_text">Thanks for offering your feedback for improving OpenConnect. We\'re sorry you encountered an issue but we\'ll review your report and track down the bug.</string>
     <string name="problem_dialog_comment_prompt">Please describe the nature of the problem. If you\'re willing to help the author troubleshoot it, make sure you include your email address:</string>
 
+    <string name="bad_rom_text">Unfortunately your Android device does not have proper VpnService support.  If you click OK we will report this to the vendor, but they may or may not fix the bug.</string>
+    <string name="bad_rom_comment_prompt">If you have customized your device in any way (rooting, ROM, Xposed) please note the changes below:</string>
+
     <string name="copied_entry">Copied to clipboard.</string>
     <string name="faq">FAQ</string>
     <string name="question_abbrev">Q:</string>
