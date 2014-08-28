@@ -25,6 +25,7 @@
 package app.openconnect;
 
 import org.acra.ACRA;
+import org.acra.ErrorReporter;
 import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -32,6 +33,7 @@ import org.acra.collector.CrashReportData;
 import org.acra.sender.HttpSender;
 import org.acra.sender.ReportSenderException;
 
+import android.content.pm.PackageManager;
 import app.openconnect.core.FragCache;
 import app.openconnect.core.ProfileManager;
 import app.openconnect.core.VPNLog;
@@ -50,11 +52,31 @@ import app.openconnect.core.VPNLog;
 
 public class Application extends android.app.Application {
 
-	public void onCreate() {
-		super.onCreate();
+	private boolean isPackageInstalled(String name) {
+		PackageManager pm = getPackageManager();
+		try {
+			pm.getPackageInfo(name, 0);
+			return true;
+		} catch (PackageManager.NameNotFoundException e) {
+			return false;
+		}
+	}
+
+	private void setupACRA() {
+		String hax0rPackages[] = { "com.koushikdutta.superuser",
+				"com.noshufou.android.su",
+				"com.noshufou.android.su.elite",
+				"com.miui.uac",
+				"eu.chainfire.supersu",
+				"eu.chainfire.supersu.pro",
+				"de.robv.android.xposed.installer",
+				"biz.bokhorst.xprivacy",
+				"biz.bokhorst.xprivacy.pro" };
 
 		ACRA.init(this);
-		ACRA.getErrorReporter().setReportSender(
+
+		ErrorReporter er = ACRA.getErrorReporter();
+		er.setReportSender(
 				new HttpSender(org.acra.sender.HttpSender.Method.PUT,
 								org.acra.sender.HttpSender.Type.JSON,
 								null) {
@@ -67,6 +89,18 @@ public class Application extends android.app.Application {
 
 				});
 
+		for (String s : hax0rPackages) {
+			// FIXME: ACRA does not properly escape key strings
+			// https://github.com/ACRA/acra/issues/90
+			er.putCustomData("pkg-" + s.replaceAll("\\.",  "-"),
+					isPackageInstalled(s) ? "true" : "false");
+		}
+	}
+
+	public void onCreate() {
+		super.onCreate();
+
+		setupACRA();
 		System.loadLibrary("openconnect");
 		System.loadLibrary("stoken");
 		ProfileManager.init(getApplicationContext());
