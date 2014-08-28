@@ -130,11 +130,15 @@ public class MainActivity extends Activity {
 
 	protected class TabContainer implements ActionBar.TabListener {
 		private Fragment mFragment;
+		private boolean mActive;
 		public Tab tab;
 		public int idx;
 
 		public void replace(int titleResId, Fragment frag) {
-			getFragmentManager().beginTransaction().remove(mFragment).commit();
+			if (mActive) {
+				getFragmentManager().beginTransaction().remove(mFragment).commit();
+			}
+
 			mFragment = frag;
 			tab.setText(titleResId);
 
@@ -143,6 +147,9 @@ public class MainActivity extends Activity {
 					.setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
 					.replace(android.R.id.content, mFragment)
 					.commit();
+				mActive = true;
+			} else {
+				mActive = false;
 			}
 		}
 
@@ -168,11 +175,15 @@ public class MainActivity extends Activity {
 
 			mLastTab = idx;
 			ft.replace(android.R.id.content, mFragment);
+			mActive = true;
 		}
 
 		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			ft.remove(mFragment);
+			if (mActive) {
+				ft.remove(mFragment);
+				mActive = false;
+			}
 		}
 
 		@Override
