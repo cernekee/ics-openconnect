@@ -26,6 +26,7 @@ package app.openconnect.fragments;
 
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
+import org.acra.ErrorReporter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,6 +69,10 @@ public class CommonMenu {
 		cfg.setResDialogCommentPrompt(R.string.problem_dialog_comment_prompt);
 		ACRA.setConfig(cfg);
 		ACRA.getErrorReporter().handleException(null);
+
+		ErrorReporter er = ACRA.getErrorReporter();
+		er.putCustomData("cause", "sendProblemReport");
+		er.handleException(null);
 
 		// FIXME: we really want to restore the default strings after the report dialog
 		// is finished, but changing them here would override the problem_dialog_* strings
