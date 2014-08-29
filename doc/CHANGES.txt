@@ -1,5 +1,7 @@
 v1.01 - 2014/08/29
 
+ - Add Spanish translations (thanks to teosoft)
+
  - Fix regression on CSD scripts starting with "#!/bin/sh"
 
  - Improve error messages on broken ROMs that throw exceptions when
