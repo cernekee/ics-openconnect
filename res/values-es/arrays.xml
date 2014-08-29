@@ -1,2 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources/>
+<resources>
+  <string-array name="software_token_entries">
+    <item>Deshabilitado</item>
+    <item>RSA SecurID</item>
+    <item>TOTP</item>
+  </string-array>
+  <string-array name="batch_mode_entries">
+    <item>Deshabilitado</item>
+    <item>Preguntar sólo por campos vacíos</item>
+    <item>No preguntar nunca por credenciales</item>
+  </string-array>
+  <string-array name="reported_os_entries">
+    <item>Android</item>
+    <item>Linux (32-bit)</item>
+    <item>Linux (64-bit)</item>
+    <item>Windows</item>
+    <item>Mac</item>
+    <item>iOS</item>
+  </string-array>
+  <string-array name="split_tunnel_mode_entries">
+    <item>Auto</item>
+    <item>Activo - DNS usa VPN</item>
+    <item>Activo - DNS usa uplink</item>
+  </string-array>
+  <string-array name="connection_states">
+    <item>Desconocido</item>
+    <item>Autentificando</item>
+    <item>Pidiendo entradas del usuario</item>
+    <item>Autentificado</item>
+    <item>Conectando</item>
+    <item>Conectado</item>
+    <item>Desconectado</item>
+  </string-array>
+</resources>
