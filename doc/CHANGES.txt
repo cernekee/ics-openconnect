@@ -1,3 +1,12 @@
+v1.01 - 2014/08/29
+
+ - Fix regression on CSD scripts starting with "#!/bin/sh"
+
+ - Improve error messages on broken ROMs that throw exceptions when
+   starting a VpnService
+
+ - Fix intermittent fragment-related crashes on ICS
+
 v1.00 - 2014/08/10
 
  - Fix problems storing >8kB certificates on some ROMs
