@@ -397,6 +397,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				} else {
 					log("PREF: wrote out " + path + " (" + bytes + ")");
 				}
+			} else {
+				path = srcPath;
 			}
 		}
 		return path;
