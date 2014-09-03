@@ -1,3 +1,7 @@
+v1.02 - 2014/09/02
+
+ - Fix regression on certificate handling
+
 v1.01 - 2014/08/29
 
  - Add Spanish translations (thanks to teosoft)
