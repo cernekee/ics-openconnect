@@ -57,6 +57,7 @@ $(INSTALL_ARCH_TARGETS) : install-arch-% : arch-%
 	cp $*/libstoken.so $(LIBS)/$(NDK_ARCH_$*)/
 	mkdir -p $(ASSETS)/$(NDK_ARCH_$*)
 	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/
+	cp $*/run_pie $(ASSETS)/$(NDK_ARCH_$*)/
 
 .PHONY: $(ARCH_TARGETS)
 $(ARCH_TARGETS) : arch-% : %/curl %/libstoken.so %/libopenconnect.so
@@ -72,7 +73,8 @@ $(ARCH_CURL_TARGETS) : %/curl : %/toolchain/.installed curl/configure
 		$(call set_build_env,$*) $(TOPDIR)/curl/configure \
 			--prefix=/ --host=$(TRIPLET_$*) --disable-shared \
 			--enable-static --with-ipv6 --with-gnutls \
-			CFLAGS="$(CFLAGS_$*)" \
+			CFLAGS="$(CFLAGS_$*) -fvisibility=default -fPIE" \
+			LDFLAGS="-rdynamic -pie" \
 			ac_cv_lib_gnutls_gnutls_check_version=yes
 	$(call set_build_env,$*) $(MAKE) -C $*/build-curl
 	$(call set_build_env,$*) $(MAKE) -C $*/build-curl install-strip \
@@ -103,6 +105,7 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	cp -a openconnect $*/
 	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(NDK)
 	cp -Lf $*/openconnect/android/$(TRIPLET_$*)/out/lib/libopenconnect.so $@
+	cp -f $*/openconnect/android/$(TRIPLET_$*)/out/sbin/run_pie $*/
 
 .openconnect-sources:
 	$(MAKE) -C openconnect/android sources
