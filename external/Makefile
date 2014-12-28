@@ -1,5 +1,4 @@
-NDK := /opt/android-ndk-r9d
-GCCVER := 4.8
+NDK := /opt/android-ndk-r10d
 
 LIBS := ../libs
 ASSETS := ../assets/raw
