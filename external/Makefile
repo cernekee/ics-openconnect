@@ -102,7 +102,7 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	rm -rf $*/openconnect
 	mkdir -p $*/openconnect
 	cp -a openconnect $*/
-	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(NDK) GCCVER=$(GCCVER)
+	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(NDK)
 	cp -Lf $*/openconnect/android/$(TRIPLET_$*)/out/lib/libopenconnect.so $@
 
 .openconnect-sources:
@@ -110,7 +110,7 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	touch $@
 
 # use openconnect to run make-standalone-toolchain.sh and install
-# GnuTLS/libtomcrypt into the sysroot for us
+# GnuTLS/nettle into the sysroot for us
 $(ARCH_TOOLCHAIN_TARGETS) : %/toolchain/.installed : %/libopenconnect.so
 	ln -sf openconnect/android/$(TRIPLET_$*)/toolchain $*/
 	touch $@
