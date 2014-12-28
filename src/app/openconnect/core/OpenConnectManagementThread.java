@@ -164,7 +164,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("CALLBACK: onValidatePeerCert");
 
 			// This can be called repeatedly on the same (re)connection attempt
-			String hash = getCertSHA1().toLowerCase(Locale.US);
+			String hash = getPeerCertHash().toLowerCase(Locale.US);
 			if (isCertAccepted(hash)) {
 				return 0;
 			}
