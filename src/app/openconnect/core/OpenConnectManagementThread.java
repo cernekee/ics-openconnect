@@ -409,6 +409,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		try {
 			String PATH = System.getenv("PATH");
+
 			if (!PATH.startsWith(mFilesDir)) {
 				PATH = mFilesDir + ":" + PATH;
 			}
@@ -623,20 +624,40 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		errorAlert(mContext.getString(R.string.error_cant_connect, mOC.getHostname()));
 	}
 
-	private boolean runVPN() {
-		updateStatPref("attempt");
-
+	private void extractBinaries() {
 		if (!AssetExtractor.extractAll(mContext)) {
 			log("Error extracting assets");
 		}
+
+		// curl wrapper script:
+		// <= ICS: always use run_pie
+		// >  ICS: never use run_pie
+		try {
+			String curl_bin = mFilesDir + "/curl-bin";
+			String run_pie = mFilesDir + "/run_pie ";
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				run_pie = "";
+			}
+			writeCertOrScript(mFilesDir + "/curl",
+				"#!/system/bin/sh\nexec " + run_pie + curl_bin + " \"$@\"\n", true);
+		} catch (IOException e) {
+			// mkdir won't throw an exception
+			log("Error writing curl wrapper scripts");
+		}
+	}
+
+	private boolean runVPN() {
+		updateStatPref("attempt");
+
+		mFilesDir = mContext.getFilesDir().getPath();
+		mCacheDir = mContext.getCacheDir().getPath();
+		extractBinaries();
 
 		setState(STATE_CONNECTING);
 		synchronized (mMainloopLock) {
 			mOC = new AndroidOC();
 		}
-
-		mFilesDir = mContext.getFilesDir().getPath();
-		mCacheDir = mContext.getCacheDir().getPath();
 
 		if (setPreferences() == false) {
 			return false;

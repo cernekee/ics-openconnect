@@ -56,7 +56,7 @@ $(INSTALL_ARCH_TARGETS) : install-arch-% : arch-%
 	cp $*/libopenconnect.so $(LIBS)/$(NDK_ARCH_$*)/
 	cp $*/libstoken.so $(LIBS)/$(NDK_ARCH_$*)/
 	mkdir -p $(ASSETS)/$(NDK_ARCH_$*)
-	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/
+	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/curl-bin
 	cp $*/run_pie $(ASSETS)/$(NDK_ARCH_$*)/
 
 .PHONY: $(ARCH_TARGETS)
