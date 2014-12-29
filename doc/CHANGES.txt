@@ -1,3 +1,9 @@
+v1.10 - UNRELEASED
+
+ - Fix CSD script problem on Lollipop
+
+ - Update to OpenConnect v7.02+, GnuTLS 3.2.21
+
 v1.02 - 2014/09/02
 
  - Fix regression on certificate handling
