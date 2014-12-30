@@ -1,4 +1,4 @@
-v1.10 - UNRELEASED
+v1.10 - 2014/12/30
 
  - Fix CSD script problem on Lollipop
 
