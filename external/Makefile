@@ -74,7 +74,7 @@ $(ARCH_CURL_TARGETS) : %/curl : %/toolchain/.installed curl/configure
 			--prefix=/ --host=$(TRIPLET_$*) --disable-shared \
 			--enable-static --with-ipv6 --with-gnutls \
 			CFLAGS="$(CFLAGS_$*) -fvisibility=default -fPIE" \
-			LDFLAGS="-rdynamic -pie" \
+			LDFLAGS="-rdynamic -fPIE -pie" \
 			ac_cv_lib_gnutls_gnutls_check_version=yes
 	$(call set_build_env,$*) $(MAKE) -C $*/build-curl
 	$(call set_build_env,$*) $(MAKE) -C $*/build-curl install-strip \
