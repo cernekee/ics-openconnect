@@ -31,36 +31,39 @@ No registration is required to download from XDA or F-Droid.
 ![screenshot-2](screenshots/screenshot-2.png)&nbsp;
 ![screenshot-3](screenshots/screenshot-3.png)
 
-## Compiling the app
+## Building from source
 
-Prerequisites:
+### Prerequisites
+
+On the host side you'll need to install:
 
 * Android SDK in your $PATH (both platform-tools/ and tools/ directories)
 * javac 1.6 and a recent version of Apache ant in your $PATH
-* Use the Android SDK Manager to install API 18
+* Use the Android SDK Manager to install API 19
+* NDK r10d, nominally under /opt/android-ndk-r10d
+* Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
+* git, autoconf, automake, and libtool
 
-Quick start:
+### Compiling the external dependencies
+
+Building OpenConnect from source requires compiling several .jar files and
+native binaries from external packages.  These commands will build the binary
+components and copy them into libs/ and assets/raw/
 
     git clone git://github.com/cernekee/ics-openconnect
+    cd ics-openconnect
+    git submodule init
+    git submodule update
+    make -C external NDK=/opt/android-ndk-r10d
+
+### Compiling the app
+
+After the binary components are built, this compiles the Java sources into
+an APK file:
+
     cd ics-openconnect
     android update project -p .
     ant debug
 
 Logs of successful (and not-so-successful) builds can be found on this project's
 [Travis CI page](https://travis-ci.org/cernekee/ics-openconnect).
-
-## Recompiling the external dependencies
-
-On the host side you'll need to install:
-
-* NDK r9d, nominally under /opt/android-ndk-r9d
-* Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
-* autoconf, automake, and libtool
-* javac 1.6 and git in your $PATH
-
-These commands will build the binary components and copy them into libs/
-and assets/raw/
-
-    git submodule init
-    git submodule update
-    make -C external NDK=/opt/android-ndk-r9d
