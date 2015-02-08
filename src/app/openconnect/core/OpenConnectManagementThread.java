@@ -30,8 +30,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -160,11 +162,34 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     }
 
 	private class AndroidOC extends LibOpenConnect {
+		private String getPeerCertSHA1() {
+			MessageDigest md;
+			try {
+				md = MessageDigest.getInstance("SHA-1");
+			} catch (Exception e) {
+				// if this ever actually happens, the NPE will generate a crash report
+				log("getPeerCertSHA1: could not initialize MessageDigest");
+				return null;
+			}
+
+			md.reset();
+			md.update(getPeerCertDER());
+
+			Formatter f = new Formatter();
+			for (byte b : md.digest()) {
+				f.format("%02X", b);
+			}
+
+			String ret = f.toString();
+			f.close();
+			return ret;
+		}
+
 		public int onValidatePeerCert(String reason) {
 			log("CALLBACK: onValidatePeerCert");
 
 			// This can be called repeatedly on the same (re)connection attempt
-			String hash = getPeerCertHash().toLowerCase(Locale.US);
+			String hash = getPeerCertSHA1().toLowerCase(Locale.US);
 			if (isCertAccepted(hash)) {
 				return 0;
 			}
