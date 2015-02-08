@@ -463,8 +463,15 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		mServerAddr = getStringPref("server_address");
 		mOC.setXMLPost(!getBoolPref("disable_xml_post"));
-		mOC.setReportedOS(getStringPref("reported_os"));
 		mOC.setPFS(getBoolPref("require_pfs"));
+
+		String os = getStringPref("reported_os");
+		mOC.setReportedOS(os);
+		if (os.equals("android") || os.equals("apple-ios")) {
+			// if ocserv sees the X-AnyConnect-Identifier-* "mobile headers" it
+			// will use the mobile-idle-timeout instead of idle-timeout
+			mOC.setMobileInfo("1.0", os, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		}
 
 		if (getBoolPref("dpd_override")) {
 			try {
