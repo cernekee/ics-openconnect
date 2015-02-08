@@ -86,7 +86,10 @@
     <string name="uptime">Uptime:</string>
     <string name="tx">TX:</string>
     <string name="rx">RX:</string>
-    <string name="local_ip">Local IP:</string>
+    <string name="local_ip4">Local IPv4:</string>
+    <string name="local_ip6">Local IPv6:</string>
+    <string name="disabled">disabled</string>
+    <string name="subnet_mask">Subnet mask:</string>
     <string name="server_name">Server name:</string>
     <string name="select_file">Select</string>
     <string name="advanced">Advanced</string>

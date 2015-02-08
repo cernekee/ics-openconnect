@@ -74,14 +74,33 @@
 	    	android:layout_height="1dp"
 	    	android:background="@android:color/darker_gray"/>
 
-	    <!-- row 3: IPs -->
+	    <!-- row 3: server name -->
 	    <LinearLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal" >
 
 	        <TextView
-	            android:id="@+id/local_ip"
+	            android:id="@+id/server_name"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left" />
+
+		</LinearLayout>
+
+	    <View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:background="@android:color/darker_gray"/>
+
+	    <!-- row 4: local IPv4, netmask -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+
+	        <TextView
+	            android:id="@+id/local_ip4"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:gravity="left" />
@@ -92,10 +111,29 @@
 	            android:layout_weight="1" />
 
 	        <TextView
-	            android:id="@+id/server_name"
+	            android:id="@+id/local_ip4_netmask"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:gravity="right" />
+
+		</LinearLayout>
+
+	    <View
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="1dp"
+	    	android:background="@android:color/darker_gray"/>
+
+	    <!-- row 5: local IPv6 (this can be wide so it deserves a dedicated row) -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+
+	        <TextView
+	            android:id="@+id/local_ip6"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left" />
 
 		</LinearLayout>
 

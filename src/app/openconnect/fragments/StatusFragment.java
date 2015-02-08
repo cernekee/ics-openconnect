@@ -41,6 +41,8 @@ import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
 
+import org.infradead.libopenconnect.LibOpenConnect;
+
 public class StatusFragment extends Fragment {
 
 	private View mView;
@@ -140,10 +142,19 @@ public class StatusFragment extends Fragment {
 			writeStatusField(R.id.rx, R.string.rx, getString(R.string.oneway_bytecount,
 					OpenVpnService.humanReadableByteCount(mConn.deltaStats.rxBytes, true),
 					OpenVpnService.humanReadableByteCount(mConn.newStats.rxBytes, false)));
-
-			writeStatusField(R.id.local_ip, R.string.local_ip, service.friendlyIp);
 			writeStatusField(R.id.server_name, R.string.server_name, service.serverName);
 
+			LibOpenConnect.IPInfo ip = service.ipInfo;
+			String dis = getString(R.string.disabled);
+
+			if (ip.addr != null && ip.netmask != null) {
+				writeStatusField(R.id.local_ip4, R.string.local_ip4, ip.addr);
+				writeStatusField(R.id.local_ip4_netmask, R.string.subnet_mask, ip.netmask);
+			} else {
+				writeStatusField(R.id.local_ip4, R.string.local_ip4, dis);
+			}
+
+			writeStatusField(R.id.local_ip6, R.string.local_ip6, ip.netmask6 != null ? ip.netmask6 : dis);
 		} else {
 			writeStatusField(R.id.connection_state, R.string.netstatus,
 					service.getConnectionStateName());

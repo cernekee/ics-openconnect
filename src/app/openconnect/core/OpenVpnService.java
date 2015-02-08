@@ -67,7 +67,6 @@ public class OpenVpnService extends VpnService {
 
 	// These are valid in the CONNECTED state
 	public VpnProfile profile;
-	public String friendlyIp;
 	public LibOpenConnect.IPInfo ipInfo;
 	public String serverName;
 	public Date startTime;
@@ -465,15 +464,6 @@ public class OpenVpnService extends VpnService {
 	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo, String serverName) {
 		this.ipInfo = ipInfo;
 		this.serverName = serverName;
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(ipInfo.addr != null ? ipInfo.addr : "");
-		if (ipInfo.addr6 != null) {
-			sb.append(ipInfo.addr != null ? " + " : "");
-			sb.append(ipInfo.addr6);
-		}
-		this.friendlyIp = sb.toString();
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {
