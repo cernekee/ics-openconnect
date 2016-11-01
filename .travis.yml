@@ -16,7 +16,7 @@ before_install:
     - 7z x -o$TRAVIS_BUILD_DIR -y android-ndk-r10d-linux-x86_64.bin | misc/7zdots.pl
 
 script:
-    - make -C external NDK=./android-ndk-r10d ARCH_LIST=arm
+    - make -C external NDK=$TRAVIS_BUILD_DIR/android-ndk-r10d ARCH_LIST=arm
     - ant debug
 
 addons:
