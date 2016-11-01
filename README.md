@@ -1,5 +1,6 @@
 OpenConnect for Android
 =======================
+[![Build Status](https://travis-ci.org/cernekee/homebrew-mingw_w64.svg?branch=master)](https://travis-ci.org/cernekee/homebrew-mingw_w64)
 
 This is a VPN client for Android, based on the Linux build of
 [OpenConnect](http://www.infradead.org/openconnect/).
