@@ -24,10 +24,6 @@ addons:
     packages:
     - libstdc++6:i386
     - lib32z1
-    - build-essential
-    - autoconf
-    - automake
-    - libtool
     - groff
     - expect
     - p7zip-full
