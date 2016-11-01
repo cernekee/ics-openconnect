@@ -13,7 +13,7 @@ before_install:
     - source ~/.android-sdk-installer/env
     - FORCE_PKG=android_ndk misc/fetch.sh android-ndk-r10d-linux-x86_64.bin 618f998d1893b234eef7458f95893b0dc70bcf74
     - sudo 7z x -o/opt -y android-ndk-r10d-linux-x86_64.bin | misc/7zdots.pl
-    - android update project -p . -s --target=android-19
+    - android update project -p . -s --target android-19
 
 script:
     - make -C external NDK=/opt/android-ndk-r10d ARCH_LIST=arm
