@@ -7,13 +7,13 @@ notifications:
     on_failure: always
 
 before_install:
-  # Install base Android SDK
+    # Install base Android SDK
     - export COMPONENTS=build-tools-19.1.0,android-19,sysimg-19,extra-android-support
     - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
     - source ~/.android-sdk-installer/env
     - FORCE_PKG=android_ndk misc/fetch.sh android-ndk-r10d-linux-x86_64.bin 618f998d1893b234eef7458f95893b0dc70bcf74
     - sudo 7z x -o/opt -y android-ndk-r10d-linux-x86_64.bin | misc/7zdots.pl
-    - android update project -p . -s
+    - android update project -p . -s --target=android-19
 
 script:
     - make -C external NDK=/opt/android-ndk-r10d ARCH_LIST=arm
@@ -27,4 +27,3 @@ addons:
     - groff
     - expect
     - p7zip-full
-    
