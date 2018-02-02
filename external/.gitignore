@@ -1,6 +1,5 @@
 arm/
 x86/
-mips/
 .openconnect-sources
 *.jar
 curl/

@@ -3,7 +3,7 @@ NDK := /opt/android-ndk-r10d
 LIBS := ../libs
 ASSETS := ../assets/raw
 
-ARCH_LIST := arm x86 mips
+ARCH_LIST := arm x86
 
 NDK_ARCH_arm := armeabi
 TRIPLET_arm := arm-linux-androideabi
@@ -12,10 +12,6 @@ CFLAGS_arm := -mthumb -Os
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
 CFLAGS_x86 := -Os
-
-NDK_ARCH_mips := mips
-TRIPLET_mips := mipsel-linux-android
-CFLAGS_mips := -Os
 
 JAR_LIST := openconnect-wrapper.jar stoken-wrapper.jar
 PKG_LIST := curl
