@@ -1,17 +1,18 @@
-NDK := /opt/android-sdk-linux_x86/android-ndk-r10d
+NDK := /opt/android-sdk-linux_x86/android-ndk-r16b
 
 LIBS := ../libs
 ASSETS := ../assets/raw
 
 ARCH_LIST := arm x86
+API_VERSION := 14
 
 NDK_ARCH_arm := armeabi
 TRIPLET_arm := arm-linux-androideabi
-CFLAGS_arm := -mthumb -Os
+CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=$(API_VERSION)
 
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
-CFLAGS_x86 := -Os
+CFLAGS_x86 := -Os -D__ANDROID_API__=$(API_VERSION)
 
 JAR_LIST := openconnect-wrapper.jar stoken-wrapper.jar
 PKG_LIST := curl
@@ -89,7 +90,7 @@ $(ARCH_STOKEN_TARGETS) : %/libstoken.so : %/toolchain/.installed stoken/configur
 			--enable-shared --without-gtk \
 			--with-java=$(call get_sysroot,$*)/include \
 			--enable-jni-standalone \
-			LDFLAGS="-Wl,--strip-debug"
+			CFLAGS="$(CFLAGS_$*)" LDFLAGS="-Wl,--strip-debug"
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install-strip \
 		DESTDIR=$(TOPDIR)/$*/out

@@ -38,9 +38,9 @@ No registration is required to download from XDA or F-Droid.
 On the host side you'll need to install:
 
 * Android SDK in your $PATH (both platform-tools/ and tools/ directories)
-* javac 1.6 and a recent version of Apache ant in your $PATH
+* javac 1.8 and a recent version of Apache ant in your $PATH
 * Use the Android SDK Manager to install API 19
-* NDK r10d, nominally under /opt/android-ndk-r10d
+* NDK r16b, nominally unzipped under /opt/android-sdk-linux\_x86/
 * Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
 * git, autoconf, automake, and libtool
 
@@ -54,7 +54,7 @@ components and copy them into libs/ and assets/raw/
     cd ics-openconnect
     git submodule init
     git submodule update
-    make -C external NDK=/opt/android-ndk-r10d
+    make -C external
 
 ### Compiling the app
 
