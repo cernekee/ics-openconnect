@@ -27,7 +27,7 @@ ARCH_TOOLCHAIN_TARGETS := $(addsuffix /toolchain/.installed,$(ARCH_LIST))
 INSTALL_ARCH_TARGETS := $(addprefix install-arch-,$(ARCH_LIST))
 INSTALL_JAR_TARGETS := $(addprefix install-jar-,$(JAR_LIST))
 
-CURL_VER := 7.34.0
+CURL_VER := 7.58.0
 
 TOPDIR := $(shell pwd)
 
@@ -61,7 +61,7 @@ $(ARCH_TARGETS) : arch-% : %/curl %/libstoken.so %/libopenconnect.so
 
 curl/configure:
 	mkdir -p curl
-	tar -C curl --strip 1 -jxf dist/curl-$(CURL_VER).tar.bz2
+	tar -C curl --strip 1 -Jxf dist/curl-$(CURL_VER).tar.xz
 	touch $@
 
 $(ARCH_CURL_TARGETS) : %/curl : %/toolchain/.installed curl/configure
