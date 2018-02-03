@@ -1,4 +1,4 @@
-NDK := /opt/android-ndk-r10d
+NDK := /opt/android-sdk-linux_x86/android-ndk-r10d
 
 LIBS := ../libs
 ASSETS := ../assets/raw
