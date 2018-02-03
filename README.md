@@ -49,13 +49,18 @@ On the host side you'll need to install:
 
 Building OpenConnect from source requires compiling several .jar files and
 native binaries from external packages.  These commands will build the binary
-components and copy them into libs/ and assets/raw/
+components and copy them into the appropriate library and asset directories:
 
     git clone git://github.com/cernekee/ics-openconnect
     cd ics-openconnect
     git submodule init
     git submodule update
     make -C external
+
+This procedure only runs on a Linux PC.  If you are unable to build from
+source, you can try fetching the cached artifacts from a recent CI build:
+
+    ./misc/download-artifacts.sh
 
 ### Compiling the app
 
@@ -64,6 +69,10 @@ an APK file:
 
     cd ics-openconnect
     ./gradlew assembleDebug
+
+To install the APK on a device:
+
+    adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 Logs of successful (and not-so-successful) builds can be found on this project's
 [Travis CI page](https://travis-ci.org/cernekee/ics-openconnect).
