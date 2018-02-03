@@ -1,5 +1,11 @@
-slanguage: java
-jdk: oraclejdk7
+language: android
+
+android:
+  components:
+   - tools
+   - platform-tools
+   - build-tools-26.0.2
+   - android-19
 
 notifications:
   email:
@@ -7,16 +13,39 @@ notifications:
     on_failure: always
 
 before_install:
-  # Install base Android SDK
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq libstdc++6:i386 lib32z1 build-essential autoconf automake libtool groff expect p7zip-full
-    - export COMPONENTS=build-tools-19.1.0,android-19,sysimg-19,extra-android-support
-    - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
-    - source ~/.android-sdk-installer/env
-    - FORCE_PKG=android_ndk misc/fetch.sh android-ndk-r10d-linux-x86_64.bin 618f998d1893b234eef7458f95893b0dc70bcf74
-    - sudo 7z x -o/opt -y android-ndk-r10d-linux-x86_64.bin | misc/7zdots.pl
-    - android update project -p . -s
+ # Install NDK + openconnect build deps
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq build-essential autoconf automake libtool groff expect ant
+ - FORCE_PKG=android_ndk ./misc/fetch.sh android-ndk-r16b-linux-x86_64.zip bcdea4f5353773b2ffa85b5a9a2ae35544ce88ec5b507301d8cf6a76b765d901
+ - sudo mkdir -p /opt/android-sdk-linux_x86
+ - sudo unzip -d /opt/android-sdk-linux_x86 -q android-ndk-r16b-linux-x86_64.zip
 
 script:
-    - make -C external NDK=/opt/android-ndk-r10d ARCH_LIST=arm
-    - ant debug
+ - make -C external
+ - ./gradlew assembleDebug
+
+after_success:
+ - mkdir -p artifacts/ics-openconnect/{arm,x86}
+ - ln -s artifacts/ics-openconnect out
+ - cp app/build/outputs/apk/debug/app-debug.apk out/OpenConnect-debug.apk
+ - cp app/libs/* out/
+ - cp app/src/main/jniLibs/armeabi/* out/arm/
+ - cp app/src/main/jniLibs/x86/* out/x86/
+ # skip directories (will return an error code)
+ - cp external/arm/* out/arm/ || true
+ - cp external/x86/* out/x86/ || true
+ - cp external/openconnect/android/arm-linux-androideabi/out/sbin/* out/arm/
+ - cp external/openconnect/android/i686-linux-android/out/sbin/* out/x86/
+
+deploy:
+  provider: gcs
+  access_key_id: GOOGCQGVURTSQZ7ZO637
+  secret_access_key:
+    secure: Hy80IYriHUvwUii4OULL3/RoDs6QXLhKkffIj3cK7oAfZ4M6Lqu60/Xm411T/fLIlgChSuJwWn2o2o7G3rtW7bxSictz1HoC+jrcUM6EB6h78LJUxnUcBwSxqIGmkGM3EguxhBPOlDxcYiAMavUG1s+O0X8T/JIvgPh0CmvfDag=
+  bucket: cernekee-travis
+  local-dir: artifacts
+  skip_cleanup: true
+  acl: public-read
+  on:
+    repo: cernekee/ics-openconnect
+    all_branches: true

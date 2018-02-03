@@ -38,6 +38,7 @@ No registration is required to download from XDA or F-Droid.
 On the host side you'll need to install:
 
 * Android SDK in your $PATH (both platform-tools/ and tools/ directories)
+* $ANDROID\_HOME pointed at the Android SDK directory
 * javac 1.8 and a recent version of Apache ant in your $PATH
 * Use the Android SDK Manager to install API 19
 * NDK r16b, nominally unzipped under /opt/android-sdk-linux\_x86/
@@ -62,8 +63,7 @@ After the binary components are built, this compiles the Java sources into
 an APK file:
 
     cd ics-openconnect
-    android update project -p .
-    ant debug
+    ./gradlew assembleDebug
 
 Logs of successful (and not-so-successful) builds can be found on this project's
 [Travis CI page](https://travis-ci.org/cernekee/ics-openconnect).

@@ -1,7 +1,8 @@
 NDK := /opt/android-sdk-linux_x86/android-ndk-r16b
 
-LIBS := ../libs
-ASSETS := ../assets/raw
+JAR_DIR := ../app/libs
+JNI_DIR := ../app/src/main/jniLibs
+BIN_DIR := ../app/src/main/assets/raw
 
 ARCH_LIST := arm x86
 API_VERSION := 14
@@ -44,17 +45,17 @@ clean:
 
 .PHONY: $(INSTALL_JAR_TARGETS)
 $(INSTALL_JAR_TARGETS) : install-jar-% : %
-	mkdir -p $(LIBS)
-	cp $* $(LIBS)/
+	mkdir -p $(JAR_DIR)
+	cp $* $(JAR_DIR)/
 
 .PHONY: $(INSTALL_ARCH_TARGETS)
 $(INSTALL_ARCH_TARGETS) : install-arch-% : arch-%
-	mkdir -p $(LIBS)/$(NDK_ARCH_$*)
-	cp $*/libopenconnect.so $(LIBS)/$(NDK_ARCH_$*)/
-	cp $*/libstoken.so $(LIBS)/$(NDK_ARCH_$*)/
-	mkdir -p $(ASSETS)/$(NDK_ARCH_$*)
-	cp $*/curl $(ASSETS)/$(NDK_ARCH_$*)/curl-bin
-	cp $*/run_pie $(ASSETS)/$(NDK_ARCH_$*)/
+	mkdir -p $(JNI_DIR)/$(NDK_ARCH_$*)
+	cp $*/libopenconnect.so $(JNI_DIR)/$(NDK_ARCH_$*)/
+	cp $*/libstoken.so $(JNI_DIR)/$(NDK_ARCH_$*)/
+	mkdir -p $(BIN_DIR)/$(NDK_ARCH_$*)
+	cp $*/curl $(BIN_DIR)/$(NDK_ARCH_$*)/curl-bin
+	cp $*/run_pie $(BIN_DIR)/$(NDK_ARCH_$*)/
 
 .PHONY: $(ARCH_TARGETS)
 $(ARCH_TARGETS) : arch-% : %/curl %/libstoken.so %/libopenconnect.so

@@ -17,7 +17,7 @@
 
 set -e
 
-android_ndk_MIRROR_0=https://dl.google.com/android/ndk
+android_ndk_MIRROR_0=https://dl.google.com/android/repository
 
 MAX_TRIES=5
 
@@ -47,7 +47,14 @@ function make_url
 		return
 	fi
 
-	echo "${mirror_base}/${tarball}${mirror_suffix}"
+	if [[ "${mirror_base}" = *//github.com*/archive* ]]; then
+		# typical format: https://github.com/USER/PKG/archive/TAG.tar.gz
+		echo "${mirror_base}/${tarball#*-}"
+	else
+		# typical format: http://.../PKG-TAG.tar.gz
+		echo "${mirror_base}/${tarball}${mirror_suffix}"
+	fi
+
 	return
 
 }
@@ -56,9 +63,18 @@ function check_hash
 {
 	local tarball="$1"
 	local good_hash="$2"
+	local actual_hash
 
-	local actual_hash=$(sha1sum "$tarball")
-	actual_hash=${actual_hash:0:40}
+	if [ "${#good_hash}" = "40" ]; then
+		actual_hash=$(sha1sum "$tarball")
+		actual_hash=${actual_hash:0:40}
+	elif [ "${#good_hash}" = "64" ]; then
+		actual_hash=$(sha256sum "$tarball")
+		actual_hash=${actual_hash:0:64}
+	else
+		echo "Unrecognized hash: $good_hash"
+		exit 1
+	fi
 
 	if [ "$actual_hash" = "$good_hash" ]; then
 		return 0
@@ -116,7 +132,7 @@ function mirror_test
 
 		if download_and_check "$url" "$tmpfile" "$good_hash"; then
 			echo ""
-			echo "SHA1 $good_hash OK."
+			echo "SHA $good_hash OK."
 			echo ""
 		else
 			exit 1
