@@ -34,8 +34,8 @@ after_success:
  # skip directories (will return an error code)
  - cp external/arm/* out/arm/ || true
  - cp external/x86/* out/x86/ || true
- - cp external/openconnect/android/arm-linux-androideabi/out/sbin/* out/arm/
- - cp external/openconnect/android/i686-linux-android/out/sbin/* out/x86/
+ - cp external/arm/openconnect/android/arm-linux-androideabi/out/sbin/openconnect out/arm/
+ - cp external/x86/openconnect/android/i686-linux-android/out/sbin/openconnect out/x86/
 
 deploy:
   provider: gcs
