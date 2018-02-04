@@ -549,6 +549,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	private void addSubnetRoutes(VpnService.Builder b, LibOpenConnect.IPInfo ip, ArrayList<String> subnets) {
 		for (String s : subnets) {
+			s = s.trim();
 			try {
 				if (s.contains(":")) {
 					String ss[] = s.split("/");
@@ -633,9 +634,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		/* DNS */
 
 		for (String s : dns) {
-			b.addDnsServer(s);
-			b.addRoute(s, s.contains(":") ? 128 : 32);
-			log("DNS: " + s);
+			s = s.trim();
+			try {
+				b.addDnsServer(s);
+				b.addRoute(s, s.contains(":") ? 128 : 32);
+				log("DNS: " + s);
+			} catch (Exception e) {
+				log("DNS: skipping invalid server '" + s + "'");
+			}
 		}
 		if (domain != null) {
 			b.addSearchDomain(domain);
