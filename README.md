@@ -51,7 +51,7 @@ Building OpenConnect from source requires compiling several .jar files and
 native binaries from external packages.  These commands will build the binary
 components and copy them into the appropriate library and asset directories:
 
-    git clone git://github.com/cernekee/ics-openconnect
+    git clone https://github.com/cernekee/ics-openconnect
     cd ics-openconnect
     git submodule init
     git submodule update
