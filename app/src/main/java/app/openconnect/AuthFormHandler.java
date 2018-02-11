@@ -39,8 +39,10 @@ import android.content.SharedPreferences;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -214,6 +216,21 @@ public class AuthFormHandler extends UserDialog
 		} else {
 			tv.setInputType(baseType | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		}
+		tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+				if (actionId == EditorInfo.IME_ACTION_DONE ||
+						(keyEvent != null &&
+								keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
+								keyEvent.getAction() == KeyEvent.ACTION_DOWN)) {
+					isOK = true;
+					mAlert.dismiss();
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 
 		opt.userData = tv;
 		ll.addView(tv);

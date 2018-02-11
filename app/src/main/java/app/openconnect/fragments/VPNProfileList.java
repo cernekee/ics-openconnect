@@ -42,6 +42,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +50,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -235,6 +237,19 @@ public class VPNProfileList extends ListFragment {
 		}
 	}
 
+	private void handleNewVPNEntry() {
+		String name = mDialogEntry.getText().toString();
+
+		mDialog.dismiss();
+		mDialog = null;
+
+		name = name.replaceAll("\\s", "");
+		if (!name.equals("")) {
+			FeedbackFragment.recordProfileAdd(getActivity());
+			editVPN(ProfileManager.create(name));
+		}
+	}
+
 	private void onAddProfileClicked(String savedEntry) {
 		final Context context = getActivity();
 		if (context != null) {
@@ -252,19 +267,26 @@ public class VPNProfileList extends ListFragment {
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					String name = mDialogEntry.getText().toString();
-
-					mDialog.dismiss();
-					mDialog = null;
-
-					name = name.replaceAll("\\s", "");
-					if (!name.equals("")) {
-						FeedbackFragment.recordProfileAdd(context);
-						editVPN(ProfileManager.create(name));
-					}
+					handleNewVPNEntry();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
+
+			EditText et = (EditText)v.findViewById(R.id.entry);
+			et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+				@Override
+				public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+					if (actionId == EditorInfo.IME_ACTION_DONE ||
+							(keyEvent != null &&
+									keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
+									keyEvent.getAction() == KeyEvent.ACTION_DOWN)) {
+						handleNewVPNEntry();
+						return true;
+					} else {
+						return false;
+					}
+				}
+			});
 
 			mDialog = builder.create();
 

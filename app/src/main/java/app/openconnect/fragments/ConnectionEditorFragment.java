@@ -34,8 +34,11 @@ import app.openconnect.ShowTextPreference;
 import app.openconnect.TokenImportActivity;
 import app.openconnect.VpnProfile;
 import app.openconnect.core.ProfileManager;
+
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -46,6 +49,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 public class ConnectionEditorFragment extends PreferenceFragment
 		implements OnSharedPreferenceChangeListener {
@@ -116,6 +122,24 @@ public class ConnectionEditorFragment extends PreferenceFragment
 				} else {
 					pref.setSummary(value);
 				}
+			}
+			if (pref instanceof EditTextPreference) {
+				final EditTextPreference etpref = (EditTextPreference)pref;
+				etpref.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+						if (actionId == EditorInfo.IME_ACTION_DONE ||
+								(keyEvent != null &&
+										keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
+										keyEvent.getAction() == KeyEvent.ACTION_DOWN)) {
+							etpref.onClick(etpref.getDialog(), Dialog.BUTTON_POSITIVE);
+							etpref.getDialog().dismiss();
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
 			}
         }
 
