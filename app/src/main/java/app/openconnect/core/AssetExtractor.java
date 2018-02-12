@@ -88,10 +88,12 @@ public class AssetExtractor {
 
     private static String getArch() {
         String prop = System.getProperty("os.arch");
-        if (prop.contains("x86") || prop.contains("i686") || prop.contains("i386")) {
+        if (prop.contains("aarch64")) {
+            return "arm64-v8a";
+        } else if (prop.contains("x86_64")) {
+            return "x86_64";
+        } else if (prop.contains("x86") || prop.contains("i686") || prop.contains("i386")) {
             return "x86";
-        } else if (prop.contains("mips")) {
-            return "mips";
         } else {
             return "armeabi";
         }

@@ -4,16 +4,25 @@ JAR_DIR := ../app/libs
 JNI_DIR := ../app/src/main/jniLibs
 BIN_DIR := ../app/src/main/assets/raw
 
-ARCH_LIST := arm x86
-API_VERSION := 14
+ARCH_LIST := arm arm64 x86 x86_64
 
+# The __ANDROID_API__ version needs to stay in sync with
+# openconnect/android/Makefile
 NDK_ARCH_arm := armeabi
 TRIPLET_arm := arm-linux-androideabi
-CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=$(API_VERSION)
+CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=14
+
+NDK_ARCH_arm64 := arm64-v8a
+TRIPLET_arm64 := aarch64-linux-android
+CFLAGS_arm64 := -Os -D__ANDROID_API__=26
 
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
-CFLAGS_x86 := -Os -D__ANDROID_API__=$(API_VERSION)
+CFLAGS_x86 := -Os -D__ANDROID_API__=14
+
+NDK_ARCH_x86_64 := x86_64
+TRIPLET_x86_64 := x86_64-linux-android
+CFLAGS_x86_64 := -Os -D__ANDROID_API__=21
 
 JAR_LIST := openconnect-wrapper.jar stoken-wrapper.jar
 PKG_LIST := curl
