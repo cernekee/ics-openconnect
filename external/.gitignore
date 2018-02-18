@@ -1,5 +1,7 @@
 arm/
+arm64/
 x86/
+x86_64/
 .openconnect-sources
 *.jar
 curl/
