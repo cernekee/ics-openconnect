@@ -1,6 +1,7 @@
 [submodule "external/openconnect"]
 	path = external/openconnect
-	url = https://github.com/cernekee/openconnect
+	url = https://github.com/dlenski/openconnect
+	branch = android_dammit
 [submodule "external/stoken"]
 	path = external/stoken
 	url = https://github.com/cernekee/stoken
