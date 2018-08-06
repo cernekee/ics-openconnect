@@ -195,6 +195,7 @@ public class OpenVpnService extends VpnService {
 
 		int idle = 1800;
 		try {
+			// FIXME: LibOpenConnect should have a protocol-agnostic field for this
 			int val = Integer.parseInt(ipInfo.CSTPOptions.get("X-CSTP-Idle-Timeout"));
 			if (val >= 60 && val <= 7200) {
 				idle = val;

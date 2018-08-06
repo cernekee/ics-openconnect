@@ -186,5 +186,6 @@
     <string name="cert_warning_message">The certificate from VPN server \"%1$s\" failed verification.\n\nReason: \"%2$s\"\nSHA1: %3$s\n\nConnect anyway?</string>
     <string name="cert_warning_just_once">Just once</string>
     <string name="cert_warning_always_connect">Always connect</string>
+    <string name="vpn_protocol">VPN Protocol</string>
 
 </resources>

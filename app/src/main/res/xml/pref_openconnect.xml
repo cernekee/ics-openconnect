@@ -8,6 +8,13 @@
             android:title="@string/profile_name"
             android:inputType="text|textNoSuggestions|textCapSentences"
             android:defaultValue="" />
+        <ListPreference
+            android:key="vpn_protocol"
+            android:title="@string/vpn_protocol"
+            android:dialogTitle="@string/vpn_protocol"
+            android:entries="@array/vpn_protocol_entries"
+            android:entryValues="@array/vpn_protocol_values"
+            android:defaultValue="anyconnect" />
         <EditTextPreference
             android:key="server_address"
             android:title="@string/server_address"

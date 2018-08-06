@@ -79,6 +79,9 @@ public class ConnectionEditorFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.pref_openconnect);
         setClickListeners();
 
+        // FIXME: populate the vpn_protocol list dynamically using mOC.getSupportedProtocols()
+        // Preference = (ListPreference)mPrefs.findPreference("vpn_protocol");
+
         SharedPreferences sp = mPrefs.getSharedPreferences();
         for (Map.Entry<String,?> entry : sp.getAll().entrySet()) {
             updatePref(sp, entry.getKey());
@@ -143,7 +146,15 @@ public class ConnectionEditorFragment extends PreferenceFragment
 			}
         }
 
-        /* disable token_string item if the profile isn't using a software token */ 
+        /* disable_xml_post is only applicable to anyconnect */
+        if (key.equals("vpn_protocol")) {
+            pref = findPreference("disable_xml_post");
+            if (pref != null) {
+                pref.setEnabled(value.equals("anyconnect"));
+            }
+        }
+
+        /* disable token_string item if the profile isn't using a software token */
         if (key.equals("software_token")) {
             pref = findPreference("token_string");
             if (pref != null) {

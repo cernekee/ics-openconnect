@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="vpn_protocol_entries">
+        <item>Cisco AnyConnect or ocserv</item>
+        <item>Juniper Network Connect or Pulse Secure</item>
+        <item>Palo Alto Networks GlobalProtect</item>
+    </string-array>
+    <string-array name="vpn_protocol_values">
+        <item>anyconnect</item>
+        <item>nc</item>
+        <item>gp</item>
+    </string-array>
+
     <string-array name="software_token_entries">
         <item>Disabled</item>
         <item>RSA SecurID</item>

@@ -431,6 +431,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 	private boolean setPreferences() {
 		String s;
+		int ret = 0;
+
+		s = getStringPref("vpn_protocol");
+		ret = mOC.setProtocol(s);
+		if (ret < 0) {
+			log("Error " + ret + " setting VPN protocol to " + s);
+			return false;
+		}
 
 		try {
 			String PATH = System.getenv("PATH");
@@ -439,7 +447,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 				PATH = mFilesDir + ":" + PATH;
 			}
 			s = prefToTempFile("custom_csd_wrapper", true);
-			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd.sh"), mCacheDir, PATH);
+			mOC.setCSDWrapper(s != null ? s : (mFilesDir + File.separator + "android_csd_" + mOC.getProtocol() + ".sh"), mCacheDir, PATH);
 
 			s = prefToTempFile("ca_certificate", false);
 			if (s != null) {
@@ -486,7 +494,6 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 
 		s = getStringPref("software_token");
 		String token = getStringPref("token_string");
-		int ret = 0;
 
 		if (s.equals("securid")) {
 			ret = mOC.setTokenMode(LibOpenConnect.OC_TOKEN_MODE_STOKEN, token);
