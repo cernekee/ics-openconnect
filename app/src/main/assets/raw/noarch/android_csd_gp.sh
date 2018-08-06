@@ -30,25 +30,28 @@ COMPUTER=$(echo "$COOKIE" | sed -rn 's/(.+&|^)computer=([^&]+)(&.+|$)/\2/p')
 # Timestamp in the format expected by GlobalProtect server
 NOW=$(date +'%m/%d/%Y %H:%M:%S')
 
-exec cat <<EOF
-<hip-report name="hip-report">
-	<md5-sum>$MD5</md5-sum>
-	<user-name>$USER</user-name>
-	<domain>$DOMAIN</domain>
-	<host-name>$COMPUTER</host-name>
-	<host-id>$HOSTID</host-id>
-	<ip-address>$IP</ip-address>
-	<ipv6-address></ipv6-address>
-	<generate-time>$NOW</generate-time>
-	<categories>
-		<entry name="host-info">
-			<client-version>4.0.2-19</client-version>
-			<os>Android-x86 4.3</os>
-			<os-vendor>Google</os-vendor>
-			<domain>$DOMAIN.internal</domain>
-			<host-name>$COMPUTER</host-name>
-			<host-id>$HOSTID</host-id>
-		</entry>
-	</categories>
-</hip-report>
-EOF
+log OPENCONNECT GP SCRIPT BEFORE TIMID ECHO
+
+echo '   '
+
+# FIXME: Doesn't work as a here-doc (cat <<EOF) with Android /system/bin/sh
+echo '<hip-report name="hip-report">'
+echo "	<md5-sum>$MD5</md5-sum>"
+echo "	<user-name>$USER</user-name>"
+echo "	<domain>$DOMAIN</domain>"
+echo "	<host-name>$COMPUTER</host-name>"
+echo "	<host-id>$HOSTID</host-id>"
+echo "	<ip-address>$IP</ip-address>"
+echo '	<ipv6-address></ipv6-address>'
+echo "	<generate-time>$NOW</generate-time>"
+echo '	<categories>'
+echo '		<entry name="host-info">'
+echo '			<client-version>4.0.2-19</client-version>'
+echo "			<os>$PLATFORM_NAME $PLATFORM_VERSION</os>"
+echo '			<os-vendor>Google</os-vendor>'
+echo "			<domain>$DOMAIN.internal</domain>"
+echo "			<host-name>$COMPUTER</host-name>"
+echo "			<host-id>$HOSTID</host-id>"
+echo '		</entry>'
+echo '	</categories>'
+echo '</hip-report>'
