@@ -75,6 +75,7 @@ public class OpenVpnService extends VpnService {
 	private SharedPreferences mPrefs;
 
 	private KeepAlive mKeepAlive;
+	private int mIdleTimeout;
 
 	private final IBinder mBinder = new LocalBinder();
 
@@ -193,18 +194,11 @@ public class OpenVpnService extends VpnService {
 			Log.i(TAG, "server DNS IP is bogus, falling back to " + DNSServer + " for KeepAlive", e);
 		}
 
-		int idle = 1800;
-		try {
-			// FIXME: LibOpenConnect should have a protocol-agnostic field for this
-			int val = Integer.parseInt(ipInfo.CSTPOptions.get("X-CSTP-Idle-Timeout"));
-			if (val >= 60 && val <= 7200) {
-				idle = val;
-			}
-		} catch (Exception e) {
-		}
-
-		// set to 40% of the idle timeout value, to buy a little margin in case
+		// set to 40% of the server's idle timeout value, to buy a little margin in case
 		// the first 1-2 attempts fail
+		int idle = this.mIdleTimeout;
+		if (idle < 60 || idle > 7200)
+			idle = 1800;
 		idle = idle * 4 / 10;
 		Log.d(TAG, "calculated KeepAlive interval: " + idle + " seconds");
 
@@ -462,9 +456,10 @@ public class OpenVpnService extends VpnService {
 		return mStats;
 	}
 
-	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo, String serverName) {
+	public synchronized void setIPInfo(LibOpenConnect.IPInfo ipInfo, String serverName, int idleTimeout) {
 		this.ipInfo = ipInfo;
 		this.serverName = serverName;
+		this.mIdleTimeout = idleTimeout;
 	}
 
 	public LogArrayAdapter getArrayAdapter(Context context) {

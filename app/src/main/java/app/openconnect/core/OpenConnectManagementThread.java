@@ -655,7 +655,7 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 			log("DOMAIN: " + domain);
 		}
 
-		mOpenVPNService.setIPInfo(ip, mOC.getHostname());
+		mOpenVPNService.setIPInfo(ip, mOC.getHostname(), mOC.getIdleTimeout());
 	}
 
 	private void errorAlert(String message) {
