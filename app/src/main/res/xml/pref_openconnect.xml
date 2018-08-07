@@ -79,6 +79,12 @@
             android:entries="@array/reported_os_entries"
             android:entryValues="@array/reported_os_values"
             android:defaultValue="android" />
+        <EditTextPreference
+            android:key="reported_user_agent"
+            android:title="@string/reported_user_agent"
+            android:dialogTitle="@string/reported_user_agent"
+            android:dialogMessage="@string/reported_user_agent_summary"
+            android:defaultValue="" />
         <app.openconnect.ShowTextPreference
             android:key="custom_csd_wrapper"
             android:title="@string/custom_csd_wrapper"

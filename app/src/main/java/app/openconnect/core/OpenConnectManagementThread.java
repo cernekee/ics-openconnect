@@ -162,6 +162,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
     }
 
 	private class AndroidOC extends LibOpenConnect {
+		AndroidOC() {
+			super();
+		}
+
+		AndroidOC(String userAgent) {
+			super(userAgent);
+		}
+
 		private String getPeerCertSHA1() {
 			MessageDigest md;
 			try {
@@ -699,9 +707,14 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mCacheDir = mContext.getCacheDir().getPath();
 		extractBinaries();
 
+		String userAgent = getStringPref("reported_user_agent");
+
 		setState(STATE_CONNECTING);
 		synchronized (mMainloopLock) {
-			mOC = new AndroidOC();
+			if (userAgent.length() > 0)
+				mOC = new AndroidOC(userAgent);
+			else
+				mOC = new AndroidOC();
 		}
 
 		if (setPreferences() == false) {

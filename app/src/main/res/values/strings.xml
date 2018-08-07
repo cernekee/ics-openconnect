@@ -164,6 +164,8 @@
     <string name="unknown">Unknown</string>
     <string name="batch_mode">Batch mode</string>
     <string name="reported_os">Reported OS</string>
+    <string name="reported_user_agent">Reported User-Agent</string>
+    <string name="reported_user_agent_summary">Override the HTTP User-Agent header.\n\nSome Cisco servers accept \"Cisco AnyConnect VPN Agent\"; some Juniper servers accept \"ncsvc\".</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
     <string name="split_tunnel_mode">Split tunnel mode</string>
     <string name="split_tunnel_networks">Split tunnel networks</string>
