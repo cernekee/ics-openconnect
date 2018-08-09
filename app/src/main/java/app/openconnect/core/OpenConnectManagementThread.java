@@ -707,11 +707,12 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		mCacheDir = mContext.getCacheDir().getPath();
 		extractBinaries();
 
-		String userAgent = getStringPref("reported_user_agent");
+		String userAgent = getBoolPref("reported_user_agent_override")
+			? getStringPref("reported_user_agent") : null;
 
 		setState(STATE_CONNECTING);
 		synchronized (mMainloopLock) {
-			if (userAgent.length() > 0)
+			if (userAgent != null)
 				mOC = new AndroidOC(userAgent);
 			else
 				mOC = new AndroidOC();
