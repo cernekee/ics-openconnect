@@ -25,3 +25,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+apply plugin: 'idea'
+idea {
+    module {
+        excludeDirs += file('external')
+    }
+}
