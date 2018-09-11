@@ -1,4 +1,4 @@
-NDK := /opt/android-sdk-linux_x86/android-ndk-r16b
+NDK := /opt/android-sdk-linux_x86/android-ndk-r17c
 
 JAR_DIR := ../app/libs
 JNI_DIR := ../app/src/main/jniLibs
@@ -14,7 +14,7 @@ CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=14
 
 NDK_ARCH_arm64 := arm64-v8a
 TRIPLET_arm64 := aarch64-linux-android
-CFLAGS_arm64 := -Os -D__ANDROID_API__=26
+CFLAGS_arm64 := -Os -D__ANDROID_API__=21
 
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
