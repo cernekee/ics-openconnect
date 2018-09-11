@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 27
     defaultConfig {
         applicationId "app.openconnect"
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion 19
+        targetSdkVersion 27
         versionCode 1119
         versionName "1.11"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
