@@ -10,6 +10,7 @@
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
+    <string name="replace">Replace</string>
     <string name="no_data">No Data</string>
     <string name="client_certificate_title">Client Certificate</string>
     <string name="securid_info">SecurID info</string>
@@ -186,5 +187,8 @@
     <string name="cert_warning_message">The certificate from VPN server \"%1$s\" failed verification.\n\nReason: \"%2$s\"\nSHA1: %3$s\n\nConnect anyway?</string>
     <string name="cert_warning_just_once">Just once</string>
     <string name="cert_warning_always_connect">Always connect</string>
+    <string name="replace_cert_title">Replace certificate?</string>
+    <string name="replace_cert_message">This certificate is currently set to \"%1$s\".</string>
+    <string name="replace_cert_message_generic">This certificate is currently set.</string>
 
 </resources>

@@ -27,6 +27,7 @@ package app.openconnect.core;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -199,6 +200,28 @@ public class ProfileManager {
 		return mContext.getFilesDir().getPath() + File.separator;
 	}
 
+	public static String[] getCertMIMETypes(String keyName) {
+		if (keyName.equals("ca_certificate")) {
+			return new String[] {
+					"application/x-pem-file",
+					"application/x-x509-ca-cert",
+					"application/pkix-cert",
+			};
+		} else if (keyName.equals("user_certificate") || keyName.equals("private_key")) {
+			// application/x-x509-ca-cert is required for .crt to work
+			return new String[] {
+					"application/x-pem-file",
+					"application/x-x509-ca-cert",
+					"application/pkix-cert",
+					"application/pkcs8",
+					"application/x-pkcs12",
+			};
+		} else {
+			// Not a cert field
+			return new String[] {};
+		}
+	}
+
 	public synchronized static void deleteFilePref(VpnProfile profile, String key) {
 		String oldVal = profile.mPrefs.getString(key, null);
 		if (getCertFilename(profile, key).equals(oldVal)) {
@@ -209,12 +232,12 @@ public class ProfileManager {
 		}
 	}
 
-	public synchronized static String storeFilePref(VpnProfile profile, String key, String fromPath) {
+	public synchronized static String storeFilePref(VpnProfile profile, String key, Uri uri) {
 		String filename = getCertFilename(profile, key);
 		String toPath = getCertPath() + filename;
 
 		try {
-			FileInputStream in = new FileInputStream(fromPath);
+			InputStream in = mContext.getContentResolver().openInputStream(uri);
 			File outFile = new File(toPath);
 			FileOutputStream out = new FileOutputStream(outFile);
 			byte buffer[] = new byte[65536];
@@ -228,7 +251,7 @@ public class ProfileManager {
 
 			return filename;
 		} catch (Exception e) {
-			Log.e(TAG, "error copying " + fromPath + " -> " + toPath, e);
+			Log.e(TAG, "error copying " + uri.toString() + " -> " + toPath, e);
 
 			try {
 				new File(toPath).delete();
