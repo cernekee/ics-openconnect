@@ -29,7 +29,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app"
         android:supportsRtl="true"
-        android:name="app.openconnect.Application" >
+        android:name="app.openconnect.Application"
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".ConnectionEditorActivity" />
         <activity
@@ -87,7 +88,6 @@
         <activity android:name=".FileSelect" />
         <activity
             android:name=".MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow"
             tools:ignore="ExportedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
