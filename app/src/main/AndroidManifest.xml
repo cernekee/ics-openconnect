@@ -80,7 +80,6 @@
             </intent-filter>
 
             </activity>
-        <activity android:name=".FileSelect" />
         <activity
             android:name=".MainActivity"
             tools:ignore="ExportedActivity" >
