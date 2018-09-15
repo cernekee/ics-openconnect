@@ -306,7 +306,7 @@ public class ConnectionEditorFragment extends PreferenceFragment
 			Preference p = findPreference(key);
 			fileSelectMap.put(key, idx);
 
-			/* Start up a FileSelect activity to import data from the filesystem */
+			/* Let the user clear or replace the cert/script file */
 			p.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {

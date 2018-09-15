@@ -24,6 +24,8 @@
 
 package app.openconnect;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,8 +46,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import app.openconnect.core.AssetExtractor;
 import app.openconnect.core.ProfileManager;
+
+import org.apache.commons.io.IOUtils;
 import org.stoken.LibStoken;
 
 public class TokenImportActivity extends Activity {
@@ -115,7 +117,7 @@ public class TokenImportActivity extends Activity {
         	if (URI != null) {
         		if (URI.getScheme().equals("file")) {
         			// User clicked on an sdtid file
-        			readFromFile(URI.getPath());
+        			readFromContentURI(URI);
         			return;
         		} else {
                     // We will have a URI string iff the user clicked on a recognized link from another
@@ -171,10 +173,11 @@ public class TokenImportActivity extends Activity {
 		((Button)findViewById(R.id.token_string_import)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent startFC = new Intent(TokenImportActivity.this, FileSelect.class);
-				startFC.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
-				startFC.putExtra(FileSelect.NO_INLINE_SELECTION, true);
-				startActivityForResult(startFC, 0);
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+				intent.addCategory(Intent.CATEGORY_OPENABLE);
+				intent.setType("*/*");
+				startActivityForResult(intent, 0);
 			}
 		});
 
@@ -361,11 +364,13 @@ public class TokenImportActivity extends Activity {
     	}
     }
 
-    private boolean readFromFile(String filename) {
-		StringBuilder out = new StringBuilder();
-
-		String s = AssetExtractor.readStringFromFile(filename);
-		if (s == null || s.length() == 0) {
+    private boolean readFromContentURI(Uri uri) {
+		String s;
+		try {
+			InputStream in = getContentResolver().openInputStream(uri);
+			s = IOUtils.toString(in);
+		} catch (IOException e) {
+			Log.e(TAG, "Error reading token from " + uri.toString());
 			return false;
 		}
 
@@ -384,6 +389,7 @@ public class TokenImportActivity extends Activity {
 		 * Sanitize the input data to avoid messing up the UI too much, if the user
 		 * imports junk files
 		 */
+		StringBuilder out = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c >= 32 && c <= 126 && i < 128) {
@@ -395,14 +401,15 @@ public class TokenImportActivity extends Activity {
 		return true;
     }
 
-    /* Called if we used FileSelect to import a token from a file */
+    /* Called if we used ACTION_OPEN_DOCUMENT to import a token from a file */
 	@Override
 	public void onActivityResult(int idx, int resultCode, Intent data) {
 		super.onActivityResult(idx, resultCode, data);
-		if (resultCode == Activity.RESULT_OK) {
-			readFromFile(data.getStringExtra(FileSelect.RESULT_DATA));
+		if (resultCode == Activity.RESULT_OK && data != null) {
+			readFromContentURI(data.getData());
 			return;
 		}
+
 		/* User canceled */
 		updateScreen(SCREEN_ENTER_TOKEN);
 	}
