@@ -1,4 +1,4 @@
-Multi-protocol version, based on openconnect 8.0 pre-release ([openconnect v7.08-126-gc8d925f](https://github.com/dlenski/openconnect/commit/c8d925f)).
+Multi-protocol version, based on openconnect 8.0 pre-release ([openconnect v7.08-158-g1ca0ba8](https://github.com/dlenski/openconnect/commit/1ca0ba8)).
 
 APK: [OpenConnect_1.11+multi.apk](https://drive.google.com/file/d/17IRsGNYqUav9Yf2bsInxnc0uGD6g_PZz/view)
 
