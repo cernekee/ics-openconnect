@@ -1,4 +1,4 @@
-NDK := /opt/android-sdk-linux_x86/android-ndk-r16b
+ANDROID_NDK ?= /opt/android-sdk-linux_x86/android-ndk-r16b
 
 JAR_DIR := ../app/libs
 JNI_DIR := ../app/src/main/jniLibs
@@ -110,7 +110,7 @@ $(ARCH_OC_TARGETS) : %/libopenconnect.so : .openconnect-sources
 	rm -rf $*/openconnect
 	mkdir -p $*/openconnect
 	cp -a openconnect $*/
-	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(NDK)
+	$(MAKE) -C $*/openconnect/android ARCH=$* NDK=$(ANDROID_NDK)
 	cp -Lf $*/openconnect/android/$(TRIPLET_$*)/out/lib/libopenconnect.so $@
 	cp -f $*/openconnect/android/$(TRIPLET_$*)/out/sbin/run_pie $*/
 
