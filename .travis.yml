@@ -4,8 +4,8 @@ android:
   components:
    - tools
    - platform-tools
-   - build-tools-26.0.2
-   - android-19
+   - build-tools-27.0.3
+   - android-27
 
 notifications:
   email:
@@ -16,9 +16,9 @@ before_install:
  # Install NDK + openconnect build deps
  - sudo apt-get update -qq
  - sudo apt-get install -qq build-essential autoconf automake libtool groff expect ant
- - FORCE_PKG=android_ndk ./misc/fetch.sh android-ndk-r16b-linux-x86_64.zip bcdea4f5353773b2ffa85b5a9a2ae35544ce88ec5b507301d8cf6a76b765d901
+ - FORCE_PKG=android_ndk ./misc/fetch.sh android-ndk-r17c-linux-x86_64.zip 3f541adbd0330a9205ba12697f6d04ec90752c53d6b622101a2a8a856e816589
  - sudo mkdir -p /opt/android-sdk-linux_x86
- - sudo unzip -d /opt/android-sdk-linux_x86 -q android-ndk-r16b-linux-x86_64.zip
+ - sudo unzip -d /opt/android-sdk-linux_x86 -q android-ndk-r17c-linux-x86_64.zip
 
 script:
  - make -C external
