@@ -442,7 +442,8 @@ public class OpenConnectManagementThread implements Runnable, OpenVPNManagement 
 		int ret = 0;
 
 		s = getStringPref("vpn_protocol");
-		ret = mOC.setProtocol(s);
+		if (s != null && s.length() > 0)
+			ret = mOC.setProtocol(s);
 		if (ret < 0) {
 			log("Error " + ret + " setting VPN protocol to " + s);
 			return false;
