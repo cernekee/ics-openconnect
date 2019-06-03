@@ -13,7 +13,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="24" />
 
     <!-- Copy the <permission> block to your app when using the REMOTE API. Otherwise OpenConnect
         needs to be installed first -->
@@ -120,6 +120,14 @@
             </intent-filter>
         </service>
 -->
+		<service android:name=".QSTileService"
+				 android:label="@string/app"
+				 android:icon="@drawable/ic_launcher"
+				 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE"/>
+			</intent-filter>
+		</service>
 
         <activity
             android:permission="app.openconnect.REMOTE_API"
