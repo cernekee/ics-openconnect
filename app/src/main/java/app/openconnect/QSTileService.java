@@ -15,6 +15,7 @@ import android.annotation.TargetApi;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+import android.widget.Toast;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
@@ -62,32 +63,43 @@ public class QSTileService extends TileService {
         int newState = service.getConnectionState();
 //        Log.d(TAG, "tile status update, state: " + newState + ", last state: " + mConnectionState);
 
-        service.startActiveDialog(this);
+//        service.startActiveDialog(this);
 
         if (mConnectionState != newState) {
             String tileLabel = null;
-            int tileState = Tile.STATE_UNAVAILABLE;
-            if (newState == OpenConnectManagementThread.STATE_CONNECTED) {
-                tileState = Tile.STATE_ACTIVE;
-                tileLabel = getString(R.string.disconnect);
-                String profileName = service.getReconnectName();
-                if (profileName != null) {
-                    tileLabel = tileLabel + " " + profileName;
-                }
-            } else if (newState == OpenConnectManagementThread.STATE_DISCONNECTED) {
-                tileState = Tile.STATE_INACTIVE;
-                String profileName = service.getReconnectName();
-                if (profileName != null) {
-                    tileLabel = getString(R.string.reconnect_to, profileName);
-                }
-            } else {
-                getQsTile().setState(Tile.STATE_UNAVAILABLE);
+            int tileState;
+            String profileName;
+            switch (newState) {
+                case OpenConnectManagementThread.STATE_CONNECTED:
+                    tileState = Tile.STATE_ACTIVE;
+                    tileLabel = getString(R.string.disconnect);
+                    profileName = service.getReconnectName();
+                    if (profileName != null) {
+                        tileLabel = tileLabel + " " + profileName;
+                    }
+                    Toast.makeText(this, getString(R.string.state_connected_to, service.profile.getName()), Toast.LENGTH_SHORT).show();
+                    break;
+                case OpenConnectManagementThread.STATE_DISCONNECTED:
+                    tileState = Tile.STATE_INACTIVE;
+                    profileName = service.getReconnectName();
+                    if (profileName != null) {
+                        tileLabel = getString(R.string.reconnect_to, profileName);
+                    }
+                    break;
+                default:
+                    tileLabel = service.getConnectionStateName();
+                    tileState = Tile.STATE_UNAVAILABLE;
+                    break;
             }
             mConnectionState = newState;
 
+            if (tileLabel == null) {
+                tileLabel = getString(R.string.app);
+            }
+
             Tile tile = getQsTile();
             tile.setState(tileState);
-            tile.setLabel(tileLabel == null ? getString(R.string.app) : tileLabel);
+            tile.setLabel(tileLabel);
             Log.d(TAG, "set tile state: " + tileState + ", label: " + tileLabel);
             tile.updateTile();
         }
