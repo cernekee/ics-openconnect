@@ -15,7 +15,6 @@ import android.annotation.TargetApi;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
-import android.widget.Toast;
 import app.openconnect.core.OpenConnectManagementThread;
 import app.openconnect.core.OpenVpnService;
 import app.openconnect.core.VPNConnector;
@@ -77,7 +76,7 @@ public class QSTileService extends TileService {
                     if (profileName != null) {
                         tileLabel = tileLabel + " " + profileName;
                     }
-                    Toast.makeText(this, getString(R.string.state_connected_to, service.profile.getName()), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, getString(R.string.state_connected_to, service.profile.getName()), Toast.LENGTH_SHORT).show();
                     break;
                 case OpenConnectManagementThread.STATE_DISCONNECTED:
                     tileState = Tile.STATE_INACTIVE;
