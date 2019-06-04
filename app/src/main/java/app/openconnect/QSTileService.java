@@ -60,9 +60,6 @@ public class QSTileService extends TileService {
 
     private void updateState(OpenVpnService service) {
         int newState = service.getConnectionState();
-//        Log.d(TAG, "tile status update, state: " + newState + ", last state: " + mConnectionState);
-
-//        service.startActiveDialog(this);
 
         if (mConnectionState != newState) {
             String tileLabel = null;
@@ -102,12 +99,9 @@ public class QSTileService extends TileService {
             Log.d(TAG, "set tile state: " + tileState + ", label: " + tileLabel);
             tile.updateTile();
         }
-
-
     }
 
     private void toggle() {
-        Log.d(TAG, "tile toggle, current state: " + mConnectionState);
         if (mConnectionState == OpenConnectManagementThread.STATE_CONNECTED) {
             mConn.service.stopVPN();
         } else if (mConnectionState == OpenConnectManagementThread.STATE_DISCONNECTED) {
