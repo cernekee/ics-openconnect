@@ -1,4 +1,4 @@
-ANDROID_NDK ?= /opt/android-sdk-linux_x86/android-ndk-r16b
+ANDROID_NDK ?= /opt/android-sdk-linux_x86/android-ndk-r21
 
 JAR_DIR := ../app/libs
 JNI_DIR := ../app/src/main/jniLibs
@@ -10,7 +10,7 @@ ARCH_LIST := arm arm64 x86 x86_64
 # openconnect/android/Makefile
 NDK_ARCH_arm := armeabi
 TRIPLET_arm := arm-linux-androideabi
-CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=14
+CFLAGS_arm := -mthumb -Os -D__ANDROID_API__=16
 
 NDK_ARCH_arm64 := arm64-v8a
 TRIPLET_arm64 := aarch64-linux-android
@@ -18,7 +18,7 @@ CFLAGS_arm64 := -Os -D__ANDROID_API__=26
 
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
-CFLAGS_x86 := -Os -D__ANDROID_API__=14
+CFLAGS_x86 := -Os -D__ANDROID_API__=16
 
 NDK_ARCH_x86_64 := x86_64
 TRIPLET_x86_64 := x86_64-linux-android
@@ -92,6 +92,8 @@ stoken/configure:
 	cd stoken && bash autogen.sh
 	touch $@
 
+#	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install-strip \
+
 $(ARCH_STOKEN_TARGETS) : %/libstoken.so : %/toolchain/.installed stoken/configure
 	mkdir -p $*/build-stoken $*/out
 	cd $*/build-stoken && \
@@ -102,7 +104,7 @@ $(ARCH_STOKEN_TARGETS) : %/libstoken.so : %/toolchain/.installed stoken/configur
 			--enable-jni-standalone \
 			CFLAGS="$(CFLAGS_$*)" LDFLAGS="-Wl,--strip-debug"
 	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken
-	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install-strip \
+	$(call set_build_env,$*) $(MAKE) -C $*/build-stoken install \
 		DESTDIR=$(TOPDIR)/$*/out
 	cp -L $*/out/lib/libstoken.so $*/
 
