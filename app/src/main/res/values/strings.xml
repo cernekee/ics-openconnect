@@ -164,6 +164,10 @@
     <string name="unknown">Unknown</string>
     <string name="batch_mode">Batch mode</string>
     <string name="reported_os">Reported OS</string>
+    <string name="reported_user_agent_override">Override reported User-Agent</string>
+    <string name="reported_user_agent_override_summary">Use a custom HTTP User-Agent header, instead of OpenConnect\'s default; some servers are picky about this value.</string>
+    <string name="reported_user_agent">Reported User-Agent</string>
+    <string name="reported_user_agent_summary">Some Cisco servers accept \"Cisco AnyConnect VPN Agent\"; some Juniper servers accept \"ncsvc\".</string>
     <string name="custom_csd_wrapper">Custom CSD wrapper</string>
     <string name="split_tunnel_mode">Split tunnel mode</string>
     <string name="split_tunnel_networks">Split tunnel networks</string>
@@ -186,5 +190,6 @@
     <string name="cert_warning_message">The certificate from VPN server \"%1$s\" failed verification.\n\nReason: \"%2$s\"\nSHA1: %3$s\n\nConnect anyway?</string>
     <string name="cert_warning_just_once">Just once</string>
     <string name="cert_warning_always_connect">Always connect</string>
+    <string name="vpn_protocol">VPN Protocol</string>
 
 </resources>

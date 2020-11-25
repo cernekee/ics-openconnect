@@ -45,12 +45,27 @@ public class FaqFragment extends Fragment  {
 	private String htmlEncode(String in) {
 		in = TextUtils.htmlEncode(in).replace("\n", "<br>");
 
-		// match markdown-formatted links: [link text](http://foo.bar.com)
-		// replace with: <a href="http://foo.bar.com">link text</a>
 		StringBuilder out = new StringBuilder();
-		Pattern p = Pattern.compile("\\[(.+?)\\]\\((\\S+)\\)");
 		Matcher m;
 
+		// match markdown-formatted code: `code`
+		// replace with: <tt>code</tt>
+		Pattern p = Pattern.compile("`(.+?)`");
+		while (true) {
+			m = p.matcher(in);
+			if (!m.find()) {
+				break;
+			}
+			out.append(in.substring(0, m.start()));
+			out.append("<tt>");
+			out.append(m.group(1));
+			out.append("</tt>");
+			in = in.substring(m.end());
+		}
+
+		// match markdown-formatted links: [link text](http://foo.bar.com)
+		// replace with: <a href="http://foo.bar.com">link text</a>
+		p = Pattern.compile("\\[(.+?)\\]\\((\\S+)\\)");
 		while (true) {
 			m = p.matcher(in);
 			if (!m.find()) {

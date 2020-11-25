@@ -8,6 +8,13 @@
             android:title="@string/profile_name"
             android:inputType="text|textNoSuggestions|textCapSentences"
             android:defaultValue="" />
+        <ListPreference
+            android:key="vpn_protocol"
+            android:title="@string/vpn_protocol"
+            android:dialogTitle="@string/vpn_protocol"
+            android:entries="@array/vpn_protocol_entries"
+            android:entryValues="@array/vpn_protocol_values"
+            android:defaultValue="anyconnect" />
         <EditTextPreference
             android:key="server_address"
             android:title="@string/server_address"
@@ -72,6 +79,18 @@
             android:entries="@array/reported_os_entries"
             android:entryValues="@array/reported_os_values"
             android:defaultValue="android" />
+        <CheckBoxPreference
+            android:key="reported_user_agent_override"
+            android:title="@string/reported_user_agent_override"
+            android:summary="@string/reported_user_agent_override_summary"
+            android:defaultValue="false" />
+        <EditTextPreference
+            android:key="reported_user_agent"
+            android:title="@string/reported_user_agent"
+            android:dependency="reported_user_agent_override"
+            android:dialogTitle="@string/reported_user_agent"
+            android:dialogMessage="@string/reported_user_agent_summary"
+            android:defaultValue="OpenConnect VPN Agent (Java)" />
         <app.openconnect.ShowTextPreference
             android:key="custom_csd_wrapper"
             android:title="@string/custom_csd_wrapper"

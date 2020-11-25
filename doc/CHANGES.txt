@@ -1,3 +1,7 @@
+v1.11+multi - 2019/05/24
+
+ - Add multi-protocol support using openconnect v8.03
+
 v1.11 - 2015/02/21
 
  - Fix "Unknown compression type 0" errors when CSTP and DTLS use
