@@ -5,7 +5,7 @@ android:
    - tools
    - platform-tools
    - build-tools-26.0.2
-   - android-19
+   - android-24
 
 notifications:
   email:
@@ -13,6 +13,7 @@ notifications:
     on_failure: always
 
 before_install:
+ - yes | sdkmanager "platforms;android-24"
  # Install NDK + openconnect build deps
  - sudo apt-get update -qq
  - sudo apt-get install -qq build-essential autoconf automake libtool groff expect ant
